@@ -5,10 +5,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class LeetcodeProblem {
+/**
+ * @author Jandos Iskakov
+ * problem: 105. Construct Binary Tree from Preorder and Inorder Traversal
+ * notes: ugly code need to refactor
+ */
+public class ConstructBinaryTree105 {
 
     public static void main(String[] args) {
-        LeetcodeProblem solution = new LeetcodeProblem();
+        ConstructBinaryTree105 solution = new ConstructBinaryTree105();
         solution.test();
     }
 
