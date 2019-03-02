@@ -10,10 +10,10 @@ import java.util.Map;
  * time complexity: O(|s1|)
  * space complexity: O(|s2|)
  */
-public class PermutationInString {
+public class PermutationInString567 {
 
     public static void main(String[] args) {
-        PermutationInString solution = new PermutationInString();
+        PermutationInString567 solution = new PermutationInString567();
         solution.test();
     }
 
