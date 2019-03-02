@@ -7,80 +7,91 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 567. Permutation in String
  * algorithm: Sliding Window Technique
+ * time complexity: O(|s1|)
+ * space complexity: O(|s2|)
  */
 public class PermutationInString {
 
     public static void main(String[] args) {
-        LeetcodeProblem solution = new LeetcodeProblem();
+        PermutationInString solution = new PermutationInString();
         solution.test();
     }
 
     public void test() {
-        System.out.println(checkInclusion("ab", "eidbaooo"));
-        System.out.println(checkInclusion("ab", "eidboaoo"));
-        System.out.println(checkInclusion("adc", "dcda"));
+        System.out.println(checkInclusion("a", "ab"));
+//        System.out.println(checkInclusion("ab", "eidbaooo"));
+//        System.out.println(checkInclusion("ab", "eidboaoo"));
+//        System.out.println(checkInclusion("adc", "dcda"));
     }
 
     public boolean checkInclusion(String s1, String s2) {
-        Map<Character, Integer> map = new HashMap<>();
-        Map<Character, Integer> index = new HashMap<>();
+        return slidingWindow(s1, s2);
+    }
+
+    private boolean slidingWindow(String s1, String s2) {
+        Map<Character, Integer> counter = new HashMap<>();
+        Map<Character, Integer> invalids = new HashMap<>();
 
         for (int i = 0; i < s1.length(); i++) {
             char ch = s1.charAt(i);
-            map.put(ch, map.getOrDefault(ch, 0) + 1);
+            counter.put(ch, counter.getOrDefault(ch, 0) + 1);
         }
 
-        Map<Character, Integer> counter = new HashMap<>(map);
+        int valid = 0;
 
-        int start = 0;
         for (int i = 0; i < s2.length(); i++) {
             char ch = s2.charAt(i);
 
-            if (!map.containsKey(ch)) {
-                if (!index.isEmpty()) {
-                    counter = new HashMap<>(map);
-                    index.clear();
-                }
+            if (i < s1.length()) {
+                if (counter.containsKey(ch)) {
+                    if (counter.get(ch) == 0)
+                        valid--;
 
-                start = i + 1;
-            } else {
-                if (!index.containsKey(ch))
-                    index.put(ch, i);
-
-                if (counter.get(ch) == 0) {
-                    int end = index.get(ch);
-                    for (int t = start; t < end; t++) {
-                        counter.put(s2.charAt(t), counter.get(s2.charAt(t)) + 1);
-                        index.remove(s2.charAt(t));
-                    }
-
-                    start = end + 1;
-
-                    index.remove(ch);
-
-                    for (int t = start; t <= i; t++) {
-                        if (!index.containsKey(s2.charAt(t))) {
-                            index.put(s2.charAt(t), t);
-                        }
-                    }
-                } else {
                     counter.put(ch, counter.get(ch) - 1);
-                }
 
-                boolean valid = true;
-                for (char c : counter.keySet()) {
-                    if (counter.get(c) != 0) {
-                        valid = false;
-                        break;
-                    }
+                    if (counter.get(ch) == 0)
+                        valid++;
+                } else {
+                    invalids.put(ch, invalids.getOrDefault(ch, 0) + 1);
                 }
-
-                if (valid)
+            } else {
+                if (valid == counter.size() && invalids.isEmpty())
                     return true;
+
+                char prefix = s2.charAt(i - s1.length());
+
+                if (prefix == ch)
+                    continue;
+
+                if (counter.containsKey(prefix)) {
+                    if (counter.get(prefix) == 0)
+                        valid--;
+
+                    counter.put(prefix, counter.get(prefix) + 1);
+
+                    if (counter.get(prefix) == 0)
+                        valid++;
+                } else {
+                    invalids.put(prefix, invalids.get(prefix) - 1);
+                    if (invalids.get(prefix) == 0)
+                        invalids.remove(prefix);
+                }
+
+                if (counter.containsKey(ch)) {
+                    if (counter.get(ch) == 0)
+                        valid--;
+
+                    counter.put(ch, counter.get(ch) - 1);
+
+                    if (counter.get(ch) == 0)
+                        valid++;
+                } else {
+                    invalids.put(ch, invalids.getOrDefault(ch, 0) + 1);
+                }
             }
         }
 
-        return false;
+        return valid == counter.size() && invalids.isEmpty();
     }
 
 
