@@ -5,7 +5,7 @@ package leetcode;
  * problem: 283. Move Zeroes
  * algorithm: Two Pointer Technique
  * time complexity: O(n)
- * notes: notes: faster than 100.00% of Java online submissions
+ * notes: faster than 100.00% of Java online submissions
  */
 public class MoveZeros283 {
 
