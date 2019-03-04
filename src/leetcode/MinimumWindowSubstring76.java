@@ -1,14 +1,20 @@
 package leetcode;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class LeetcodeProblem {
+/**
+ * @author Jandos Iskakov
+ * problem: 76. Minimum Window Substring
+ * algorithm: Sliding Window Technique
+ * time complexity: O(|s|)
+ * space complexity: O(|t|)
+ */
+public class MinimumWindowSubstring76 {
 
     public static void main(String[] args) {
-        LeetcodeProblem solution = new LeetcodeProblem();
-        solution.test();
+        MinimumWindowSubstring76 problem = new MinimumWindowSubstring76();
+        problem.test();
     }
 
     public void test() {
