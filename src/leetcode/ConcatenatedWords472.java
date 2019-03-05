@@ -1,12 +1,16 @@
 package leetcode;
 
-
 import java.util.*;
 
-public class LeetcodeProblem {
+/**
+ * @author Jandos Iskakov
+ * problem: 472. Concatenated Words
+ * algorithm: Backtracking
+ */
+public class ConcatenatedWords472 {
 
     public static void main(String[] args) {
-        LeetcodeProblem solution = new LeetcodeProblem();
+        ConcatenatedWords472 solution = new ConcatenatedWords472();
         solution.test();
     }
 
@@ -29,7 +33,7 @@ public class LeetcodeProblem {
         return list;
     }
 
-    public boolean concatenated(String word, int i, Set<String> words) {
+    private boolean concatenated(String word, int i, Set<String> words) {
         StringBuilder sb = new StringBuilder();
 
         for (int k = i; k < word.length(); k++) {
@@ -40,10 +44,7 @@ public class LeetcodeProblem {
             }
         }
 
-        if (sb.length() > 0 && sb.length() < word.length() && words.contains(sb.toString()))
-            return true;
-
-        return false;
+        return sb.length() > 0 && sb.length() < word.length() && words.contains(sb.toString());
     }
 
 }
