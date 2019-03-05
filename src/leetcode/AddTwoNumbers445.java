@@ -1,13 +1,20 @@
 package leetcode;
 
-import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class LeetcodeProblem {
+/**
+ * @author Jandos Iskakov
+ * problem: 445. Add Two Numbers II
+ * algorithm: Math, solved by reversing linked lists
+ * time complexity: O(n)
+ * space complexity: O(1)
+ */
+public class AddTwoNumbers445 {
 
     public static void main(String[] args) {
-        LeetcodeProblem solution = new LeetcodeProblem();
-        solution.test();
+        AddTwoNumbers445 problem = new AddTwoNumbers445();
+        problem.test();
     }
 
     public class ListNode {
