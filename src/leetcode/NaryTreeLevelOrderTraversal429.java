@@ -29,41 +29,55 @@ public class NaryTreeLevelOrderTraversal429 {
     }
 
     public void test() {
-        //TODO:
+        Node root = new Node(1, new LinkedList<>());
+        Node node3 = new Node(3, new LinkedList<>());
+        Node node2 = new Node(2, new LinkedList<>());
+        Node node4 = new Node(4, new LinkedList<>());
+        Node node5 = new Node(5, new LinkedList<>());
+        Node node6 = new Node(6, new LinkedList<>());
+
+        root.children = Arrays.asList(node3, node2, node4);
+        node3.children = Arrays.asList(node5, node6);
+
+        System.out.print(levelOrder2(root));
     }
 
-    public List<List<Integer>> levelOrder(Node root) {
+    public List<List<Integer>> levelOrder2(Node root) {
         if (root == null) {
             return new ArrayList<>();
         }
 
-        List<List<Integer>> levels = new ArrayList<>();
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(root);
 
-        Queue<Object[]> queue = new LinkedList<>();
-        queue.add(new Object[] {root, 1});
-
-        levels.add(new ArrayList<>(Collections.singletonList(root.val)));
+        List<List<Integer>> vals = new LinkedList<>();
+        vals.add(new LinkedList<>(Collections.singletonList(root.val)));
 
         while (!queue.isEmpty()) {
-            Object[] item = queue.poll();
+            Queue<Node> children = new LinkedList<>();
 
-            Node currNode = (Node)item[0];
-            int currDepth = (int)item[1];
+            int size = vals.size() + 1;
 
-            int nextDepth = currDepth + 1;
+            while (!queue.isEmpty()) {
+                Node currNode = queue.poll();
 
-            currNode.children.forEach(node -> {
-                if (levels.size() < nextDepth) {
-                    levels.add(new ArrayList<>());
+                if (!currNode.children.isEmpty()) {
+                    if (vals.size() < size) {
+                        vals.add(new LinkedList<>());
+                    }
                 }
 
-                queue.add(new Object[]{node, nextDepth});
+                currNode.children.forEach(child -> {
+                    children.add(child);
 
-                levels.get(nextDepth - 1).add(node.val);
-            });
+                    vals.get(size - 1).add(child.val);
+                });
+            }
+
+            queue = children;
         }
 
-        return levels;
+        return vals;
     }
 
 }
