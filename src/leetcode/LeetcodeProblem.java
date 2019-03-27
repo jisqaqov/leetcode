@@ -1,13 +1,32 @@
 package leetcode;
 
-import javax.swing.*;
-import java.util.*;
-
 public class LeetcodeProblem {
 
     public static void main(String[] args) {
         LeetcodeProblem solution = new LeetcodeProblem();
         solution.test();
+    }
+
+    public void test() {
+        ListNode l1head = new ListNode(1);
+        ListNode l1node4 = new ListNode(4);
+        ListNode l1node3 = new ListNode(3);
+        ListNode l1node2 = new ListNode(2);
+        ListNode l1node5 = new ListNode(5);
+        ListNode l1node2_2 = new ListNode(2);
+
+        l1head.next = l1node4;
+        l1node4.next = l1node3;
+        l1node3.next = l1node2;
+        l1node2.next = l1node5;
+        l1node5.next = l1node2_2;
+
+        System.out.println(partition(l1head, 3));
+
+        ListNode l2head = new ListNode(2);
+        l2head.next = new ListNode(1);
+
+        System.out.println(partition(l2head, 2));
     }
 
     public class ListNode {
@@ -24,126 +43,50 @@ public class LeetcodeProblem {
         }
     }
 
-    public void test() {
-        ListNode l1 = new ListNode(7);
-        ListNode l1node2 = new ListNode(2);
-        ListNode l1node4 = new ListNode(4);
-        ListNode l1node3 = new ListNode(3);
-
-        l1.next = l1node2;
-        l1node2.next = l1node4;
-        l1node4.next = l1node3;
-
-        ListNode l2 = new ListNode(5);
-        ListNode l2node2 = new ListNode(6);
-        ListNode l2node4 = new ListNode(4);
-
-        l2.next = l2node2;
-        l2node2.next = l2node4;
-
-        /*ListNode l1 = new ListNode(1);
-
-        ListNode l2 = new ListNode(9);
-        ListNode l2node9 = new ListNode(9);
-
-        l2.next = l2node9;*/
-
-        System.out.println(addTwoNumbers(l1, l2));
-    }
-
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        l1 = reverse(l1);
-        l2 = reverse(l2);
-
-        ListNode node1 = l1;
-        ListNode node2 = l2;
-
-        List<Integer> nums = new ArrayList<>();
-
-        int carry = 0;
-        while (node1 != null && node2 != null) {
-            int s = node1.val + node2.val + carry;
-
-            if (s > 9) {
-                carry = 1;
-                s = s % 10;
-            } else {
-                carry = 0;
-            }
-
-            node1 = node1.next;
-            node2 = node2.next;
-
-            nums.add(s);
-        }
-
-        if (node1 != null)
-            carry = addRest(node1, carry, nums);
-
-        if (node2 != null)
-            carry = addRest(node2, carry, nums);
-
-        if (carry > 0) {
-            while (carry > 0) {
-                nums.add(carry % 10);
-                carry /= 10;
-            }
-        }
-
-        ListNode l3 = null, prev = null;
-        for (int i = nums.size() - 1; i >= 0; i--) {
-            ListNode node3 = new ListNode(nums.get(i));
-            if (i == nums.size() - 1) {
-                l3 = node3;
-            }
-
-            if (prev != null)
-                prev.next = node3;
-
-            prev = node3;
-        }
-
-        return l3;
-    }
-
-    private int addRest(ListNode node, int carry, List<Integer> list) {
-        while (node != null) {
-            int s = node.val + carry;
-
-            if (s > 9) {
-                carry = 1;
-                s = s % 10;
-            } else {
-                carry = 0;
-            }
-
-            list.add(s);
-
-            node = node.next;
-        }
-
-        return carry;
-    }
-
-    private ListNode reverse(ListNode head) {
-        ListNode node = head;
+    public ListNode partition(ListNode head, int x) {
+        ListNode gtPrev = null, gt = null;
+        ListNode lt = head;
         ListNode prev = null;
 
-        while (node != null) {
-            ListNode next = node.next;
+        for (; lt != null;) {
+            if (lt.val >= x) {
+                if (gt == null) {
+                    gt = lt;
+                    gtPrev = prev;
+                }
+            }
 
-            node.next = prev;
+            if (lt.val < x) {
+                if (gt != null) {
+                    if (gt == head)
+                        head = lt;
 
-            prev = node;
-            node = next;
+                    ListNode oldLtNext = lt.next;
+                    lt.next = gt;
 
-            if (node != null)
-                head = node;
+                    if (gtPrev != null) {
+                        gtPrev.next = lt;
+                    }
+
+                    gtPrev = lt;
+
+                    if (prev != null) {
+                        prev.next = oldLtNext;
+                    }
+
+                    lt = oldLtNext;
+                } else {
+                    prev = lt;
+                    lt = lt.next;
+                }
+            } else {
+                prev = lt;
+                lt = lt.next;
+            }
         }
 
         return head;
     }
-
 
 
 }
