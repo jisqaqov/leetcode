@@ -2,6 +2,12 @@ package leetcode;
 
 import java.util.*;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 37. Sudoku Solver
+ * algorithm: Backtracking
+ * space complexity: O(n)
+ */
 public class SudokuSolver {
 
     public static void main(String[] args) {
@@ -30,81 +36,88 @@ public class SudokuSolver {
     }
 
     public void solveSudoku(char[][] board) {
-        Map<Integer, Set<Integer>> rows = new HashMap<>();
-        Map<Integer, Set<Integer>> cols = new HashMap<>();
-        Map<Integer, Set<Integer>> cells = new HashMap<>();
-        List<Integer> boxes = new ArrayList<>();
+        Set<Integer>[] rows = new HashSet[board.length];
+        Set<Integer>[]  cols = new HashSet[board.length];
+        Set<Integer>[]  cells = new HashSet[board.length];
+
+        int emptyCells = 0;
 
         for (int i = 0; i < 9; i++) {
-            rows.put(i, new HashSet<>());
-            boxes.add(i);
+            rows[i] = new HashSet<>();
+            cols[i] = new HashSet<>();
+            cells[i] = new HashSet<>();
+        }
 
+        for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (!cols.containsKey(j))
-                    cols.put(j, new HashSet<>());
+                int box = getBoxIndex(i, j);
 
-                int box = Math.floorDiv(i, 3) * 3 + Math.floorDiv(j, 3) % 3;
-                if (!cells.containsKey(box))
-                    cells.put(box, new HashSet<>());
+                if (board[i][j] == '.') {
+                    emptyCells++;
+                } else {
+                    int value = Character.digit(board[i][j], 10);
 
-                if (board[i][j] != '.') {
-                    int val = Integer.parseInt(String.valueOf(board[i][j]));
-                    rows.get(i).add(val);
-                    cols.get(j).add(val);
-                    cells.get(box).add(val);
+                    rows[i].add(value);
+                    cols[j].add(value);
+                    cells[box].add(value);
                 }
             }
         }
 
-        boxes.sort((o1, o2) -> cells.get(o2).size() - cells.get(o1).size());
-
-        solveSudoku(board, 0, rows, cols, cells, boxes);
+        solveSudoku(board, emptyCells, rows, cols, cells);
     }
 
-    public boolean solveSudoku(char[][] board, int boxIndex,
-                               Map<Integer, Set<Integer>> rows,
-                               Map<Integer, Set<Integer>> cols,
-                               Map<Integer, Set<Integer>> cells,
-                               List<Integer> boxes) {
-        int box = boxes.get(boxIndex);
-        int row = Math.floorDiv(box, 3) * 3;
-        int col = (box % 3) * 3;
+    private int getBoxIndex(int i, int j) {
+        return Math.floorDiv(i, 3) * 3 + Math.floorDiv(j, 3) % 3;
+    }
 
-        int n = row + 3, m = col + 3;
-        for (int i = row; i < n; i++) {
-            for (int j = col; j < m; j++) {
-                if (board[i][j] != '.')
+    private boolean solveSudoku(char[][] board,
+                                int emptyCells,
+                                Set<Integer>[] rows,
+                                Set<Integer>[] cols,
+                                Set<Integer>[] cells) {
+        if (emptyCells == 0) {
+            return true;
+        }
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board.length; j++) {
+                if (board[i][j] != '.') {
                     continue;
+                }
 
-                for (int a = 1; a <= 9; a++) {
-                    if (cells.get(box).contains(a) || rows.get(i).contains(a) || cols.get(j).contains(a))
+                int box = getBoxIndex(i, j);
+
+                for (int number = 1; number <= 9; number++) {
+                    if (rows[i].contains(number) ||
+                        cols[j].contains(number) ||
+                        cells[box].contains(number)) {
                         continue;
-
-                    rows.get(i).add(a);
-                    cols.get(j).add(a);
-                    cells.get(box).add(a);
-                    board[i][j] = Character.forDigit(a, 10);
-
-                    boolean valid = false;
-                    if (cells.get(box).size() == 9) {
-                        if (boxIndex == 8) {
-                            return true;
-                        } else {
-                            valid = solveSudoku(board, boxIndex + 1, rows, cols, cells, boxes);
-                            System.out.println("box: " + boxIndex + " completed " + valid);
-                        }
-                    } else {
-                        valid = solveSudoku(board, boxIndex, rows, cols, cells, boxes);
                     }
 
+                    rows[i].add(number);
+                    cols[j].add(number);
+                    cells[box].add(number);
+
+                    board[i][j] = Character.forDigit(number, 10);
+                    emptyCells--;
+
+                    boolean valid = solveSudoku(board, emptyCells, rows, cols, cells);
+
                     if (!valid) {
+                        emptyCells++;
                         board[i][j] = '.';
-                        rows.get(i).remove(a);
-                        cols.get(j).remove(a);
-                        cells.get(box).remove(a);
+
+                        rows[i].remove(number);
+                        cols[j].remove(number);
+                        cells[box].remove(number);
                     } else {
                         return true;
                     }
+                }
+
+                if (board[i][j] == '.') {
+                    return false;
                 }
             }
         }
