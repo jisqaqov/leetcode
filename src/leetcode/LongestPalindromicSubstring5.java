@@ -28,16 +28,16 @@ public class LongestPalindromicSubstring5 {
 
     @SuppressWarnings("unchecked")
     public String longestPalindrome(String s) {
-        if (s.length() == 0) {
+        int n = s.length();
+
+        if (n == 0) {
             return s;
         }
 
-        int n = s.length(), k = 1;
-
-        boolean[][] memo = new boolean[s.length()][s.length()];
+        boolean[][] memo = new boolean[n][n];
         memo[0][0] = true;
 
-        for (int i = 1; i < s.length(); i++) {
+        for (int i = 1; i < n; i++) {
             char ch = s.charAt(i);
 
             memo[i][i] = true;
@@ -56,6 +56,7 @@ public class LongestPalindromicSubstring5 {
         }
 
         int[] max = new int[2];
+        int k = 1;
 
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
