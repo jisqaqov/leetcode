@@ -49,7 +49,9 @@ public class LongestPalindromicSubstring5 {
 
                 if (b > 0 && ch == s.charAt(b - 1)) {
                     memo[b - 1][i] = true;
-                } else if (ch == s.charAt(i - 1)) {
+                }
+
+                if (ch == s.charAt(i - 1)) {
                     memo[i - 1][i] = true;
                 }
             }
