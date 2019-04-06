@@ -1,15 +1,11 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * @author Jandos Iskakov
  * problem: 5. Longest Palindromic Substring
  * algorithm: Dynamic Programming
- * Runtime: 21 ms, faster than 57.15% of Java online submissions
- * Memory Usage: 49.3 MB, less than 5.47% of Java online submissions
+ * time complexity: O(n^2)
+ * space complexity: O(n^2)
  */
 public class LongestPalindromicSubstring5 {
 
@@ -36,45 +32,41 @@ public class LongestPalindromicSubstring5 {
             return s;
         }
 
-        List<int[]>[] memo = new ArrayList[s.length()];
+        int n = s.length(), k = 1;
 
-        for (int i = 0; i < s.length(); i++) {
+        boolean[][] memo = new boolean[s.length()][s.length()];
+        memo[0][0] = true;
+
+        for (int i = 1; i < s.length(); i++) {
             char ch = s.charAt(i);
 
-            List<int[]> ranges = new ArrayList<>();
+            memo[i][i] = true;
 
-            if (i == 0 || ch != s.charAt(i - 1)) {
-                int[] range0 = {i, i, 1};
-                ranges.add(range0);
-            }
+            for (int b = 0; b < n; b++) {
+                if (!memo[b][i - 1]) {
+                    continue;
+                }
 
-            List<int[]> lastRanges = i > 0? memo[i - 1]: Collections.emptyList();
-
-            for (int[] range : lastRanges) {
-                if (range[2] == 1 && ch == s.charAt(range[0])) {
-                    int[] newRange = {range[0], i, 1};
-                    ranges.add(newRange);
-                } else if (range[2] == 0 && range[0] > 0 && s.charAt(range[0] - 1) == ch) {
-                    int[] newRange = {range[0] - 1, i, 0};
-                    ranges.add(newRange);
-                } else if (range[2] == 1 && range[0] > 0 && s.charAt(range[0] - 1) == ch) {
-                    int[] newRange = {range[0] - 1, i, 0};
-                    ranges.add(newRange);
+                if (b > 0 && ch == s.charAt(b - 1)) {
+                    memo[b - 1][i] = true;
+                } else if (ch == s.charAt(i - 1)) {
+                    memo[i - 1][i] = true;
                 }
             }
-
-            memo[i] = ranges;
         }
 
-        int k = 1;
-        int[] max = {0, 0};
+        int[] max = new int[2];
 
-        for (List<int[]> palindromes : memo) {
-            for (int[] range : palindromes) {
-                if (range[1] - range[0] + 1 > k) {
-                    k = range[1] - range[0] + 1;
-                    max[0] = range[0];
-                    max[1] = range[1];
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (!memo[i][j]) {
+                    continue;
+                }
+
+                if (j - i + 1 > k) {
+                    k = j - i + 1;
+                    max[0] = i;
+                    max[1] = j;
                 }
             }
         }
