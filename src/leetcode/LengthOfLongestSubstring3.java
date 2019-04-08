@@ -7,23 +7,36 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 3. Longest Substring Without Repeating Characters
  * algorithm: Sliding Window Technique
+ * Runtime: 8 ms, faster than 94.30% of Java online submissions
+ * Memory Usage: 37.3 MB, less than 55.32% of Java online submissions
  */
 public class LengthOfLongestSubstring3 {
 
+    public static void main(String[] args) {
+        LengthOfLongestSubstring3 solution = new LengthOfLongestSubstring3();
+        solution.test();
+    }
+
+    public void test() {
+        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+        System.out.println(lengthOfLongestSubstring("bbbbb"));
+        System.out.println(lengthOfLongestSubstring("pwwkew"));
+    }
+
     public int lengthOfLongestSubstring(String s) {
-        if (s == null || s.isEmpty())
+        if (s == null || s.isEmpty()) {
             return 0;
+        }
 
         Map<Character, Integer> map = new HashMap<>();
-        int start = 0, max = -1;
+        int start = 0, max = 1;
+        map.put(s.charAt(0), 0);
 
-        for (int i = 0; i < s.length(); i++) {
+        for (int i = 1; i < s.length(); i++) {
             char ch = s.charAt(i);
 
-            if (map.containsKey(ch)) {
+            if (map.containsKey(ch) && map.get(ch) >= start) {
                 start = map.get(ch) + 1;
-
-                map.keySet().removeIf(c -> map.get(c) < map.get(ch));
 
                 map.put(ch, i);
             } else {
