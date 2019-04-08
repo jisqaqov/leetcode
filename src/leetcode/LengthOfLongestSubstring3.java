@@ -29,19 +29,16 @@ public class LengthOfLongestSubstring3 {
         }
 
         Map<Character, Integer> map = new HashMap<>();
-        int start = 0, max = 1;
-        map.put(s.charAt(0), 0);
+        int start = 0, max = -1;
 
-        for (int i = 1; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
 
             if (map.containsKey(ch) && map.get(ch) >= start) {
                 start = map.get(ch) + 1;
-
-                map.put(ch, i);
-            } else {
-                map.put(ch, i);
             }
+
+            map.put(ch, i);
 
             int len = i - start + 1;
             max = Math.max(max, len);
