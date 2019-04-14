@@ -36,17 +36,17 @@ public class ReconstructItinerary332 {
         List<String> itinerary = new ArrayList<>();
         Map<String, Integer> visited = new HashMap<>();
 
-        Map<String, List<String>> map = new HashMap<>();
+        Map<String, List<String>> ticketsMap = new HashMap<>();
         for (String[] ticket : tickets) {
-            map.putIfAbsent(ticket[0], new ArrayList<>());
-            map.get(ticket[0]).add(ticket[1]);
+            ticketsMap.putIfAbsent(ticket[0], new ArrayList<>());
+            ticketsMap.get(ticket[0]).add(ticket[1]);
 
             String ticketHash = ticket[0] + ":" + ticket[1];
             visited.put(ticketHash, visited.getOrDefault(ticketHash, 0) + 1);
         }
 
-        for (String departure : map.keySet()) {
-            map.get(departure).sort(String::compareTo);
+        for (String departure : ticketsMap.keySet()) {
+            ticketsMap.get(departure).sort(String::compareTo);
         }
 
         String start = "JFK";
@@ -55,7 +55,7 @@ public class ReconstructItinerary332 {
         deque.addLast(start);
 
         int flights = 0;
-        dfs(tickets.length, start, deque, map, visited, flights);
+        dfs(tickets.length, start, deque, ticketsMap, visited, flights);
 
         while (!deque.isEmpty()) {
             itinerary.add(deque.poll());
@@ -75,6 +75,8 @@ public class ReconstructItinerary332 {
             return false;
         }
 
+        boolean valid = false;
+
         for (String to : map.get(from)) {
             String ticket = from + ":" + to;
             if (visited.getOrDefault(ticket, 0) <= 0) {
@@ -85,7 +87,7 @@ public class ReconstructItinerary332 {
             queue.addLast(to);
             flights++;
 
-            boolean valid = dfs(n, to, queue, map, visited, flights);
+            valid = dfs(n, to, queue, map, visited, flights);
             if (!valid) {
                 flights--;
                 visited.put(ticket, visited.get(ticket) + 1);
@@ -93,7 +95,7 @@ public class ReconstructItinerary332 {
             }
         }
 
-        return visited.values().stream().allMatch(k -> k == 0);
+        return valid;
     }
 
 }
