@@ -8,10 +8,10 @@ import java.util.*;
  * algorithm: Backtracking
  * space complexity: O(n)
  */
-public class SudokuSolver {
+public class SudokuSolver37 {
 
     public static void main(String[] args) {
-        SudokuSolver solution = new SudokuSolver();
+        SudokuSolver37 solution = new SudokuSolver37();
         solution.test();
     }
 

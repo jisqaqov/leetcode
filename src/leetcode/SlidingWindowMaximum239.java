@@ -10,10 +10,10 @@ import java.util.Deque;
  * time complexity: O(n)
  * space complexity: O(k)
  */
-public class SlidingWindowMaximum {
+public class SlidingWindowMaximum239 {
 
     public static void main(String[] args) {
-        SlidingWindowMaximum solution = new SlidingWindowMaximum();
+        SlidingWindowMaximum239 solution = new SlidingWindowMaximum239();
         solution.test();
     }
 
