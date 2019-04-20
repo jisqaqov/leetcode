@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
  * algorithm: Heap, Devide And Conquer, Linked List
  * time complexity: O(n*k*log(k))
  */
-public class MergeKSortedLists {
+public class MergeKSortedLists23 {
 
     public class ListNode {
         int val;
