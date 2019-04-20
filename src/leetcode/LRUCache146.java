@@ -14,10 +14,10 @@ public class LRUCache146 {
 
     public static void main(String[] args) {
         LRUCache146 solution = new LRUCache146();
-//        solution.test();
-//        solution.test2();
-//        solution.test3();
-//        solution.test4();
+        solution.test();
+        solution.test2();
+        solution.test3();
+        solution.test4();
         solution.test5();
     }
 
