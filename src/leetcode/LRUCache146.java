@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jandos Iskakov
  * problem: 146. LRU Cache
@@ -78,103 +81,103 @@ public class LRUCache146 {
         cache.put(6,11);
         cache.put(10,5);
         cache.put(9,10);
-        cache.get(13);
+        System.out.println(cache.get(13));
         cache.put(2,19);
-        cache.get(2);
-        cache.get(3);
+        System.out.println(cache.get(2));
+        System.out.println(cache.get(3));
         cache.put(5,25);
-        cache.get(8);
+        System.out.println(cache.get(8));
         cache.put(9,22);
         cache.put(5,5);
         cache.put(1,30);
-        cache.get(11);
+        System.out.println(cache.get(11));
         cache.put(9,12);
-        cache.get(7);
-        cache.get(5);
-        cache.get(8);
-        cache.get(9);
+        System.out.println(cache.get(7));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(8));
+        System.out.println(cache.get(9));
         cache.put(4,30);
         cache.put(9,3);
-        cache.get(9);
-        cache.get(10);
-        cache.get(10);
+        System.out.println(cache.get(9));
+        System.out.println(cache.get(10));
+        System.out.println(cache.get(10));
         cache.put(6,14);
         cache.put(3,1);
-        cache.get(3);
+        System.out.println(cache.get(3));
         cache.put(10,11);
-        cache.get(8);
+        System.out.println(cache.get(8));
         cache.put(2,14);
-        cache.get(1);
-        cache.get(5);
-        cache.get(4);
+        System.out.println(cache.get(1));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(4));
         cache.put(11,4);//
         cache.put(12,24);
         cache.put(5,18);
-        cache.get(13);
+        System.out.println(cache.get(13));
         cache.put(7,23);
-        cache.get(8);
-        cache.get(12);
+        System.out.println(cache.get(8));
+        System.out.println(cache.get(12));
         cache.put(3,27);
         cache.put(2,12);
-        cache.get(5);
+        System.out.println(cache.get(5));
         cache.put(2,9);
         cache.put(13,4);
         cache.put(8,18);
         cache.put(1,7);
-        cache.get(6);
+        System.out.println(cache.get(6));
         cache.put(9,29);
         cache.put(8,21);
-        cache.get(5);
+        System.out.println(cache.get(5));
         cache.put(6,30);
         cache.put(1,12);
-        cache.get(10);
+        System.out.println(cache.get(10));
         cache.put(4,15);
         cache.put(7,22);
         cache.put(11,26);
         cache.put(8,17);
         cache.put(9,29);
-        cache.get(5);
+        System.out.println(cache.get(5));
         cache.put(3,4);
         cache.put(11,30);
-        cache.get(12);
+        System.out.println(cache.get(12));
         cache.put(4,29);
-        cache.get(3);
-        cache.get(9);
-        cache.get(6);
+        System.out.println(cache.get(3));
+        System.out.println(cache.get(9));
+        System.out.println(cache.get(6));
         cache.put(3,4);
-        cache.get(1);
-        cache.get(10);
+        System.out.println(cache.get(1));
+        System.out.println(cache.get(10));
         cache.put(3,29);
         cache.put(10,28);
         cache.put(1,20);
         cache.put(11,13);
-        cache.get(3);
+        System.out.println(cache.get(3));
         cache.put(3,12);
         cache.put(3,8);
         cache.put(10,9);
         cache.put(3,26);
-        cache.get(8);
-        cache.get(7);
-        cache.get(5);
+        System.out.println(cache.get(8));
+        System.out.println(cache.get(7));
+        System.out.println(cache.get(5));
         cache.put(13,17);
         cache.put(2,27);
         cache.put(11,15);
-        cache.get(12);
+        System.out.println(cache.get(12));
         cache.put(9,19);
         cache.put(2,15);
         cache.put(3,16);
-        cache.get(1);
+        System.out.println(cache.get(1));
         cache.put(12,17);
         cache.put(9,1);
         cache.put(6,19);
-        cache.get(4);
-        cache.get(5);
-        cache.get(5);
+        System.out.println(cache.get(4));
+        System.out.println(cache.get(5));
+        System.out.println(cache.get(5));
         cache.put(8,1);
         cache.put(11,7);
         cache.put(5,2);
         cache.put(9,28);
-        cache.get(1);
+        System.out.println(cache.get(1));
         cache.put(2,2);
         cache.put(7,4);
         cache.put(4,22);
@@ -185,8 +188,8 @@ public class LRUCache146 {
     }
 
     class LRUCache {
+        Map<Integer, Node> map = new HashMap<>();
         Node head, tail;
-        Node[] list = new Node[100000];
         int size = 0, capacity;
 
         public LRUCache(int capacity) {
@@ -194,92 +197,80 @@ public class LRUCache146 {
         }
 
         public int get(int key) {
-            Node node = list[hashIndex(key)];
-            if (node == null) {
+            if (!map.containsKey(key)) {
                 return -1;
             }
 
-            if (tail.key == key) {
-                return node.value;
-            }
-
-            if (head.key == key) {
-                Node oldHead = head;
-                head = head.next;
-                head.prev = null;
-                tail.next = oldHead;
-                oldHead.prev = tail;
-                tail = oldHead;
-                tail.next = null;
-            } else {
-                node.next.prev = node.prev;
-                node.prev.next = node.next;
-                tail.next = node;
-                node.prev = tail;
-                tail = node;
-                tail.next = null;
-            }
+            Node node = map.get(key);
+            updateNodes(node);
 
             return node.value;
         }
 
-        public void put(int key, int value) {
-            int hash = hashIndex(key);
-            if (head == null) {
-                head = createNode(key, value);
-                list[hash] = head;
-
-                tail = head;
-                size = 1;
-
+        private void updateNodes(Node node) {
+            if (capacity == 1) {
                 return;
             }
 
-            if (list[hash] == null) {
-                Node newNode = createNode(key, value);
+            if (tail.key == node.key) {
+                return;
+            }
 
-                if (size == capacity) {
-                    list[head.hash] = null;
+            if (head.key == node.key) {
+                head = head.next;
+                head.prev = null;
+            }
 
-                    if (size > 1) {
-                        head = head.next;
-                        head.prev = null;
+            if (node.prev != null) {
+                node.prev.next = node.next;
 
-                        list[hash] = newNode;
-                        tail.next = newNode;
-                        newNode.prev = tail;
-                        tail = newNode;
-                    } else {
-                        list[hash] = newNode;
-                        head = tail = newNode;
-                    }
-                } else {
-                    size++;
-
-                    list[hash] = newNode;
-                    tail.next = newNode;
-                    newNode.prev = tail;
-                    tail = newNode;
-                }
-            } else {
-                Node oldHead = head;
-                list[hash].value = value;
-
-                if (head.key == key) {
-                    if (size > 1) {
-                        head = head.next;
-                        tail.next = oldHead;
-                        oldHead.prev = tail;
-                        tail = oldHead;
-                        tail.next = null;
-                    }
-                } else if (tail.key != key) {
-                    Node node = list[hash];
-
-                    node.prev.next = node.next;
+                if (node.next != null) {
                     node.next.prev = node.prev;
-                    tail.next = node;
+                }
+            }
+
+            tail.next = node;
+
+            node.prev = tail;
+            node.next = null;
+
+            tail = node;
+        }
+
+        public void put(int key, int value) {
+            Node node = map.get(key);
+            if (node != null) {
+                node.value = value;
+
+                updateNodes(node);
+                return;
+            }
+
+            node = createNode(key, value);
+            map.put(key, node);
+
+            if (size == 0) {
+                head = tail = node;
+                size = 1;
+            } else if (size < capacity) {
+                node.prev = tail;
+                tail.next = node;
+
+                tail = node;
+
+                size++;
+            } else {
+                map.remove(head.key);
+
+                if (capacity == 1) {
+                    head = tail = node;
+                } else {
+                    head = head.next;
+                    head.prev = null;
+
                     node.prev = tail;
+                    tail.next = node;
+
                     tail = node;
                     tail.next = null;
                 }
@@ -290,24 +281,17 @@ public class LRUCache146 {
             Node newNode = new Node();
             newNode.key = key;
             newNode.value = value;
-            newNode.hash = hashIndex(key);
             return newNode;
         }
 
-        private int hashIndex(int key) {
-            return key % list.length;
-        }
-
         class Node {
-            int hash;
             int key, value;
             Node next, prev;
 
             @Override
             public String toString() {
                 return "Node{" +
-                        "hash=" + hash +
-                        ", key=" + key +
+                        "key=" + key +
                         ", value=" + value +
                         ", next=" + (next != null? next.key: null) +
                         ", prev=" + (prev != null? prev.key: null) +

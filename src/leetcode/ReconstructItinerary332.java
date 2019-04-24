@@ -75,8 +75,6 @@ public class ReconstructItinerary332 {
             return false;
         }
 
-        boolean valid = false;
-
         for (String to : map.get(from)) {
             String ticket = from + ":" + to;
             if (visited.getOrDefault(ticket, 0) <= 0) {
@@ -87,15 +85,17 @@ public class ReconstructItinerary332 {
             queue.addLast(to);
             flights++;
 
-            valid = dfs(n, to, queue, map, visited, flights);
+            boolean valid = dfs(n, to, queue, map, visited, flights);
             if (!valid) {
                 flights--;
                 visited.put(ticket, visited.get(ticket) + 1);
                 queue.removeLast();
+            } else {
+                return true;
             }
         }
 
-        return valid;
+        return false;
     }
 
 }
