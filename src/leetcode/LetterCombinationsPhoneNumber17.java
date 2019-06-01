@@ -6,8 +6,6 @@ import java.util.*;
  * @author Jandos Iskakov
  * problem: 17. Letter Combinations of a Phone Number
  * algorithm: Backtracking
- * Runtime: 1 ms, faster than 93.18% of Java online submissions
- * Memory Usage: 37 MB, less than 88.65% of Java online submissions
  */
 public class LetterCombinationsPhoneNumber17 {
 

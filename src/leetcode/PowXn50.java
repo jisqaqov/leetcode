@@ -4,7 +4,7 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 50. Pow(x, n)
  * algorithm: Binary Search
- * search for the number it's root n equals x
+ * notes: search for the number it's root n equals x
  */
 public class PowXn50 {
 

@@ -6,8 +6,6 @@ package leetcode;
  * time complexity: O(logn)
  * space complexity: O(1)
  * algorithm: Binary Search
- * Runtime: 0 ms, faster than 100.00%.
- * Memory Usage: 39.1 MB, less than 55.18%.
  */
 public class SearchInRotatedSortedArray33 {
 

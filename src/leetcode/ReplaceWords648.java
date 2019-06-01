@@ -8,8 +8,6 @@ import java.util.*;
  * algorithm: Trie, Hash Table
  * time complexity: O(n)
  * space complexity: O(n)
- * Runtime: 10 ms, faster than 90.01% of Java online submissions for Replace Words.
- * Memory Usage: 54.3 MB, less than 42.37% of Java online submissions for Replace Words.
  */
 public class ReplaceWords648 {
 

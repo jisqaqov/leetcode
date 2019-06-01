@@ -6,7 +6,6 @@ package leetcode;
  * time complexity: O(log(n))
  * algorithm: based on Binary Search
  * check number^2 if equals target
- * notes: runtime beats 100% of java submissions
  */
 public class ValidPerfectSquare367 {
 

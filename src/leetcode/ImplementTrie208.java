@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Jandos Iskakov
  * problem: 208. Implement Trie (Prefix Tree)
- * implementation of Trie Data Structure
+ * category: Design
  */
 public class ImplementTrie208 {
     private TrieNode root;
