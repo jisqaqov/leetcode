@@ -4,7 +4,6 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 98. Validate Binary Search Tree
  * time complexity: O(n)
- * notes: faster than 100.00% of Java online submissions
  */
 public class ValidateBst98 {
 

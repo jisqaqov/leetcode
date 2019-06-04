@@ -7,8 +7,6 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 3. Longest Substring Without Repeating Characters
  * algorithm: Sliding Window Technique
- * Runtime: 8 ms, faster than 94.30% of Java online submissions
- * Memory Usage: 37.3 MB, less than 55.32% of Java online submissions
  */
 public class LengthOfLongestSubstring3 {
 

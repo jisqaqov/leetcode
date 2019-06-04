@@ -6,8 +6,6 @@ package leetcode;
  * algorithm: Binary Search
  * time complexity: O(log(n))
  * space complexity: O(1)
- * Runtime: 0 ms, faster than 100.00%
- * Memory Usage: 38.7 MB, less than 99.97%
  */
 public class FindFirstAndLastPositionOfElementInSortedArray34 {
 

@@ -5,7 +5,6 @@ package leetcode;
  * problem: 24. Swap Nodes in Pairs
  * time complexity: O(n)
  * algorithm: based on two pointer technique
- * notes: runtime beats 99.99% of java submissions
  */
 public class SwapNodesInPairs24 {
 

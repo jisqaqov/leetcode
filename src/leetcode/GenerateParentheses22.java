@@ -9,8 +9,6 @@ import java.util.List;
  * algorithm: Backtracking
  * time complexity: O()
  * space complexity: O(n)
- * Runtime: 0 ms, faster than 100.00% of Java online submissions for Generate Parentheses
- * Memory Usage: 37.8 MB, less than 79.07% of Java online submissions for Generate Parentheses
  */
 public class GenerateParentheses22 {
 

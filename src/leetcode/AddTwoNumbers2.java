@@ -6,8 +6,6 @@ package leetcode;
  * algorithm: Math, Linked List
  * time complexity: O(n)
  * space complexity: O(n)
- * Runtime: 2 ms, faster than 98.47% of Java online submissions for Add Two Numbers.
- * Memory Usage: 46.9 MB, less than 51.52% of Java online submissions for Add Two Numbers.
  */
 public class AddTwoNumbers2 {
 
