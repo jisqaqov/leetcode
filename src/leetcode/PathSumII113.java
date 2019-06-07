@@ -1,9 +1,6 @@
 package leetcode;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Jandos Iskakov
@@ -53,36 +50,83 @@ public class PathSumII113 {
         node4_2.left = node5;
         node4_2.right = node1;
 
-        System.out.println(pathSum(root, 22));
+        SolutionV1 solutionV1 = new SolutionV1();
+        System.out.println(solutionV1.pathSum(root, 22));
+
+        SolutionV2 solutionV2 = new SolutionV2();
+        System.out.println(solutionV2.pathSum(root, 22));
     }
 
-    public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> solution = new ArrayList<>();
-        if (root == null) {
+    private static class SolutionV1 {
+        public List<List<Integer>> pathSum(TreeNode root, int sum) {
+            List<List<Integer>> solution = new ArrayList<>();
+            if (root == null) {
+                return solution;
+            }
+
+            pathSum(root, sum, 0, new ArrayDeque<>(), solution);
+
             return solution;
         }
 
-        pathSum(root, sum, 0, new ArrayDeque<>(), solution);
+        private void pathSum(TreeNode node, int sum, int pathSum, Deque<Integer> path, List<List<Integer>> list) {
+            path.addLast(node.val);
 
-        return solution;
+            if (node.left == null && node.right == null && node.val + pathSum == sum) {
+                list.add(new ArrayList<>(path));
+            }
+
+            if (node.left != null) {
+                pathSum(node.left, sum, pathSum + node.val, path, list);
+            }
+
+            if (node.right != null) {
+                pathSum(node.right, sum, pathSum + node.val, path, list);
+            }
+
+            path.removeLast();
+        }
     }
 
-    private void pathSum(TreeNode node, int sum, int pathSum, Deque<Integer> path, List<List<Integer>> list) {
-        path.addLast(node.val);
+    private static class SolutionV2 {
+        public List<List<Integer>> pathSum(TreeNode root, int sum) {
+            List<List<Integer>> solution = new ArrayList<>();
+            if (root == null) {
+                return solution;
+            }
 
-        if (node.left == null && node.right == null && node.val + pathSum == sum) {
-            list.add(new ArrayList<>(path));
+            if (root.left == null && root.right == null && root.val == sum) {
+                return new ArrayList<>(Collections.singletonList(Collections.singletonList(root.val)));
+            }
+
+            if (root.left != null) {
+                merge(root, root.left, sum, solution);
+            }
+
+            if (root.right != null) {
+                merge(root, root.right, sum, solution);
+            }
+
+            return solution;
         }
 
-        if (node.left != null) {
-            pathSum(node.left, sum, pathSum + node.val, path, list);
+        private void merge(TreeNode node, TreeNode subTree, int sum, List<List<Integer>> solution) {
+            List<List<Integer>> treeList = pathSum(subTree, sum - node.val);
+            if (treeList.isEmpty()) {
+                return;
+            }
+
+            for (List<Integer> list : treeList) {
+                List<Integer> newList = new ArrayList<>();
+                newList.add(node.val);
+                newList.addAll(list);
+
+                solution.add(newList);
+            }
         }
 
-        if (node.right != null) {
-            pathSum(node.right, sum, pathSum + node.val, path, list);
-        }
-
-        path.removeLast();
     }
+
+
 
 }
