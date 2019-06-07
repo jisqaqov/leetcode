@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author Jandos Iskakov
  * problem: 113. Path Sum II
- * algorithm: BFS
+ * algorithm: DFS
  * time complexity: O(N)
  * space complexity: O(N)
  */
