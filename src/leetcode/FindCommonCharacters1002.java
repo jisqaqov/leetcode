@@ -2,6 +2,13 @@ package leetcode;
 
 import java.util.*;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 1002. Find Common Characters
+ * algorithm: String, Hash Table
+ * time complexity: O(E(|S|))
+ * space complexity: O(Max(|S|))
+ */
 public class FindCommonCharacters1002 {
 
     public static void main(String[] args) {
@@ -23,15 +30,8 @@ public class FindCommonCharacters1002 {
         for (int i = 1; i < a.length; i++) {
             Map<Character, Integer> counter = count(a[i]);
 
-            Iterator<Character> it = chars.keySet().iterator();
-            while (it.hasNext()) {
-                char ch = it.next();
-
-                if (!counter.containsKey(ch)) {
-                    it.remove();
-                } else {
-                    chars.put(ch, Math.min(chars.get(ch), counter.get(ch)));
-                }
+            for (char ch : chars.keySet()) {
+                chars.put(ch, Math.min(chars.get(ch), counter.getOrDefault(ch, 0)));
             }
         }
 
@@ -49,8 +49,7 @@ public class FindCommonCharacters1002 {
         Map<Character, Integer> counter = new HashMap<>();
 
         for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            counter.put(ch, counter.getOrDefault(ch, 0) + 1);
+            counter.put(s.charAt(i), counter.getOrDefault(s.charAt(i), 0) + 1);
         }
 
         return counter;
