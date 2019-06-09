@@ -3,7 +3,8 @@ package leetcode;
 import java.util.*;
 
 /**
- * @author Jandos Iskakov
+ * based on solution from link:
+ * https://leetcode.com/problems/word-search-ii/discuss/59784/My-simple-and-clean-Java-code-using-DFS-and-Trie
  * problem: 212. Word Search II
  * algorithm: Array, Backtracking
  */
@@ -41,8 +42,6 @@ public class WordSearchII212 {
             return solution;
         }
 
-        Arrays.sort(words, Comparator.comparingInt(String::length));
-
         Trie trie = new Trie();
         for (String word : words) {
             trie.add(word);
@@ -50,106 +49,55 @@ public class WordSearchII212 {
 
         int n = board.length, m = board[0].length;
 
-        for (String word : words) {
-            int existsPrefix = trie.search(word);
-            if (existsPrefix == -1) {
-                continue;
-            }
-
-            if (existsPrefix == 2) {
-                solution.add(word);
-            } else {
-                if (exist(n, m, board, word, trie)) {
-                    solution.add(word);
-                }
-            }
-        }
-
-        return solution;
-    }
-
-    private boolean exist(int n, int m, char[][] board, String word, Trie trie) {
         boolean[][] used = new boolean[n][m];
+
+        Set<String> set = new HashSet<>();
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (board[i][j] != word.charAt(0)) {
-                    continue;
-                }
-
-                used[i][j] = true;
-                if (exist(board, word, 0, i, j, used, trie.root)) {
-                    return true;
-                }
-                used[i][j] = false;
+                exist("", i, j, board, used, trie, set);
             }
         }
 
-        return false;
+        return new ArrayList<>(set);
     }
 
-    private boolean exist(char[][] board, String word, int pos, int i, int j, boolean[][] used, TrieNode trieNode) {
+    private void exist(String word, int i, int j, char[][] board, boolean[][] used, Trie trie, Set<String> set) {
         int n = board.length, m = board[0].length;
 
-        trieNode = trieNode.map.get(word.charAt(pos));
-        if (trieNode.exists == null || !trieNode.exists) {
-            trieNode.exists = word.charAt(pos) == board[i][j];
+        if (i < 0 || i >= n || j < 0 || j >= m || used[i][j]) {
+            return;
         }
 
-        if (word.charAt(pos) != board[i][j]) {
-            return false;
+        word += board[i][j];
+
+        if (!trie.startsWith(word)) {
+            return;
         }
 
-        if (pos == word.length() - 1) {
-            return true;
+        if (trie.search(word)) {
+            set.add(word);
         }
 
-        if (j < m - 1 && !used[i][j + 1]) {
-            used[i][j + 1] = true;
-            if (exist(board, word, pos + 1, i, j + 1, used, trieNode)) {
-                return true;
-            }
-            used[i][j + 1] = false;
-        }
+        used[i][j] = true;
 
-        if (j > 0 && !used[i][j - 1]) {
-            used[i][j - 1] = true;
+        exist(word, i, j + 1, board, used, trie, set);
+        exist(word, i, j - 1, board, used, trie, set);
+        exist(word, i + 1, j, board, used, trie, set);
+        exist(word, i - 1, j, board, used, trie, set);
 
-            if (exist(board, word, pos + 1, i, j - 1, used, trieNode)) {
-                return true;
-            }
-
-            used[i][j - 1] = false;
-        }
-
-        if (i > 0 && !used[i - 1][j]) {
-            used[i - 1][j] = true;
-            if (exist(board, word, pos + 1, i - 1, j, used, trieNode)) {
-                return true;
-            }
-            used[i - 1][j] = false;
-        }
-
-        if (i < n - 1 && !used[i + 1][j]) {
-            used[i + 1][j] = true;
-            if (exist(board, word, pos + 1, i + 1, j, used, trieNode)) {
-                return true;
-            }
-            used[i + 1][j] = false;
-        }
-
-        return false;
+        used[i][j] = false;
     }
 
     private static class TrieNode {
         Character ch;
-        Boolean exists;
+        boolean isWord = false;
         Map<Character, TrieNode> map = new HashMap<>();
 
-        public TrieNode() {
+        TrieNode() {
         }
 
-        public TrieNode(char ch) {
+        TrieNode(char ch) {
             this.ch = ch;
         }
     }
@@ -159,6 +107,7 @@ public class WordSearchII212 {
 
         void add(String word) {
             TrieNode node = root;
+
             for (int i = 0; i < word.length(); i++) {
                 char ch = word.charAt(i);
 
@@ -169,23 +118,40 @@ public class WordSearchII212 {
                     node = node.map.get(ch);
                 }
             }
+
+            node.isWord = true;
         }
 
-        int search(String word) {
+        boolean startsWith(String word) {
             TrieNode node = root;
 
             for (int i = 0; i < word.length(); i++) {
-                node = node.map.get(word.charAt(i));
-                if (node.exists == null) {
-                    return 1;
+                char ch = word.charAt(i);
+
+                if (!node.map.containsKey(ch)) {
+                    return false;
                 }
 
-                if (!node.exists) {
-                    return -1;
-                }
+                node = node.map.get(ch);
             }
 
-            return 2;
+            return true;
+        }
+
+        boolean search(String word) {
+            TrieNode node = root;
+
+            for (int i = 0; i < word.length(); i++) {
+                char ch = word.charAt(i);
+
+                if (!node.map.containsKey(ch)) {
+                    return false;
+                }
+
+                node = node.map.get(ch);
+            }
+
+            return node.isWord;
         }
     }
 
