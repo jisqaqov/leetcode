@@ -3,8 +3,9 @@ package leetcode;
 import java.util.*;
 
 /**
- * based on solution from discussions:
+ * based on solutions from discussions:
  * https://leetcode.com/problems/word-search-ii/discuss/59784/My-simple-and-clean-Java-code-using-DFS-and-Trie
+ * https://leetcode.com/problems/word-search-ii/discuss/59780/Java-15ms-Easiest-Solution-(100.00)
  * problem: 212. Word Search II
  * algorithm: Array, Backtracking
  */
@@ -55,36 +56,31 @@ public class WordSearchII212 {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                exist("", i, j, board, used, trie, set);
+                exist(i, j, board, used, trie.root, set);
             }
         }
 
         return new ArrayList<>(set);
     }
 
-    private void exist(String word, int i, int j, char[][] board, boolean[][] used, Trie trie, Set<String> set) {
+    private void exist(int i, int j, char[][] board, boolean[][] used, TrieNode trieNode, Set<String> set) {
         int n = board.length, m = board[0].length;
 
-        if (i < 0 || i >= n || j < 0 || j >= m || used[i][j]) {
+        if (i < 0 || i >= n || j < 0 || j >= m || used[i][j] || !trieNode.map.containsKey(board[i][j])) {
             return;
         }
 
-        word += board[i][j];
-
-        if (!trie.startsWith(word)) {
-            return;
-        }
-
-        if (trie.search(word)) {
-            set.add(word);
+        trieNode = trieNode.map.get(board[i][j]);
+        if (trieNode.isWord) {
+            set.add(trieNode.word);
         }
 
         used[i][j] = true;
 
-        exist(word, i, j + 1, board, used, trie, set);
-        exist(word, i, j - 1, board, used, trie, set);
-        exist(word, i + 1, j, board, used, trie, set);
-        exist(word, i - 1, j, board, used, trie, set);
+        exist(i, j + 1, board, used, trieNode, set);
+        exist(i, j - 1, board, used, trieNode, set);
+        exist(i + 1, j, board, used, trieNode, set);
+        exist(i - 1, j, board, used, trieNode, set);
 
         used[i][j] = false;
     }
@@ -92,6 +88,7 @@ public class WordSearchII212 {
     private static class TrieNode {
         Character ch;
         boolean isWord = false;
+        String word;
         Map<Character, TrieNode> map = new HashMap<>();
 
         TrieNode() {
@@ -120,38 +117,7 @@ public class WordSearchII212 {
             }
 
             node.isWord = true;
-        }
-
-        boolean startsWith(String word) {
-            TrieNode node = root;
-
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
-
-                if (!node.map.containsKey(ch)) {
-                    return false;
-                }
-
-                node = node.map.get(ch);
-            }
-
-            return true;
-        }
-
-        boolean search(String word) {
-            TrieNode node = root;
-
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
-
-                if (!node.map.containsKey(ch)) {
-                    return false;
-                }
-
-                node = node.map.get(ch);
-            }
-
-            return node.isWord;
+            node.word = word;
         }
     }
 
