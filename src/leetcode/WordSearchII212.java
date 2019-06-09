@@ -3,7 +3,7 @@ package leetcode;
 import java.util.*;
 
 /**
- * based on solution from link:
+ * based on solution from discussions:
  * https://leetcode.com/problems/word-search-ii/discuss/59784/My-simple-and-clean-Java-code-using-DFS-and-Trie
  * problem: 212. Word Search II
  * algorithm: Array, Backtracking
