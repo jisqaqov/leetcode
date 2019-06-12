@@ -46,36 +46,39 @@ public class ConvertBSTToGreaterTree538 {
     }
 
     public TreeNode convertBST(TreeNode root) {
-        convertBST(root, 0);
-        return root;
-    }
-
-    public TreeNode convertBST(TreeNode root, int rp) {
         if (root == null) {
             return null;
         }
 
-        root.val += rp;
+        Pair pair = convertBST(root, 0);
+        return pair.node;
+    }
+
+    private Pair convertBST(TreeNode root, int rp) {
+        Pair pair = new Pair();
+        pair.node = new TreeNode(root.val);
+        pair.node.val += rp;
+        pair.sum = root.val;
 
         if (root.right != null) {
-            root.val += sumRightSubTree(root.right);
-
-            convertBST(root.right, rp);
+            Pair right = convertBST(root.right, rp);
+            pair.node.right = right.node;
+            pair.node.val += right.sum;
+            pair.sum += right.sum;
         }
 
         if (root.left != null) {
-            convertBST(root.left, root.val);
+            Pair left = convertBST(root.left, pair.node.val);
+            pair.node.left = left.node;
+            pair.sum += left.sum;
         }
 
-        return root;
+        return pair;
     }
 
-    private int sumRightSubTree(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-
-        return root.val + sumRightSubTree(root.left) + sumRightSubTree(root.right);
+    private static class Pair {
+        TreeNode node;
+        int sum = 0;
     }
 
 }
