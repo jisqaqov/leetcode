@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
  * algorithm: Backtracking, DP
  * time complexity: O()
  * space complexity: O()
+ * Runtime: 55 ms, faster than 5.39%
+ * Memory Usage: 41.5 MB, less than 8.83%
  */
 public class PalindromePartitioning131 {
 
