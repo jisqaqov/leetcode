@@ -43,6 +43,7 @@ public class RearrangeStringKDistanceApart358 {
         while (sb.length() < s.length()) {
             PriorityQueue<Info> pq = new PriorityQueue<>(Comparator.comparingInt(o -> o.number));
 
+            // get top k frequent items
             for (Character ch : counter.keySet()) {
                 if (pq.size() < k) {
                     pq.add(counter.get(ch));
@@ -52,6 +53,8 @@ public class RearrangeStringKDistanceApart358 {
                 }
             }
 
+            // check condition whether we can rearrange string
+            // if we have un sufficient items then return empty string
             if (pq.size() < k) {
                 boolean canRearrange = counter.values()
                         .stream()
@@ -62,6 +65,7 @@ public class RearrangeStringKDistanceApart358 {
                 }
             }
 
+            // sort by frequency to get most frequent ones first
             List<Info> sortedList = Arrays.stream(pq.toArray())
                     .map(o -> (Info) o)
                     .sorted((info1, info2) -> info1.number == info2.number? info1.index - info2.index:
