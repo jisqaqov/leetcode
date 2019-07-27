@@ -22,53 +22,75 @@ public class PartitionLabels763 {
     }
 
     public List<Integer> partitionLabels(String s) {
-        LinkedList<Info> parts = new LinkedList<>();
+        ListNode head = null;
+        ListNode tail = null;
 
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
 
-            int t = 0;
+            ListNode node = head;
 
-            for (Info info : parts) {
-                if (info.set.contains(ch)) {
+            while (node != null) {
+                if (node.value.contains(s, ch)) {
                     break;
                 }
 
-                t++;
+                node = node.next;
             }
 
-            if (t == parts.size()) {
-                parts.add(new Info(ch));
-            } else {
-                Info info = new Info(ch);
-
-                int k = parts.size() - 1;
-
-                while (k >= t) {
-                    Info tail = parts.removeLast();
-
-                    info.set.addAll(tail.set);
-                    info.len += tail.len;
-
-                    k--;
+            if (node == null) {
+                if (head == null) {
+                    head = new ListNode(new Info(i));
+                    tail = head;
+                } else {
+                    ListNode newNode = new ListNode(new Info(i));
+                    tail.next = newNode;
+                    tail = newNode;
                 }
-
-                parts.add(info);
+            } else {
+                node.value.endIndex = i;
+                node.next = null;
+                tail = node;
             }
         }
 
-        return parts.stream()
-                .map(info -> info.len)
-                .collect(Collectors.toList());
+        List<Integer> solution = new ArrayList<>();
+
+        ListNode node = head;
+
+        while (node != null) {
+            solution.add(node.value.endIndex - node.value.beginIndex + 1);
+            node = node.next;
+        }
+
+        return solution;
+    }
+
+    private static class ListNode {
+        Info value;
+        ListNode next;
+
+        public ListNode(Info value) {
+            this.value = value;
+        }
     }
 
     private static class Info {
-        Set<Character> set = new HashSet<>();
-        int len = 0;
+        int beginIndex, endIndex;
 
-        Info(char ch) {
-            this.set.add(ch);
-            this.len = 1;
+        Info(int index) {
+            this.beginIndex = index;
+            this.endIndex = index;
+        }
+
+        public boolean contains(String s, char ch) {
+            for (int i = beginIndex; i <= endIndex; i++) {
+                if (s.charAt(i) == ch) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
