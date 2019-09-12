@@ -2,12 +2,13 @@ package leetcode;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * @author Jandos Iskakov
  * problem: 314. Binary Tree Vertical Order Traversal
  * algorithm: Hash Table
- * time complexity: O(NLOGN)
+ * time complexity: O(N)
  * space complexity: O(N)
  */
 public class BinaryTreeVerticalOrderTraversal314 {
@@ -49,36 +50,34 @@ public class BinaryTreeVerticalOrderTraversal314 {
 
         bfs(root, nodes);
 
-        Map<Integer, List<Integer>> sorted = nodes
-                .entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e2, LinkedHashMap::new));
+        int min = nodes.keySet().stream().mapToInt(v -> v).min().getAsInt();
+        int max = nodes.keySet().stream().mapToInt(v -> v).max().getAsInt();
 
-        return new ArrayList<>(sorted.values());
+        return IntStream.rangeClosed(min, max)
+                .mapToObj(nodes::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private void bfs(TreeNode root, Map<Integer, List<Integer>> nodes) {
         Queue<Object[]> queue = new LinkedList<>();
-        queue.add(new Object[] {root, 0});
+        queue.add(new Object[]{root, 0});
 
         while (!queue.isEmpty()) {
             Object[] obj = queue.poll();
 
-            TreeNode node = (TreeNode)obj[0];
-            int x = (int)obj[1];
+            TreeNode node = (TreeNode) obj[0];
+            int x = (int) obj[1];
 
             nodes.putIfAbsent(x, new ArrayList<>());
             nodes.get(x).add(node.val);
 
             if (node.left != null) {
-                queue.add(new Object[] {node.left, x - 1});
+                queue.add(new Object[]{node.left, x - 1});
             }
 
             if (node.right != null) {
-                queue.add(new Object[] {node.right, x + 1});
+                queue.add(new Object[]{node.right, x + 1});
             }
         }
     }
