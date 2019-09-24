@@ -3,10 +3,16 @@ package leetcode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
+/**
+ * @author Jandos Iskakov problem: 286. Walls and Gates algorithm: BFS time complexity: O(N*M) space
+ * complexity: O(N*M)
+ */
 public class WallsAndGates286 {
 
   public static void main(String[] args) {
@@ -15,63 +21,36 @@ public class WallsAndGates286 {
   }
 
   public void test() {
-    int[][] tc1rooms = {{0,2147483647,0,2147483647,0,2147483647,0,-1,0,2147483647,2147483647,2147483647,0,2147483647,-1,-1,-1,2147483647,2147483647,0},
-    {2147483647,2147483647,0,2147483647,0,-1,-1,2147483647,2147483647,2147483647,-1,0,-1,2147483647,2147483647,0,-1,0,-1,-1},
-    {0,-1,-1,2147483647,-1,-1,-1,2147483647,2147483647,-1,-1,0,-1,2147483647,-1,-1,0,0,-1,0},
-    {2147483647,-1,2147483647,-1,0,-1,0,2147483647,2147483647,0,-1,0,-1,-1,0,2147483647,0,0,2147483647,2147483647},
-    {0,2147483647,-1,-1,-1,0,2147483647,2147483647,0,0,-1,2147483647,2147483647,-1,0,2147483647,-1,2147483647,2147483647,2147483647},
-    {2147483647,-1,0,2147483647,2147483647,-1,0,-1,2147483647,0,-1,0,0,-1,-1,2147483647,-1,2147483647,2147483647,0},
-    {2147483647,2147483647,2147483647,0,0,2147483647,-1,0,-1,-1,-1,2147483647,2147483647,-1,2147483647,2147483647,-1,2147483647,-1,-1},
-    {0,0,0,-1,0,0,2147483647,-1,-1,0,-1,0,2147483647,-1,-1,0,0,0,0,2147483647},
-    {-1,-1,2147483647,2147483647,2147483647,0,-1,0,0,2147483647,2147483647,0,2147483647,-1,0,-1,0,0,2147483647,0},
-    {0,0,0,-1,-1,2147483647,-1,0,-1,2147483647,0,-1,-1,2147483647,-1,0,2147483647,-1,-1,-1},
-    {-1,0,2147483647,0,-1,0,0,-1,2147483647,0,-1,-1,-1,0,0,2147483647,2147483647,2147483647,0,2147483647},
-    {-1,-1,-1,0,0,-1,2147483647,2147483647,2147483647,0,-1,0,-1,0,2147483647,0,2147483647,2147483647,0,-1},
-    {0,2147483647,-1,2147483647,0,-1,-1,0,-1,2147483647,2147483647,0,-1,2147483647,0,-1,2147483647,2147483647,-1,0},
-    {0,0,0,0,-1,2147483647,2147483647,-1,2147483647,2147483647,-1,-1,-1,-1,-1,-1,2147483647,0,-1,-1},
-    {-1,-1,0,-1,-1,-1,0,-1,-1,2147483647,2147483647,2147483647,-1,2147483647,2147483647,0,0,0,-1,0},
-    {2147483647,-1,0,2147483647,-1,-1,0,2147483647,0,2147483647,2147483647,0,-1,2147483647,0,0,2147483647,2147483647,0,-1},
-    {0,-1,0,0,2147483647,2147483647,0,0,2147483647,2147483647,-1,0,-1,0,2147483647,0,0,0,2147483647,2147483647},
-    {0,-1,-1,-1,0,2147483647,-1,2147483647,-1,-1,-1,0,-1,2147483647,2147483647,-1,-1,-1,0,2147483647}};
+    int[][] tc1rooms = {{Integer.MAX_VALUE, -1, 0, Integer.MAX_VALUE},
+      {Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, -1},
+      {Integer.MAX_VALUE, -1, Integer.MAX_VALUE, -1},
+      {0, -1, Integer.MAX_VALUE, Integer.MAX_VALUE}
+    };
 
     wallsAndGates(tc1rooms);
 
-    int[][] tc1solution = {{0,1,0,1,0,1,0,-1,0,1,2,1,0,1,-1,-1,-1,1,1,0},
-    {1,1,0,1,0,-1,-1,2,1,2,-1,0,-1,2,1,0,-1,0,-1,-1},
-    {0,-1,-1,2,-1,-1,-1,2,2,-1,-1,0,-1,3,-1,-1,0,0,-1,0},
-    {1,-1,2147483647,-1,0,-1,0,1,1,0,-1,0,-1,-1,0,1,0,0,1,1},
-    {0,1,-1,-1,-1,0,1,1,0,0,-1,1,1,-1,0,1,-1,1,2,1},
-    {1,-1,0,1,1,-1,0,-1,1,0,-1,0,0,-1,-1,2,-1,2,1,0},
-    {1,1,1,0,0,1,-1,0,-1,-1,-1,1,1,-1,2,1,-1,1,-1,-1},
-    {0,0,0,-1,0,0,1,-1,-1,0,-1,0,1,-1,-1,0,0,0,0,1},
-    {-1,-1,1,2,1,0,-1,0,0,1,1,0,1,-1,0,-1,0,0,1,0},
-    {0,0,0,-1,-1,1,-1,0,-1,1,0,-1,-1,1,-1,0,1,-1,-1,-1},
-    {-1,0,1,0,-1,0,0,-1,1,0,-1,-1,-1,0,0,1,2,1,0,1},
-    {-1,-1,-1,0,0,-1,1,1,1,0,-1,0,-1,0,1,0,1,1,0,-1},
-    {0,1,-1,1,0,-1,-1,0,-1,1,1,0,-1,1,0,-1,2,1,-1,0},
-    {0,0,0,0,-1,2,1,-1,3,2,-1,-1,-1,-1,-1,-1,1,0,-1,-1},
-    {-1,-1,0,-1,-1,-1,0,-1,-1,2,2,1,-1,2,1,0,0,0,-1,0},
-    {1,-1,0,1,-1,-1,0,1,0,1,1,0,-1,1,0,0,1,1,0,-1},
-    {0,-1,0,0,1,1,0,0,1,2,-1,0,-1,0,1,0,0,0,1,2},
-    {0,-1,-1,-1,0,1,-1,1,-1,-1,-1,0,-1,1,2,-1,-1,-1,0,1}};
+    int[][] tc1solution = {{3, -1, 0, 1},
+      {2, 2, 1, -1},
+      {1, -1, 2, -1},
+      {0, -1, 3, 4}};
 
-    print(tc1rooms, tc1solution);
+    print(tc1rooms);
+
+    for (int i = 0; i < tc1rooms.length; i++) {
+      for (int j = 0; j < tc1rooms[i].length; j++) {
+        if (tc1rooms[i][j] != tc1solution[i][j]) {
+          System.out.println("i = " + i + ", j = " + j);
+        }
+      }
+    }
   }
 
-  private void print(int[][] rooms, int[][] solution) {
+  private void print(int[][] rooms) {
     for (int i = 0; i < rooms.length; i++) {
       for (int j = 0; j < rooms[i].length; j++) {
         System.out.print(rooms[i][j] + " ");
       }
       System.out.println();
-    }
-
-    for (int i = 0; i < rooms.length; i++) {
-      for (int j = 0; j < rooms[i].length; j++) {
-        if (rooms[i][j] != solution[i][j]) {
-          System.out.println("i = " + i + ", j = " + j);
-        }
-      }
     }
   }
 
@@ -83,117 +62,53 @@ public class WallsAndGates286 {
 
     int m = rooms[0].length;
 
-    List<Integer[]> emptyRooms = new ArrayList<>();
+    Queue<Integer[]> queue = new LinkedList<>();
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (rooms[i][j] == Integer.MAX_VALUE) {
-          emptyRooms.add(new Integer[]{i, j});
+        if (rooms[i][j] == 0) {
+          queue.add(new Integer[]{i, j});
         }
       }
     }
 
-    for (Integer[] emptyRoom : emptyRooms) {
-      int oi = emptyRoom[0];
-      int oj = emptyRoom[1];
+    Map<Integer, Set<Integer>> visited = new HashMap<>();
 
-      Map<Integer, Set<Integer>> visited = new HashMap<>();
+    while (!queue.isEmpty()) {
+      Integer[] node = queue.poll();
 
-      dfs(visited, rooms, oi, oj);
-    }
+      int si = node[0];
+      int sj = node[1];
 
-    boolean refines = true;
-    while (refines) {
-      refines = false;
+      visited.putIfAbsent(si, new HashSet<>());
+      visited.get(si).add(sj);
 
-      for (Integer[] emptyRoom : emptyRooms) {
-        int oi = emptyRoom[0];
-        int oj = emptyRoom[1];
+      List<Integer[]> adjList = new ArrayList<>();
 
-        if (refine(rooms, oi, oj)) {
-          refines = true;
+      adjList.add(new Integer[]{si + 1, sj});
+      adjList.add(new Integer[]{si - 1, sj});
+      adjList.add(new Integer[]{si, sj + 1});
+      adjList.add(new Integer[]{si, sj - 1});
+
+      for (Integer[] adj : adjList) {
+        int ti = adj[0];
+        int tj = adj[1];
+
+        if (ti < 0 || tj < 0 || ti >= n || tj >= m) {
+          continue;
+        }
+
+        if (rooms[ti][tj] <= 0 || (visited.containsKey(ti) && visited.get(ti).contains(tj))) {
+          continue;
+        }
+
+        queue.add(new Integer[]{ti, tj});
+
+        if (rooms[si][sj] < rooms[ti][tj]) {
+          rooms[ti][tj] = Math.min(rooms[si][sj] + 1, rooms[ti][tj]);
         }
       }
     }
-  }
-
-  boolean refine(int[][] rooms, int i, int j) {
-    boolean refines = false;
-
-    List<Integer[]> adjList = new ArrayList<>();
-    adjList.add(new Integer[]{i + 1, j});
-    adjList.add(new Integer[]{i - 1, j});
-    adjList.add(new Integer[]{i, j + 1});
-    adjList.add(new Integer[]{i, j - 1});
-
-    for(Integer[] adj : adjList) {
-      int ti = adj[0];
-      int tj = adj[1];
-
-      if (ti < 0 || tj < 0 || ti >= rooms.length || tj >= rooms[0].length) {
-        continue;
-      }
-
-      if (rooms[ti][tj] == -1) {
-        continue;
-      }
-
-      int oldValue =  rooms[i][j];
-      if (rooms[ti][tj] < rooms[i][j]) {
-        rooms[i][j] = Math.min(rooms[ti][tj] + 1, rooms[i][j]);
-      }
-
-      if (oldValue > rooms[i][j]) {
-        refines = true;
-      }
-    }
-
-    return refines;
-  }
-
-  int dfs(Map<Integer, Set<Integer>> visited, int[][] rooms, int i, int j) {
-    if (rooms[i][j] == 0) {
-      return 0;
-    }
-
-    if (rooms[i][j] != Integer.MAX_VALUE) {
-      return rooms[i][j];
-    }
-
-    visited.putIfAbsent(i, new HashSet<>());
-    visited.get(i).add(j);
-
-    List<Integer[]> adjList = new ArrayList<>();
-    adjList.add(new Integer[]{i + 1, j});
-    adjList.add(new Integer[]{i - 1, j});
-    adjList.add(new Integer[]{i, j + 1});
-    adjList.add(new Integer[]{i, j - 1});
-
-    int min = Integer.MAX_VALUE;
-
-    for(Integer[] adj : adjList) {
-      int ti = adj[0];
-      int tj = adj[1];
-
-      if (ti < 0 || tj < 0 || ti >= rooms.length || tj >= rooms[0].length) {
-        continue;
-      }
-
-      if (rooms[ti][tj] == -1 || (visited.containsKey(ti) && visited.get(ti).contains(tj))) {
-        continue;
-      }
-
-      int dis = dfs(visited, rooms, ti, tj);
-      if (dis >= 0 && dis < min) {
-        min = Math.min(dis + 1, min);
-      }
-    }
-
-    rooms[i][j] = min;
-
-    visited.get(i).remove(j);
-
-    return min;
   }
 
 }
