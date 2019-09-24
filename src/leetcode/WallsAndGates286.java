@@ -179,7 +179,7 @@ public class WallsAndGates286 {
         continue;
       }
 
-      if (rooms[ti][tj] == -1 || (visited.containsKey(ti) && visited.get(i).contains(tj))) {
+      if (rooms[ti][tj] == -1 || (visited.containsKey(ti) && visited.get(ti).contains(tj))) {
         continue;
       }
 
