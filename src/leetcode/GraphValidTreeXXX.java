@@ -32,7 +32,9 @@ public class GraphValidTreeXXX {
       return true;
     }
 
-    if (edges.length == 0 && n > 1) {
+    if (edges.length == 0 && n == 1) {
+      return true;
+    } else if (edges.length == 0) {
       return false;
     }
 
