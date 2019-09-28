@@ -1,13 +1,16 @@
 package leetcode;
 
 /**
- * @author Jandos Iskakov problem: 261. Graph Valid Tree algorithm: Graph, Union Find time
- * complexity: O(V+E) space complexity: O(V+E)
+ * @author Jandos Iskakov
+ * problem: 261. Graph Valid Tree
+ * algorithm: Graph, Union Find
+ * time complexity: O(V+E)
+ * space complexity: O(V+E)
  */
-public class GraphValidTreeXXX {
+public class GraphValidTree261 {
 
   public static void main(String[] args) {
-    GraphValidTreeXXX problem = new GraphValidTreeXXX();
+    GraphValidTree261 problem = new GraphValidTree261();
     problem.test();
   }
 
