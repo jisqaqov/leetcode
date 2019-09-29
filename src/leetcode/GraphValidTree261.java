@@ -1,9 +1,16 @@
 package leetcode;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+
 /**
  * @author Jandos Iskakov
  * problem: 261. Graph Valid Tree
- * algorithm: Graph, Union Find
+ * algorithm: Graph, Union Find, BFS
  * time complexity: O(V+E)
  * space complexity: O(V+E)
  */
@@ -22,12 +29,12 @@ public class GraphValidTree261 {
     int[][] tc4edges = {{2, 3}, {1, 2}, {1, 3}};
     int[][] tc5edges = {{1, 0}, {2, 0}};
 
-    System.out.println(validTree(4, tc0edges));
-    System.out.println(validTree(5, tc1edges));
-    System.out.println(validTree(5, tc2edges));
-    System.out.println(validTree(4, tc3edges));
-    System.out.println(validTree(4, tc4edges));
-    System.out.println(validTree(3, tc5edges));
+    System.out.println(validTreeUsingBfs(4, tc0edges));
+    System.out.println(validTreeUsingBfs(5, tc1edges));
+    System.out.println(validTreeUsingBfs(5, tc2edges));
+    System.out.println(validTreeUsingBfs(4, tc3edges));
+    System.out.println(validTreeUsingBfs(4, tc4edges));
+    System.out.println(validTreeUsingBfs(3, tc5edges));
   }
 
   public boolean validTree(int n, int[][] edges) {
@@ -81,6 +88,63 @@ public class GraphValidTree261 {
     }
 
     return roots <= 1;
+  }
+
+  public boolean validTreeUsingBfs(int n, int[][] edges) {
+    if (n <= 0) {
+      return true;
+    }
+
+    if (edges.length == 0 && n == 1) {
+      return true;
+    } else if (edges.length == 0) {
+      return false;
+    }
+
+    List<List<Integer>> adjList = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      adjList.add(new ArrayList<>());
+    }
+
+    for (int[] edge : edges) {
+      int u = edge[0];
+      int v = edge[1];
+
+      adjList.get(u).add(v);
+      adjList.get(v).add(u);
+    }
+
+    Set<Integer> visited = new HashSet<>();
+
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(0);
+
+    Set<Integer> marked = new HashSet<>();
+
+    while(!queue.isEmpty()) {
+      int node = queue.poll();
+
+      visited.add(node);
+
+      for (int v : adjList.get(node)) {
+        if (node == v) {
+          return true;
+        }
+
+        if (visited.contains(v)) {
+          continue;
+        }
+
+        if (marked.contains(v)) {
+          return false;
+        }
+
+        marked.add(v);
+        queue.add(v);
+      }
+    }
+
+    return visited.size() == n;
   }
 
 }
