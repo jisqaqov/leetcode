@@ -29,12 +29,12 @@ public class GraphValidTree261 {
     int[][] tc4edges = {{2, 3}, {1, 2}, {1, 3}};
     int[][] tc5edges = {{1, 0}, {2, 0}};
 
-    System.out.println(validTreeUsingBfs(4, tc0edges));
-    System.out.println(validTreeUsingBfs(5, tc1edges));
-    System.out.println(validTreeUsingBfs(5, tc2edges));
-    System.out.println(validTreeUsingBfs(4, tc3edges));
-    System.out.println(validTreeUsingBfs(4, tc4edges));
-    System.out.println(validTreeUsingBfs(3, tc5edges));
+    System.out.println(validTreeUsingDfs(4, tc0edges));
+    System.out.println(validTreeUsingDfs(5, tc1edges));
+    System.out.println(validTreeUsingDfs(5, tc2edges));
+    System.out.println(validTreeUsingDfs(4, tc3edges));
+    System.out.println(validTreeUsingDfs(4, tc4edges));
+    System.out.println(validTreeUsingDfs(3, tc5edges));
   }
 
   public boolean validTree(int n, int[][] edges) {
@@ -145,6 +145,63 @@ public class GraphValidTree261 {
     }
 
     return visited.size() == n;
+  }
+
+  public boolean validTreeUsingDfs(int n, int[][] edges) {
+    if (n <= 0) {
+      return true;
+    }
+
+    if (edges.length == 0 && n == 1) {
+      return true;
+    } else if (edges.length == 0) {
+      return false;
+    }
+
+    List<List<Integer>> adjList = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      adjList.add(new ArrayList<>());
+    }
+
+    for (int[] edge : edges) {
+      int u = edge[0];
+      int v = edge[1];
+
+      adjList.get(u).add(v);
+      adjList.get(v).add(u);
+    }
+
+    Set<Integer> visited = new HashSet<>();
+    Set<Integer> explored = new HashSet<>();
+
+    if (dfs(0, 0, visited, explored, adjList)) {
+      return false;
+    }
+
+    return visited.size() == n;
+  }
+
+  private boolean dfs(int parent, int node, Set<Integer> visited,
+    Set<Integer> explored, List<List<Integer>> adjList) {
+    visited.add(node);
+
+    for (Integer adj : adjList.get(node)) {
+      if (adj == parent) {
+        continue;
+      }
+
+      if (visited.contains(adj) && !explored.contains(adj)) {
+        return true;
+      } else if (!visited.contains(adj)) {
+        if (dfs(node, adj, visited, explored, adjList)) {
+          return true;
+        }
+      }
+    }
+
+    explored.add(node);
+
+    return false;
   }
 
 }
