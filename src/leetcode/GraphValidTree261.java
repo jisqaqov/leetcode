@@ -10,7 +10,7 @@ import java.util.Set;
 /**
  * @author Jandos Iskakov
  * problem: 261. Graph Valid Tree
- * algorithm: Graph, Union Find, BFS
+ * algorithm: Graph, Union Find, BFS, DFS
  * time complexity: O(V+E)
  * space complexity: O(V+E)
  */
