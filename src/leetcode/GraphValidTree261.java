@@ -95,12 +95,6 @@ public class GraphValidTree261 {
       return true;
     }
 
-    if (edges.length == 0 && n == 1) {
-      return true;
-    } else if (edges.length == 0) {
-      return false;
-    }
-
     List<List<Integer>> adjList = new ArrayList<>();
     for (int i = 0; i < n; i++) {
       adjList.add(new ArrayList<>());
