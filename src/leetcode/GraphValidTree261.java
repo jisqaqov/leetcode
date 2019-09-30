@@ -29,12 +29,12 @@ public class GraphValidTree261 {
     int[][] tc4edges = {{2, 3}, {1, 2}, {1, 3}};
     int[][] tc5edges = {{1, 0}, {2, 0}};
 
-    System.out.println(validTreeUsingDfs(4, tc0edges));
-    System.out.println(validTreeUsingDfs(5, tc1edges));
-    System.out.println(validTreeUsingDfs(5, tc2edges));
-    System.out.println(validTreeUsingDfs(4, tc3edges));
-    System.out.println(validTreeUsingDfs(4, tc4edges));
-    System.out.println(validTreeUsingDfs(3, tc5edges));
+    System.out.println(validTree(4, tc0edges));
+    System.out.println(validTree(5, tc1edges));
+    System.out.println(validTree(5, tc2edges));
+    System.out.println(validTree(4, tc3edges));
+    System.out.println(validTree(4, tc4edges));
+    System.out.println(validTree(3, tc5edges));
   }
 
   public boolean validTree(int n, int[][] edges) {
@@ -42,52 +42,55 @@ public class GraphValidTree261 {
       return true;
     }
 
-    if (edges.length == 0 && n == 1) {
-      return true;
-    } else if (edges.length == 0) {
-      return false;
-    }
-
-    int[] ds = new int[n];
-    for (int i = 0; i < n; i++) {
-      ds[i] = i;
-    }
-
-    int root = edges[0][0];
+    DisjointSet ds = new DisjointSet(n);
 
     for (int[] edge : edges) {
       int u = edge[0];
       int v = edge[1];
 
-      if (ds[u] != u && ds[v] != v) {
+      if (u == v || ds.parent(u) == ds.parent(v)) {
         return false;
       }
 
-      if ((u == root && ds[v] != v) || (v == root && ds[u] != u)) {
-        return false;
-      }
-
-      if (u == root) {
-        ds[v] = u;
-      } else if (v == root) {
-        ds[u] = v;
-      } else if (ds[u] != u) {
-        ds[v] = u;
-      } else if (ds[v] != v) {
-        ds[u] = v;
-      } else if (ds[u] == u && ds[v] == v) {
-        ds[v] = u;
-      }
+      ds.union(u, v);
     }
 
     int roots = 0;
     for (int i = 0; i < n; i++) {
-      if (ds[i] == i) {
+      if (ds.ds[i] == i) {
         roots++;
       }
     }
 
-    return roots <= 1;
+    return roots == 1;
+  }
+
+  private static class DisjointSet {
+    private int[] ds;
+
+    DisjointSet(int n) {
+      this.ds = new int[n];
+
+      for (int i = 0; i < n; i++) {
+        ds[i] = i;
+      }
+    }
+
+    private int parent(int i) {
+      while (ds[i] != i) {
+        ds[i] = ds[ds[i]];
+        i = ds[i];
+      }
+
+      return i;
+    }
+
+    private void union(int i, int j) {
+      int rootX = parent(i);
+      int rootY = parent(j);
+
+      ds[rootX] = rootY;
+    }
   }
 
   public boolean validTreeUsingBfs(int n, int[][] edges) {
@@ -161,14 +164,15 @@ public class GraphValidTree261 {
 
     Set<Integer> visited = new HashSet<>();
 
-    if (dfs(0, 0, visited, adjList)) {
+    if (validTreeUsingDfs(0, 0, visited, adjList)) {
       return false;
     }
 
     return visited.size() == n;
   }
 
-  private boolean dfs(int parent, int node, Set<Integer> visited, List<List<Integer>> adjList) {
+  private boolean validTreeUsingDfs(int parent, int node, Set<Integer> visited,
+    List<List<Integer>> adjList) {
     visited.add(node);
 
     for (Integer adj : adjList.get(node)) {
@@ -176,7 +180,7 @@ public class GraphValidTree261 {
         continue;
       }
 
-      if (visited.contains(adj) || dfs(node, adj, visited, adjList)) {
+      if (visited.contains(adj) || validTreeUsingDfs(node, adj, visited, adjList)) {
         return true;
       }
     }
