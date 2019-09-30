@@ -152,12 +152,6 @@ public class GraphValidTree261 {
       return true;
     }
 
-    if (edges.length == 0 && n == 1) {
-      return true;
-    } else if (edges.length == 0) {
-      return false;
-    }
-
     List<List<Integer>> adjList = new ArrayList<>();
     for (int i = 0; i < n; i++) {
       adjList.add(new ArrayList<>());
@@ -172,17 +166,15 @@ public class GraphValidTree261 {
     }
 
     Set<Integer> visited = new HashSet<>();
-    Set<Integer> explored = new HashSet<>();
 
-    if (dfs(0, 0, visited, explored, adjList)) {
+    if (dfs(0, 0, visited, adjList)) {
       return false;
     }
 
     return visited.size() == n;
   }
 
-  private boolean dfs(int parent, int node, Set<Integer> visited,
-    Set<Integer> explored, List<List<Integer>> adjList) {
+  private boolean dfs(int parent, int node, Set<Integer> visited, List<List<Integer>> adjList) {
     visited.add(node);
 
     for (Integer adj : adjList.get(node)) {
@@ -190,16 +182,10 @@ public class GraphValidTree261 {
         continue;
       }
 
-      if (visited.contains(adj) && !explored.contains(adj)) {
+      if (visited.contains(adj) || dfs(node, adj, visited, adjList)) {
         return true;
-      } else if (!visited.contains(adj)) {
-        if (dfs(node, adj, visited, explored, adjList)) {
-          return true;
-        }
       }
     }
-
-    explored.add(node);
 
     return false;
   }
