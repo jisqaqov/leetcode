@@ -9,72 +9,67 @@ package leetcode;
  */
 public class LongestPalindromicSubstring5 {
 
-    public static void main(String[] args) {
-        LongestPalindromicSubstring5 solution = new LongestPalindromicSubstring5();
-        solution.test();
+  public static void main(String[] args) {
+    LongestPalindromicSubstring5 solution = new LongestPalindromicSubstring5();
+    solution.test();
+  }
+
+  public void test() {
+    System.out.println(longestPalindrome("abcd"));
+    System.out.println(longestPalindrome("babad"));
+    System.out.println(longestPalindrome("cbbd"));
+    System.out.println(longestPalindrome("aaabbbbsas"));
+    System.out.println(longestPalindrome("bananas"));
+    System.out.println(longestPalindrome("aaabaaaa"));
+    System.out.println(longestPalindrome("ababababababa"));
+    System.out.println(longestPalindrome("tattarrattat"));
+    System.out.println(longestPalindrome("aaaaaaaaaaaaaaaaaa"));
+  }
+
+  public String longestPalindrome(String s) {
+    int n = s.length();
+
+    if (n == 0) {
+      return s;
     }
 
-    public void test() {
-        System.out.println(longestPalindrome("abcd"));
-        System.out.println(longestPalindrome("babad"));
-        System.out.println(longestPalindrome("cbbd"));
-        System.out.println(longestPalindrome("aaabbbbsas"));
-        System.out.println(longestPalindrome("bananas"));
-        System.out.println(longestPalindrome("aaabaaaa"));
-        System.out.println(longestPalindrome("ababababababa"));
-        System.out.println(longestPalindrome("tattarrattat"));
-        System.out.println(longestPalindrome("aaaaaaaaaaaaaaaaaa"));
+    boolean[][] memo = new boolean[n][n];
+    memo[0][0] = true;
+
+    for (int i = 1; i < n; i++) {
+      char ch = s.charAt(i);
+
+      memo[i][i] = true;
+
+      if (ch == s.charAt(i - 1)) {
+        memo[i - 1][i] = true;
+      }
+
+      for (int b = 1; b < n; b++) {
+        if (memo[b][i - 1] && ch == s.charAt(b - 1)) {
+          memo[b - 1][i] = true;
+        }
+      }
     }
 
-    @SuppressWarnings("unchecked")
-    public String longestPalindrome(String s) {
-        int n = s.length();
+    int[] max = new int[2];
+    int k = 1;
 
-        if (n == 0) {
-            return s;
+    for (int i = 0; i < n; i++) {
+      for (int j = i; j < n; j++) {
+        if (!memo[i][j]) {
+          continue;
         }
 
-        boolean[][] memo = new boolean[n][n];
-        memo[0][0] = true;
-
-        for (int i = 1; i < n; i++) {
-            char ch = s.charAt(i);
-
-            memo[i][i] = true;
-
-            for (int b = 0; b < n; b++) {
-                if (!memo[b][i - 1]) {
-                    continue;
-                }
-
-                if (b > 0 && ch == s.charAt(b - 1)) {
-                    memo[b - 1][i] = true;
-                }
-
-                if (ch == s.charAt(i - 1)) {
-                    memo[i - 1][i] = true;
-                }
-            }
+        if (j - i + 1 > k) {
+          k = j - i + 1;
+          max[0] = i;
+          max[1] = j;
         }
-
-        int[] max = new int[2];
-        int k = 1;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = i; j < n; j++) {
-                if (!memo[i][j]) {
-                    continue;
-                }
-
-                if (j - i + 1 > k) {
-                    k = j - i + 1;
-                    max[0] = i;
-                    max[1] = j;
-                }
-            }
-        }
-
-        return s.substring(max[0], max[1] + 1);
+      }
     }
+
+    return s.substring(max[0], max[1] + 1);
+  }
 
 }
