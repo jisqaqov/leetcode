@@ -43,78 +43,77 @@ public class BoundaryOfBinaryTree545 {
     tc1node6.left = tc1node9;
     tc1node6.right = tc1node10;
 
-    System.out.println(new NaiveApproach().boundaryOfBinaryTree(tc1root));
+    System.out.println(boundaryOfBinaryTree(tc1root));
   }
-  
-  private static class NaiveApproach {
-    public List<Integer> boundaryOfBinaryTree(TreeNode root) {
-      if (root == null) {
-        return new ArrayList<>();
-      }
 
-      Set<TreeNode> set = new LinkedHashSet<>();
-
-      set.add(root);
-
-      if (root.left != null) {
-        leftBoundary(root.left, set);
-      }
-
-      leafs(root, set);
-      rightBoundary(root.right, set);
-
-      return set
-        .stream()
-        .map(treeNode -> treeNode.val)
-        .collect(Collectors.toList());
+  public List<Integer> boundaryOfBinaryTree(TreeNode root) {
+    if (root == null) {
+      return new ArrayList<>();
     }
 
-    private void leftBoundary(TreeNode node, Set<TreeNode> set) {
-      if (node == null) {
-        return;
-      }
+    Set<TreeNode> set = new LinkedHashSet<>();
 
-      set.add(node);
+    set.add(root);
 
-      if (node.left != null) {
-        leftBoundary(node.left, set);
-      } else if (node.right != null) {
-        leftBoundary(node.right, set);
-      }
+    if (root.left != null) {
+      leftBoundary(root.left, set);
     }
 
-    private void rightBoundary(TreeNode node, Set<TreeNode> set) {
-      if (node == null) {
-        return;
-      }
+    leafs(root, set);
+    rightBoundary(root.right, set);
 
-      if (node.right != null) {
-        rightBoundary(node.right, set);
-      } else if (node.left != null) {
-        rightBoundary(node.left, set);
-      }
+    return set
+      .stream()
+      .map(treeNode -> treeNode.val)
+      .collect(Collectors.toList());
+  }
 
-      set.add(node);
+  private void leftBoundary(TreeNode node, Set<TreeNode> set) {
+    if (node == null) {
+      return;
     }
 
-    private void leafs(TreeNode node, Set<TreeNode> set) {
-      if (node == null) {
-        return;
-      }
+    set.add(node);
 
-      if (node.left == null && node.right == null) {
-        set.add(node);
-      }
-
-      if (node.left != null) {
-        leafs(node.left, set);
-      }
-
-      if (node.right != null) {
-        leafs(node.right, set);
-      }
+    if (node.left != null) {
+      leftBoundary(node.left, set);
+    } else if (node.right != null) {
+      leftBoundary(node.right, set);
     }
   }
+
+  private void rightBoundary(TreeNode node, Set<TreeNode> set) {
+    if (node == null) {
+      return;
+    }
+
+    if (node.right != null) {
+      rightBoundary(node.right, set);
+    } else if (node.left != null) {
+      rightBoundary(node.left, set);
+    }
+
+    set.add(node);
+  }
+
+  private void leafs(TreeNode node, Set<TreeNode> set) {
+    if (node == null) {
+      return;
+    }
+
+    if (node.left == null && node.right == null) {
+      set.add(node);
+    }
+
+    if (node.left != null) {
+      leafs(node.left, set);
+    }
+
+    if (node.right != null) {
+      leafs(node.right, set);
+    }
+  }
+
 
   /**
    * Definition for a binary tree node.
