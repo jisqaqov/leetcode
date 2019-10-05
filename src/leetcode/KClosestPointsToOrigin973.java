@@ -18,8 +18,11 @@ public class KClosestPointsToOrigin973 {
   }
 
   private void test() {
-    int[][] tc1a = {{3,3},{5,-1},{-2,4}};
-    printArray(kClosest(tc1a, 2));
+    SortApproach problem = new SortApproach();
+
+    int[][] tc1a = {{-95,76},{17,7},{-55,-58},{53,20},{-69,-8},{-57,87},{-2,-42},{-10,-87},{-36,-57},{97,-39},{97,49}};
+
+    printArray(problem.kClosest(tc1a, 5));
   }
 
   private void printArray(int[][] a) {
@@ -60,6 +63,80 @@ public class KClosestPointsToOrigin973 {
     }
 
     return result;
+  }
+
+  private static class SortApproach {
+    public int[][] kClosest(int[][] points, int k) {
+      sort(0, points.length - 1, k, points);
+
+      int[][] solution = new int[k][2];
+
+      for (int i = 0; i < k; i++) {
+        solution[i][0] = points[i][0];
+        solution[i][1] = points[i][1];
+      }
+
+      return solution;
+    }
+
+    private void sort(int l, int r, int k, int[][] points) {
+      if (l >= r) {
+        return;
+      }
+
+      int pivotIndex = partition(points, l, r);
+
+      int len = pivotIndex - l + 1;
+      if (len < k) {
+        sort(pivotIndex + 1, r, k - len, points);
+      } else if (len > k) {
+        sort(l, pivotIndex - 1, k, points);
+      }
+    }
+
+    private int partition(int[][] points, int start, int end) {
+      int pivot = dist(points, start);
+
+      int i = start + 1, j = end;
+
+      while (true) {
+        while (i < end && dist(points, i) < pivot) {
+          i++;
+        }
+
+        while (j >start && dist(points, j) > pivot) {
+          j--;
+        }
+
+        if (i >= j) {
+          break;
+        }
+
+        swap(points, i, j);
+
+        i++;
+        j--;
+      }
+
+      swap(points, start, j);
+
+      return j;
+    }
+
+    private void swap(int[][] points, int i, int j) {
+      int temp0 = points[i][0];
+      int temp1 = points[i][1];
+
+      points[i][0] = points[j][0];
+      points[i][1] = points[j][1];
+
+      points[j][0] = temp0;
+      points[j][1] = temp1;
+    }
+
+    private int dist(int[][] points, int i) {
+      return points[i][0] * points[i][0] + points[i][1] * points[i][1];
+    }
   }
 
 
