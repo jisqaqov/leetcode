@@ -8,7 +8,7 @@ import java.util.PriorityQueue;
  * problem: 973. K Closest Points to Origin
  * algorithm: Heap
  * time complexity: O(nlog(k))
- * space complexity: O(nlog(k))
+ * space complexity: O(k)
  */
 public class KClosestPointsToOrigin973 {
 
