@@ -81,7 +81,7 @@ public class BinaryTreeZigzagLevelOrderTraversal103 {
   }
 
   /***
-   * This solution was taken from discussions @marcusgao
+   * This solution was taken from discussions forum
    */
   private static class LeetcodeApproach {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
