@@ -1,8 +1,9 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import leetcode.AddTwoNumbers2.ListNode;
+import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
@@ -31,6 +32,7 @@ public class BinaryTreeZigzagLevelOrderTraversal103 {
     node20.right = node7;
 
     System.out.println(zigzagLevelOrder(root));
+    System.out.println(new LeetcodeApproach().zigzagLevelOrder(root));
   }
 
   public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
@@ -76,6 +78,54 @@ public class BinaryTreeZigzagLevelOrderTraversal103 {
     }
 
     return solution;
+  }
+
+  /***
+   * This solution was taken from discussions @marcusgao
+   */
+  private static class LeetcodeApproach {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+      List<List<Integer>> solution = new ArrayList<>();
+
+      if (root == null) {
+        return solution;
+      }
+
+      boolean zigzag = true;
+
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.add(root);
+
+      while (!queue.isEmpty()) {
+        LinkedList<Integer> vals = new LinkedList<>();
+
+        int len = queue.size();
+
+        for (int i = 0; i < len; i++) {
+          TreeNode node = queue.poll();
+
+          if (zigzag) {
+            vals.add(node.val);
+          } else {
+            vals.addFirst(node.val);
+          }
+
+          if (node.left != null) {
+            queue.add(node.left);
+          }
+
+          if (node.right != null) {
+            queue.add(node.right);
+          }
+        }
+
+        zigzag = !zigzag;
+
+        solution.add(vals);
+      }
+
+      return solution;
+    }
   }
 
   /**
