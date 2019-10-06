@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  * algorithm: DFS
  * time complexity: O(N)
  * space complexity: O(N)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions for Boundary of Binary Tree.
+ * Memory Usage: 39.4 MB, less than 26.32% of Java online submissions for Boundary of Binary Tree.
  */
 public class BoundaryOfBinaryTree545 {
 
@@ -58,18 +60,8 @@ public class BoundaryOfBinaryTree545 {
       leftBoundary(root.left, list);
     }
 
-    List<Integer> leaves = new ArrayList<>();
-
     if (root.left != null || root.right != null) {
-      leaves(root, leaves);
-
-      if (root.left != null && root.right != null) {
-        list.addAll(leaves.subList(1, leaves.size() - 1));
-      } else if (root.left != null) {
-        list.addAll(leaves.subList(1, leaves.size()));
-      } else if (root.right != null) {
-        list.addAll(leaves.subList(0, leaves.size() - 1));
-      }
+      leaves(root, list);
     }
 
     if (root.right != null) {
@@ -84,7 +76,9 @@ public class BoundaryOfBinaryTree545 {
       return;
     }
 
-    list.add(node.val);
+    if (node.left != null || node.right != null) {
+      list.add(node.val);
+    }
 
     if (node.left != null) {
       leftBoundary(node.left, list);
@@ -104,7 +98,9 @@ public class BoundaryOfBinaryTree545 {
       rightBoundary(node.left, list);
     }
 
-    list.add(node.val);
+    if (node.left != null || node.right != null) {
+      list.add(node.val);
+    }
   }
 
   private void leaves(TreeNode node, List<Integer> list) {
