@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  * algorithm: DFS
  * time complexity: O(N)
  * space complexity: O(N)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions for Boundary of Binary Tree.
+ * Memory Usage: 39.4 MB, less than 26.32% of Java online submissions for Boundary of Binary Tree.
  */
 public class BoundaryOfBinaryTree545 {
 
@@ -51,69 +53,73 @@ public class BoundaryOfBinaryTree545 {
       return new ArrayList<>();
     }
 
-    Set<TreeNode> set = new LinkedHashSet<>();
-
-    set.add(root);
+    List<Integer> list = new ArrayList<>();
+    list.add(root.val);
 
     if (root.left != null) {
-      leftBoundary(root.left, set);
+      leftBoundary(root.left, list);
     }
 
-    leafs(root, set);
-    rightBoundary(root.right, set);
+    if (root.left != null || root.right != null) {
+      leaves(root, list);
+    }
 
-    return set
-      .stream()
-      .map(treeNode -> treeNode.val)
-      .collect(Collectors.toList());
+    if (root.right != null) {
+      rightBoundary(root.right, list);
+    }
+
+    return list;
   }
 
-  private void leftBoundary(TreeNode node, Set<TreeNode> set) {
+  private void leftBoundary(TreeNode node, List<Integer> list) {
     if (node == null) {
       return;
     }
 
-    set.add(node);
+    if (node.left != null || node.right != null) {
+      list.add(node.val);
+    }
 
     if (node.left != null) {
-      leftBoundary(node.left, set);
+      leftBoundary(node.left, list);
     } else if (node.right != null) {
-      leftBoundary(node.right, set);
+      leftBoundary(node.right, list);
     }
   }
 
-  private void rightBoundary(TreeNode node, Set<TreeNode> set) {
+  private void rightBoundary(TreeNode node, List<Integer> list) {
     if (node == null) {
       return;
     }
 
     if (node.right != null) {
-      rightBoundary(node.right, set);
+      rightBoundary(node.right, list);
     } else if (node.left != null) {
-      rightBoundary(node.left, set);
+      rightBoundary(node.left, list);
     }
 
-    set.add(node);
+    if (node.left != null || node.right != null) {
+      list.add(node.val);
+    }
   }
 
-  private void leafs(TreeNode node, Set<TreeNode> set) {
+  private void leaves(TreeNode node, List<Integer> list) {
     if (node == null) {
       return;
     }
 
     if (node.left == null && node.right == null) {
-      set.add(node);
+      list.add(node.val);
     }
 
     if (node.left != null) {
-      leafs(node.left, set);
+      leaves(node.left, list);
     }
 
     if (node.right != null) {
-      leafs(node.right, set);
+      leaves(node.right, list);
     }
   }
-
 
   /**
    * Definition for a binary tree node.
