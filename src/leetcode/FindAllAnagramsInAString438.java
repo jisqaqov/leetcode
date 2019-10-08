@@ -10,9 +10,9 @@ import java.util.Set;
 /**
  * @author Jandos Iskakov
  * problem: 121. Best Time to Buy and Sell Stock
+ * algorithm: Hash Table, SLiding Window
  * time complexity: O(n)
  * space complexity: O(n)
- * algorithm: Hash Table
  */
 @SuppressWarnings("DuplicatedCode")
 public class FindAllAnagramsInAString438 {
