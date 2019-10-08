@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author Jandos Iskakov
  * problem: 658. Find K Closest Elements
  * algorithm: Binary Search, Sort time
- * complexity: O(klog(k))
+ * complexity: O(log(n) + klog(k))
  * space complexity: O(k)
  */
 public class FindKClosestElements658 {
