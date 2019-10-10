@@ -1,10 +1,22 @@
 package leetcode;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Queue;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 767. Reorganize String
+ * algorithm: Heap, Queue, Hash Table
+ * time complexity: O(nlogn)
+ * space complexity: O(n)
+ */
+@SuppressWarnings("DuplicatedCode")
 public class ReorganizeString767 {
+  private static final String NO_ANSWER = "";
+  private static final int K = 2;
 
   public static void main(String[] args) {
     ReorganizeString767 problem = new ReorganizeString767();
@@ -14,23 +26,11 @@ public class ReorganizeString767 {
   private void test() {
     System.out.println(reorganizeString("aab"));
     System.out.println(reorganizeString("aaab"));
+    System.out.println(reorganizeString("vvvlo"));
   }
 
   public String reorganizeString(String s) {
-    final int start = -s.length();
-    final int k = 2;
-
-    PriorityQueue<Info> pq = new PriorityQueue<>((info1, info2) -> {
-      if (info1.number == info2.number) {
-        return info1.index - info2.index;
-      }
-
-      if (info1.index == start && info2.index == start) {
-        return info2.number - info1.number;
-      }
-
-      return info1.index - info2.index;
-    });
+    PriorityQueue<Stat> pq = new PriorityQueue<>((stat1, stat2) -> stat2.number - stat1.number);
 
     Map<Character, Integer> map = new HashMap<>();
     for (int i = 0; i < s.length(); i++) {
@@ -39,36 +39,42 @@ public class ReorganizeString767 {
     }
 
     for (Character ch : map.keySet()) {
-      pq.add(new Info(ch, start, map.get(ch)));
+      pq.add(new Stat(ch, -1, map.get(ch)));
     }
+
+    Queue<Stat> queue = new LinkedList<>();
 
     StringBuilder sb = new StringBuilder();
 
     for (int i = 0; i < s.length(); i++) {
-      Info currNode = pq.poll();
-      if (i - currNode.index < k) {
-        return "";
+      while (!queue.isEmpty() && i - queue.peek().index >= K) {
+        pq.add(queue.poll());
       }
 
-      currNode.number--;
-
-      if (currNode.number > 0) {
-        currNode.index = i;
-        pq.add(currNode);
+      if (pq.isEmpty()) {
+        return NO_ANSWER;
       }
 
-      sb.append(currNode.ch);
+      Stat stat = pq.poll();
+
+      sb.append(stat.ch);
+
+      stat.number--;
+      if (stat.number > 0) {
+        stat.index = i;
+        queue.add(stat);
+      }
     }
 
     return sb.toString();
   }
 
-  private static class Info {
+  private static class Stat {
     char ch;
-    int index = -1;
-    int number = 0;
+    int index;
+    int number;
 
-    public Info(char ch, int index, int number) {
+    Stat(char ch, int index, int number) {
       this.ch = ch;
       this.index = index;
       this.number = number;
