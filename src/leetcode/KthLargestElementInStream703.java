@@ -28,7 +28,7 @@ public class KthLargestElementInStream703 {
     System.out.println(problem.add(9));
     System.out.println(problem.add(4));
   }
-  
+
   class KthLargest {
 
     private int k;
