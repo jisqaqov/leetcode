@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /**
  * @author Jandos Iskakov
@@ -103,7 +104,7 @@ public class KthLargestElementInAnArray215 {
       int i = l + 1, j = r;
 
       while (true) {
-        while (i < r && a[i] <pivot) {
+        while (i < r && a[i] < pivot) {
           i++;
         }
 
