@@ -8,10 +8,10 @@ import java.util.Map;
 
 /**
  * @author Jandos Iskakov
- * problem:
- * algorithm: Graph, Backtracking
- * time complexity:
- * space complexity:
+ * problem: 797. All Paths From Source to Target
+ * algorithm: Graph, Recursion
+ * time complexity: O(2^N*N^2)
+ * space complexity: O(2^N*N)
  */
 public class AllPathsFromSourceToTarget797 {
 
@@ -26,34 +26,25 @@ public class AllPathsFromSourceToTarget797 {
   }
 
   public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
-    return dfs(0, graph.length - 1, graph, new HashMap<>());
+    return dfs(0, graph);
   }
 
-  private List<List<Integer>> dfs(int s, int d, int[][] graph, Map<Integer, List<List<Integer>>> map) {
+  private List<List<Integer>> dfs(int s, int[][] graph) {
+    int n = graph.length - 1;
+
     List<List<Integer>> solution = new ArrayList<>();
 
-    if (s == d) {
-      solution.add(Collections.singletonList(d));
+    if (s == n) {
+      solution.add(new ArrayList<>(Collections.singleton(n)));
       return solution;
     }
 
-    if (map.containsKey(s)) {
-      return map.get(s);
-    }
-
     for (int v : graph[s]) {
-      List<List<Integer>> path = dfs(v, d, graph, map);
-
-      for (List<Integer> list : path) {
-        List<Integer> newList = new ArrayList<>();
-        newList.add(s);
-        newList.addAll(list);
-
-        solution.add(newList);
+      for (List<Integer> list : dfs(v, graph)) {
+        list.add(0, s);
+        solution.add(list);
       }
     }
-
-    map.put(s, solution);
 
     return solution;
   }
