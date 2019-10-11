@@ -1,7 +1,6 @@
 package leetcode;
 
 import java.util.PriorityQueue;
-import java.util.Random;
 
 /**
  * @author Jandos Iskakov
