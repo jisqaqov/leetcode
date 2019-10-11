@@ -9,10 +9,10 @@ import java.util.*;
  * time complexity: O(V + E + |words|)
  * space complexity: O(V + E + |words|)
  */
-public class AlienDictionary {
+public class AlienDictionary269 {
 
     public static void main(String[] args) {
-        AlienDictionary problem = new AlienDictionary();
+        AlienDictionary269 problem = new AlienDictionary269();
         problem.test();
     }
 
