@@ -17,9 +17,9 @@ public class KthLargestElementInAnArray215 {
   }
 
   private void test() {
-    int[] tc1a = {3,2,3,1,2,4,5,5,6};
-    int[] tc2a = {3,2,1,5,6,4};
-    int[] tc3a = {-1,2,0};
+    int[] tc1a = {3, 2, 3, 1, 2, 4, 5, 5, 6};
+    int[] tc2a = {3, 2, 1, 5, 6, 4};
+    int[] tc3a = {-1, 2, 0};
 
     System.out.println(findKthLargest(tc1a, 4));
     System.out.println(findKthLargest(tc2a, 2));
@@ -78,14 +78,70 @@ public class KthLargestElementInAnArray215 {
     a[i] = temp;
   }
 
+  private static class QuickSelectApproach {
+    public int findKthLargest(int[] nums, int k) {
+      int l = 0, r = nums.length - 1;
+      k = nums.length - k;
+
+      while (l < r) {
+        int pivotIndex = partition(l, r, nums);
+
+        if (pivotIndex < k) {
+          l = pivotIndex + 1;
+        } else if (pivotIndex > k) {
+          r = pivotIndex - 1;
+        } else {
+          break;
+        }
+      }
+
+      return nums[k];
+    }
+
+    private int partition(int l, int r, int[] a) {
+      int pivot = a[l];
+      int i = l + 1, j = r;
+
+      while (true) {
+        while (i < r && a[i] <pivot) {
+          i++;
+        }
+
+        while (j > l && a[j] > pivot) {
+          j--;
+        }
+
+        if (i >= j) {
+          break;
+        }
+
+        swap(i, j, a);
+
+        i++;
+        j--;
+      }
+
+      swap(l, j, a);
+
+      return j;
+    }
+
+    private void swap(int i, int j, int[] a) {
+      int temp = a[j];
+      a[j] = a[i];
+      a[i] = temp;
+    }
+  }
+
   private static class HeapApproach {
+
     public int findKthLargest(int[] nums, int k) {
       PriorityQueue<Integer> heap = new PriorityQueue<>(k);
 
       for (int i = 0; i < nums.length; i++) {
-        if (heap.size() < k)
+        if (heap.size() < k) {
           heap.add(nums[i]);
-        else {
+        } else {
           if (heap.peek() < nums[i]) {
             heap.poll();
             heap.add(nums[i]);
