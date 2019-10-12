@@ -48,15 +48,14 @@ public class RemoveNthNodeFromEndOfList19 {
   public ListNode removeNthFromEnd(ListNode head, int k) {
     ListNode q = head;
 
-    int m = k;
-    while (q != null && m >= 0) {
+    while (q != null && k >= 0) {
       q = q.next;
-      m--;
+      k--;
     }
 
-    if (m > 0) {
+    if (k > 0) {
       return null;
-    } else if (m == 0) {
+    } else if (k == 0) {
       return head.next;
     }
 
