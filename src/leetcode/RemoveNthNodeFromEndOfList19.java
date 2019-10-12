@@ -71,7 +71,7 @@ public class RemoveNthNodeFromEndOfList19 {
     return head;
   }
 
-  private static class NaiveSolution {
+  private static class SolutionV2 {
 
     public ListNode removeNthFromEnd(ListNode head, int k) {
       int n = 0;
