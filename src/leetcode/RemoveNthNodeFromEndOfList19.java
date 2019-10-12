@@ -28,7 +28,7 @@ public class RemoveNthNodeFromEndOfList19 {
     node3.next = node4;
     node4.next = node5;
 
-    System.out.println(removeNthFromEnd(head, 2));
+    System.out.println(removeNthFromEnd(head, 5));
   }
 
   private void test2() {
@@ -48,18 +48,21 @@ public class RemoveNthNodeFromEndOfList19 {
   public ListNode removeNthFromEnd(ListNode head, int k) {
     ListNode q = head;
 
-    while (q.next != null && k > 0) {
+    int m = k;
+    while (q != null && m >= 0) {
       q = q.next;
-      k--;
+      m--;
     }
 
-    if (k == 1) {
+    if (m > 0) {
+      return null;
+    } else if (m == 0) {
       return head.next;
     }
 
     ListNode p = head;
 
-    while (q.next != null) {
+    while (q != null) {
       p = p.next;
       q = q.next;
     }
