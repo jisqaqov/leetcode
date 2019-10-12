@@ -26,15 +26,8 @@ public class ExcelSheetColumnTitle168 {
     StringBuilder sb = new StringBuilder();
 
     while (n > 0) {
-      int number = n % 26;
-      if (number == 0) {
-        number = 26;
-      }
-
-      n /= 26;
-      if (number == 26) {
-        n--;
-      }
+      int number = (n - 1) % 26 + 1;
+      n = (n - 1) / 26;
 
       char ch = (char) (number + 'A' - 1);
 
