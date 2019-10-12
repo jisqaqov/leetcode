@@ -18,6 +18,12 @@ public class ExcelSheetColumnNumber171 {
     System.out.println(titleToNumber("K"));
     System.out.println(titleToNumber("ABB"));
     System.out.println(titleToNumber("ZY"));
+
+    ApproachV2 v2 = new ApproachV2();
+
+    System.out.println(v2.titleToNumber("K"));
+    System.out.println(v2.titleToNumber("ABB"));
+    System.out.println(v2.titleToNumber("ZY"));
   }
 
   public int titleToNumber(String s) {
@@ -31,6 +37,21 @@ public class ExcelSheetColumnNumber171 {
     }
 
     return number;
+  }
+
+  private static class ApproachV2 {
+    public int titleToNumber(String s) {
+      int number = 0;
+
+      for (int i = 0; i < s.length(); i++) {
+        char ch = s.charAt(i);
+        int index = ch - 'A' + 1;
+
+        number = number * 26 + index;
+      }
+
+      return number;
+    }
   }
 
 }
