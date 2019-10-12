@@ -26,10 +26,10 @@ public class ExcelSheetColumnTitle168 {
     StringBuilder sb = new StringBuilder();
 
     while (n > 0) {
-      int number = (n - 1) % 26 + 1;
+      int number = (n - 1) % 26;
       n = (n - 1) / 26;
 
-      char ch = (char) (number + 'A' - 1);
+      char ch = (char) (number + 'A');
 
       sb.append(ch);
     }
