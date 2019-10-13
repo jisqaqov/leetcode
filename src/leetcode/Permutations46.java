@@ -49,6 +49,8 @@ public class Permutations46 {
       for (int number : p) {
         list.get(list.size() - 1).add(number);
       }
+
+      return;
     }
 
     for (int i = 0; i < nums.length; i++) {
