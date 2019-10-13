@@ -10,8 +10,8 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 49. Group Anagrams
  * algorithm: Hash Table
- * time complexity: O(N)
- * space complexity: O(N)
+ * time complexity: O(NKlogK)
+ * space complexity: O(NKlogK)
  */
 public class GroupAnagrams49 {
 
@@ -33,21 +33,13 @@ public class GroupAnagrams49 {
       char[] chars = str.toCharArray();
       Arrays.sort(chars);
 
-      StringBuilder sb = new StringBuilder();
-      for (char ch : chars) sb.append(ch);
-
-      String key = sb.toString();
+      String key = String.valueOf(chars);
 
       map.putIfAbsent(key, new ArrayList<>());
       map.get(key).add(str);
     }
 
-    List<List<String>> list = new ArrayList<>();
-    for (String key : map.keySet()) {
-      list.add(map.get(key));
-    }
-
-    return list;
+    return new ArrayList<>(map.values());
   }
 
   private static class SolutionV2 {
