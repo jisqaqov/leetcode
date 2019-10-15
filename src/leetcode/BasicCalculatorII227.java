@@ -10,8 +10,8 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 227. Basic Calculator II
  * algorithm: String, Stack
- * time complexity: O()
- * space complexity: O()
+ * time complexity: O(N)
+ * space complexity: O(N)
  */
 public class BasicCalculatorII227 {
   private static final Set<Character> opers = new HashSet<>(Arrays.asList('+', '-', '*', '/'));
