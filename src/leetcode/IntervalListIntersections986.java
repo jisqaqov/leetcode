@@ -31,18 +31,15 @@ public class IntervalListIntersections986 {
     int j = 0;
 
     while (i < a.length && j < b.length) {
-      int[] intA = a[i];
-      int[] intB = b[j];
-
-      if (isOverlaps(intA, intB)) {
-        list.add(new int[] {Math.max(intA[0], intB[0]),
-          Math.min(intA[1], intB[1])});
+      if (isOverlaps(a[i], b[j])) {
+        list.add(new int[] {Math.max(a[i][0], b[j][0]),
+          Math.min(a[i][1], b[j][1])});
       }
 
-      if (intA[1] == intB[1]) {
+      if (a[i][1] == b[j][1]) {
         i++;
         j++;
-      } else if (intA[1] < intB[1]) {
+      } else if (a[i][1] < b[j][1]) {
         i++;
       } else {
         j++;
