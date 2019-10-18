@@ -5,7 +5,7 @@ package leetcode;
  * problem: 110. Balanced Binary Tree
  * algorithm: DFS, Binary Tree
  * time complexity: O(n)
- * space complexity: O(log(n))
+ * space complexity: O(N)
  * Runtime: 1 ms, faster than 100.00% of Java online submissions for Balanced Binary Tree.
  * Memory Usage: 36.9 MB, less than 100.00% of Java online submissions for Balanced Binary Tree.
  */
