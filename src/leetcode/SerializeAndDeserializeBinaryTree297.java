@@ -4,8 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 
-
-
 /**
  * @author Jandos Iskakov
  * problem: 297. Serialize and Deserialize Binary Tree
