@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  * algorithm: DFS, Graph
  * time complexity: O(V+E)
  * space complexity: O(V+E)
- * Runtime: 208 ms, faster than 5.64% of Java online submissions for Accounts Merge.
- * Memory Usage: 58.7 MB, less than 5.88% of Java online submissions for Accounts Merge.
+ * Runtime: 158 ms, faster than 6.28% of Java online submissions for Accounts Merge.
+ * Memory Usage: 60.1 MB, less than 5.88% of Java online submissions for Accounts Merge.
  */
 public class AccountsMerge721 {
 
