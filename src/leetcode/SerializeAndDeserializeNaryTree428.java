@@ -12,6 +12,7 @@ import java.util.Queue;
  * algorithm: BFS, Tree
  * time complexity: O(N)
  * space complexity: O(N)
+ * Produces level by level in format: 1:3/3:2;2:0;4:0/5:0;6:0
  * Runtime: 13 ms, faster than 23.80% of Java online submissions for Serialize and Deserialize N-ary Tree.
  * Memory Usage: 55.6 MB, less than 5.55% of Java online submissions for Serialize and Deserialize N-ary Tree.
  */
