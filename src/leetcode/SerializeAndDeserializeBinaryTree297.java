@@ -10,9 +10,9 @@ import java.util.Queue;
  * algorithm: BFS, Binary Tree
  * time complexity: O(N)
  * space complexity: O(N)
- * Produces level by level in format: l:1l:2;3l:null;null;4;5l:null;null;null;null
- * Runtime: 22 ms, faster than 21.95% of Java online submissions for Serialize and Deserialize Binary Tree.
- * Memory Usage: 40.8 MB, less than 26.67% of Java online submissions for Serialize and Deserialize Binary Tree.
+ * Produces level by level in format: 1:2;3:null;null;4;5:null;null;null;null
+ * Runtime: 18 ms, faster than 24.32% of Java online submissions for Serialize and Deserialize Binary Tree.
+ * Memory Usage: 38.5 MB, less than 100.00% of Java online submissions for Serialize and Deserialize Binary Tree.
  */
 public class SerializeAndDeserializeBinaryTree297 {
 
@@ -57,7 +57,10 @@ public class SerializeAndDeserializeBinaryTree297 {
 
       if (levels < level) {
         levels = level;
-        sb.append("l").append(":");
+
+        if (sb.length() > 0) {
+          sb.append(":");
+        }
 
         sb.append(node != null? node.val: "null");
       } else {
@@ -79,14 +82,14 @@ public class SerializeAndDeserializeBinaryTree297 {
       return null;
     }
 
-    String[] levels = data.split("l:");
+    String[] levels = data.split(":");
 
-    TreeNode root = new TreeNode(Integer.parseInt(levels[1]));
+    TreeNode root = new TreeNode(Integer.parseInt(levels[0]));
 
     Queue<TreeNode> queue = new ArrayDeque<>();
     queue.add(root);
 
-    for (int i = 2; i < levels.length; i++) {
+    for (int i = 1; i < levels.length; i++) {
       String s = levels[i];
 
       String[] nodes = s.split(";");
