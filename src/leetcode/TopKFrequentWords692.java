@@ -11,7 +11,7 @@ import java.util.PriorityQueue;
  * @author Jandos Iskakov
  * problem: 692. Top K Frequent Words
  * algorithm: Heap, Hash Table
- * time complexity: O((N+K)logk)
+ * time complexity: O(Nlog(k))
  * space complexity: O(N)
  * Runtime: 39 ms, faster than 9.65% of Java online submissions for Top K Frequent Words.
  * Memory Usage: 38.7 MB, less than 67.86% of Java online submissions for Top K Frequent Words.
