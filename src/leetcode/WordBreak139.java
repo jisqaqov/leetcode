@@ -32,7 +32,8 @@ public class WordBreak139 {
         .asList("a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa",
           "aaaaaaaaaa"))));
 
-    System.out.println(wordBreak(new ArrayList<>(Arrays.asList("leet", "code", "rock", "star", "rockstarcode", "leetcode"))));
+    System.out.println(new AmazonProblem().wordBreak(
+      new ArrayList<>(Arrays.asList("leet", "code", "rock", "star", "rockstarcode", "leetcode"))));
   }
 
   public boolean wordBreak(String s, List<String> wordDict) {
@@ -65,52 +66,56 @@ public class WordBreak139 {
     return false;
   }
 
-  public List<List<String>> wordBreak(List<String> wordDict) {
-    Set<String> wordSet = new HashSet<>(wordDict);
+  private static class AmazonProblem {
 
-    List<List<String>> solution = new ArrayList<>();
+    public List<List<String>> wordBreak(List<String> wordDict) {
+      Set<String> wordSet = new HashSet<>(wordDict);
 
-    for (String word : wordDict) {
-      LinkedList<String> list = new LinkedList<>();
-      Boolean[] memo = new Boolean[word.length()];
+      List<List<String>> solution = new ArrayList<>();
 
-      wordBreak(word, 0, wordSet, list, memo);
+      for (String word : wordDict) {
+        LinkedList<String> list = new LinkedList<>();
+        Boolean[] memo = new Boolean[word.length()];
 
-      solution.add(list);
+        wordBreak(word, 0, wordSet, list, memo);
+
+        solution.add(list);
+      }
+
+      return solution;
     }
 
-    return solution;
-  }
+    private boolean wordBreak(String s, int index, Set<String> wordDict, LinkedList<String> list,
+      Boolean[] memo) {
+      if (index == s.length()) {
+        return true;
+      }
 
-  private boolean wordBreak(String s, int index, Set<String> wordDict, LinkedList<String> list,
-    Boolean[] memo) {
-    if (index == s.length()) {
-      return true;
-    }
+      if (memo[index] != null) {
+        return memo[index];
+      }
 
-    if (memo[index] != null) {
-      return memo[index];
-    }
+      for (int i = index; i < s.length(); i++) {
+        String prefix = s.substring(index, i + 1);
 
-    for (int i = index; i < s.length(); i++) {
-      String prefix = s.substring(index, i + 1);
+        if (wordDict.contains(prefix)) {
+          list.add(prefix);
 
-      if (wordDict.contains(prefix)) {
-        list.add(prefix);
+          memo[index] = wordBreak(s, i + 1, wordDict, list, memo);
 
-        memo[index] = wordBreak(s, i + 1, wordDict, list, memo);
-
-        if (memo[index] && prefix.length() < s.length()) {
-          return true;
-        } else {
-          list.removeLast();
+          if (memo[index] && prefix.length() < s.length()) {
+            return true;
+          } else {
+            list.removeLast();
+          }
         }
       }
+
+      memo[index] = false;
+
+      return false;
     }
-
-    memo[index] = false;
-
-    return false;
   }
+
 
 }
