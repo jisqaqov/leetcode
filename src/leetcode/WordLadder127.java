@@ -13,8 +13,8 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 127. Word Ladder
  * algorithm: BFS
- * time complexity: O(V+E)
- * space complexity: O(V+E)
+ * time complexity: O(M*N)
+ * space complexity: O(M*N)
  * Runtime: 60 ms, faster than 55.20% of Java online submissions for Word Ladder.
  * Memory Usage: 41.7 MB, less than 56.21% of Java online submissions for Word Ladder.
  */
