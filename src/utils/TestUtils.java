@@ -1,4 +1,4 @@
-package leetcode;
+package utils;
 
 public final class TestUtils {
 
