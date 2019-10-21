@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 
@@ -11,8 +12,8 @@ import java.util.Queue;
  * time complexity: O(N)
  * space complexity: O(N)
  * Produces level by level in format: 1:2;3:null;null;4;5:null;null;null;null
- * Runtime: 18 ms, faster than 24.32% of Java online submissions for Serialize and Deserialize Binary Tree.
- * Memory Usage: 38.5 MB, less than 100.00% of Java online submissions for Serialize and Deserialize Binary Tree.
+ * Runtime: 13 ms, faster than 54.24% of Java online submissions for Serialize and Deserialize Binary Tree.
+ * Memory Usage: 40.3 MB, less than 31.43% of Java online submissions for Serialize and Deserialize Binary Tree.
  */
 public class SerializeAndDeserializeBinaryTree297 {
 
@@ -44,32 +45,31 @@ public class SerializeAndDeserializeBinaryTree297 {
       return null;
     }
 
-    int levels = -1;
     StringBuilder sb = new StringBuilder();
 
-    Queue<Object[]> queue = new ArrayDeque<>();
-    queue.add(new Object[] {root, 0});
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
 
     while (!queue.isEmpty()) {
-      Object[] arr = queue.poll();
-      TreeNode node = arr[0] != null? (TreeNode) arr[0]: null;
-      int level = (int) arr[1];
+      if (sb.length() > 0) {
+        sb.append(":");
+      }
 
-      if (levels < level) {
-        levels = level;
+      int size = queue.size();
 
-        if (sb.length() > 0) {
-          sb.append(":");
+      for (int i = 0; i < size; i++) {
+        TreeNode node = queue.poll();
+
+        if (i > 0) {
+          sb.append(";");
         }
 
         sb.append(node != null? node.val: "null");
-      } else {
-        sb.append(";").append(node != null? node.val: "null");
-      }
 
-      if (node != null) {
-        queue.add(new Object[] {node.left, level + 1});
-        queue.add(new Object[] {node.right, level + 1});
+        if (node != null) {
+          queue.add(node.left);
+          queue.add(node.right);
+        }
       }
     }
 
