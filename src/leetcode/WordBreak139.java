@@ -3,6 +3,7 @@ package leetcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,8 @@ public class WordBreak139 {
       new ArrayList<>(Arrays
         .asList("a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa",
           "aaaaaaaaaa"))));
+
+    System.out.println(wordBreak(new ArrayList<>(Arrays.asList("leet", "code", "rock", "star", "rockstarcode", "leetcode"))));
   }
 
   public boolean wordBreak(String s, List<String> wordDict) {
@@ -53,6 +56,54 @@ public class WordBreak139 {
         if (wordBreak(s, i + 1, wordDict, memo)) {
           memo[index] = true;
           return true;
+        }
+      }
+    }
+
+    memo[index] = false;
+
+    return false;
+  }
+
+  public List<List<String>> wordBreak(List<String> wordDict) {
+    Set<String> wordSet = new HashSet<>(wordDict);
+
+    List<List<String>> solution = new ArrayList<>();
+
+    for (String word : wordDict) {
+      LinkedList<String> list = new LinkedList<>();
+      Boolean[] memo = new Boolean[word.length()];
+
+      wordBreak(word, 0, wordSet, list, memo);
+
+      solution.add(list);
+    }
+
+    return solution;
+  }
+
+  private boolean wordBreak(String s, int index, Set<String> wordDict, LinkedList<String> list,
+    Boolean[] memo) {
+    if (index == s.length()) {
+      return true;
+    }
+
+    if (memo[index] != null) {
+      return memo[index];
+    }
+
+    for (int i = index; i < s.length(); i++) {
+      String prefix = s.substring(index, i + 1);
+
+      if (wordDict.contains(prefix)) {
+        list.add(prefix);
+
+        memo[index] = wordBreak(s, i + 1, wordDict, list, memo);
+
+        if (memo[index] && prefix.length() < s.length()) {
+          return true;
+        } else {
+          list.removeLast();
         }
       }
     }
