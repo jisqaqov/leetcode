@@ -1,50 +1,64 @@
 package leetcode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jandos Iskakov
  * problem: 139. Word Break
- * algorithm: DP
+ * algorithm: Recursion with memoization
+ * time complexity: O(N^2)
+ * space complexity: O(N^2)
+ * Runtime: 5 ms, faster than 57.13% of Java online submissions for Word Break.
+ * Memory Usage: 37 MB, less than 81.16% of Java online submissions for Word Break.
  */
 public class WordBreak139 {
 
-    public static void main(String[] args) {
-        WordBreak139 solution = new WordBreak139();
-        solution.test();
+  public static void main(String[] args) {
+    WordBreak139 solution = new WordBreak139();
+    solution.test();
+  }
+
+  public void test() {
+    System.out.println(wordBreak("leetcode", new ArrayList<>(Arrays.asList("leet", "code"))));
+    System.out.println(wordBreak(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+      new ArrayList<>(Arrays
+        .asList("a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa",
+          "aaaaaaaaaa"))));
+  }
+
+  public boolean wordBreak(String s, List<String> wordDict) {
+    Boolean[] memo = new Boolean[s.length()];
+
+    return wordBreak(s, 0, new HashSet<>(wordDict), memo);
+  }
+
+  public boolean wordBreak(String s, int index, Set<String> wordSet, Boolean[] memo) {
+    if (index >= s.length()) {
+      return true;
     }
 
-    public void test() {
-        String[] tc1a = {"leet", "code"};
-        System.out.println(wordBreak("leetcode", new ArrayList<>(Arrays.asList(tc1a))));
+    if (memo[index] != null) {
+      return memo[index];
     }
 
-    public boolean wordBreak(String s, List<String> wordDict) {
-        Set<String> wordSet = new HashSet<>(wordDict);
-
-        List<Integer> hash = new ArrayList<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            boolean hasSegment = false;
-            for (int t = hash.size() - 1; t >= 0; t--) {
-                String word = s.substring(hash.get(t) + 1, i + 1);
-                if (wordSet.contains(word)) {
-                    hash.add(i);
-                    hasSegment = true;
-
-                    break;
-                }
-            }
-
-            if (!hasSegment) {
-                String word = s.substring(0, i + 1);
-                if (wordSet.contains(word)) {
-                    hash.add(i);
-                }
-            }
+    for (int i = index; i < s.length(); i++) {
+      String prefix = s.substring(index, i + 1);
+      if (wordSet.contains(prefix)) {
+        if (wordBreak(s, i + 1, wordSet, memo)) {
+          memo[index] = true;
+          return true;
         }
-
-        return hash.size() > 0 && hash.get(hash.size() - 1) == s.length() - 1;
+      }
     }
+
+    memo[index] = false;
+
+    return false;
+  }
 
 }
