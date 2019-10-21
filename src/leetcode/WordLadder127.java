@@ -13,10 +13,10 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 127. Word Ladder
  * algorithm: BFS
- * time complexity: O(N^2)
- * space complexity: O(N)
- * Runtime: 744 ms, faster than 6.89% of Java online submissions for Word Ladder.
- * Memory Usage: 50.7 MB, less than 5.11% of Java online submissions for Word Ladder.
+ * time complexity: O(V+E)
+ * space complexity: O(V+E)
+ * Runtime: 60 ms, faster than 55.20% of Java online submissions for Word Ladder.
+ * Memory Usage: 41.7 MB, less than 56.21% of Java online submissions for Word Ladder.
  */
 public class WordLadder127 {
 
@@ -30,57 +30,46 @@ public class WordLadder127 {
   }
 
   public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-    Map<String, Set<String>> adjList = new HashMap<>();
-
-    adjList.put(beginWord, new HashSet<>());
-    for (String word : wordList) {
-      adjList.put(word, new HashSet<>());
-    }
-
-    for (String word : adjList.keySet()) {
-      for (String adj : wordList) {
-        int diff = 0;
-        for (int i = 0; i < word.length() && diff <= 1; i++) {
-          if (word.charAt(i) != adj.charAt(i)) {
-            diff++;
-          }
-        }
-
-        if (diff == 1) {
-          adjList.get(word).add(adj);
-
-          if (!word.equals(beginWord)) {
-            adjList.get(adj).add(word);
-          }
-        }
-      }
-    }
-
-    Map<String, Integer> dis = new HashMap<>();
-    dis.put(beginWord, 1);
+    Set<String> dict = new HashSet<>(wordList);
 
     Queue<String> queue = new LinkedList<>();
     queue.add(beginWord);
 
-    Set<String> used = new HashSet<>();
+    Set<String> visited = new HashSet<>();
+
+    int level = 0;
 
     while (!queue.isEmpty()) {
-      String node = queue.poll();
+      int size = queue.size();
 
-      if (node.equals(endWord)) {
-        return dis.get(endWord);
-      }
+      level++;
 
-      used.add(node);
+      for (int q = 0; q < size; q++) {
+        String node = queue.poll();
 
-      for (String adj : adjList.get(node)) {
-        if (used.contains(adj)) {
-          continue;
-        }
+        visited.add(node);
 
-        if (dis.get(node) + 1 < dis.getOrDefault(adj, Integer.MAX_VALUE)) {
-          queue.add(adj);
-          dis.put(adj, dis.get(node) + 1);
+        for (int i = 0; i < node.length(); i++) {
+          char[] chars = node.toCharArray();
+
+          for (char c = 'a'; c <= 'z'; c++) {
+            chars[i] = c;
+
+            String word = new String(chars);
+
+            if (!dict.contains(word)) {
+              continue;
+            }
+
+            if (word.equals(endWord)) {
+              return level + 1;
+            }
+
+            if (!visited.contains(word)) {
+              queue.add(word);
+              visited.add(word);
+            }
+          }
         }
       }
     }
