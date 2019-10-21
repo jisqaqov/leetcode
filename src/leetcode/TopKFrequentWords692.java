@@ -51,14 +51,12 @@ public class TopKFrequentWords692 {
       }
     }
 
-    List<String> solution = new ArrayList<>(pq);
-    solution.sort((o1, o2) -> {
-      if (counter.get(o1).equals(counter.get(o2))) {
-        return o1.compareTo(o2);
-      }
+    List<String> solution = new ArrayList<>();
+    while (!pq.isEmpty()) {
+      solution.add(pq.poll());
+    }
 
-      return counter.get(o2) - counter.get(o1);
-    });
+    Collections.reverse(solution);
 
     return solution;
   }
