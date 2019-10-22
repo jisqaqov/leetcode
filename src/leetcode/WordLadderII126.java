@@ -17,8 +17,8 @@ import java.util.Set;
  * algorithm: BFS, Backtracking, Graph, Queue, Hash Map, Array
  * time complexity: O(n)
  * space complexity: O(n)
- * Runtime: 84 ms, faster than 70.99% of Java online submissions for Word Ladder II.
- * Memory Usage: 51.6 MB, less than 34.61% of Java online submissions for Word Ladder II.
+ * Runtime: 82 ms, faster than 71.90% of Java online submissions for Word Ladder II.
+ * Memory Usage: 51.1 MB, less than 36.54% of Java online submissions for Word Ladder II.
  */
 public class WordLadderII126 {
 
@@ -51,7 +51,7 @@ public class WordLadderII126 {
 
     Map<String, Set<String>> adjList = new HashMap<>();
 
-    while (!queue.isEmpty()) {
+    while (!queue.isEmpty() && !visited.contains(endWord)) {
       int size = queue.size();
 
       for (int q = 0; q < size; q++) {
@@ -83,10 +83,6 @@ public class WordLadderII126 {
             }
           }
         }
-      }
-
-      if (visited.contains(endWord)) {
-        break;
       }
     }
 
