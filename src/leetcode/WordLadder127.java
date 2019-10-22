@@ -47,8 +47,6 @@ public class WordLadder127 {
       for (int q = 0; q < size; q++) {
         String node = queue.poll();
 
-        visited.add(node);
-
         for (int i = 0; i < node.length(); i++) {
           char[] chars = node.toCharArray();
 
