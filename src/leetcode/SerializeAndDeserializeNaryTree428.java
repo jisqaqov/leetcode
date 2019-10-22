@@ -13,8 +13,8 @@ import java.util.Queue;
  * time complexity: O(N)
  * space complexity: O(N)
  * Produces level by level in format: 1:3/3:2;2:0;4:0/5:0;6:0
- * Runtime: 13 ms, faster than 23.80% of Java online submissions for Serialize and Deserialize N-ary Tree.
- * Memory Usage: 55.6 MB, less than 5.55% of Java online submissions for Serialize and Deserialize N-ary Tree.
+ * Runtime: 12 ms, faster than 39.49% of Java online submissions for Serialize and Deserialize N-ary Tree.
+ * Memory Usage: 54.3 MB, less than 5.55% of Java online submissions for Serialize and Deserialize N-ary Tree.
  */
 public class SerializeAndDeserializeNaryTree428 {
 
@@ -45,41 +45,37 @@ public class SerializeAndDeserializeNaryTree428 {
       return null;
     }
 
-    int levels = -1;
+    int levels = 0;
     StringBuilder sb = new StringBuilder();
 
-    Queue<Object[]> queue = new ArrayDeque<>();
-    queue.add(new Object[]{root, 0});
+    Queue<Node> queue = new ArrayDeque<>();
+    queue.add(root);
 
     while (!queue.isEmpty()) {
-      Object[] arr = queue.poll();
-      Node node = (Node) arr[0];
-      int level = (int) arr[1];
+      int size = queue.size();
 
-      if (levels < level) {
-        levels = level;
+      if (levels > 0) {
+        sb.append("/");
+      }
 
-        if (sb.length() > 0) {
-          sb.append("/");
+      for (int i = 0; i < size; i++) {
+        Node node = queue.poll();
+
+        if (i > 0) {
+          sb.append(";");
         }
 
         sb.append(node.val)
           .append(":")
           .append(node.children != null? node.children.size(): 0);
-      } else {
-        sb.append(";")
-          .append(node.val)
-          .append(":")
-          .append(node.children != null? node.children.size(): 0);
+
+        queue.addAll(node.children);
       }
 
-      for (Node child : node.children) {
-        queue.add(new Object[] {child, level + 1});
-      }
+      levels++;
     }
 
     return sb.toString();
-
   }
 
   // Decodes your encoded data to tree.
