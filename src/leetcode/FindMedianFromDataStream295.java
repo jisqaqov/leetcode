@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
  * algorithm: Heap, Design
  * time complexity: O(log(n))
  * space complexity: O(n)
- * Runtime: 106 ms, faster than 93.47% of Java online submissions for Find Median from Data Stream.
- * Memory Usage: 61.8 MB, less than 91.53% of Java online submissions for Find Median from Data Stream.
+ * Runtime: 119 ms, faster than 38.80% of Java online submissions for Find Median from Data Stream.
+ * Memory Usage: 67 MB, less than 52.54% of Java online submissions for Find Median from Data Stream.
  */
 public class FindMedianFromDataStream295 {
   public static void main(String[] args) {
@@ -29,55 +29,27 @@ public class FindMedianFromDataStream295 {
   }
 
   class MedianFinder {
-    private int n = 0;
-    private double median = 0;
-    private PriorityQueue<Integer> left;
-    private PriorityQueue<Integer> right;
+    private PriorityQueue<Integer> low;
+    private PriorityQueue<Integer> high;
 
     /** initialize your data structure here. */
     public MedianFinder() {
-      left = new PriorityQueue<>((a1, a2) -> a2 - a1);
-      right = new PriorityQueue<>();
+      low = new PriorityQueue<>((a1, a2) -> a2 - a1);
+      high = new PriorityQueue<>();
     }
 
     public void addNum(int num) {
-      if (n == 0) {
-        median = num;
-      } else if (n == 1) {
-        int medianInt = (int) median;
-        left.add(Math.min(num, medianInt));
-        right.add(Math.max(num, medianInt));
-        median = (left.peek() + right.peek()) / 2.0;
-      } else {
-        if (n % 2 == 0) {
-          if (num == median) {
-            median = num;
-          } else if (num > median) {
-            right.add(num);
-            median = right.poll();
-          } else if (num < median) {
-            left.add(num);
-            median = left.poll();
-          }
-        } else {
-          int medianInt = (int) median;
-          if (num > median) {
-            right.add(num);
-            left.add(medianInt);
-          } else if (num <= median) {
-            left.add(num);
-            right.add(medianInt);
-          }
+      low.add(num);
 
-          median = (left.peek() + right.peek()) / 2.0;
-        }
+      high.add(low.poll());
+
+      if (low.size() < high.size()) {
+        low.add(high.poll());
       }
-
-      n++;
     }
 
     public double findMedian() {
-      return median;
+      return low.size() > high.size()? low.peek(): (low.peek() + high.peek()) * 0.5;
     }
   }
 
