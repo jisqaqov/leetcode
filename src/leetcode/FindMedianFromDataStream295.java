@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
  * algorithm: Heap, Design
  * time complexity: O(log(n))
  * space complexity: O(n)
- * Runtime: 117 ms, faster than 47.58% of Java online submissions for Find Median from Data Stream.
- * Memory Usage: 66.7 MB, less than 54.24% of Java online submissions for Find Median from Data Stream.
+ * Runtime: 106 ms, faster than 93.47% of Java online submissions for Find Median from Data Stream.
+ * Memory Usage: 61.8 MB, less than 91.53% of Java online submissions for Find Median from Data Stream.
  */
 public class FindMedianFromDataStream295 {
   public static void main(String[] args) {
@@ -44,9 +44,9 @@ public class FindMedianFromDataStream295 {
       if (n == 0) {
         median = num;
       } else if (n == 1) {
-        int m = (int) median;
-        left.add(Math.min(num, m));
-        right.add(Math.max(num, m));
+        int medianInt = (int) median;
+        left.add(Math.min(num, medianInt));
+        right.add(Math.max(num, medianInt));
         median = (left.peek() + right.peek()) / 2.0;
       } else {
         if (n % 2 == 0) {
@@ -60,16 +60,16 @@ public class FindMedianFromDataStream295 {
             median = left.poll();
           }
         } else {
-          int m = (int) median;
+          int medianInt = (int) median;
           if (num > median) {
             right.add(num);
-            left.add(m);
-            median = (left.peek() + right.peek()) / 2.0;
+            left.add(medianInt);
           } else if (num <= median) {
             left.add(num);
-            right.add(m);
-            median = (left.peek() + right.peek()) / 2.0;
+            right.add(medianInt);
           }
+
+          median = (left.peek() + right.peek()) / 2.0;
         }
       }
 
