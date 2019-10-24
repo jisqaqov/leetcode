@@ -9,7 +9,7 @@ import java.util.*;
  * time complexity: O(n)
  * space complexity: O(n)
  */
-public class NaryTreeLevelOrderTraversal429 {
+public class  NaryTreeLevelOrderTraversal429 {
 
     public static void main(String[] args) {
         NaryTreeLevelOrderTraversal429 solution = new NaryTreeLevelOrderTraversal429();
