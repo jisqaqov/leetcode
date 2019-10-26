@@ -105,9 +105,9 @@ public class WordBreak139 {
 
           if (memo[index] && prefix.length() < s.length()) {
             return true;
-          } else {
-            list.removeLast();
           }
+
+          list.removeLast();
         }
       }
 
