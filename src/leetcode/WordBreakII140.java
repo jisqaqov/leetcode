@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,9 @@ public class WordBreakII140 {
       wordBreak("catsanddog", new ArrayList<>(Arrays.asList("cat", "cats", "and", "sand", "dog"))));
 
     System.out.println(wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
+
+    BacktrackingApproach backtrackingApproach = new BacktrackingApproach();
+    System.out.println(backtrackingApproach.wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
   }
 
   public List<String> wordBreak(String s, List<String> words) {
@@ -96,6 +100,51 @@ public class WordBreakII140 {
     }
 
     return memo.get(index);
+  }
+
+  private static class BacktrackingApproach {
+    public List<String> wordBreak(String s, List<String> words) {
+      Set<String> set = new HashSet<>(words);
+
+      List<String> solution = new ArrayList<>();
+      LinkedList<String> list = new LinkedList<>();
+      wordBreak(s, 0, set, list, solution);
+
+      return solution;
+    }
+
+    private void wordBreak(String word, int index, Set<String> set, LinkedList<String> list,
+      List<String> solution) {
+
+      if (index == word.length()) {
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : list) {
+          if (sb.length() > 0) {
+            sb.append(" ");
+          }
+          sb.append(s);
+        }
+
+        solution.add(sb.toString());
+
+        return;
+      }
+
+      for (int i = index; i < word.length(); i++) {
+        String prefix = word.substring(index, i + 1);
+
+        if (!set.contains(prefix)) {
+          continue;
+        }
+
+        list.add(prefix);
+
+        wordBreak(word, i + 1, set, list, solution);
+
+        list.removeLast();
+      }
+    }
   }
 
 }
