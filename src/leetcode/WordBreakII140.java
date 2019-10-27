@@ -34,7 +34,7 @@ public class WordBreakII140 {
 
     AmazonProblem amazonProblem = new AmazonProblem();
     System.out.println(amazonProblem.wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
-    
+
     BacktrackingApproach backtrackingApproach = new BacktrackingApproach();
     System.out.println(backtrackingApproach.wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
   }
@@ -66,6 +66,8 @@ public class WordBreakII140 {
       return new ArrayList<>(Collections.singletonList(""));
     }
 
+    List<String> res = new ArrayList<>();
+
     for (int i = index; i < word.length(); i++) {
       String prefix = word.substring(index, i + 1);
 
@@ -76,19 +78,14 @@ public class WordBreakII140 {
       List<String> sub = wordBreak(word, i + 1, set, memo);
       if (sub != null) {
         for (String temp : sub) {
-          String s = prefix + " " + temp;
-
-          memo.putIfAbsent(index, new ArrayList<>());
-          memo.get(index).add(s.trim());
-        }
-      } else {
-        if (!memo.containsKey(index)) {
-          memo.put(index, null);
+          res.add(prefix + " " + temp.trim());
         }
       }
     }
 
-    return memo.get(index);
+    memo.put(index, res);
+
+    return res;
   }
 
   private static class AmazonProblem {
@@ -131,6 +128,8 @@ public class WordBreakII140 {
         return temp;
       }
 
+      List<List<String>> res = new ArrayList<>();
+
       for (int i = index; i < word.length(); i++) {
         String prefix = word.substring(index, i + 1);
 
@@ -141,20 +140,15 @@ public class WordBreakII140 {
         List<List<String>> sub = wordBreak(word, i + 1, set, memo);
         if (sub != null) {
           for (List<String> temp : sub) {
-            List<String> solution = new ArrayList<>();
+            List<String> list = new ArrayList<>(Collections.singleton(prefix));
+            list.addAll(temp);
 
-            solution.add(prefix);
-            solution.addAll(temp);
-
-            memo.putIfAbsent(index, new ArrayList<>());
-            memo.get(index).add(solution);
-          }
-        } else {
-          if (!memo.containsKey(index)) {
-            memo.put(index, null);
+            res.add(list);
           }
         }
       }
+
+      memo.put(index, res);
 
       return memo.get(index);
     }
