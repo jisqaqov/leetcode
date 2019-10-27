@@ -40,19 +40,7 @@ public class WordBreakII140 {
   }
 
   public List<String> wordBreak(String s, List<String> words) {
-    Set<String> set = new HashSet<>(words);
-
-    List<String> solution = new ArrayList<>();
-
-    Map<Integer, List<String>> memo = new HashMap<>();
-
-    wordBreak(s, 0, set, memo);
-
-    if (memo.get(0) != null) {
-        solution = memo.get(0);
-    }
-
-    return solution;
+    return wordBreak(s, 0, new HashSet<>(words), new HashMap<>());
   }
 
   private List<String> wordBreak(String word, int index, Set<String> set,
