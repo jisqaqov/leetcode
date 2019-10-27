@@ -138,7 +138,7 @@ public class WordBreakII140 {
 
       memo.put(index, res);
 
-      return memo.get(index);
+      return res;
     }
   }
 
