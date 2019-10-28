@@ -8,9 +8,11 @@ import java.util.Queue;
 /**
  * @author Jandos Iskakov
  * problem: 103. Binary Tree Zigzag Level Order Traversal
- * algorithm: BFS, Tree
+ * algorithm: BFS,Tree
  * time complexity: O(N)
  * space complexity: O(N)
+ * Runtime: 1 ms, faster than 98.93% of Java online submissions for Binary Tree Zigzag Level Order Traversal.
+ * Memory Usage: 36.3 MB, less than 99.04% of Java online submissions for Binary Tree Zigzag Level Order Traversal.
  */
 public class BinaryTreeZigzagLevelOrderTraversal103 {
 
@@ -32,100 +34,49 @@ public class BinaryTreeZigzagLevelOrderTraversal103 {
     node20.right = node7;
 
     System.out.println(zigzagLevelOrder(root));
-    System.out.println(new LeetcodeApproach().zigzagLevelOrder(root));
   }
 
   public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-    if (root == null) {
-      return new ArrayList<>();
-    }
-
-    byte dir = -1;
-
     List<List<Integer>> solution = new ArrayList<>();
 
-    List<TreeNode> queue = new ArrayList<>();
+    if (root == null) {
+      return solution;
+    }
+
+    boolean zigzag = true;
+
+    Queue<TreeNode> queue = new LinkedList<>();
     queue.add(root);
 
     while (!queue.isEmpty()) {
-      List<Integer> vals = new ArrayList<>();
+      LinkedList<Integer> vals = new LinkedList<>();
 
-      if (dir == -1) {
-        for (int i = 0; i < queue.size(); i++) {
-          vals.add(queue.get(i).val);
+      int len = queue.size();
+
+      for (int i = 0; i < len; i++) {
+        TreeNode node = queue.poll();
+
+        if (zigzag) {
+          vals.add(node.val);
+        } else {
+          vals.addFirst(node.val);
         }
-      } else {
-        for (int i = queue.size() - 1; i >= 0; i--) {
-          vals.add(queue.get(i).val);
-        }
-      }
 
-      dir *= -1;
-      solution.add(vals);
-
-      List<TreeNode> newQueue = new ArrayList<>();
-      for (TreeNode node : queue) {
         if (node.left != null) {
-          newQueue.add(node.left);
+          queue.add(node.left);
         }
 
         if (node.right != null) {
-          newQueue.add(node.right);
+          queue.add(node.right);
         }
       }
 
-      queue= newQueue;
+      zigzag = !zigzag;
+
+      solution.add(vals);
     }
 
     return solution;
-  }
-
-  /***
-   * This solution was taken from discussions forum
-   */
-  private static class LeetcodeApproach {
-    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-      List<List<Integer>> solution = new ArrayList<>();
-
-      if (root == null) {
-        return solution;
-      }
-
-      boolean zigzag = true;
-
-      Queue<TreeNode> queue = new LinkedList<>();
-      queue.add(root);
-
-      while (!queue.isEmpty()) {
-        LinkedList<Integer> vals = new LinkedList<>();
-
-        int len = queue.size();
-
-        for (int i = 0; i < len; i++) {
-          TreeNode node = queue.poll();
-
-          if (zigzag) {
-            vals.add(node.val);
-          } else {
-            vals.addFirst(node.val);
-          }
-
-          if (node.left != null) {
-            queue.add(node.left);
-          }
-
-          if (node.right != null) {
-            queue.add(node.right);
-          }
-        }
-
-        zigzag = !zigzag;
-
-        solution.add(vals);
-      }
-
-      return solution;
-    }
   }
 
   /**
