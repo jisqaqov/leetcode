@@ -2,85 +2,79 @@ package leetcode;
 
 /**
  * @author Jandos Iskakov
- * problem: 79. Word Search
- * algorithm: Array, Backtracking
+ * problem: 79. Word Search algorithm: Array, Backtracking
+ * time complexity: O(N*M*K)
+ * space complexity: O(N*M)
+ * Runtime: 6 ms, faster than 35.62% of Java online submissions for Word Search.
+ * Memory Usage: 38 MB, less than 100.00% of Java online submissions for Word Search.
  */
 public class WordSearch79 {
 
-    public boolean exist(char[][] board, String word) {
-        int n = board.length, m = board[0].length;
+  private static int[][] DIRS = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-        boolean[][] used = new boolean[n][m];
+  public static void main(String[] args) {
+    WordSearch79 problem = new WordSearch79();
+    problem.test();
+  }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (board[i][j] != word.charAt(0)) {
-                    continue;
-                }
+  private void test() {
+    char[][] tc1a = {{'A', 'B', 'C', 'E'},
+      {'S', 'F', 'C', 'S'},
+      {'A', 'D', 'E', 'E'}};
 
-                if (word.length() == 1)
-                    return true;
+    System.out.println(exist(tc1a, "ABCCED"));
+    System.out.println(exist(tc1a, "SEE"));
+    System.out.println(exist(tc1a, "ABCB"));
+  }
 
-                used[i][j] = true;
-                boolean exists = exist(board, word, 0, i, j, used);
+  public boolean exist(char[][] board, String word) {
+    int n = board.length, m = board[0].length;
 
-                if (exists)
-                    return true;
+    boolean[][] used = new boolean[n][m];
 
-                used[i][j] = false;
-            }
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        used[i][j] = true;
+        if (exist(board, word, 0, i, j, used)) {
+          return true;
         }
-
-        return false;
+        used[i][j] = false;
+      }
     }
 
-    private boolean exist(char[][] board, String word, int pos, int i, int j, boolean[][] used) {
-        int n = board.length, m = board[0].length;
+    return false;
+  }
 
-        if (pos >= word.length() - 1)
-            return true;
+  private boolean exist(char[][] board, String word, int pos, int i, int j, boolean[][] used) {
+    int n = board.length;
+    int m = board[i].length;
 
-        if (j < m - 1 && board[i][j + 1] == word.charAt(pos + 1) && !used[i][j + 1]) {
-            used[i][j + 1] = true;
-            boolean exists = exist(board, word, pos + 1, i, j + 1, used);
-            used[i][j + 1] = false;
-
-            if (exists) {
-                return true;
-            }
-        }
-
-        if (j > 0 && board[i][j - 1] == word.charAt(pos + 1) && !used[i][j - 1]) {
-            used[i][j - 1] = true;
-            boolean exists = exist(board, word, pos + 1, i, j - 1, used);
-            used[i][j - 1] = false;
-
-            if (exists) {
-                return true;
-            }
-        }
-
-        if (i > 0 && board[i - 1][j] == word.charAt(pos + 1) && !used[i - 1][j]) {
-            used[i - 1][j] = true;
-            boolean exists = exist(board, word, pos + 1, i - 1, j, used);
-            used[i - 1][j] = false;
-
-            if (exists) {
-                return true;
-            }
-        }
-
-        if (i < n - 1 && board[i + 1][j] == word.charAt(pos + 1) && !used[i + 1][j]) {
-            used[i + 1][j] = true;
-            boolean exists = exist(board, word, pos + 1, i + 1, j, used);
-            used[i + 1][j] = false;
-
-            if (exists) {
-                return true;
-            }
-        }
-
-        return false;
+    if (word.charAt(pos) != board[i][j]) {
+      return false;
     }
+
+    if (pos == word.length() - 1) {
+      return true;
+    }
+
+    for (int[] dir : DIRS) {
+      int i2 = i + dir[0];
+      int j2 = j + dir[1];
+
+      if (i2 < 0 || j2 < 0 || i2 >= n || j2 >= m || used[i2][j2]) {
+        continue;
+      }
+
+      used[i2][j2] = true;
+
+      if (exist(board, word, pos + 1, i2, j2, used)) {
+        return true;
+      }
+
+      used[i2][j2] = false;
+    }
+
+    return false;
+  }
 
 }
