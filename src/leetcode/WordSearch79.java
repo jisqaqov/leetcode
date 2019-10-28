@@ -10,8 +10,6 @@ package leetcode;
  */
 public class WordSearch79 {
 
-  private static int[][] DIRS = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-
   public static void main(String[] args) {
     WordSearch79 problem = new WordSearch79();
     problem.test();
@@ -34,11 +32,9 @@ public class WordSearch79 {
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        used[i][j] = true;
         if (exist(board, word, 0, i, j, used)) {
           return true;
         }
-        used[i][j] = false;
       }
     }
 
@@ -47,32 +43,30 @@ public class WordSearch79 {
 
   private boolean exist(char[][] board, String word, int pos, int i, int j, boolean[][] used) {
     int n = board.length;
-    int m = board[i].length;
+    int m = board[0].length;
+
+    if (pos == word.length()) {
+      return true;
+    }
+
+    if (i < 0 || j < 0 || i >= n || j >= m || used[i][j]) {
+      return false;
+    }
 
     if (word.charAt(pos) != board[i][j]) {
       return false;
     }
 
-    if (pos == word.length() - 1) {
+    used[i][j] = true;
+
+    if (exist(board, word, pos + 1, i - 1, j, used) ||
+      exist(board, word, pos + 1, i + 1, j, used) ||
+      exist(board, word, pos + 1, i, j - 1, used) ||
+      exist(board, word, pos + 1, i, j + 1, used)) {
       return true;
     }
 
-    for (int[] dir : DIRS) {
-      int i2 = i + dir[0];
-      int j2 = j + dir[1];
-
-      if (i2 < 0 || j2 < 0 || i2 >= n || j2 >= m || used[i2][j2]) {
-        continue;
-      }
-
-      used[i2][j2] = true;
-
-      if (exist(board, word, pos + 1, i2, j2, used)) {
-        return true;
-      }
-
-      used[i2][j2] = false;
-    }
+    used[i][j] = false;
 
     return false;
   }
