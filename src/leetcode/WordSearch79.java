@@ -5,8 +5,8 @@ package leetcode;
  * problem: 79. Word Search algorithm: Array, Backtracking
  * time complexity: O(N*M*K)
  * space complexity: O(N*M)
- * Runtime: 6 ms, faster than 35.62% of Java online submissions for Word Search.
- * Memory Usage: 38 MB, less than 100.00% of Java online submissions for Word Search.
+ * Runtime: 4 ms, faster than 88.61% of Java online submissions for Word Search.
+ * Memory Usage: 38.2 MB, less than 97.96% of Java online submissions for Word Search.
  */
 public class WordSearch79 {
 
@@ -59,16 +59,14 @@ public class WordSearch79 {
 
     used[i][j] = true;
 
-    if (exist(board, word, pos + 1, i - 1, j, used) ||
+    boolean exists = exist(board, word, pos + 1, i - 1, j, used) ||
       exist(board, word, pos + 1, i + 1, j, used) ||
       exist(board, word, pos + 1, i, j - 1, used) ||
-      exist(board, word, pos + 1, i, j + 1, used)) {
-      return true;
-    }
+      exist(board, word, pos + 1, i, j + 1, used);
 
     used[i][j] = false;
 
-    return false;
+    return exists;
   }
 
 }
