@@ -13,6 +13,8 @@ import java.util.Set;
  * algorithm: Graph, Topological Sort
  * time complexity: O(V + E + |words|)
  * space complexity: O(V + E + |words|)
+ * Runtime: 4 ms, faster than 75.97% of Java online submissions for Alien Dictionary.
+ * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
  */
 public class AlienDictionary269 {
 
