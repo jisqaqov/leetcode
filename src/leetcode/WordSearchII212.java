@@ -1,6 +1,11 @@
 package leetcode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * based on solutions from discussions:
@@ -11,114 +16,118 @@ import java.util.*;
  */
 public class WordSearchII212 {
 
-    public static void main(String[] args) {
-        WordSearchII212 solution = new WordSearchII212();
-        solution.test();
+  public static void main(String[] args) {
+    WordSearchII212 solution = new WordSearchII212();
+    solution.test();
+  }
+
+  public void test() {
+    char[][] tc1board = {
+      {'o', 'a', 'a', 'n'},
+      {'e', 't', 'a', 'e'},
+      {'i', 'h', 'k', 'r'},
+      {'i', 'f', 'l', 'v'}
+    };
+
+    String[] tc1words = {"oathv", "oath", "pea", "eat", "rain"};
+
+    System.out.println(findWords(tc1board, tc1words));
+
+    char[][] tc2board = {
+      {'a', 'a'}
+    };
+
+    String[] tc2words = {"aaa"};
+
+    System.out.println(findWords(tc2board, tc2words));
+  }
+
+  public List<String> findWords(char[][] board, String[] words) {
+    List<String> solution = new ArrayList<>();
+    if (words.length == 0) {
+      return solution;
     }
 
-    public void test() {
-        char[][] tc1board = {
-                {'o', 'a', 'a', 'n'},
-                {'e', 't', 'a', 'e'},
-                {'i', 'h', 'k', 'r'},
-                {'i', 'f', 'l', 'v'}
-        };
-
-        String[] tc1words = {"oathv", "oath", "pea","eat","rain"};
-
-        System.out.println(findWords(tc1board, tc1words));
-
-        char[][] tc2board = {
-                {'a', 'a'}
-        };
-
-        String[] tc2words = {"aaa"};
-
-        System.out.println(findWords(tc2board, tc2words));
+    Trie trie = new Trie();
+    for (String word : words) {
+      trie.add(word);
     }
 
-    public List<String> findWords(char[][] board, String[] words) {
-        List<String> solution = new ArrayList<>();
-        if (words.length == 0) {
-            return solution;
-        }
+    int n = board.length, m = board[0].length;
 
-        Trie trie = new Trie();
-        for (String word : words) {
-            trie.add(word);
-        }
+    boolean[][] used = new boolean[n][m];
 
-        int n = board.length, m = board[0].length;
+    Set<String> set = new HashSet<>();
 
-        boolean[][] used = new boolean[n][m];
-
-        Set<String> set = new HashSet<>();
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                exist(i, j, board, used, trie.root, set);
-            }
-        }
-
-        return new ArrayList<>(set);
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        exist(i, j, board, used, trie.root, set);
+      }
     }
 
-    private void exist(int i, int j, char[][] board, boolean[][] used, TrieNode trieNode, Set<String> set) {
-        int n = board.length, m = board[0].length;
+    return new ArrayList<>(set);
+  }
 
-        if (i < 0 || i >= n || j < 0 || j >= m || used[i][j] || !trieNode.map.containsKey(board[i][j])) {
-            return;
-        }
+  private void exist(int i, int j, char[][] board, boolean[][] used, TrieNode trieNode,
+    Set<String> set) {
+    int n = board.length, m = board[0].length;
 
-        trieNode = trieNode.map.get(board[i][j]);
-        if (trieNode.isWord) {
-            set.add(trieNode.word);
-        }
-
-        used[i][j] = true;
-
-        exist(i, j + 1, board, used, trieNode, set);
-        exist(i, j - 1, board, used, trieNode, set);
-        exist(i + 1, j, board, used, trieNode, set);
-        exist(i - 1, j, board, used, trieNode, set);
-
-        used[i][j] = false;
+    if (i < 0 || i >= n || j < 0 || j >= m || used[i][j] || !trieNode.map
+      .containsKey(board[i][j])) {
+      return;
     }
 
-    private static class TrieNode {
-        Character ch;
-        boolean isWord = false;
-        String word;
-        Map<Character, TrieNode> map = new HashMap<>();
-
-        TrieNode() {
-        }
-
-        TrieNode(char ch) {
-            this.ch = ch;
-        }
+    trieNode = trieNode.map.get(board[i][j]);
+    if (trieNode.isWord) {
+      set.add(trieNode.word);
     }
 
-    private static class Trie {
-        private TrieNode root = new TrieNode();
+    used[i][j] = true;
 
-        void add(String word) {
-            TrieNode node = root;
+    exist(i, j + 1, board, used, trieNode, set);
+    exist(i, j - 1, board, used, trieNode, set);
+    exist(i + 1, j, board, used, trieNode, set);
+    exist(i - 1, j, board, used, trieNode, set);
 
-            for (int i = 0; i < word.length(); i++) {
-                char ch = word.charAt(i);
+    used[i][j] = false;
+  }
 
-                if (node.map.containsKey(ch)) {
-                    node = node.map.get(ch);
-                } else {
-                    node.map.put(ch, new TrieNode(ch));
-                    node = node.map.get(ch);
-                }
-            }
+  private static class TrieNode {
 
-            node.isWord = true;
-            node.word = word;
-        }
+    Character ch;
+    boolean isWord = false;
+    String word;
+    Map<Character, TrieNode> map = new HashMap<>();
+
+    TrieNode() {
     }
+
+    TrieNode(char ch) {
+      this.ch = ch;
+    }
+  }
+
+  private static class Trie {
+
+    private TrieNode root = new TrieNode();
+
+    void add(String word) {
+      TrieNode node = root;
+
+      for (int i = 0; i < word.length(); i++) {
+        char ch = word.charAt(i);
+
+        if (node.map.containsKey(ch)) {
+          node = node.map.get(ch);
+        } else {
+          node.map.put(ch, new TrieNode(ch));
+          node = node.map.get(ch);
+        }
+      }
+
+      node.isWord = true;
+      node.word = word;
+    }
+  }
 
 }
