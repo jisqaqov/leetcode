@@ -105,7 +105,7 @@ public class AlienDictionary269 {
     Set<Character> explored = new HashSet<>();
 
     for (Character node : adjList.keySet()) {
-      if (!visited.contains(node) && dfs(node, adjList, visited, explored)) {
+      if (!visited.contains(node) && isCyclic(node, adjList, visited, explored)) {
         return true;
       }
     }
@@ -113,7 +113,7 @@ public class AlienDictionary269 {
     return false;
   }
 
-  private boolean dfs(char s, Map<Character, Set<Character>> adjList,
+  private boolean isCyclic(char s, Map<Character, Set<Character>> adjList,
     Set<Character> visited, Set<Character> explored) {
     visited.add(s);
 
@@ -123,7 +123,7 @@ public class AlienDictionary269 {
           return true;
         }
 
-        if (!visited.contains(adj) && dfs(adj, adjList, visited, explored)) {
+        if (!visited.contains(adj) && isCyclic(adj, adjList, visited, explored)) {
           return true;
         }
       }
