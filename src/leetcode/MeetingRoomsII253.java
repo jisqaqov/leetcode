@@ -10,8 +10,8 @@ import java.util.PriorityQueue;
  * algorithm: Sort, Heap
  * time complexity: O(n*log(n))
  * space complexity: O(n)
- * Runtime: 42 ms, faster than 6.20% of Java online submissions for Meeting Rooms II.
- * Memory Usage: 37.1 MB, less than 71.79% of Java online submissions for Meeting Rooms II.
+ * Runtime: 2 ms, faster than 100.00% of Java online submissions for Meeting Rooms II.
+ * Memory Usage: 38 MB, less than 50.00% of Java online submissions for Meeting Rooms II.
  */
 public class MeetingRoomsII253 {
 
@@ -28,13 +28,61 @@ public class MeetingRoomsII253 {
       {300, 5870}};
     int[][] tc5intervals = {{1, 5}, {8, 9}, {8, 9}};
 
-    HeapApproach problem = new HeapApproach();
+    TwoPointerApproach problem = new TwoPointerApproach();
 
     System.out.println(problem.minMeetingRooms(tc1intervals));
     System.out.println(problem.minMeetingRooms(tc2intervals));
     System.out.println(problem.minMeetingRooms(tc3intervals));
     System.out.println(problem.minMeetingRooms(tc4intervals));
     System.out.println(problem.minMeetingRooms(tc5intervals));
+  }
+
+  private static class TwoPointerApproach {
+
+    public int minMeetingRooms(int[][] intervals) {
+      int n = intervals.length;
+
+      int[] start = new int[n];
+      int[] end = new int[n];
+
+      for (int i = 0; i < n; i++) {
+        start[i] = intervals[i][0];
+        end[i] = intervals[i][1];
+      }
+
+      Arrays.sort(start);
+      Arrays.sort(end);
+
+      int len = 0;
+      int i = 0;
+      int j = 0;
+      int count = 0;
+
+      while (i < n && j < n) {
+        if (start[i] < end[j]) {
+          count++;
+          i++;
+
+          len = Math.max(len, count);
+        } else {
+          count--;
+          j++;
+        }
+      }
+
+      return len;
+    }
+
+    private static class Time {
+
+      int val;
+      int type;
+
+      Time(int val, int type) {
+        this.val = val;
+        this.type = type;
+      }
+    }
   }
 
   private static class SortApproach {
