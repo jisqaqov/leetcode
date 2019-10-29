@@ -41,9 +41,8 @@ public class CheckCompletenessOfBinaryTree958 {
       return true;
     }
 
-    int n = 1;
-    int maxHeight = maxHeight(root);
     int height = 1;
+    int maxHeight = maxHeight(root);
 
     boolean emptyNode = false;
 
@@ -53,12 +52,7 @@ public class CheckCompletenessOfBinaryTree958 {
     while (!queue.isEmpty()) {
       int size = queue.size();
 
-      if (height < maxHeight && size < n) {
-        return false;
-      }
-
       height++;
-      n *= 2;
 
       for (int i = 0; i < size; i++) {
         TreeNode node = queue.poll();
