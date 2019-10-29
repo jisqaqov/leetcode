@@ -41,54 +41,84 @@ public class CheckCompletenessOfBinaryTree958 {
       return true;
     }
 
-    int height = 1;
-    int maxHeight = maxHeight(root);
-
     boolean emptyNode = false;
 
     Queue<TreeNode> queue = new LinkedList<>();
     queue.add(root);
 
     while (!queue.isEmpty()) {
-      int size = queue.size();
+      TreeNode node = queue.poll();
 
-      height++;
-
-      for (int i = 0; i < size; i++) {
-        TreeNode node = queue.poll();
-
-        if (height < maxHeight) {
-          if (node.left == null || node.right == null) {
-            return false;
-          }
-
-          queue.add(node.left);
-          queue.add(node.right);
-        } else {
-          if (node.left == null && node.right != null) {
-            return false;
-          }
-
-          if (emptyNode && (node.left != null || node.right != null)) {
-            return false;
-          }
-
-          if (!emptyNode && (node.left == null || node.right == null)) {
-            emptyNode = true;
-          }
+      if (node == null) {
+        emptyNode = true;
+      } else {
+        if (emptyNode) {
+          return false;
         }
+
+        queue.add(node.left);
+        queue.add(node.right);
       }
     }
 
     return true;
   }
 
-  private int maxHeight(TreeNode root) {
-    if (root == null) {
-      return 0;
+  private static class ApproachV2 {
+    public boolean isCompleteTree(TreeNode root) {
+      if (root == null) {
+        return true;
+      }
+
+      int height = 1;
+      int maxHeight = maxHeight(root);
+
+      boolean emptyNode = false;
+
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.add(root);
+
+      while (!queue.isEmpty()) {
+        int size = queue.size();
+
+        height++;
+
+        for (int i = 0; i < size; i++) {
+          TreeNode node = queue.poll();
+
+          if (height < maxHeight) {
+            if (node.left == null || node.right == null) {
+              return false;
+            }
+
+            queue.add(node.left);
+            queue.add(node.right);
+          } else {
+            if (node.left == null && node.right != null) {
+              return false;
+            }
+
+            if (emptyNode && (node.left != null || node.right != null)) {
+              return false;
+            }
+
+            if (!emptyNode && (node.left == null || node.right == null)) {
+              emptyNode = true;
+            }
+          }
+        }
+      }
+
+      return true;
     }
 
-    return 1 + Math.max(maxHeight(root.left), maxHeight(root.right));
+    private int maxHeight(TreeNode root) {
+      if (root == null) {
+        return 0;
+      }
+
+      return 1 + Math.max(maxHeight(root.left), maxHeight(root.right));
+    }
   }
 
   /*
