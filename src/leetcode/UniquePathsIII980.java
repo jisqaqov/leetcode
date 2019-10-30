@@ -4,7 +4,7 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 980. Unique Paths III
  * algorithm: Backtracking
- * time complexity: O(N*M^(N*M))
+ * time complexity: O(4^(N*M))
  * space complexity: O(N*M)
  * Runtime: 1 ms, faster than 79.16% of Java online submissions for Unique Paths III.
  * Memory Usage: 34.1 MB, less than 100.00% of Java online submissions for Unique Paths III.
