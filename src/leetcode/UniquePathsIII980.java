@@ -64,8 +64,6 @@ public class UniquePathsIII980 {
 
     if (grid[i][j] == 2 && k == -1) {
       return 1;
-    } else if (grid[i][j] == 2 && k >= 0) {
-      return 0;
     }
 
     used[i][j] = true;
