@@ -32,18 +32,18 @@ public class BinaryTreeMaximumPathSum124 {
   public int maxPathSum(TreeNode root) {
     maxGlobal = Integer.MIN_VALUE;
 
-    calcMaxPathSum(root);
+    helper(root);
 
     return maxGlobal;
   }
 
-  public int calcMaxPathSum(TreeNode root) {
+  public int helper(TreeNode root) {
     if (root == null) {
       return 0;
     }
 
-    int maxLeft = calcMaxPathSum(root.left);
-    int maxRight = calcMaxPathSum(root.right);
+    int maxLeft = helper(root.left);
+    int maxRight = helper(root.right);
 
     int maxLocal = Math.max(root.val, Math.max(root.val + maxLeft, root.val + maxRight));
 
