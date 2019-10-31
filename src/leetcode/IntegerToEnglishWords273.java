@@ -40,7 +40,7 @@ public class IntegerToEnglishWords273 {
 
     while (num > 0) {
       if (num % 1000 != 0) {
-        s = convert(num % 1000).trim() + " " + THOUSANDS[i] + " " + s;
+        s = convertLessThan1000(num % 1000).trim() + " " + THOUSANDS[i] + " " + s;
       }
 
       i++;
@@ -50,15 +50,15 @@ public class IntegerToEnglishWords273 {
     return s.trim();
   }
 
-  private String convert(int n) {
+  private String convertLessThan1000(int n) {
     if (n == 0) {
       return "";
     } else if (n < 20) {
       return NUMS[n] + " ";
     } else if (n < 100) {
-      return TENS[n / 10] + " " + convert(n % 10);
+      return TENS[n / 10] + " " + convertLessThan1000(n % 10);
     } else {
-      return NUMS[n / 100] + " Hundred " + convert(n % 100);
+      return NUMS[n / 100] + " Hundred " + convertLessThan1000(n % 100);
     }
   }
 
