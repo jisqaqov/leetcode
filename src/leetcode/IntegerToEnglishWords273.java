@@ -54,7 +54,7 @@ public class IntegerToEnglishWords273 {
     if (n == 0) {
       return "";
     } else if (n < 20) {
-      return NUMS[n];
+      return NUMS[n] + " ";
     } else if (n < 100) {
       return TENS[n / 10] + " " + convert(n % 10);
     } else {
