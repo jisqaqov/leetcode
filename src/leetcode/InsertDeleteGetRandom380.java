@@ -12,8 +12,8 @@ import java.util.Random;
  * algorithm: Hash Table
  * time complexity: O(1)
  * space complexity: O(N)
- * Runtime: 56 ms, faster than 29.27% of Java online submissions for Insert Delete GetRandom O(1).
- * Memory Usage: 44.2 MB, less than 94.00% of Java online submissions for Insert Delete GetRandom O(1).
+ * Runtime: 53 ms, faster than 81.50% of Java online submissions for Insert Delete GetRandom O(1).
+ * Memory Usage: 45.1 MB, less than 84.00% of Java online submissions for Insert Delete GetRandom O(1).
  */
 public class InsertDeleteGetRandom380 {
 
