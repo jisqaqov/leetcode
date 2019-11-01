@@ -1,6 +1,8 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -42,14 +44,13 @@ public class InsertDeleteGetRandom380 {
     private Random random = new Random();
     private static final double THRESHOLD = 0.7;
 
-    int index = -1;
     Map<Integer, Integer> valueMap;
-    Map<Integer, Integer> indexMap;
+    List<Integer> indexes;
 
     /** Initialize your data structure here. */
     public RandomizedSet() {
       valueMap = new HashMap<>();
-      indexMap = new HashMap<>();
+      indexes = new ArrayList<>();
     }
 
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
@@ -58,10 +59,8 @@ public class InsertDeleteGetRandom380 {
         return false;
       }
 
-      index++;
-
-      valueMap.put(val, index);
-      indexMap.put(index, val);
+      valueMap.put(val, indexes.size());
+      indexes.add(val);
 
       return true;
     }
@@ -75,7 +74,7 @@ public class InsertDeleteGetRandom380 {
       int valIndex = valueMap.get(val);
 
       valueMap.remove(val);
-      indexMap.remove(valIndex);
+      indexes.set(valIndex, null);
 
       reIndex();
 
@@ -84,24 +83,21 @@ public class InsertDeleteGetRandom380 {
 
     private void reIndex() {
       if (valueMap.size() == 0) {
-        indexMap.clear();
-        index = -1;
+        indexes.clear();
 
         return;
       }
 
-      int mod = (index - valueMap.size() - 1) / valueMap.size();
+      int mod = (indexes.size() - valueMap.size() - 1) / valueMap.size();
       if (mod < THRESHOLD) {
         return;
       }
 
-      indexMap.clear();
+      indexes.clear();
 
-      index = -1;
       for (int val : valueMap.keySet()) {
-        index++;
-        valueMap.put(val, index);
-        indexMap.put(index, val);
+        valueMap.put(val, indexes.size());
+        indexes.add(val);
       }
     }
 
@@ -113,10 +109,10 @@ public class InsertDeleteGetRandom380 {
 
       int randomIndex = -1;
       do {
-        randomIndex = random.nextInt(index + 1);
-      } while (!indexMap.containsKey(randomIndex));
+        randomIndex = random.nextInt(indexes.size());
+      } while (indexes.get(randomIndex) == null);
 
-      return indexMap.get(randomIndex);
+      return indexes.get(randomIndex);
     }
   }
 
