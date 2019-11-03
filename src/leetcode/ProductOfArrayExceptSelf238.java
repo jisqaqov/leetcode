@@ -22,10 +22,12 @@ public class ProductOfArrayExceptSelf238 {
     int[] tc1a = {1, 2, 3, 4};
     TestUtils.printArray(productExceptSelf(tc1a));
     TestUtils.printArray(productExceptSelfV2(tc1a));
+    TestUtils.printArray(productExceptSelfV3(tc1a));
 
     int[] tc2a = {2, 3};
     TestUtils.printArray(productExceptSelf(tc2a));
     TestUtils.printArray(productExceptSelfV2(tc2a));
+    TestUtils.printArray(productExceptSelfV3(tc2a));
   }
 
   public int[] productExceptSelf(int[] nums) {
@@ -43,13 +45,33 @@ public class ProductOfArrayExceptSelf238 {
       int right = i < n - 1 ? output[i + 1] : 1;
       output[i] = left * right;
 
-      left = left * nums[i];
+      left *= nums[i];
     }
 
     return output;
   }
 
   public int[] productExceptSelfV2(int[] nums) {
+    int n = nums.length;
+    int[] output = new int[n];
+
+    output[0] = 1;
+
+    for (int i = 1; i < n; i++) {
+      output[i] = output[i - 1] * nums[i - 1];
+    }
+
+    int right = 1;
+    for (int i = n - 1; i >= 0; i--) {
+      output[i] = output[i] * right;
+
+      right *= nums[i];
+    }
+
+    return output;
+  }
+
+  public int[] productExceptSelfV3(int[] nums) {
     int n = nums.length;
 
     int[] left = new int[n];
