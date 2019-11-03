@@ -14,10 +14,22 @@ public class DesignTicTacToe348 {
   public static void main(String[] args) {
     DesignTicTacToe348 problem = new DesignTicTacToe348();
     problem.test();
+    problem.test2();
   }
 
   private void test() {
     TicTacToe toe = new TicTacToe(3);
+    System.out.println(toe.move(0, 0, 1));
+    System.out.println(toe.move(0, 2, 2));
+    System.out.println(toe.move(2, 2, 1));
+    System.out.println(toe.move(1, 1, 2));
+    System.out.println(toe.move(2, 0, 1));
+    System.out.println(toe.move(1, 0, 2));
+    System.out.println(toe.move(2, 1, 1));
+  }
+
+  private void test2() {
+    TicTacToeV2 toe = new TicTacToeV2(3);
     System.out.println(toe.move(0, 0, 1));
     System.out.println(toe.move(0, 2, 2));
     System.out.println(toe.move(2, 2, 1));
@@ -67,6 +79,55 @@ public class DesignTicTacToe348 {
 
       if (rows[row][player - 1] == n || cols[col][player - 1] == n ||
         diags[0][player - 1] == n || diags[1][player - 1] == n) {
+        return player;
+      }
+
+      return 0;
+    }
+  }
+
+  class TicTacToeV2 {
+
+    int[] rows;
+    int[] cols;
+    int[] diags;
+    int n;
+
+    /**
+     * Initialize your data structure here.
+     */
+    public TicTacToeV2(int n) {
+      this.rows = new int[n];
+      this.cols = new int[n];
+      this.diags = new int[2];
+      this.n = n;
+    }
+
+    /**
+     * Player {player} makes a move at ({row}, {col}).
+     *
+     * @param row The row of the board.
+     * @param col The column of the board.
+     * @param player The player, can be either 1 or 2.
+     * @return The current winning condition, can be either: 0: No one wins. 1: Player 1 wins. 2:
+     * Player 2 wins.
+     */
+    public int move(int row, int col, int player) {
+      int val = player == 1? 1: -1;
+
+      rows[row] += val;
+      cols[col] += val;
+
+      if (row == col) {
+        diags[0] += val;
+      }
+
+      if (col == n - row - 1) {
+        diags[1] += val;
+      }
+
+      if (Math.abs(rows[row]) == n || Math.abs(cols[col]) == n ||
+        Math.abs(diags[0]) == n || Math.abs(diags[1]) == n) {
         return player;
       }
 
