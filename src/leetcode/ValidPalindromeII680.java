@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: String
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 13 ms, faster than 9.43% of Java online submissions for Valid Palindrome II.
- * Memory Usage: 38.6 MB, less than 100.00% of Java online submissions for Valid Palindrome II.
+ * Runtime: 10 ms, faster than 30.76% of Java online submissions for Valid Palindrome II.
+ * Memory Usage: 38.8 MB, less than 97.22% of Java online submissions for Valid Palindrome II.
  */
 public class ValidPalindromeII680 {
 
