@@ -6,7 +6,7 @@ package leetcode;
  * algorithm: String
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 11 ms, faster than 21.17% of Java online submissions for Valid Palindrome II.
+ * Runtime: 13 ms, faster than 9.43% of Java online submissions for Valid Palindrome II.
  * Memory Usage: 38.6 MB, less than 100.00% of Java online submissions for Valid Palindrome II.
  */
 public class ValidPalindromeII680 {
@@ -26,22 +26,19 @@ public class ValidPalindromeII680 {
     for (int i = 0; i < s.length()/2; i++) {
       int j = s.length() - i - 1;
       if (s.charAt(i) != s.charAt(j)) {
-        return isPalindrome(i + 1, j, s) ||
-          isPalindrome(i, j - 1, s);
+        return isPalindrome(s.substring(i + 1, j + 1)) ||
+          isPalindrome(s.substring(i, j));
       }
     }
 
     return true;
   }
 
-  private boolean isPalindrome(int i, int j, String s) {
-    int n = j - i + 1;
-    for (int k = i; k < i + n/2; k++) {
-      if (s.charAt(k) != s.charAt(j)) {
+  private boolean isPalindrome(String s) {
+    for (int i = 0; i < s.length() / 2; i++) {
+      if (s.charAt(i) != s.charAt(s.length() - i - 1)) {
         return false;
       }
-
-      j--;
     }
 
     return true;
