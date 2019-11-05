@@ -6,7 +6,8 @@ package leetcode;
  * algorithm: Linked List, Tree
  * time complexity: O(N)
  * space complexity: O(N)
- * 
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Convert Binary Search Tree to Sorted Doubly Linked List.
+ * Memory Usage: 39.2 MB, less than 6.90% of Java online submissions for Convert Binary Search Tree to Sorted Doubly Linked List.
  */
 public class ConvertBstToSortedDll426 {
 
@@ -15,15 +16,18 @@ public class ConvertBstToSortedDll426 {
     problem.test();
   }
 
-  Node left = null;
+  private Node left = null;
+  private Node head = null;
 
   public Node treeToDoublyList(Node root) {
-    Node head = new Node();
-    treeToDoublyList(root, head);
+    head = null;
+    left = null;
 
-    head = head.right;
+    inOrderTraverse(root);
+
     Node tail = head;
     while (tail.right != null) {
+      tail.right.left = tail;
       tail = tail.right;
     }
 
@@ -48,19 +52,27 @@ public class ConvertBstToSortedDll426 {
     System.out.println(treeToDoublyList(root));
   }
 
-  public void treeToDoublyList(Node root, Node leftNode) {
+  private void inOrderTraverse(Node root) {
     if (root == null) {
       return;
     }
 
-    treeToDoublyList(root.left, null);
+    inOrderTraverse(root.left);
 
     Node listNode = new Node();
     listNode.val = root.val;
-    listNode.left = leftNode;
-    leftNode.right = listNode;
 
-    treeToDoublyList(root.right, null);
+    if (left != null) {
+      left.right = listNode;
+    }
+
+    if (head == null) {
+      head = listNode;
+    }
+
+    left = listNode;
+
+    inOrderTraverse(root.right);
   }
 
   /**
