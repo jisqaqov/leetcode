@@ -31,7 +31,7 @@ public class ConvertBstToSortedDll426 {
     node2.left = node1;
     node2.right = node3;
 
-    System.out.println(treeToDoublyList(root));
+    treeToDoublyList(root);
     System.out.println(new RecursiveVersion().treeToDoublyList(root));
   }
 
@@ -44,7 +44,7 @@ public class ConvertBstToSortedDll426 {
     Node node = root;
 
     Node head = null;
-    Node prev = null;
+    Node tail = null;
 
     while (node != null || !deque.isEmpty()) {
       while (node != null) {
@@ -54,24 +54,18 @@ public class ConvertBstToSortedDll426 {
 
       node = deque.pop();
 
-      Node listNode = new Node();
-      listNode.val = node.val;
-      listNode.left = prev;
-
-      if (prev != null) {
-        prev.right = listNode;
-      }
-
       if (head == null) {
-        head = listNode;
+        head = node;
+      } else {
+        tail.right = node;
+        node.left = tail;
       }
 
-      prev = listNode;
+      tail = node;
 
       node = node.right;
     }
 
-    Node tail = prev;
     head.left = tail;
     tail.right = head;
 
@@ -79,20 +73,18 @@ public class ConvertBstToSortedDll426 {
   }
 
   private static class RecursiveVersion {
-    private Node left = null;
+    private Node tail = null;
     private Node head = null;
 
     public Node treeToDoublyList(Node root) {
+      if (root == null) {
+        return null;
+      }
+
       head = null;
-      left = null;
+      tail = null;
 
       inOrderTraverse(root);
-
-      Node tail = head;
-      while (tail.right != null) {
-        tail.right.left = tail;
-        tail = tail.right;
-      }
 
       head.left = tail;
       tail.right = head;
@@ -107,18 +99,14 @@ public class ConvertBstToSortedDll426 {
 
       inOrderTraverse(root.left);
 
-      Node listNode = new Node();
-      listNode.val = root.val;
-
-      if (left != null) {
-        left.right = listNode;
-      }
-
       if (head == null) {
-        head = listNode;
+        head = root;
+      } else {
+        tail.right = root;
+        root.left = tail;
       }
 
-      left = listNode;
+      tail = root;
 
       inOrderTraverse(root.right);
     }
