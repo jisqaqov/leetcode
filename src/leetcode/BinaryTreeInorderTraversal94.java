@@ -36,6 +36,7 @@ public class BinaryTreeInorderTraversal94 {
     node2.right = node3;
 
     System.out.println(new RecursiveVersion().inorderTraversal(root));
+    System.out.println(new IterativeVersion().inorderTraversal(root));
   }
 
   private static class RecursiveVersion {
@@ -57,37 +58,26 @@ public class BinaryTreeInorderTraversal94 {
   }
 
   private static class IterativeVersion {
-    public List<Integer> inorderTraversal2(TreeNode root) {
-      List<Integer> vals = new ArrayList<>();
-
-      Set<TreeNode> set = new HashSet<>();
+    public List<Integer> inorderTraversal(TreeNode root) {
+      List<Integer> values = new ArrayList<>();
 
       Deque<TreeNode> deque = new ArrayDeque<>();
-      if (root != null) {
-        deque.push(root);
-      }
+      TreeNode node = root;
 
-      while (!deque.isEmpty()) {
-        TreeNode node = deque.peek();
-
-        if (node.left == null || set.contains(node.left)) {
-          deque.pop();
-          if (node.right != null) {
-            deque.push(node.right);
-          }
-
-          set.add(node);
-          vals.add(node.val);
-        } else if (!set.contains(node.left)) {
-          deque.push(node.left);
+      while (node != null || !deque.isEmpty()) {
+        while (node != null) {
+          deque.push(node);
+          node = node.left;
         }
+
+        node = deque.pop();
+        values.add(node.val);
+        node = node.right;
       }
 
-      return vals;
+      return values;
     }
   }
-
-
 
   /**
    * Definition for a binary tree node.
