@@ -1,40 +1,22 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Jandos Iskakov
  * problem: 426. Convert Binary Search Tree to Sorted Doubly Linked List
- * algorithm: Linked List, Tree
+ * algorithm: Linked List, Tree, Stack
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions for Convert Binary Search Tree to Sorted Doubly Linked List.
- * Memory Usage: 39.2 MB, less than 6.90% of Java online submissions for Convert Binary Search Tree to Sorted Doubly Linked List.
+ * Memory Usage: 38.5 MB, less than 6.90% of Java online submissions for Convert Binary Search Tree to Sorted Doubly Linked List.
  */
 public class ConvertBstToSortedDll426 {
 
   public static void main(String[] args) {
     ConvertBstToSortedDll426 problem = new ConvertBstToSortedDll426();
     problem.test();
-  }
-
-  private Node left = null;
-  private Node head = null;
-
-  public Node treeToDoublyList(Node root) {
-    head = null;
-    left = null;
-
-    inOrderTraverse(root);
-
-    Node tail = head;
-    while (tail.right != null) {
-      tail.right.left = tail;
-      tail = tail.right;
-    }
-
-    head.left = tail;
-    tail.right = head;
-
-    return head;
   }
 
   private void test() {
@@ -50,35 +32,102 @@ public class ConvertBstToSortedDll426 {
     node2.right = node3;
 
     System.out.println(treeToDoublyList(root));
+    System.out.println(new RecursiveVersion().treeToDoublyList(root));
   }
 
-  private void inOrderTraverse(Node root) {
+  public Node treeToDoublyList(Node root) {
     if (root == null) {
-      return;
+      return null;
     }
 
-    inOrderTraverse(root.left);
+    Deque<Node> deque = new ArrayDeque<>();
+    Node node = root;
 
-    Node listNode = new Node();
-    listNode.val = root.val;
+    Node head = null;
+    Node prev = null;
 
-    if (left != null) {
-      left.right = listNode;
+    while (node != null || !deque.isEmpty()) {
+      while (node != null) {
+        deque.push(node);
+        node = node.left;
+      }
+
+      node = deque.pop();
+
+      Node listNode = new Node();
+      listNode.val = node.val;
+      listNode.left = prev;
+
+      if (prev != null) {
+        prev.right = listNode;
+      }
+
+      if (head == null) {
+        head = listNode;
+      }
+
+      prev = listNode;
+
+      node = node.right;
     }
 
-    if (head == null) {
-      head = listNode;
+    Node tail = prev;
+    head.left = tail;
+    tail.right = head;
+
+    return head;
+  }
+
+  private static class RecursiveVersion {
+    private Node left = null;
+    private Node head = null;
+
+    public Node treeToDoublyList(Node root) {
+      head = null;
+      left = null;
+
+      inOrderTraverse(root);
+
+      Node tail = head;
+      while (tail.right != null) {
+        tail.right.left = tail;
+        tail = tail.right;
+      }
+
+      head.left = tail;
+      tail.right = head;
+
+      return head;
     }
 
-    left = listNode;
+    private void inOrderTraverse(Node root) {
+      if (root == null) {
+        return;
+      }
 
-    inOrderTraverse(root.right);
+      inOrderTraverse(root.left);
+
+      Node listNode = new Node();
+      listNode.val = root.val;
+
+      if (left != null) {
+        left.right = listNode;
+      }
+
+      if (head == null) {
+        head = listNode;
+      }
+
+      left = listNode;
+
+      inOrderTraverse(root.right);
+    }
   }
 
   /**
    * Definition for a Node.
    */
-  class Node {
+  public static class Node {
 
     public int val;
     public Node left;
@@ -102,6 +151,5 @@ public class ConvertBstToSortedDll426 {
         '}';
     }
   }
-
 
 }
