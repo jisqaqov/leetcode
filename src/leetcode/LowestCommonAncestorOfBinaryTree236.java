@@ -47,6 +47,12 @@ public class LowestCommonAncestorOfBinaryTree236 {
     node1.left = node0;
     node1.right = node8;
 
+    System.out.println(lowestCommonAncestor(root, root, node5));
+    System.out.println(lowestCommonAncestor(root, node5, node1));
+    System.out.println(lowestCommonAncestor(root, node5, node4));
+    System.out.println(lowestCommonAncestor(root, node7, node6));
+    System.out.println(lowestCommonAncestor(root, node7, node4));
+
     System.out.println("v1:");
 
     V1 v1 = new V1();
@@ -82,6 +88,29 @@ public class LowestCommonAncestorOfBinaryTree236 {
     System.out.println(v4.lowestCommonAncestor(root, node5, node4));
     System.out.println(v4.lowestCommonAncestor(root, node7, node6));
     System.out.println(v4.lowestCommonAncestor(root, node7, node4));
+  }
+
+  public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null) {
+      return null;
+    }
+
+    if (root == p || root == q) {
+      return root;
+    }
+
+    TreeNode left = lowestCommonAncestor(root.left, p, q);
+    TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+    if (left != null && right != null) {
+      return root;
+    } else if (left != null) {
+      return left;
+    } else if (right != null) {
+      return right;
+    }
+
+    return null;
   }
 
   private static class V2 {
