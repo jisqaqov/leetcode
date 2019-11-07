@@ -7,7 +7,7 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 953. Verifying an Alien Dictionary
  * algorithm: Hash Table
- * time complexity: O(|order| + |words| + 26^26)
+ * time complexity: O(C)
  * space complexity: O(N)
  * Runtime: 1 ms, faster than 40.42% of Java online submissions for Verifying an Alien Dictionary.
  * Memory Usage: 35.8 MB, less than 100.00% of Java online submissions for Verifying an Alien Dictionary.
