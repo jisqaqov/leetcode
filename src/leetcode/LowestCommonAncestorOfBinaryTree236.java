@@ -65,7 +65,7 @@ public class LowestCommonAncestorOfBinaryTree236 {
     System.out.println(v2.lowestCommonAncestor(root, node7, node6));
     System.out.println(v2.lowestCommonAncestor(root, node7, node4));
 
-    System.out.println("v2:");
+    System.out.println("v3:");
 
     V3 v3 = new V3();
     System.out.println(v3.lowestCommonAncestor(root, root, node5));
@@ -73,6 +73,15 @@ public class LowestCommonAncestorOfBinaryTree236 {
     System.out.println(v3.lowestCommonAncestor(root, node5, node4));
     System.out.println(v3.lowestCommonAncestor(root, node7, node6));
     System.out.println(v3.lowestCommonAncestor(root, node7, node4));
+
+    System.out.println("v4:");
+
+    V4 v4 = new V4();
+    System.out.println(v4.lowestCommonAncestor(root, root, node5));
+    System.out.println(v4.lowestCommonAncestor(root, node5, node1));
+    System.out.println(v4.lowestCommonAncestor(root, node5, node4));
+    System.out.println(v4.lowestCommonAncestor(root, node7, node6));
+    System.out.println(v4.lowestCommonAncestor(root, node7, node4));
   }
 
   private static class V2 {
@@ -201,6 +210,34 @@ public class LowestCommonAncestorOfBinaryTree236 {
 
       return false;
     }
+  }
+
+  private static class V4 {
+    private TreeNode lca = null;
+
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+      exists(root, p, q);
+
+      return lca;
+    }
+
+    public boolean exists(TreeNode root, TreeNode p, TreeNode q) {
+      if (root == null) {
+        return false;
+      }
+
+      int left = exists(root.left, p, q)? 1: 0;
+      int right = exists(root.right, p, q)? 1: 0;
+      int mid = (root == p || root == q)? 1: 0;
+
+
+      if (left + mid + right == 2) {
+        this.lca = root;
+      }
+
+      return left + mid + right >= 1;
+    }
+
   }
 
   private static class Facebook {
