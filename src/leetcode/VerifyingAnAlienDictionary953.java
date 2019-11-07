@@ -10,7 +10,7 @@ import java.util.Map;
  * time complexity: O(C)
  * space complexity: O(N)
  * Runtime: 1 ms, faster than 40.42% of Java online submissions for Verifying an Alien Dictionary.
- * Memory Usage: 35.8 MB, less than 100.00% of Java online submissions for Verifying an Alien Dictionary.
+ * Memory Usage: 35.6 MB, less than 100.00% of Java online submissions for Verifying an Alien Dictionary.
  */
 public class VerifyingAnAlienDictionary953 {
 
@@ -40,15 +40,13 @@ public class VerifyingAnAlienDictionary953 {
 
       int t = 0;
       for (; t < n; t++) {
-        if (words[i].charAt(t) == words[i + 1].charAt(t)) {
-          continue;
-        }
+        if (words[i].charAt(t) != words[i + 1].charAt(t)) {
+          if (indexes.get(words[i].charAt(t)) > indexes.get(words[i + 1].charAt(t))) {
+            return false;
+          }
 
-        if (indexes.get(words[i].charAt(t)) > indexes.get(words[i + 1].charAt(t))) {
-          return false;
+          break;
         }
-
-        break;
       }
 
       if (t == n && words[i].length() > words[i + 1].length()) {
