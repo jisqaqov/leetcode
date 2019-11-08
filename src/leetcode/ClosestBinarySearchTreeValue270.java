@@ -4,10 +4,10 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 270. Closest Binary Search Tree Value
  * algorithm: Tree
- * time complexity: O(log(N))
- * space complexity: O(log(N))
+ * time complexity: O(H)
+ * space complexity: O(1)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions for Closest Binary Search Tree Value.
- * Memory Usage: 37.5 MB, less than 100.00% of Java online submissions for Closest Binary Search Tree Value.
+ * Memory Usage: 35.9 MB, less than 100.00% of Java online submissions for Closest Binary Search Tree Value.
  */
 public class ClosestBinarySearchTreeValue270 {
 
@@ -24,6 +24,23 @@ public class ClosestBinarySearchTreeValue270 {
     }
 
     return root.val;
+  }
+
+  private static class V2 {
+    public int closestValue(TreeNode root, double target) {
+      int val = root.val;
+
+      TreeNode node = root;
+      while (node != null) {
+        if (Math.abs(node.val - target) < Math.abs(val - target)) {
+          val = node.val;
+        }
+
+        node = node.val < target? node.right: node.left;
+      }
+
+      return val;
+    }
   }
 
   /**
