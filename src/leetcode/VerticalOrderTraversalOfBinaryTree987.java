@@ -2,11 +2,8 @@ package leetcode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.stream.Collectors;
 
 /**
  * @author Jandos Iskakov
@@ -14,8 +11,8 @@ import java.util.stream.Collectors;
  * algorithm: Tree, Hash Table, Sort
  * time complexity:
  * space complexity:
- * Runtime: 7 ms, faster than 23.44% of Java online submissions for Vertical Order Traversal of a Binary Tree.
- * Memory Usage: 36.6 MB, less than 100.00% of Java online submissions for Vertical Order Traversal of a Binary Tree.
+ * Runtime: 3 ms, faster than 75.00% of Java online submissions for Vertical Order Traversal of a Binary Tree.
+ * Memory Usage: 36.1 MB, less than 100.00% of Java online submissions for Vertical Order Traversal of a Binary Tree.
  */
 public class VerticalOrderTraversalOfBinaryTree987 {
 
@@ -68,7 +65,13 @@ public class VerticalOrderTraversalOfBinaryTree987 {
 
         return a1[0] - a2[0];
       });
-      sol.add(levels.get(level).stream().map(vals -> vals[0]).collect(Collectors.toList()));
+
+      List<Integer> tempList = new ArrayList<>();
+      for (int[] arr : levels.get(level)) {
+        tempList.add(arr[0]);
+      }
+
+      sol.add(tempList);
     }
 
     return sol;
