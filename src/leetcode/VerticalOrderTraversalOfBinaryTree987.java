@@ -50,34 +50,7 @@ public class VerticalOrderTraversalOfBinaryTree987 {
 
     Map<Integer, List<int[]>> levels = new HashMap<>();
 
-    Queue<Object[]> queue = new LinkedList<>();
-    queue.add(new Object[]{root, 0});
-
-    int y = 0;
-
-    while (!queue.isEmpty()) {
-      int size = queue.size();
-
-      y++;
-
-      for (; size > 0; size--) {
-        Object[] arr = queue.poll();
-
-        TreeNode node = (TreeNode) arr[0];
-        int level = (int) arr[1];
-
-        levels.putIfAbsent(level, new ArrayList<>());
-        levels.get(level).add(new int[]{node.val, y});
-
-        if (node.left != null) {
-          queue.add(new Object[]{node.left, level - 1});
-        }
-
-        if (node.right != null) {
-          queue.add(new Object[]{node.right, level + 1});
-        }
-      }
-    }
+    preorder(root, 0, 0, levels);
 
     int firstLevel = levels.size() + 1;
     for (int level : levels.keySet()) {
@@ -99,6 +72,18 @@ public class VerticalOrderTraversalOfBinaryTree987 {
     }
 
     return sol;
+  }
+
+  private void preorder(TreeNode root, int x, int y, Map<Integer, List<int[]>> levels) {
+    if (root == null) {
+      return;
+    }
+
+    levels.putIfAbsent(x, new ArrayList<>());
+    levels.get(x).add(new int[]{root.val, y});
+
+    preorder(root.left, x - 1, y + 1, levels);
+    preorder(root.right, x + 1, y + 1, levels);
   }
 
   /**
