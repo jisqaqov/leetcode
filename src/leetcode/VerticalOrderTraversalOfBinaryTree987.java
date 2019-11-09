@@ -9,8 +9,8 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 987. Vertical Order Traversal of a Binary Tree
  * algorithm: Tree, Hash Table, Sort
- * time complexity:
- * space complexity:
+ * time complexity: O(nlog(n))
+ * space complexity: O(n)
  * Runtime: 3 ms, faster than 75.00% of Java online submissions for Vertical Order Traversal of a Binary Tree.
  * Memory Usage: 36.1 MB, less than 100.00% of Java online submissions for Vertical Order Traversal of a Binary Tree.
  */
