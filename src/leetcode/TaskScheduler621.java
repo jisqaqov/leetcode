@@ -40,11 +40,13 @@ public class TaskScheduler621 {
 
     pq.addAll(mapOfTasks.values());
 
-    int index = 1;
+    int index = 0;
 
     Queue<Task> queue = new LinkedList<>();
 
     while (!pq.isEmpty() || !queue.isEmpty()) {
+      index++;
+
       while (!queue.isEmpty() && index - queue.peek().index > n) {
         pq.add(queue.poll());
       }
@@ -64,11 +66,9 @@ public class TaskScheduler621 {
       if (task.count > 0) {
         queue.add(task);
       }
-
-      index++;
     }
 
-    return index - 1;
+    return index;
   }
 
   private static class Task {
