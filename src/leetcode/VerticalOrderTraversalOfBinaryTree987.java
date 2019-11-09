@@ -38,6 +38,9 @@ public class VerticalOrderTraversalOfBinaryTree987 {
     node3.right = node7;
 
     System.out.println(verticalTraversal(root));
+
+    V2 v2 = new V2();
+    System.out.println(v2.verticalTraversal(root));
   }
 
   public List<List<Integer>> verticalTraversal(TreeNode root) {
@@ -87,6 +90,55 @@ public class VerticalOrderTraversalOfBinaryTree987 {
 
     preorder(root.left, x - 1, y + 1, levels);
     preorder(root.right, x + 1, y + 1, levels);
+  }
+
+  private static class V2 {
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+      if (root == null) {
+        return new ArrayList<>();
+      }
+
+      List<int[]> nodes = new ArrayList<>();
+
+      preorder(root, 0, 0, nodes);
+
+      nodes.sort((node1, node2) -> {
+        if (node1[1] != node2[1]) {
+          return node1[1] - node2[1];
+        }
+
+        if (node1[2] != node2[2]) {
+          return node1[2] - node2[2];
+        }
+
+        return node1[0] - node2[0];
+      });
+
+      List<List<Integer>> sol = new ArrayList<>();
+      sol.add(new ArrayList<>());
+      sol.get(0).add(nodes.get(0)[0]);
+
+      for (int i = 1; i < nodes.size(); i++) {
+        if (nodes.get(i)[1] != nodes.get(i - 1)[1]) {
+          sol.add(new ArrayList<>());
+        }
+
+        sol.get(sol.size() - 1).add(nodes.get(i)[0]);
+      }
+
+      return sol;
+    }
+
+    private void preorder(TreeNode root, int x, int y, List<int[]> nodes) {
+      if (root == null) {
+        return;
+      }
+
+      nodes.add(new int[] {root.val, x, y});
+
+      preorder(root.left, x - 1, y + 1, nodes);
+      preorder(root.right, x + 1, y + 1, nodes);
+    }
   }
 
   /**
