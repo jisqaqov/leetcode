@@ -23,8 +23,11 @@ public class TaskScheduler621 {
   }
 
   private void test() {
+    V2 v2 = new V2();
+
     char[] tc1a = {'A', 'A', 'A', 'B', 'B', 'B'};
     System.out.println(leastInterval(tc1a, 2));
+    System.out.println(v2.leastInterval(tc1a, 2));
   }
 
   public int leastInterval(char[] tasks, int n) {
@@ -69,6 +72,42 @@ public class TaskScheduler621 {
     }
 
     return index;
+  }
+
+  private static class V2 {
+
+    /**
+     * time complexity: O(|tasks|)
+     * space complexity: O(1)
+     * Runtime: 19 ms, faster than 46.91% of Java online submissions for Task Scheduler.
+     * Memory Usage: 37.5 MB, less than 94.12% of Java online submissions for Task Scheduler.
+     */
+    public int leastInterval(char[] tasks, int n) {
+      Map<Character, Integer> freqs = new HashMap<>();
+
+      for (char task : tasks) {
+        freqs.put(task, freqs.getOrDefault(task, 0) + 1);
+      }
+
+      int maxFreq = 0;
+      int maxNum = 0;
+
+      for (int freq : freqs.values()) {
+        if (freq > maxFreq) {
+          maxFreq = freq;
+          maxNum = 1;
+        } else if (freq == maxFreq) {
+          maxNum++;
+        }
+      }
+
+      int parts = maxFreq - 1;
+      int emptySlots = parts * (n - (maxNum - 1));
+      int availableTasks = tasks.length - maxFreq * maxNum;
+      int idles = Math.max(emptySlots - availableTasks, 0);
+
+      return idles + tasks.length;
+    }
   }
 
   private static class Task {
