@@ -20,17 +20,26 @@ public class RemoveInvalidParentheses301 {
   }
 
   private void test() {
+    System.out.println("bfs:");
     System.out.println(removeInvalidParentheses("()())()"));
     System.out.println(removeInvalidParentheses("(a)())()"));
     System.out.println(removeInvalidParentheses(")("));
     System.out.println(removeInvalidParentheses("("));
     System.out.println(removeInvalidParentheses("(a(b(c)d)"));
+
+    System.out.println("dfs:");
+    SolutionOnDFS dfsSol = new SolutionOnDFS();
+    System.out.println(dfsSol.removeInvalidParentheses("()())()"));
+    System.out.println(dfsSol.removeInvalidParentheses("(a)())()"));
+    System.out.println(dfsSol.removeInvalidParentheses(")("));
+    System.out.println(dfsSol.removeInvalidParentheses("("));
+    System.out.println(dfsSol.removeInvalidParentheses("(a(b(c)d)"));
   }
 
   /**
    * https://leetcode.com/problems/remove-invalid-parentheses/discuss/75032/Share-my-Java-BFS-solution
    * algorithm: BFS
-   * time complexity: O(n x 2^(n-1))
+   * time complexity: O(n*2^(n-1))
    * space complexity: O(N)
    * Runtime: 49 ms, faster than 39.11% of Java online submissions for Remove Invalid Parentheses.
    * Memory Usage: 40.1 MB, less than 80.43% of Java online submissions for Remove Invalid Parentheses.
@@ -100,7 +109,7 @@ public class RemoveInvalidParentheses301 {
    * Runtime: 49 ms, faster than 39.11% of Java online submissions for Remove Invalid Parentheses.
    * Memory Usage: 40.1 MB, less than 80.43% of Java online submissions for Remove Invalid Parentheses.
    */
-  private static class DfsSol {
+  private static class SolutionOnDFS {
     public List<String> removeInvalidParentheses(String s) {
       if (s == null || s.length() == 0) {
         return new ArrayList<>(Collections.singleton(""));
