@@ -27,6 +27,7 @@ public class RemoveInvalidParentheses301 {
     System.out.println(removeInvalidParentheses("(a)())()"));
     System.out.println(removeInvalidParentheses(")("));
     System.out.println(removeInvalidParentheses("("));
+    System.out.println(removeInvalidParentheses("(a(b(c)d)"));
   }
 
   public List<String> removeInvalidParentheses(String s) {
@@ -34,17 +35,14 @@ public class RemoveInvalidParentheses301 {
       return new ArrayList<>(Collections.singleton(""));
     }
 
-    int[] la = new int[s.length()];
-    int[] ra = new int[s.length()];
-
     int[] temp = calc(0, 0, s.charAt(0));
-    la[0] = temp[0];
-    ra[0] = temp[1];
+    int la = temp[0];
+    int ra = temp[1];
 
     for (int i = 1; i < s.length(); i++) {
-      temp = calc(la[i - 1], ra[i - 1], s.charAt(i));
-      la[i] = temp[0];
-      ra[i] = temp[1];
+      temp = calc(la, ra, s.charAt(i));
+      la = temp[0];
+      ra = temp[1];
     }
 
     Set<String> sol = new HashSet<>();
@@ -58,8 +56,8 @@ public class RemoveInvalidParentheses301 {
     return new ArrayList<>(Collections.singleton(""));
   }
 
-  private void generate(String s, String t, boolean remove, int index, int l, int r, int lm, int rm,
-    int[] la, int[] ra, Set<String> sol) {
+  private void generate(String s, String t, boolean remove, int index, int l, int r,
+    int lm, int rm, int la, int ra, Set<String> sol) {
 
     if (index >= 0) {
       char currChar = s.charAt(index);
@@ -97,7 +95,7 @@ public class RemoveInvalidParentheses301 {
       }
 
       if (index == s.length() - 1) {
-        if (l == r && lm == la[index] && rm == ra[index]) {
+        if (l == r && lm == la && rm == ra) {
           sol.add(t);
         }
 
