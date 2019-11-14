@@ -10,8 +10,8 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 301. Remove Invalid Parentheses
  * algorithm: DFS, BFS
- * time complexity: O()
- * space complexity: O()
+ * time complexity: O(2^N)
+ * space complexity: O(N)
  * Runtime: 45 ms, faster than 40.51% of Java online submissions for Remove Invalid Parentheses.
  * Memory Usage: 38 MB, less than 81.52% of Java online submissions for Remove Invalid Parentheses.
  */
