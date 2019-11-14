@@ -12,8 +12,8 @@ import java.util.Set;
  * algorithm: DFS, BFS
  * time complexity: O()
  * space complexity: O()
- * Runtime: 59 ms, faster than 16.99% of Java online submissions for Remove Invalid Parentheses.
- * Memory Usage: 39.5 MB, less than 81.52% of Java online submissions for Remove Invalid Parentheses.
+ * Runtime: 45 ms, faster than 40.51% of Java online submissions for Remove Invalid Parentheses.
+ * Memory Usage: 38 MB, less than 81.52% of Java online submissions for Remove Invalid Parentheses.
  */
 public class RemoveInvalidParentheses301 {
 
