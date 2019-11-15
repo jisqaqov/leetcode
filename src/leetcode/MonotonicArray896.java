@@ -17,11 +17,34 @@ public class MonotonicArray896 {
   }
 
   private void test() {
-    System.out.println(isMonotonic(new int[] {1,2,2,3}));
-    System.out.println(isMonotonic(new int[] {6,5,4,4}));
-    System.out.println(isMonotonic(new int[] {1,3,2}));
-    System.out.println(isMonotonic(new int[] {1,2,4,5}));
-    System.out.println(isMonotonic(new int[] {1,1,1}));
+    int[] tc1 = new int[] {1,2,2,3};
+    int[] tc2 = new int[] {6,5,4,4};
+    int[] tc3 = new int[] {1,3,2};
+    int[] tc4 = new int[] {1,2,4,5};
+    int[] tc5 = new int[] {1,1,1};
+
+    System.out.println("v1:");
+    System.out.println(isMonotonic(tc1));
+    System.out.println(isMonotonic(tc2));
+    System.out.println(isMonotonic(tc3));
+    System.out.println(isMonotonic(tc4));
+    System.out.println(isMonotonic(tc5));
+
+    V2 v2 = new V2();
+    System.out.println("v2:");
+    System.out.println(v2.isMonotonic(tc1));
+    System.out.println(v2.isMonotonic(tc2));
+    System.out.println(v2.isMonotonic(tc3));
+    System.out.println(v2.isMonotonic(tc4));
+    System.out.println(v2.isMonotonic(tc5));
+
+    V3 v3 = new V3();
+    System.out.println("v3:");
+    System.out.println(v3.isMonotonic(tc1));
+    System.out.println(v3.isMonotonic(tc2));
+    System.out.println(v3.isMonotonic(tc3));
+    System.out.println(v3.isMonotonic(tc4));
+    System.out.println(v3.isMonotonic(tc5));
   }
 
   public boolean isMonotonic(int[] a) {
