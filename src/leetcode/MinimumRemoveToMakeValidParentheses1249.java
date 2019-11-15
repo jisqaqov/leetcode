@@ -7,8 +7,8 @@ import java.util.Deque;
  * @author Jandos Iskakov
  * problem: 1249. Minimum Remove to Make Valid Parentheses
  * algorithm: String, Stack
- * time complexity: O(|s|)
- * space complexity: O(|s|)
+ * time complexity: O(n)
+ * space complexity: O(n)
  * Runtime: 15 ms, faster than 80.88% of Java online submissions for Minimum Remove to Make Valid Parentheses.
  * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions for Minimum Remove to Make Valid Parentheses.
  */
