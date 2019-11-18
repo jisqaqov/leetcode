@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,76 +43,107 @@ public class SerializeAndDeserializeBinaryTree297 {
   // Encodes a tree to a single string.
   public String serialize(TreeNode root) {
     if (root == null) {
-      return null;
+      return "null";
     }
 
-    StringBuilder sb = new StringBuilder();
-
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.add(root);
-
-    while (!queue.isEmpty()) {
-      if (sb.length() > 0) {
-        sb.append(":");
-      }
-
-      int size = queue.size();
-
-      for (int i = 0; i < size; i++) {
-        TreeNode node = queue.poll();
-
-        if (i > 0) {
-          sb.append(";");
-        }
-
-        sb.append(node != null? node.val: "null");
-
-        if (node != null) {
-          queue.add(node.left);
-          queue.add(node.right);
-        }
-      }
-    }
-
-    return sb.toString();
+    return root.val + ";" + serialize(root.left) + ";"
+      + serialize(root.right);
   }
 
   // Decodes your encoded data to tree.
   public TreeNode deserialize(String data) {
-    if (data == null) {
+    Queue<String> queue = new LinkedList<>(Arrays.asList(data.split(";")));
+    return deserialize(queue);
+  }
+
+  private TreeNode deserialize(Queue<String> queue) {
+    String valueString = queue.poll();
+    if (valueString.equals("null")) {
       return null;
     }
 
-    String[] levels = data.split(":");
+    int value = Integer.parseInt(valueString);
+    TreeNode node = new TreeNode(value);
+    node.left = deserialize(queue);
+    node.right = deserialize(queue);
+    return node;
+  }
 
-    TreeNode root = new TreeNode(Integer.parseInt(levels[0]));
+  private class V2 {
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+      if (root == null) {
+        return null;
+      }
 
-    Queue<TreeNode> queue = new ArrayDeque<>();
-    queue.add(root);
+      StringBuilder sb = new StringBuilder();
 
-    for (int i = 1; i < levels.length; i++) {
-      String s = levels[i];
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.add(root);
 
-      String[] nodes = s.split(";");
-
-      for (int j = 0; j < nodes.length; j += 2) {
-        TreeNode node = queue.poll();
-        String left = nodes[j];
-        String right = nodes[j + 1];
-
-        if (!left.equals("null")) {
-          node.left = new TreeNode(Integer.parseInt(left));
-          queue.add(node.left);
+      while (!queue.isEmpty()) {
+        if (sb.length() > 0) {
+          sb.append(":");
         }
 
-        if (!right.equals("null")) {
-          node.right = new TreeNode(Integer.parseInt(right));
-          queue.add(node.right);
+        int size = queue.size();
+
+        for (int i = 0; i < size; i++) {
+          TreeNode node = queue.poll();
+
+          if (i > 0) {
+            sb.append(";");
+          }
+
+          sb.append(node != null? node.val: "null");
+
+          if (node != null) {
+            queue.add(node.left);
+            queue.add(node.right);
+          }
         }
       }
+
+      return sb.toString();
     }
 
-    return root;
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+      if (data == null) {
+        return null;
+      }
+
+      String[] levels = data.split(":");
+
+      TreeNode root = new TreeNode(Integer.parseInt(levels[0]));
+
+      Queue<TreeNode> queue = new ArrayDeque<>();
+      queue.add(root);
+
+      for (int i = 1; i < levels.length; i++) {
+        String s = levels[i];
+
+        String[] nodes = s.split(";");
+
+        for (int j = 0; j < nodes.length; j += 2) {
+          TreeNode node = queue.poll();
+          String left = nodes[j];
+          String right = nodes[j + 1];
+
+          if (!left.equals("null")) {
+            node.left = new TreeNode(Integer.parseInt(left));
+            queue.add(node.left);
+          }
+
+          if (!right.equals("null")) {
+            node.right = new TreeNode(Integer.parseInt(right));
+            queue.add(node.right);
+          }
+        }
+      }
+
+      return root;
+    }
   }
 
   public class TreeNode {
