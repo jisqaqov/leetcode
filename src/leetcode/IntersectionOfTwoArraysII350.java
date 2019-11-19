@@ -8,7 +8,7 @@ import utils.TestUtils;
 /**
  * @author Jandos Iskakov
  * problem: 350. Intersection of Two Arrays II
- * algorithm: Hash Table
+ * algorithm: Hash Table, Two Pointer
  * time complexity: O(nlogn + mlogm)
  * space complexity: O(n + m)
  * Runtime: 1 ms, faster than 100.00% of Java online submissions for Intersection of Two Arrays II.
@@ -25,7 +25,10 @@ public class IntersectionOfTwoArraysII350 {
     int[] tc1a = {1,2,2,1};
     int[] tc1b = {2,2};
 
+    V2 v2 = new V2();
+
     TestUtils.printArray(intersect(tc1a, tc1b));
+    TestUtils.printArray(v2.intersect(tc1a, tc1b));
   }
 
   public int[] intersect(int[] nums1, int[] nums2) {
