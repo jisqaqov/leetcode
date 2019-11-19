@@ -25,7 +25,7 @@ public class AddBinary67 {
     int j = b.length() - 1;
 
     int carry = 0;
-    String s = "";
+    StringBuilder sb = new StringBuilder();
 
     while (i >= 0 || j >= 0) {
       int num1 = 0;
@@ -43,17 +43,17 @@ public class AddBinary67 {
       carry = k / 2;
       int c = k % 2;
 
-      s = c + s;
+      sb.append(c);
 
       i--;
       j--;
     }
 
     if (carry != 0) {
-      s = carry + s;
+      sb.append(carry);
     }
 
-    return s;
+    return sb.reverse().toString();
   }
 
 }
