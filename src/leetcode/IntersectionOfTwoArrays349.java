@@ -25,10 +25,10 @@ public class IntersectionOfTwoArrays349 {
     int[] tc1a = {1,2,2,1};
     int[] tc1b = {2,2};
 
-    V2 v2 = new V2();
+    FacebookInterview facebookInterview = new FacebookInterview();
 
     TestUtils.printArray(intersection(tc1a, tc1b));
-    TestUtils.printArray(v2.intersection(tc1a, tc1b));
+    TestUtils.printArray(facebookInterview.intersection(tc1a, tc1b));
   }
 
   public int[] intersection(int[] nums1, int[] nums2) {
@@ -61,7 +61,7 @@ public class IntersectionOfTwoArrays349 {
    * solve in (1) space and O(N) time complexity
    * in case that arrays are already sorted
    */
-  private static class V2 {
+  private static class FacebookInterview {
     public int[] intersection(int[] nums1, int[] nums2) {
       Arrays.sort(nums1);
       Arrays.sort(nums2);
