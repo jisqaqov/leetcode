@@ -9,7 +9,7 @@ import utils.TestUtils;
  * @author Jandos Iskakov
  * problem: 349. Intersection of Two Arrays
  * algorithm: Hash Table, Two Pointer
- * time complexity: O(nlogn + mlogm)
+ * time complexity: O(n + m)
  * space complexity: O(n + m)
  * Runtime: 1 ms, faster than 99.71% of Java online submissions for Intersection of Two Arrays.
  * Memory Usage: 38 MB, less than 39.19% of Java online submissions for Intersection of Two Arrays.
