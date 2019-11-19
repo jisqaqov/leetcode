@@ -3,7 +3,7 @@ package leetcode;
 /**
  * @author Jandos Iskakov
  * problem: 303. Range Sum Query - Immutable
- * algorithm: Array
+ * algorithm: DP
  * time complexity: O(1)
  * space complexity: O(n)
  * Runtime: 9 ms, faster than 99.06% of Java online submissions for Range Sum Query - Immutable.
