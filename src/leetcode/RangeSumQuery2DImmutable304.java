@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: DP
  * time complexity: O(N*M)
  * space complexity: O(N*M)
- * Runtime: 15 ms, faster than 92.00% of Java online submissions for Range Sum Query 2D - Immutable.
- * Memory Usage: 42.3 MB, less than 100.00% of Java online submissions for Range Sum Query 2D - Immutable.
+ * Runtime: 13 ms, faster than 99.98% of Java online submissions for Range Sum Query 2D - Immutable.
+ * Memory Usage: 42.7 MB, less than 100.00% of Java online submissions for Range Sum Query 2D - Immutable.
  */
 public class RangeSumQuery2DImmutable304 {
 
@@ -43,12 +43,9 @@ public class RangeSumQuery2DImmutable304 {
 
       this.dp = new int[n + 1][m + 1];
 
-      for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-          int r = i + 1;
-          int c = j + 1;
-
-          dp[r][c] = dp[r - 1][c] + dp[r][c - 1] - dp[r - 1][c - 1] + matrix[i][j];
+      for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+          dp[i][j] = dp[i - 1][j] + dp[i][j - 1] - dp[i - 1][j - 1] + matrix[i - 1][j - 1];
         }
       }
     }
