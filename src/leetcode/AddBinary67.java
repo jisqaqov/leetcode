@@ -32,13 +32,11 @@ public class AddBinary67 {
       int num2 = 0;
 
       if (i >= 0) {
-        char c1 = a.charAt(i);
-        num1 = Character.getNumericValue(c1);
+        num1 = Character.getNumericValue(a.charAt(i));
       }
 
       if (j >= 0) {
-        char c2 = b.charAt(j);
-        num2 = Character.getNumericValue(c2);
+        num2 = Character.getNumericValue(b.charAt(j));
       }
 
       int k = num1 + num2 + carry;
