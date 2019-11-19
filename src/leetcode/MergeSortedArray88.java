@@ -27,7 +27,7 @@ public class MergeSortedArray88 {
   }
 
   public void merge(int[] nums1, int m, int[] nums2, int n) {
-    int k = nums1.length - 1;
+    int k = n + m  - 1;
     int i = m - 1;
     int j = n - 1;
 
@@ -43,12 +43,6 @@ public class MergeSortedArray88 {
         j--;
         k--;
       }
-    }
-
-    while (i >= 0) {
-      nums1[k] = nums1[i];
-      k--;
-      i--;
     }
 
     while (j >= 0) {
