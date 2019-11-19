@@ -1,6 +1,8 @@
 package leetcode;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import utils.TestUtils;
 
 /**
@@ -53,6 +55,32 @@ public class IntersectionOfTwoArrays349 {
     }
 
     return Arrays.copyOfRange(sol, 0, k);
+  }
+
+  private static class V2 {
+    public int[] intersection(int[] nums1, int[] nums2) {
+      Set<Integer> setOfNums = new HashSet<>();
+
+      Set<Integer> setOfNums2 = new HashSet<>();
+      for (int num : nums2) {
+        setOfNums2.add(num);
+      }
+
+      for (int number : nums1) {
+        if (setOfNums2.contains(number)) {
+          setOfNums.add(number);
+        }
+      }
+
+      int i = 0;
+      int[] a = new int[setOfNums.size()];
+
+      for (int num : setOfNums) {
+        a[i++] = num;
+      }
+
+      return a;
+    }
   }
 
 }
