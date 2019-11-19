@@ -41,27 +41,25 @@ public class RangeSumQuery2DImmutable304 {
       int n = matrix.length;
       int m = matrix[0].length;
 
-      this.dp = new int[n][m];
+      this.dp = new int[n + 1][m + 1];
 
       for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-          dp[i][j] = getValue(i - 1, j, dp) + getValue(i, j - 1, dp) - getValue(i - 1, j - 1, dp)
-            + matrix[i][j];
+          int r = i + 1;
+          int c = j + 1;
+
+          dp[r][c] = dp[r - 1][c] + dp[r][c - 1] - dp[r - 1][c - 1] + matrix[i][j];
         }
       }
     }
 
     public int sumRegion(int row1, int col1, int row2, int col2) {
-      return dp[row2][col2] - getValue(row2, col1 - 1, dp) - getValue(row1 - 1, col2, dp)
-        + getValue(row1 - 1, col1 - 1, dp);
-    }
+      int r1 = row1 + 1;
+      int r2 = row2 + 1;
+      int c1 = col1 + 1;
+      int c2 = col2 + 1;
 
-    private int getValue(int i, int j, int[][] dp) {
-      if (i < 0 || j < 0) {
-        return 0;
-      }
-
-      return dp[i][j];
+      return dp[r2][c2] - dp[r2][c1 - 1] - dp[r1 - 1][c2] + dp[r1 - 1][c1 - 1];
     }
   }
 
