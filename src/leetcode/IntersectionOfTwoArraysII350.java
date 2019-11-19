@@ -1,8 +1,7 @@
 package leetcode;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import utils.TestUtils;
 
@@ -40,20 +39,19 @@ public class IntersectionOfTwoArraysII350 {
       c2.put(num, c2.getOrDefault(num, 0) + 1);
     }
 
-    List<Integer> list = new ArrayList<>();
+    int n = 0;
+
+    int[] list = new int[nums1.length + nums2.length];
+
     for (int num : c1.keySet()) {
-      int n = Math.min(c1.get(num), c2.getOrDefault(num, 0));
-      for (int k = 0; k < n; k++) {
-        list.add(num);
+      int m = Math.min(c1.get(num), c2.getOrDefault(num, 0));
+
+      for (int k = 0; k < m; k++) {
+        list[n++] = num;
       }
     }
 
-    int[] sol = new int[list.size()];
-    for (int i = 0; i < list.size(); i++) {
-      sol[i] = list.get(i);
-    }
-
-    return sol;
+    return Arrays.copyOfRange(list, 0, n);
   }
 
 }
