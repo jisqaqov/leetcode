@@ -59,27 +59,26 @@ public class IntersectionOfTwoArrays349 {
 
   private static class V2 {
     public int[] intersection(int[] nums1, int[] nums2) {
-      Set<Integer> setOfNums = new HashSet<>();
-
-      Set<Integer> setOfNums2 = new HashSet<>();
-      for (int num : nums2) {
-        setOfNums2.add(num);
+      Set<Integer> set1 = new HashSet<>();
+      for (int num : nums1) {
+        set1.add(num);
       }
 
-      for (int number : nums1) {
-        if (setOfNums2.contains(number)) {
-          setOfNums.add(number);
-        }
+      Set<Integer> set2 = new HashSet<>();
+      for (int num : nums2) {
+        set2.add(num);
       }
 
       int i = 0;
-      int[] a = new int[setOfNums.size()];
+      int[] output = new int[set2.size()];
 
-      for (int num : setOfNums) {
-        a[i++] = num;
+      for (int number : set1) {
+        if (set2.contains(number)) {
+          output[i++] = number;
+        }
       }
 
-      return a;
+      return Arrays.copyOf(output, i);
     }
   }
 

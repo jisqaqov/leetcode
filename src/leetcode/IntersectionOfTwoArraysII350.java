@@ -82,7 +82,7 @@ public class IntersectionOfTwoArraysII350 {
         }
       }
 
-      return Arrays.copyOfRange(list, 0, n);
+      return Arrays.copyOf(list, n);
     }
   }
 
