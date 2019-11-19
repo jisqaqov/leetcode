@@ -25,10 +25,12 @@ public class IntersectionOfTwoArraysII350 {
     int[] tc1a = {1,2,2,1};
     int[] tc1b = {2,2};
 
+    V2 v2 = new V2();
     FacebookInterview facebookInterview = new FacebookInterview();
 
     TestUtils.printArray(intersect(tc1a, tc1b));
     TestUtils.printArray(facebookInterview.intersect(tc1a, tc1b));
+    TestUtils.printArray(v2.intersect(tc1a, tc1b));
   }
 
   public int[] intersect(int[] nums1, int[] nums2) {
@@ -44,7 +46,7 @@ public class IntersectionOfTwoArraysII350 {
 
     int n = 0;
 
-    int[] list = new int[nums1.length + nums2.length];
+    int[] list = new int[nums1.length];
 
     for (int num : c1.keySet()) {
       int m = Math.min(c1.get(num), c2.getOrDefault(num, 0));
@@ -55,6 +57,28 @@ public class IntersectionOfTwoArraysII350 {
     }
 
     return Arrays.copyOf(list, n);
+  }
+
+  private static class V2 {
+    public int[] intersect(int[] nums1, int[] nums2) {
+      Map<Integer, Integer> mapOfNums1 = new HashMap<>();
+      for (int num : nums1) {
+        mapOfNums1.put(num, mapOfNums1.getOrDefault(num, 0) + 1);
+      }
+
+      int index = 0;
+      int[] list = new int[nums1.length];
+
+      for (int number : nums2) {
+        int k = mapOfNums1.getOrDefault(number, 0);
+        if (k > 0) {
+          list[index++] = number;
+          mapOfNums1.put(number, mapOfNums1.get(number) - 1);
+        }
+      }
+
+      return Arrays.copyOf(list, index);
+    }
   }
 
   /**
@@ -71,7 +95,7 @@ public class IntersectionOfTwoArraysII350 {
       int j = 0;
       int k = 0;
 
-      int[] sol = new int[nums1.length + nums2.length];
+      int[] sol = new int[nums1.length];
 
       while (i < nums1.length && j < nums2.length) {
         if (nums1[i] < nums2[j]) {

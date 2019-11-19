@@ -52,8 +52,6 @@ public class IntersectionOfTwoArrays349 {
     }
 
     return Arrays.copyOf(output, i);
-
-
   }
 
   /**
