@@ -24,7 +24,9 @@ public class SubarraySumEqualsK560 {
 
   private void test() {
     int[] tc1a = {3, 2, 7, 1, 6, 4, 5, 2, 3};
+    int[] tc2a = {0, 0};
     System.out.println(subarraySum(tc1a, 10));
+    System.out.println(subarraySum(tc2a, 0));
 
     FacebookInterview interview = new FacebookInterview();
     System.out.println(interview.subarraySum(tc1a, 333));
@@ -56,7 +58,7 @@ public class SubarraySumEqualsK560 {
       Set<Integer> set = new HashSet<>();
       set.add(0);
 
-     int prefix = 0;
+      int prefix = 0;
       for (int num : nums) {
         prefix += num;
 
