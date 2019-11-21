@@ -17,11 +17,17 @@ public class MaxConsecutiveOnesIII {
   }
 
   private void test() {
+    V2 v2 = new V2();
+
     int[] tc1a = {1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0};
     System.out.println(longestOnes(tc1a, 2));
 
     int[] tc2a = {0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1};
     System.out.println(longestOnes(tc2a, 3));
+    
+    System.out.println("v2:");
+    System.out.println(v2.longestOnes(tc1a, 2));
+    System.out.println(v2.longestOnes(tc2a, 3));
   }
 
   public int longestOnes(int[] a, int k) {
@@ -53,6 +59,32 @@ public class MaxConsecutiveOnesIII {
     }
 
     return len;
+  }
+
+  private static class V2 {
+    public int longestOnes(int[] a, int k) {
+      int start = 0;
+      int zeroes = 0;
+      int len = 0;
+
+      for (int end = 0; end < a.length; end++) {
+        if (a[end] == 0) {
+          zeroes++;
+        }
+
+        while (zeroes > k) {
+          if (a[start] == 0) {
+            zeroes--;
+          }
+
+          start++;
+        }
+
+        len = Math.max(len, end - start + 1);
+      }
+
+      return len;
+    }
   }
 
 }
