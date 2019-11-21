@@ -2,6 +2,8 @@ package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
@@ -41,17 +43,28 @@ public class BinarySearchTreeIterator173 {
     System.out.println(iterator.hasNext()); // return true
     System.out.println(iterator.next());    // return 20
     System.out.println(iterator.hasNext()); // return false
-  }
 
+    System.out.println("v2:");
+    BSTIteratorV2 v2 = new BSTIteratorV2(root);
+    System.out.println(v2.next());    // return 3
+    System.out.println(v2.next());    // return 7
+    System.out.println(v2.hasNext()); // return true
+    System.out.println(v2.next());    // return 9
+    System.out.println(v2.hasNext()); // return true
+    System.out.println(v2.next());    // return 15
+    System.out.println(v2.hasNext()); // return true
+    System.out.println(v2.next());    // return 20
+    System.out.println(v2.hasNext()); // return false
+  }
 
   private static class BSTIterator {
     private Deque<TreeNode> stack = new ArrayDeque<>();
 
     public BSTIterator(TreeNode root) {
-      init(root);
+      leftInorder(root);
     }
 
-    private void init(TreeNode node) {
+    private void leftInorder(TreeNode node) {
       while (node != null) {
         stack.push(node);
         node = node.left;
@@ -64,7 +77,7 @@ public class BinarySearchTreeIterator173 {
     public int next() {
       TreeNode node = stack.pop();
       if (node.right != null) {
-        init(node.right);
+        leftInorder(node.right);
       }
 
       return node.val;
@@ -75,6 +88,38 @@ public class BinarySearchTreeIterator173 {
      */
     public boolean hasNext() {
       return !stack.isEmpty();
+    }
+  }
+
+  private static class BSTIteratorV2 {
+    private Queue<TreeNode> queue = new LinkedList<>();
+
+    public BSTIteratorV2(TreeNode root) {
+      inorder(root);
+    }
+
+    private void inorder(TreeNode node) {
+      if (node == null) {
+        return;
+      }
+
+      inorder(node.left);
+      queue.add(node);
+      inorder(node.right);
+    }
+
+    /**
+     * @return the next smallest number
+     */
+    public int next() {
+      return queue.poll().val;
+    }
+
+    /**
+     * @return whether we have a next smallest number
+     */
+    public boolean hasNext() {
+      return !queue.isEmpty();
     }
   }
 
