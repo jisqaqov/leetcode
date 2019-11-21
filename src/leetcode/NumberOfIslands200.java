@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author Jandos Iskakov
  * problem: 200. Number of Islands
@@ -62,6 +65,37 @@ public class NumberOfIslands200 {
     dfs(visited, grid, i + 1, j);
     dfs(visited, grid, i, j - 1);
     dfs(visited, grid, i, j + 1);
+  }
+
+  /**
+   * Given M x N ocean (matrix), returnan array of areas of islands surrounded by water.
+   * Variation: An island is considered to be connected in all 8 directions
+   * (top, bottom, left, right, top-left, top-right, bottom-left, bottom-right)
+   * 1 1 0 0 1
+   * 0 1 0 1 1
+   * 1 0 0 1 1
+   * 1 0 0 0 0
+   * int[] findAreaOfIslands(int[][] ocean) should return int array [5, 5]
+   */
+  private static class FacebookInterview {
+    public int[] findAreaOfIslands(int[][] ocean) {
+      boolean[][] visited = new boolean[ocean.length][ocean[0].length];
+      Set<Integer> islands = new HashSet<>();
+
+      for (int i = 0; i < ocean.length; i++) {
+        for (int j = 0; j < ocean[i].length; j++) {
+          if (visited[i][j] || ocean[i][j] == 0) {
+            continue;
+          }
+          
+          islands.add(getAreaOfIsland(i, j, ocean));
+        }
+      }
+    }
+
+    private int getAreaOfIsland(int i, int j, int[][] ocean) {
+
+    }
   }
 
 }
