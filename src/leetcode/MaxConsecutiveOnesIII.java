@@ -35,7 +35,7 @@ public class MaxConsecutiveOnesIII {
     System.out.println("facebook interview:");
     FacebookInterview interview = new FacebookInterview();
 
-    boolean[] tc1a = {false, true, false, true, false, true, false};
+    boolean[] tc1a = {false, false, true, true, false, true, false};
     System.out.println(interview.findMaxVacationLength(tc1a, 2));
   }
 
@@ -65,25 +65,29 @@ public class MaxConsecutiveOnesIII {
 
   /**
    * variation of the problem
-   * Given boolean array of days at work, [T, F, T, T, F, F, F, T] and
-   * pto (number of PTOs one can take) - where boolean T means paid holiday and F means you can take a PTO. Find the maximum length of vacation an employee can take.
-   * int findMaxVacationLength(year = [F, T, F, T, F, T, F, ], pto = 2) should return 5 because if we take PTO on indices year[2] and year[4], then we can get the maximum length vacation (consecutive T's).
-   *
+   * Given a boolean array and a number, the number of paid-time off days (PTO),
+   * return the maximum number of vacation days you can take. Here, vacation means anything like holidays, weekends, etc.
+   * So, "True" means work days, and "False" means days off (weekends, holidays, etc.),
+   * and you can take any work days as paid-time off days (PTO).
+   * E.g.
+   * Input: [ F F T T F T F ] , PTO = 2
+   * Output: maximum number of vacation days = 5, because you could make index 2 and index 3 your
+   * two PTO days, and you would get 5 consecutive vacation days/days off (i.e. F F F F F).
    */
   private static class FacebookInterview {
 
-    public int findMaxVacationLength(boolean[] a, int pto) {
+    public int findMaxVacationLength(boolean[] days, int pto) {
       int counter = 0;
       int start = 0;
       int len = 0;
 
-      for (int end = 0; end < a.length; end++) {
-        if (!a[end]) {
+      for (int end = 0; end < days.length; end++) {
+        if (days[end]) {
           counter++;
         }
 
         while (counter > pto) {
-          if (!a[start]) {
+          if (days[start]) {
             counter--;
           }
 
