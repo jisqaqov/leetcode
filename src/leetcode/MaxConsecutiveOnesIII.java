@@ -73,14 +73,14 @@ public class MaxConsecutiveOnesIII {
    * Input: [ F F T T F T F ] , PTO = 2
    * Output: maximum number of vacation days = 5, because you could make index 2 and index 3 your
    * two PTO days, and you would get 5 consecutive vacation days/days off (i.e. F F F F F).
-   * 
+   *
    * links:
    * https://leetcode.com/discuss/interview-question/412764/Facebook-or-Maximum-Number-of-Vacation-Days
    * https://leetcode.com/discuss/interview-question/433502/facebook-phone-number-of-islands-maximum-vacation-length/
    */
   private static class FacebookInterview {
 
-    public int findMaxVacationLength(boolean[] days, int pto) {
+    public int findMaxVacationLength(boolean[] days, int k) {
       int counter = 0;
       int start = 0;
       int len = 0;
@@ -90,7 +90,7 @@ public class MaxConsecutiveOnesIII {
           counter++;
         }
 
-        while (counter > pto) {
+        while (counter > k) {
           if (days[start]) {
             counter--;
           }
