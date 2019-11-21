@@ -1,7 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import utils.TestUtils;
 
 /**
@@ -99,7 +98,9 @@ public class NumberOfIslands200 {
 
     public int[] findAreaOfIslands(int[][] ocean) {
       boolean[][] visited = new boolean[ocean.length][ocean[0].length];
-      List<Integer> islands = new ArrayList<>();
+      int[] islands = new int[ocean.length * ocean[0].length];
+
+      int k = 0;
 
       for (int i = 0; i < ocean.length; i++) {
         for (int j = 0; j < ocean[i].length; j++) {
@@ -107,16 +108,11 @@ public class NumberOfIslands200 {
             continue;
           }
 
-          islands.add(getAreaOfIsland(i, j, ocean, visited));
+          islands[k++] = getAreaOfIsland(i, j, ocean, visited);
         }
       }
 
-      int[] sol = new int[islands.size()];
-      for (int i = 0; i < islands.size(); i++) {
-        sol[i] = islands.get(i);
-      }
-
-      return sol;
+      return Arrays.copyOf(islands, k);
     }
 
     private int getAreaOfIsland(int i, int j, int[][] ocean, boolean[][] visited) {
