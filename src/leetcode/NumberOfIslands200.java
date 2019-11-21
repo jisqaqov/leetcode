@@ -1,7 +1,8 @@
 package leetcode;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import utils.TestUtils;
 
 /**
  * @author Jandos Iskakov
@@ -17,6 +18,8 @@ public class NumberOfIslands200 {
   public static void main(String[] args) {
     NumberOfIslands200 solution = new NumberOfIslands200();
     solution.test();
+
+    solution.interview();
   }
 
   public void test() {
@@ -26,6 +29,19 @@ public class NumberOfIslands200 {
       {'0', '0', '0', '1', '0'}};
 
     System.out.println(numIslands(tc1grid));
+  }
+
+  public void interview() {
+    System.out.println("facebook interview:");
+
+    FacebookInterview interview = new FacebookInterview();
+
+    int[][] tc1a = {{1, 1, 0, 0, 1},
+      { 0, 1, 0, 1, 1},
+      { 1, 0, 0, 1, 1},
+        { 1, 0, 0, 0, 0}};
+
+    TestUtils.printArray(interview.findAreaOfIslands(tc1a));
   }
 
   public int numIslands(char[][] grid) {
@@ -68,7 +84,7 @@ public class NumberOfIslands200 {
   }
 
   /**
-   * Given M x N ocean (matrix), returnan array of areas of islands surrounded by water.
+   * Given M x N ocean (matrix), return an array of areas of islands surrounded by water.
    * Variation: An island is considered to be connected in all 8 directions
    * (top, bottom, left, right, top-left, top-right, bottom-left, bottom-right)
    * 1 1 0 0 1
@@ -78,23 +94,45 @@ public class NumberOfIslands200 {
    * int[] findAreaOfIslands(int[][] ocean) should return int array [5, 5]
    */
   private static class FacebookInterview {
+    private int[][] DIRS = {{-1, 0}, {1, 0}, {0, 1}, {0, -1},
+      {-1, -1}, {-1, 1}, {1, 1}, {1, -1}};
+
     public int[] findAreaOfIslands(int[][] ocean) {
       boolean[][] visited = new boolean[ocean.length][ocean[0].length];
-      Set<Integer> islands = new HashSet<>();
+      List<Integer> islands = new ArrayList<>();
 
       for (int i = 0; i < ocean.length; i++) {
         for (int j = 0; j < ocean[i].length; j++) {
           if (visited[i][j] || ocean[i][j] == 0) {
             continue;
           }
-          
-          islands.add(getAreaOfIsland(i, j, ocean));
+
+          islands.add(getAreaOfIsland(i, j, ocean, visited));
         }
       }
+
+      int[] sol = new int[islands.size()];
+      for (int i = 0; i < islands.size(); i++) {
+        sol[i] = islands.get(i);
+      }
+
+      return sol;
     }
 
-    private int getAreaOfIsland(int i, int j, int[][] ocean) {
+    private int getAreaOfIsland(int i, int j, int[][] ocean, boolean[][] visited) {
+      if (i < 0 || j < 0 || i >= ocean.length || j >= ocean[0].length ||
+        ocean[i][j] == 0 || visited[i][j]) {
+        return 0;
+      }
 
+      visited[i][j] = true;
+
+      int area = 1;
+      for (int[] dir :  DIRS) {
+        area += getAreaOfIsland(i + dir[0], j + dir[1], ocean, visited);
+      }
+
+      return area;
     }
   }
 
