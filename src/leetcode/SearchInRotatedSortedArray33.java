@@ -67,7 +67,7 @@ public class SearchInRotatedSortedArray33 {
   }
 
   private int findRotateIndex(int[] nums) {
-    int k = nums.length - 1;
+    int min = nums.length - 1;
     int l = 0;
     int r = nums.length - 1;
 
@@ -75,8 +75,8 @@ public class SearchInRotatedSortedArray33 {
       int m = l + (r - l) / 2;
 
       if (nums[m] <= nums[nums.length - 1]) {
-        if (m < k) {
-          k = m;
+        if (m < min) {
+          min = m;
         }
         r = m - 1;
       } else {
@@ -84,7 +84,7 @@ public class SearchInRotatedSortedArray33 {
       }
     }
 
-    return k;
+    return min;
   }
 
   private static class V2 {
