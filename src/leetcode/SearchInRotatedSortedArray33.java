@@ -36,16 +36,16 @@ public class SearchInRotatedSortedArray33 {
       return -1;
     }
 
+    int pivot = findRotateIndex(nums);
+
     int l = 0;
     int r = nums.length - 1;
 
-    int pivotIndex = findPivotIndex(nums);
-
-    if (pivotIndex >= 0) {
-      if (target >= nums[l] && target <= nums[pivotIndex]) {
-        r = pivotIndex;
-      } else if (target >= nums[pivotIndex + 1] && target <= nums[r]) {
-        l = pivotIndex + 1;
+    if (pivot > 0) {
+      if (target >= nums[l] && target <= nums[pivot - 1]) {
+        r = pivot - 1;
+      } else if (target >= nums[pivot] && target <= nums[r]) {
+        l = pivot;
       } else {
         return -1;
       }
@@ -66,28 +66,25 @@ public class SearchInRotatedSortedArray33 {
     return -1;
   }
 
-  private int findPivotIndex(int[] nums) {
+  private int findRotateIndex(int[] nums) {
+    int k = nums.length - 1;
     int l = 0;
     int r = nums.length - 1;
-
-    if (nums[l] <= nums[r]) {
-      return -1;
-    }
-
-    int pivot = -1;
 
     while (l <= r) {
       int m = l + (r - l) / 2;
 
-      if (nums[m] > nums[nums.length - 1]) {
-        pivot = m;
-        l = m + 1;
-      } else {
+      if (nums[m] <= nums[nums.length - 1]) {
+        if (m < k) {
+          k = m;
+        }
         r = m - 1;
+      } else {
+        l = m + 1;
       }
     }
 
-    return pivot;
+    return k;
   }
 
   private static class V2 {
