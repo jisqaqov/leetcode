@@ -87,6 +87,9 @@ public class SearchInRotatedSortedArray33 {
     return l;
   }
 
+  /**
+   * One pass solution
+   */
   private static class V2 {
     public int search(int[] nums, int target) {
       if (nums.length == 0) {
@@ -97,23 +100,23 @@ public class SearchInRotatedSortedArray33 {
       int r = nums.length - 1;
 
       while (l <= r) {
-        int m = l + (r - l) / 2;
+        int mid = l + (r - l) / 2;
 
-        if (nums[m] == target) {
-          return m;
+        if (nums[mid] == target) {
+          return mid;
         }
 
-        if (nums[l] <= nums[m]) {
-          if (target >= nums[l] && target <= nums[m]) {
-            r = m - 1;
+        if (nums[l] <= nums[mid]) {
+          if (target >= nums[l] && target <= nums[mid]) {
+            r = mid - 1;
           } else {
-            l = m + 1;
+            l = mid + 1;
           }
         } else {
-          if (target >= nums[m] && target <= nums[r]) {
-            l = m + 1;
+          if (target >= nums[mid] && target <= nums[r]) {
+            l = mid + 1;
           } else {
-            r = m - 1;
+            r = mid - 1;
           }
         }
       }
