@@ -42,15 +42,17 @@ public class SearchInRotatedSortedArray33 {
     int r = nums.length - 1;
 
     if (pivot > 0) {
-      if (target >= nums[l] && target <= nums[pivot - 1]) {
-        r = pivot - 1;
-      } else if (target >= nums[pivot] && target <= nums[r]) {
+      if (target < nums[0]) {
         l = pivot;
       } else {
-        return -1;
+        r = pivot - 1;
       }
     }
 
+    return search(l, r, nums, target);
+  }
+
+  private int search(int l, int r, int[] nums, int target) {
     while (l <= r) {
       int m = l + (r - l) / 2;
 
