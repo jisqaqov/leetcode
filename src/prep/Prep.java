@@ -1,8 +1,5 @@
 package prep;
 
-import java.util.Arrays;
-import utils.TestUtils;
-
 public class Prep {
 
   public static void main(String[] args) {
@@ -11,72 +8,41 @@ public class Prep {
   }
 
   private void test() {
-    int[][] tc1a = {{3,3},{5,-1},{-2,4}};
-    TestUtils.printArray(kClosest(tc1a, 2));
+    int[] tc1a = {5,1,3};
+    System.out.println(search(tc1a, 3));
   }
 
-  public int[][] kClosest(int[][] points, int k) {
-    int len = k - 1;
+  public int search(int[] nums, int target) {
+    if (nums.length == 0) {
+      return -1;
+    }
 
     int l = 0;
-    int r = points.length - 1;
+    int r = nums.length - 1;
 
     while (l <= r) {
-      int pivotIndex = partition(l, r, points);
+      int m = l + (r - l) / 2;
 
-      if (pivotIndex == len) {
-        break;
-      } else if (pivotIndex < len) {
-        l = pivotIndex + 1;
+      if (nums[m] == target) {
+        return m;
+      }
+
+      if (nums[l] <= nums[m]) {
+        if (target >= nums[l] && target <= nums[m]) {
+          r = m - 1;
+        } else {
+          l = m + 1;
+        }
       } else {
-        r = pivotIndex - 1;
+        if (target >= nums[m] && target <= nums[r]) {
+          l = m + 1;
+        } else {
+          r = m - 1;
+        }
       }
     }
 
-    return Arrays.copyOf(points, k);
-  }
-
-  private int partition(int l, int r, int[][] points) {
-    int i = l + 1;
-    int j = r;
-
-    while (true) {
-      while (i <= j && dist(i, points) <= dist(l, points)) {
-        i++;
-      }
-
-      while (j >= i && dist(j, points) >= dist(l, points)) {
-        j--;
-      }
-
-      if (i >= j) {
-        break;
-      }
-
-      swap(i, j, points);
-
-      i++;
-      j--;
-    }
-
-    swap(l, j, points);
-
-    return j;
-  }
-
-  private void swap(int i, int j, int[][] points) {
-    int tempX = points[j][0];
-    int tempY = points[j][1];
-
-    points[j][0] = points[i][0];
-    points[j][1] = points[i][1];
-
-    points[i][0] = tempX;
-    points[i][1] = tempY;
-  }
-
-  private int dist(int index, int[][] points) {
-    return points[index][0] * points[index][0] + points[index][1] * points[index][1];
+    return -1;
   }
 
 }
