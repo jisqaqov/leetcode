@@ -21,7 +21,7 @@ public class KClosestPointsToOrigin973 {
   }
 
   private void test() {
-    SortVersion problem = new SortVersion();
+    V2 problem = new V2();
 
     int[][] tc1a = {{-95,76},{17,7},{-55,-58},{53,20},{-69,-8},{-57,87},{-2,-42},{-10,-87},{-36,-57},{97,-39},{97,49}};
 
@@ -134,7 +134,7 @@ public class KClosestPointsToOrigin973 {
     }
   }
 
-  private static class SortVersion {
+  private static class V2 {
     public int[][] kClosest(int[][] points, int k) {
       sort(0, points.length - 1, k, points);
 
