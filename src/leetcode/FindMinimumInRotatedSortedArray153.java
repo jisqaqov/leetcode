@@ -32,22 +32,17 @@ public class FindMinimumInRotatedSortedArray153 {
     int l = 0;
     int r = n - 1;
 
-    int minIndex = n - 1;
-
-    while (l <= r) {
+    while (l < r) {
       int mid = l + (r - l) / 2;
 
-      if (nums[mid] > nums[n - 1]) {
-        l = mid + 1;
+      if (nums[mid] < nums[r]) {
+        r = mid;
       } else {
-        r = mid - 1;
-        if (mid < minIndex) {
-          minIndex = mid;
-        }
+        l = mid + 1;
       }
     }
 
-    return nums[minIndex];
+    return nums[l];
   }
 
 }
