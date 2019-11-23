@@ -1,9 +1,6 @@
 package prep;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
 
 public class Prep {
 
@@ -13,45 +10,96 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(findAnagrams("cbaebabacd", "abc"));
-    System.out.println(findAnagrams("abab", "ab"));
+    V2 v2 = new V2();
+
+    int[][] tc1a = {{0, 30}, {5, 10}, {15, 20}};
+    System.out.println(minMeetingRooms(tc1a));
+
+    int[][] tc2a = {{7, 10}, {2, 4}};
+    System.out.println(minMeetingRooms(tc2a));
+
+    int[][] tc3a = {{13, 15}, {1, 13}};
+    System.out.println(minMeetingRooms(tc3a));
+
+    System.out.println("v2:");
+    System.out.println(v2.minMeetingRooms(tc1a));
+    System.out.println(v2.minMeetingRooms(tc2a));
+    System.out.println(v2.minMeetingRooms(tc3a));
   }
 
-  public List<Integer> findAnagrams(String s, String p) {
-    Map<Character, Integer> counter = new HashMap<>();
-    for (int i = 0; i < p.length(); i++) {
-      counter.put(p.charAt(i), counter.getOrDefault(p.charAt(i), 0) + 1);
+  public int minMeetingRooms(int[][] intervals) {
+    int n = intervals.length;
+
+    int[][] starts = new int[2 * n][2];
+
+    for (int i = 0, j = 0; i < n; i++, j += 2) {
+      starts[j][0] = intervals[i][0];
+      starts[j][1] = 2;//start
+
+      starts[j + 1][0] = intervals[i][1];
+      starts[j + 1][1] = 1;//end
     }
 
-    List<Integer> list = new ArrayList<>();
-
-    int diff = p.length();
-
-    for (int i = 0; i < s.length(); i++) {
-      char ch = s.charAt(i);
-
-      counter.put(ch, counter.getOrDefault(ch, 0) - 1);
-      if (counter.get(ch) >= 0) {
-        diff--;
+    Arrays.sort(starts, (a1, a2) -> {
+      if (a1[0] == a2[0]) {
+        return a1[1] - a2[1];
       }
 
-      int start = i - p.length() + 1;
+      return a1[0] - a2[0];
+    });
 
-      if (diff == 0) {
-        list.add(start);
+    int rooms = 0;
+    int max = 0;
+
+    for (int i = 0; i < starts.length; i++) {
+      if (starts[i][1] == 2) {
+        rooms++;
+        max = Math.max(rooms, max);
+      } else {
+        rooms--;
+      }
+    }
+
+    return max;
+  }
+
+  private static class V2 {
+
+    public int minMeetingRooms(int[][] intervals) {
+      int n = intervals.length;
+
+      int[] starts = new int[n];
+      int[] ends = new int[n];
+
+      for (int i = 0; i < intervals.length; i++) {
+        starts[i] = intervals[i][0];
+        ends[i] = intervals[i][1];
       }
 
-      if (start >= 0) {
-        char charStart = s.charAt(start);
-        counter.put(charStart, counter.get(charStart) + 1);
+      Arrays.sort(starts);
+      Arrays.sort(ends);
 
-        if (counter.get(charStart) > 0) {
-          diff++;
+      int i = 0;
+      int j = 0;
+
+      int rooms = 0;
+      int max = 0;
+
+      while (i < n) {
+        if (ends[j] <= starts[i]) {
+          rooms--;
+          j++;
+        } else {
+          rooms++;
+          i++;
+
+          max = Math.max(rooms, max);
         }
       }
+
+      return max;
     }
 
-    return list;
   }
 
 }

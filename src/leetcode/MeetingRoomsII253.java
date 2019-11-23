@@ -1,8 +1,6 @@
 package leetcode;
 
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 /**
  * @author Jandos Iskakov
@@ -11,7 +9,7 @@ import java.util.PriorityQueue;
  * time complexity: O(n*log(n))
  * space complexity: O(n)
  * Runtime: 2 ms, faster than 100.00% of Java online submissions for Meeting Rooms II.
- * Memory Usage: 38 MB, less than 50.00% of Java online submissions for Meeting Rooms II.
+ * Memory Usage: 37.5 MB, less than 70.51% of Java online submissions for Meeting Rooms II.
  */
 public class MeetingRoomsII253 {
 
@@ -28,135 +26,84 @@ public class MeetingRoomsII253 {
       {300, 5870}};
     int[][] tc5intervals = {{1, 5}, {8, 9}, {8, 9}};
 
-    TwoPointerApproach problem = new TwoPointerApproach();
-
-    System.out.println(problem.minMeetingRooms(tc1intervals));
-    System.out.println(problem.minMeetingRooms(tc2intervals));
-    System.out.println(problem.minMeetingRooms(tc3intervals));
-    System.out.println(problem.minMeetingRooms(tc4intervals));
-    System.out.println(problem.minMeetingRooms(tc5intervals));
+    System.out.println(minMeetingRooms(tc1intervals));
+    System.out.println(minMeetingRooms(tc2intervals));
+    System.out.println(minMeetingRooms(tc3intervals));
+    System.out.println(minMeetingRooms(tc4intervals));
+    System.out.println(minMeetingRooms(tc5intervals));
   }
 
-  private static class TwoPointerApproach {
+  public int minMeetingRooms(int[][] intervals) {
+    int n = intervals.length;
+
+    int[] starts = new int[n];
+    int[] ends = new int[n];
+
+    for (int i = 0; i < intervals.length; i++) {
+      starts[i] = intervals[i][0];
+      ends[i] = intervals[i][1];
+    }
+
+    Arrays.sort(starts);
+    Arrays.sort(ends);
+
+    int i = 0;
+    int j = 0;
+
+    int rooms = 0;
+    int max = 0;
+
+    while (i < n) {
+      if (ends[j] <= starts[i]) {
+        rooms--;
+        j++;
+      } else {
+        rooms++;
+        i++;
+
+        max = Math.max(rooms, max);
+      }
+    }
+
+    return max;
+  }
+
+  private static class V2 {
 
     public int minMeetingRooms(int[][] intervals) {
       int n = intervals.length;
 
-      int[] start = new int[n];
-      int[] end = new int[n];
+      int[][] starts = new int[2 * n][2];
 
-      for (int i = 0; i < n; i++) {
-        start[i] = intervals[i][0];
-        end[i] = intervals[i][1];
+      for (int i = 0, j = 0; i < n; i++, j += 2) {
+        starts[j][0] = intervals[i][0];
+        starts[j][1] = 2;//start
+
+        starts[j + 1][0] = intervals[i][1];
+        starts[j + 1][1] = 1;//end
       }
 
-      Arrays.sort(start);
-      Arrays.sort(end);
-
-      int len = 0;
-      int i = 0;
-      int j = 0;
-      int count = 0;
-
-      while (i < n && j < n) {
-        if (start[i] < end[j]) {
-          count++;
-          i++;
-
-          len = Math.max(len, count);
-        } else {
-          count--;
-          j++;
+      Arrays.sort(starts, (a1, a2) -> {
+        if (a1[0] == a2[0]) {
+          return a1[1] - a2[1];
         }
-      }
 
-      return len;
-    }
+        return a1[0] - a2[0];
+      });
 
-    private static class Time {
-
-      int val;
-      int type;
-
-      Time(int val, int type) {
-        this.val = val;
-        this.type = type;
-      }
-    }
-  }
-
-  private static class SortApproach {
-
-    public int minMeetingRooms(int[][] intervals) {
-      Time[] times = new Time[intervals.length * 2];
-
-      for (int i = 0; i < intervals.length; i++) {
-        times[i * 2] = new Time(intervals[i][0], 2);
-        times[i * 2 + 1] = new Time(intervals[i][1], 1);
-      }
-
-      Arrays.sort(times, (t1, t2) -> t1.val == t2.val ? t1.type - t2.type : t1.val - t2.val);
-
-      int meetings = 0;
+      int rooms = 0;
       int max = 0;
 
-      for (Time time : times) {
-        if (time.type == 2) {
-          meetings++;
+      for (int i = 0; i < starts.length; i++) {
+        if (starts[i][1] == 2) {
+          rooms++;
+          max = Math.max(rooms, max);
         } else {
-          meetings--;
+          rooms--;
         }
-
-        max = Math.max(max, meetings);
       }
 
       return max;
-    }
-
-    private static class Time {
-
-      int val;
-      int type;
-
-      Time(int val, int type) {
-        this.val = val;
-        this.type = type;
-      }
-    }
-  }
-
-  private static class HeapApproach {
-
-    public int minMeetingRooms(int[][] intervals) {
-      Arrays.sort(intervals, Comparator.comparingInt(t -> t[0]));
-
-      PriorityQueue<Integer> endTimes = new PriorityQueue<>();
-
-      for (int[] time : intervals) {
-        endTimes.add(time[1]);
-      }
-
-      int min = 0, meetings = 0;
-
-      for (int[] time : intervals) {
-        int startTime = time[0];
-        int endTime = endTimes.peek();
-
-        if (startTime < endTime) {
-          meetings++;
-        } else {
-          while (endTimes.peek() <= startTime) {
-            meetings--;
-            endTimes.poll();
-          }
-
-          meetings++;
-        }
-
-        min = Math.max(min, meetings);
-      }
-
-      return min;
     }
   }
 
