@@ -1,5 +1,10 @@
 package prep;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -8,41 +13,45 @@ public class Prep {
   }
 
   private void test() {
-    int[] tc1a = {5,1,3};
-    System.out.println(search(tc1a, 3));
+    System.out.println(findAnagrams("cbaebabacd", "abc"));
+    System.out.println(findAnagrams("abab", "ab"));
   }
 
-  public int search(int[] nums, int target) {
-    if (nums.length == 0) {
-      return -1;
+  public List<Integer> findAnagrams(String s, String p) {
+    Map<Character, Integer> counter = new HashMap<>();
+    for (int i = 0; i < p.length(); i++) {
+      counter.put(p.charAt(i), counter.getOrDefault(p.charAt(i), 0) + 1);
     }
 
-    int l = 0;
-    int r = nums.length - 1;
+    List<Integer> list = new ArrayList<>();
 
-    while (l <= r) {
-      int m = l + (r - l) / 2;
+    int diff = p.length();
 
-      if (nums[m] == target) {
-        return m;
+    for (int i = 0; i < s.length(); i++) {
+      char ch = s.charAt(i);
+
+      counter.put(ch, counter.getOrDefault(ch, 0) - 1);
+      if (counter.get(ch) >= 0) {
+        diff--;
       }
 
-      if (nums[l] <= nums[m]) {
-        if (target >= nums[l] && target <= nums[m]) {
-          r = m - 1;
-        } else {
-          l = m + 1;
-        }
-      } else {
-        if (target >= nums[m] && target <= nums[r]) {
-          l = m + 1;
-        } else {
-          r = m - 1;
+      int start = i - p.length() + 1;
+
+      if (diff == 0) {
+        list.add(start);
+      }
+
+      if (start >= 0) {
+        char charStart = s.charAt(start);
+        counter.put(charStart, counter.get(charStart) + 1);
+
+        if (counter.get(charStart) > 0) {
+          diff++;
         }
       }
     }
 
-    return -1;
+    return list;
   }
 
 }
