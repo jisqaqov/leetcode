@@ -48,9 +48,11 @@ public class BinaryTreeRightSideView199 {
     while (!queue.isEmpty()) {
       int size = queue.size();
 
-      TreeNode node = null;
       for (int i = 0; i < size; i++) {
-        node = queue.poll();
+        TreeNode node = queue.poll();
+        if (i == size - 1) {
+          list.add(node.val);
+        }
 
         if (node.left != null) {
           queue.add(node.left);
@@ -61,7 +63,7 @@ public class BinaryTreeRightSideView199 {
         }
       }
 
-      list.add(node.val);
+
     }
 
     return list;
