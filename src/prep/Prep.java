@@ -1,13 +1,9 @@
 package prep;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Prep {
-
-  private static final Set<Character> VOWELS = new HashSet<>(
-    Arrays.asList('a', 'e', 'i', 'o', 'u'));
 
   public static void main(String[] args) {
     Prep problem = new Prep();
@@ -15,39 +11,32 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(validPalindrome("aba"));
-    System.out.println(validPalindrome("tcaac"));
-    System.out.println(validPalindrome("acbad"));
+    char[] tc1a = {'A','A','A','B','B','B'};
+    System.out.println(leastInterval(tc1a, 2));
   }
 
-  public boolean validPalindrome(String s) {
-    int i = 0;
-    int j = s.length() - 1;
+  public int leastInterval(char[] tasks, int n) {
+    int maxLen = 0;
+    int maxNum = 0;
 
-    while (i < j) {
-      if (s.charAt(i) != s.charAt(j)) {
-        return isPalindrome(s, i, j - 1) ||
-          isPalindrome(s, i + 1, j);
+    Map<Character, Integer> map = new HashMap<>();
+    for (char task : tasks) {
+      map.put(task, map.getOrDefault(task, 0) + 1);
+
+      if (map.get(task) > maxNum) {
+        maxNum = map.get(task);
+        maxLen = 1;
+      } else if (map.get(task) == maxNum) {
+        maxLen++;
       }
-
-      i++;
-      j--;
     }
 
-    return true;
-  }
+    int freeTasks = (maxNum - 1) * (n - (maxLen - 1));
+    int busyTasks = tasks.length - maxLen * maxNum;
+    int idles = Math.max(freeTasks - busyTasks, 0);
+    int intervals = tasks.length + idles;
 
-  private boolean isPalindrome(String s, int i, int j) {
-    while (i < j) {
-      if (s.charAt(i) != s.charAt(j)) {
-        return false;
-      }
-
-      i++;
-      j--;
-    }
-
-    return true;
+    return intervals;
   }
 
 

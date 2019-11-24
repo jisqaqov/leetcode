@@ -83,30 +83,26 @@ public class TaskScheduler621 {
      * Memory Usage: 37.5 MB, less than 94.12% of Java online submissions for Task Scheduler.
      */
     public int leastInterval(char[] tasks, int n) {
-      Map<Character, Integer> freqs = new HashMap<>();
-
-      for (char task : tasks) {
-        freqs.put(task, freqs.getOrDefault(task, 0) + 1);
-      }
-
-      int maxFreq = 0;
+      int maxLen = 0;
       int maxNum = 0;
 
-      for (int freq : freqs.values()) {
-        if (freq > maxFreq) {
-          maxFreq = freq;
-          maxNum = 1;
-        } else if (freq == maxFreq) {
-          maxNum++;
+      Map<Character, Integer> map = new HashMap<>();
+      for (char task : tasks) {
+        map.put(task, map.getOrDefault(task, 0) + 1);
+
+        if (map.get(task) > maxNum) {
+          maxNum = map.get(task);
+          maxLen = 1;
+        } else if (map.get(task) == maxNum) {
+          maxLen++;
         }
       }
 
-      int parts = maxFreq - 1;
-      int emptySlots = parts * (n - (maxNum - 1));
-      int availableTasks = tasks.length - maxFreq * maxNum;
-      int idles = Math.max(emptySlots - availableTasks, 0);
+      int freeTasks = (maxNum - 1) * (n - (maxLen - 1));
+      int busyTasks = tasks.length - maxLen * maxNum;
+      int idles = Math.max(freeTasks - busyTasks, 0);
 
-      return idles + tasks.length;
+      return tasks.length + idles;
     }
   }
 
