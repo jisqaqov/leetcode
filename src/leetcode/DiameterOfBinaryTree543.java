@@ -35,17 +35,17 @@ public class DiameterOfBinaryTree543 {
 
   public int diameterOfBinaryTree(TreeNode root) {
     this.d = 0;
-    helper(root);
+    height(root);
     return d;
   }
 
-  private int helper(TreeNode root) {
+  private int height(TreeNode root) {
     if (root == null) {
       return 0;
     }
 
-    int hl = helper(root.left);
-    int hr = helper(root.right);
+    int hl = height(root.left);
+    int hr = height(root.right);
 
     int h = Math.max(hl, hr) + 1;
 
