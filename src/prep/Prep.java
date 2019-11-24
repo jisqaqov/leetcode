@@ -15,85 +15,41 @@ public class Prep {
   }
 
   private void test() {
-    V2 v2 = new V2();
-
-    System.out
-      .println(toGoatLatin("I speak Goat Latin").equals("Imaa peaksmaaa oatGmaaaa atinLmaaaaa"));
-    System.out.println(toGoatLatin("The quick brown fox jumped over the lazy dog").equals(
-      "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"));
+    System.out.println(validPalindrome("aba"));
+    System.out.println(validPalindrome("tcaac"));
+    System.out.println(validPalindrome("acbad"));
   }
 
-  public String toGoatLatin(String s) {
-    StringBuilder t = new StringBuilder();
+  public boolean validPalindrome(String s) {
+    int i = 0;
+    int j = s.length() - 1;
 
-    StringBuilder suffix = null;
-    int wordIndex = 0;
-
-    for (int i = 0; i < s.length(); i++) {
-      char ch = s.charAt(i);
-
-      if (i == 0 || s.charAt(i - 1) == ' ') {
-        if (suffix != null) {
-          t.append(suffix);
-        }
-
-        if (i > 0 && s.charAt(i - 1) == ' ') {
-          t.append(" ");
-        }
-
-        if (VOWELS.contains(Character.toLowerCase(ch))) {
-          t.append(ch);
-
-          suffix = new StringBuilder("ma");
-        } else {
-          suffix = new StringBuilder(ch + "ma");
-        }
-
-        for (int k = 0; k <= wordIndex; k++) {
-          suffix.append("a");
-        }
-
-        wordIndex++;
-      } else if (ch != ' ') {
-        t.append(ch);
+    while (i < j) {
+      if (s.charAt(i) != s.charAt(j)) {
+        return isPalindrome(s, i, j - 1) ||
+          isPalindrome(s, i + 1, j);
       }
+
+      i++;
+      j--;
     }
 
-    t.append(suffix);
-
-    return t.toString().trim();
+    return true;
   }
 
-  private static class V2 {
-
-    public String toGoatLatin(String s) {
-      String[] words = s.split(" ");
-
-      for (int i = 0; i < words.length; i++) {
-        String word = words[i];
-
-        char firstChar = word.charAt(0);
-        if (VOWELS.contains(Character.toLowerCase(firstChar))) {
-          word = word + "ma";
-        } else {
-          word = word.substring(1) + word.charAt(0) + "ma";
-        }
-
-        for (int k = 0; k <= i; k++) {
-          word = word + "a";
-        }
-
-        words[i] = word;
+  private boolean isPalindrome(String s, int i, int j) {
+    while (i < j) {
+      if (s.charAt(i) != s.charAt(j)) {
+        return false;
       }
 
-      String t = "";
-
-      for (String word : words) {
-        t = t + " " + word;
-      }
-
-      return t.trim();
+      i++;
+      j--;
     }
+
+    return true;
   }
+
+
 
 }
