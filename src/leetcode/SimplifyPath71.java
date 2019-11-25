@@ -47,19 +47,18 @@ public class SimplifyPath71 {
       }
     }
 
-    StringBuilder shortPath = new StringBuilder("/");
-    int size = stack.size();
+    String shortPath = "";
 
-    for (int i = 0; i < size; i++) {
-      String dir = stack.pollLast();
-      shortPath.append(dir);
-
-      if (i < size - 1) {
-        shortPath.append("/");
+    while (!stack.isEmpty()) {
+      String dir = stack.pop();
+      if (shortPath.isEmpty()) {
+        shortPath = dir;
+      } else {
+        shortPath = dir + "/" + shortPath;
       }
     }
 
-    return shortPath.toString();
+    return "/" + shortPath;
   }
 
 }
