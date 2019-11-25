@@ -13,8 +13,8 @@ import utils.TestUtils;
  * algorithm: Stack
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 17 ms, faster than 15.62% of Java online submissions for Exclusive Time of Functions.
- * Memory Usage: 39.1 MB, less than 89.29% of Java online submissions for Exclusive Time of Functions.
+ * Runtime: 13 ms, faster than 97.56% of Java online submissions for Exclusive Time of Functions.
+ * Memory Usage: 37.3 MB, less than 100.00% of Java online submissions for Exclusive Time of Functions.
  */
 public class ExclusiveTimeOfFunctions636 {
 
@@ -52,62 +52,30 @@ public class ExclusiveTimeOfFunctions636 {
     }
 
     Deque<Integer> stack = new ArrayDeque<>();
-    stack.push(getLog(logs.get(0)).functionId);
 
-    List<Log> list = new ArrayList<>();
-    for (String log : logs) {
-      list.add(getLog(log));
-    }
+    int prevTimestamp = 0;
 
-    for (int i = 1; i < list.size(); i++) {
-      Log prevLog = list.get(i - 1);
-      Log log = list.get(i);
+    for (int i = 0; i < logs.size(); i++) {
+      String[] parts = logs.get(i).split(":");
 
-      if (log.order.equals("start")) {
-        int units = 0;
-        if (prevLog.order.equals("start")) {
-          units = log.timestamp - prevLog.timestamp;
-        } else {
-          units = log.timestamp - prevLog.timestamp - 1;
-        }
+      int id = Integer.parseInt(parts[0]);
+      String order = parts[1];
+      int timestamp = Integer.parseInt(parts[2]);
 
+      if (order.equals("start")) {
         if (!stack.isEmpty()) {
-          funcs[stack.peek()] += units;
+          funcs[stack.peek()] += (timestamp - prevTimestamp);
         }
 
-        stack.push(log.functionId);
+        prevTimestamp = timestamp;
+        stack.push(id);
       } else {
-        int units = log.timestamp - prevLog.timestamp;
-
-        if (prevLog.order.equals("start")) {
-          // same function as previous
-          funcs[log.functionId] += (units + 1);
-        } else {
-          funcs[log.functionId] += units;
-        }
-
-        stack.pop();
+        funcs[stack.pop()] += (timestamp - prevTimestamp + 1);
+        prevTimestamp = timestamp + 1;
       }
     }
 
     return funcs;
-  }
-
-  private Log getLog(String s) {
-    String[] parts = s.split(":");
-
-    Log log = new Log();
-    log.functionId = Integer.parseInt(parts[0]);
-    log.order = parts[1];
-    log.timestamp = Integer.parseInt(parts[2]);
-
-    return log;
-  }
-
-  private static class Log {
-    private int functionId;
-    private String order;
-    private int timestamp;
   }
 
 }
