@@ -1,7 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import utils.TestUtils;
 
 /**
@@ -10,6 +9,8 @@ import utils.TestUtils;
  * algorithm: Two Pointers
  * time complexity: O(N + M)
  * space complexity: O(N + M)
+ * Runtime: 2 ms, faster than 99.77% of Java online submissions for Interval List Intersections.
+ * Memory Usage: 47.8 MB, less than 21.62% of Java online submissions for Interval List Intersections.
  */
 public class IntervalListIntersections986 {
 
@@ -26,33 +27,32 @@ public class IntervalListIntersections986 {
   }
 
   public int[][] intervalIntersection(int[][] a, int[][] b) {
-    List<int[]> list = new ArrayList<>();
-
     int i = 0;
     int j = 0;
 
+    int[][] list = new int[a.length + b.length][2];
+
+    int k = 0;
+
     while (i < a.length && j < b.length) {
       if (isOverlaps(a[i], b[j])) {
-        list.add(new int[] {Math.max(a[i][0], b[j][0]),
-          Math.min(a[i][1], b[j][1])});
+        list[k][0] = Math.max(a[i][0], b[j][0]);
+        list[k][1] = Math.min(a[i][1], b[j][1]);
+
+        k++;
       }
 
-      if (a[i][1] == b[j][1]) {
+      if (a[i][1] < b[j][1]) {
         i++;
+      } else if (b[j][1] < a[i][1]) {
         j++;
-      } else if (a[i][1] < b[j][1]) {
-        i++;
       } else {
+        i++;
         j++;
       }
     }
 
-    int[][] result = new int[list.size()][2];
-    for (int t = 0; t < result.length; t++) {
-      result[t] = list.get(t);
-    }
-
-    return result;
+    return Arrays.copyOf(list, k);
   }
 
   private boolean isOverlaps(int[] a, int[] b) {

@@ -1,7 +1,7 @@
 package prep;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import utils.TestUtils;
 
 public class Prep {
 
@@ -11,34 +11,45 @@ public class Prep {
   }
 
   private void test() {
-    char[] tc1a = {'A','A','A','B','B','B'};
-    System.out.println(leastInterval(tc1a, 2));
+    int[][] tc1a = {{0, 2}, {5, 10}, {13, 23}, {24, 25}};
+    int[][] tc1b = {{1, 5}, {8, 12}, {15, 24}, {25, 26}};
+
+    TestUtils.printArray(intervalIntersection(tc1a, tc1b));
   }
 
-  public int leastInterval(char[] tasks, int n) {
-    int maxLen = 0;
-    int maxNum = 0;
+  public int[][] intervalIntersection(int[][] a, int[][] b) {
+    int i = 0;
+    int j = 0;
 
-    Map<Character, Integer> map = new HashMap<>();
-    for (char task : tasks) {
-      map.put(task, map.getOrDefault(task, 0) + 1);
+    int[][] list = new int[a.length + b.length][2];
 
-      if (map.get(task) > maxNum) {
-        maxNum = map.get(task);
-        maxLen = 1;
-      } else if (map.get(task) == maxNum) {
-        maxLen++;
+    int k = 0;
+
+    while (i < a.length && j < b.length) {
+      if (isOverlaps(a[i], b[j])) {
+        list[k][0] = Math.max(a[i][0], b[j][0]);
+        list[k][1] = Math.min(a[i][1], b[j][1]);
+
+        k++;
+      }
+
+      if (a[i][1] < b[j][1]) {
+        i++;
+      } else if (b[j][1] < a[i][1]) {
+        j++;
+      } else {
+        i++;
+        j++;
       }
     }
 
-    int freeTasks = (maxNum - 1) * (n - (maxLen - 1));
-    int busyTasks = tasks.length - maxLen * maxNum;
-    int idles = Math.max(freeTasks - busyTasks, 0);
-    int intervals = tasks.length + idles;
-
-    return intervals;
+    return Arrays.copyOf(list, k);
   }
 
+  private boolean isOverlaps(int[] a, int[] b) {
+    return (a[0] <= b[0] && a[1] >= b[0]) ||
+      (b[0] <= a[0] && b[1] >= a[0]);
+  }
 
 
 }
