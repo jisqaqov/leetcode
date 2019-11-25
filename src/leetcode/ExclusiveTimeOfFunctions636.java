@@ -1,4 +1,4 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -7,10 +7,10 @@ import java.util.Deque;
 import java.util.List;
 import utils.TestUtils;
 
-public class Prep {
+public class ExclusiveTimeOfFunctions636 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ExclusiveTimeOfFunctions636 problem = new ExclusiveTimeOfFunctions636();
     problem.test();
   }
 
