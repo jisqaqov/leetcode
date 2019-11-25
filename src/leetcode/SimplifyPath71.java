@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 71. Simplify Path
+ * algorithm: String, Stack
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 4 ms, faster than 90.78% of Java online submissions for Simplify Path.
+ * Memory Usage: 36.4 MB, less than 100.00% of Java online submissions for Simplify Path.
+ */
+public class SimplifyPath71 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SimplifyPath71 problem = new SimplifyPath71();
     problem.test();
   }
 
@@ -52,6 +61,5 @@ public class Prep {
 
     return shortPath.toString();
   }
-
 
 }
