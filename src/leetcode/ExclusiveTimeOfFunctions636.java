@@ -7,6 +7,15 @@ import java.util.Deque;
 import java.util.List;
 import utils.TestUtils;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 636. Exclusive Time of Functions
+ * algorithm: Stack
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 17 ms, faster than 15.62% of Java online submissions for Exclusive Time of Functions.
+ * Memory Usage: 39.1 MB, less than 89.29% of Java online submissions for Exclusive Time of Functions.
+ */
 public class ExclusiveTimeOfFunctions636 {
 
   public static void main(String[] args) {
