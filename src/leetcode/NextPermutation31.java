@@ -1,11 +1,20 @@
-package prep;
+package leetcode;
 
 import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 31. Next Permutation
+ * algorithm: Array
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 1 ms, faster than 89.95% of Java online submissions for Next Permutation.
+ * Memory Usage: 41.5 MB, less than 30.00% of Java online submissions for Next Permutation.
+ */
+public class NextPermutation31 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    NextPermutation31 problem = new NextPermutation31();
     problem.test();
   }
 
