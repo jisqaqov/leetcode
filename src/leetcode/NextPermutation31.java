@@ -48,7 +48,7 @@ public class NextPermutation31 {
     int d = -1;
 
     for (int i = nums.length - 1; i > 0; i--) {
-      if (nums[i] > nums[i - 1]) {
+      if (nums[i - 1] < nums[i]) {
         d = i - 1;
         break;
       }
