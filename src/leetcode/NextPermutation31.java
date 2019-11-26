@@ -108,6 +108,22 @@ public class NextPermutation31 {
     }
   }
 
+  private void reverse(int[] nums, int start) {
+    int end = nums.length - 1;
+    while (start < end) {
+      swap(nums, start, end);
+
+      start++;
+      end--;
+    }
+  }
+
+  private void swap(int[] a, int i, int j) {
+    int temp = a[j];
+    a[j] = a[i];
+    a[i] = temp;
+  }
+
   private class V2 {
     public void nextPermutation(int[] nums) {
       if (nums.length < 2) {
@@ -139,22 +155,6 @@ public class NextPermutation31 {
         reverse(nums, index + 1);
       }
     }
-  }
-
-  private void reverse(int[] nums, int start) {
-    int end = nums.length - 1;
-    while (start < end) {
-      swap(nums, start, end);
-
-      start++;
-      end--;
-    }
-  }
-
-  private void swap(int[] a, int i, int j) {
-    int temp = a[j];
-    a[j] = a[i];
-    a[i] = temp;
   }
 
   private class FacebookInterview {
