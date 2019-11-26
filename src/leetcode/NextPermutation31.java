@@ -63,7 +63,7 @@ public class NextPermutation31 {
         }
       }
 
-      swap(d, maxIndex, nums);
+      swap(nums, d, maxIndex);
     }
 
     reverse(nums, d + 1, nums.length - 1);
@@ -71,14 +71,14 @@ public class NextPermutation31 {
 
   private void reverse(int[] a, int l, int r) {
     while (l < r) {
-      swap(l, r, a);
+      swap(a, l, r);
 
       l++;
       r--;
     }
   }
 
-  private void swap(int i, int j, int[] a) {
+  private void swap(int[] a, int i, int j) {
     int temp = a[j];
     a[j] = a[i];
     a[i] = temp;
