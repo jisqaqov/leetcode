@@ -9,7 +9,7 @@ import utils.TestUtils;
  * time complexity: O(N)
  * space complexity: O(1)
  * Runtime: 1 ms, faster than 89.95% of Java online submissions for Next Permutation.
- * Memory Usage: 41.5 MB, less than 30.00% of Java online submissions for Next Permutation.
+ * Memory Usage: 40.1 MB, less than 47.00% of Java online submissions for Next Permutation.
  */
 public class NextPermutation31 {
 
@@ -41,32 +41,34 @@ public class NextPermutation31 {
   }
 
   public void nextPermutation(int[] nums) {
-    if (nums.length <= 1) {
+    if (nums.length < 2) {
       return;
     }
 
-    int d = -1;
+    int index = -1;
 
     for (int i = nums.length - 1; i > 0; i--) {
       if (nums[i - 1] < nums[i]) {
-        d = i - 1;
+        index = i - 1;
         break;
       }
     }
 
-    if (d >= 0) {
-      int maxIndex = d + 1;
+    if (index == -1) {
+      reverse(nums, 0, nums.length - 1);
+    } else {
+      int j = nums.length - 1;
 
-      for (int i = d + 1; i < nums.length; i++) {
-        if (nums[i] > nums[d] && nums[i] <= nums[maxIndex]) {
-          maxIndex = i;
+      for (; j > index; j--) {
+        if (nums[j] > nums[index]) {
+          break;
         }
       }
 
-      swap(nums, d, maxIndex);
-    }
+      swap(nums, index, j);
 
-    reverse(nums, d + 1, nums.length - 1);
+      reverse(nums, index + 1, nums.length - 1);
+    }
   }
 
   private void reverse(int[] a, int l, int r) {
