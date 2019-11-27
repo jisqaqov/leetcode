@@ -13,7 +13,7 @@ import java.util.Set;
  * algorithm: Graph, Topological Sort
  * time complexity: O(V + E + |words|)
  * space complexity: O(V + E + |words|)
- * Runtime: 4 ms, faster than 75.97% of Java online submissions for Alien Dictionary.
+ * Runtime: 3 ms, faster than 88.19% of Java online submissions for Alien Dictionary.
  * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
  */
 public class AlienDictionary269 {
@@ -43,12 +43,12 @@ public class AlienDictionary269 {
       }
     }
 
-    for (int i = 1; i < words.length; i++) {
-      int len = Math.min(words[i - 1].length(), words[i].length());
+    for (int i = 0; i < words.length - 1; i++) {
+      int len = Math.min(words[i].length(), words[i + 1].length());
 
       for (int t = 0; t < len; t++) {
-        char ch1 = words[i - 1].charAt(t);
-        char ch2 = words[i].charAt(t);
+        char ch1 = words[i].charAt(t);
+        char ch2 = words[i + 1].charAt(t);
 
         if (ch1 != ch2) {
           adjList.get(ch1).add(ch2);
@@ -75,8 +75,8 @@ public class AlienDictionary269 {
 
     StringBuilder sb = new StringBuilder();
 
-    while (!deque.isEmpty()) {
-      sb.append(deque.pollFirst());
+    for (Character ch : deque) {
+      sb.append(ch);
     }
 
     return sb.toString();
@@ -87,14 +87,12 @@ public class AlienDictionary269 {
     Deque<Character> deque) {
     visited.add(ch);
 
-    if (adjList.containsKey(ch)) {
-      for (Character adj : adjList.get(ch)) {
-        if (visited.contains(adj)) {
-          continue;
-        }
-
-        tsort(adj, visited, adjList, deque);
+    for (Character adj : adjList.get(ch)) {
+      if (visited.contains(adj)) {
+        continue;
       }
+
+      tsort(adj, visited, adjList, deque);
     }
 
     deque.addFirst(ch);
@@ -117,15 +115,13 @@ public class AlienDictionary269 {
     Set<Character> visited, Set<Character> explored) {
     visited.add(s);
 
-    if (adjList.containsKey(s)) {
-      for (Character adj : adjList.get(s)) {
-        if (!explored.contains(adj) && visited.contains(adj)) {
-          return true;
-        }
+    for (Character adj : adjList.get(s)) {
+      if (!explored.contains(adj) && visited.contains(adj)) {
+        return true;
+      }
 
-        if (!visited.contains(adj) && isCyclic(adj, adjList, visited, explored)) {
-          return true;
-        }
+      if (!visited.contains(adj) && isCyclic(adj, adjList, visited, explored)) {
+        return true;
       }
     }
 
