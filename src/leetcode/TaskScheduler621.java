@@ -20,6 +20,7 @@ public class TaskScheduler621 {
   public static void main(String[] args) {
     TaskScheduler621 problem = new TaskScheduler621();
     problem.test();
+    problem.interview();
   }
 
   private void test() {
@@ -28,6 +29,21 @@ public class TaskScheduler621 {
     char[] tc1a = {'A', 'A', 'A', 'B', 'B', 'B'};
     System.out.println(leastInterval(tc1a, 2));
     System.out.println(v2.leastInterval(tc1a, 2));
+  }
+
+  private void interview() {
+    System.out.println("facebook interview:");
+
+    FacebookInterview interview = new FacebookInterview();
+
+    int[] tc1a = {1, 1, 2, 1};
+    System.out.println(interview.totalTime(tc1a, 2));//7
+
+    int[] tc2a = {1, 1, 2, 1, 2, 2, 1, 1};
+    System.out.println(interview.totalTime(tc2a, 2));//15
+
+    int[] tc3a = {1,2,1,2};
+    System.out.println(interview.totalTime(tc3a, 2));//5
   }
 
   public int leastInterval(char[] tasks, int n) {
@@ -114,6 +130,40 @@ public class TaskScheduler621 {
 
     Task(char ch) {
       this.ch = ch;
+    }
+  }
+
+  /**
+   * You're given a list of tasks, with number denoted different type of
+   * tasks, and there'll be interval between tasks with tasks of same id.
+   * Return total time for executing this task list.
+   *
+   * Example:
+   *
+   * Input: tasks = [1, 1, 2, 1], interval = 2
+   * Output: 7
+   * Explanation:
+   * It's executed as 1 . . 1 2 . 1, so the total time is 7.
+   */
+  private static class FacebookInterview {
+    public int totalTime(int[] tasks, int n) {
+      int time = 0;
+
+      Map<Integer, Integer> map = new HashMap<>();
+
+      for (int i = 0; i < tasks.length; i++) {
+        int idle = 0;
+
+        if (map.containsKey(tasks[i])) {
+          int len = time - map.get(tasks[i]);
+          idle = Math.max(n - len, 0);
+        }
+
+        time += (idle + 1);
+        map.put(tasks[i], time);
+      }
+
+      return time;
     }
   }
 
