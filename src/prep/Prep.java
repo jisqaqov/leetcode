@@ -1,15 +1,9 @@
 package prep;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Prep {
-
-  private static final String[] LESS_20 = {"", "One", "Two", "Three", "Four", "Five", "Six",
-    "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
-    "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-
-  private static final String[] TENS = {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
-    "Seventy", "Eighty", "Ninety"};
-
-  private static final String[] THOUSANDS = {"", "Thousand", "Million", "Billion"};
 
   public static void main(String[] args) {
     Prep problem = new Prep();
@@ -17,46 +11,35 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(numberToWords(1000000));
-//    System.out.println(numberToWords(50868));
-    //System.out.println(numberToWords(42562690));
+    System.out.println(lengthOfLongestSubstringKDistinct("eceba", 2));
+    System.out.println(lengthOfLongestSubstringKDistinct("aa", 1));
   }
 
-  public String numberToWords(int num) {
-    if (num == 0) {
-      return "Zero";
-    }
+  public int lengthOfLongestSubstringKDistinct(String s, int k) {
+    int len = 0;
 
-    String s = "";
+    Map<Character, Integer> map = new HashMap<>();
+    int start = 0;
 
-    int d = 0;
+    for (int end = 0; end < s.length(); end++) {
+      char currChar = s.charAt(end);
+      map.put(currChar, map.getOrDefault(currChar, 0) + 1);
 
-    while (num > 0) {
-      int k = num % 1000;
+      while (start <= end && map.size() > k) {
+        char startChar = s.charAt(start);
 
-      if (k != 0) {
-        s = helper(k).trim() + " " + THOUSANDS[d] + " " + s;
+        map.put(startChar, map.get(startChar) - 1);
+        if (map.get(startChar) == 0) {
+          map.remove(startChar);
+        }
+
+        start++;
       }
 
-      d++;
-      num = num / 1000;
+      len = Math.max(len, end - start + 1);
     }
 
-    return s.trim();
-  }
-
-  private String helper(int num) {
-    if (num == 0) {
-      return "";
-    }
-
-    if (num < 20) {
-      return LESS_20[num];
-    } else if (num < 100) {
-      return TENS[num / 10] + " " + helper(num % 10);
-    } else {
-      return helper(num / 100) + " Hundred " + helper(num % 100);
-    }
+    return len;
   }
 
 }
