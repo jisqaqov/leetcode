@@ -1,6 +1,7 @@
 package prep;
 
-import utils.TestUtils;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Prep {
 
@@ -10,69 +11,53 @@ public class Prep {
   }
 
   private void test() {
-    int[] tc1a = {6, 2, 1, 5, 4, 3, 0};
-    nextPermutation(tc1a);
-    TestUtils.printArray(tc1a);
-
-    int[] tc2a = {1, 2, 3};
-    nextPermutation(tc2a);
-    TestUtils.printArray(tc2a);
-
-    int[] tc3a = {1, 1, 5};
-    nextPermutation(tc3a);
-    TestUtils.printArray(tc3a);
-
-    int[] tc4a = {3, 2, 1};
-    nextPermutation(tc4a);
-    TestUtils.printArray(tc4a);
-
-    int[] tc5a = {2, 3, 1, 3, 3};
-    nextPermutation(tc5a);
-    TestUtils.printArray(tc5a);
+    System.out.println(minWindow("ADOBECODEBANC", "ABC"));
+    System.out.println(minWindow("A", "A"));
   }
 
-  public void nextPermutation(int[] nums) {
-    if (nums.length <= 1) {
-      return;
+  public String minWindow(String s, String t) {
+    Map<Character, Integer> map = new HashMap<>();
+    for (int i = 0; i < t.length(); i++) {
+      map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
     }
 
-    int d = -1;
+    int diff = t.length();
 
-    for (int i = nums.length - 1; i > 0; i--) {
-      if (nums[i] > nums[i - 1]) {
-        d = i - 1;
-        break;
+    int minLen = -1;
+
+    int[] indexes = new int[2];
+
+    int start = 0;
+
+    for (int end = 0; end < s.length(); end++) {
+      char lastChar = s.charAt(end);
+
+      map.put(lastChar, map.getOrDefault(lastChar, 0) - 1);
+      if (map.get(lastChar) >= 0) {
+        diff--;
       }
-    }
 
-    if (d >= 0) {
-      int maxIndex = d + 1;
+      while (start <= end && diff == 0) {
+        int len = end - start + 1;
+        if (minLen == -1 || len < minLen) {
+          minLen = len;
 
-      for (int i = d + 1; i < nums.length; i++) {
-        if (nums[i] > nums[d] && nums[i] <= nums[maxIndex]) {
-          maxIndex = i;
+          indexes[0] = start;
+          indexes[1] = end;
         }
+
+        char startChar = s.charAt(start);
+
+        map.put(startChar, map.get(startChar) + 1);
+        if (map.get(startChar) > 0) {
+          diff++;
+        }
+
+        start++;
       }
-
-      swap(d, maxIndex, nums);
     }
 
-    reverse(nums, d + 1, nums.length - 1);
-  }
-
-  private void reverse(int[] a, int l, int r) {
-    while (l < r) {
-      swap(l, r, a);
-
-      l++;
-      r--;
-    }
-  }
-
-  private void swap(int i, int j, int[] a) {
-    int temp = a[j];
-    a[j] = a[i];
-    a[i] = temp;
+    return minLen < 0 ? "" : s.substring(indexes[0], indexes[1] + 1);
   }
 
 }

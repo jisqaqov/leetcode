@@ -6,11 +6,11 @@ import java.util.Map;
 /**
  * @author Jandos Iskakov
  * problem: 76. Minimum Window Substring
- * algorithm: Sliding Window Technique
+ * algorithm: Hash Table, Two Pointers, Sliding Window, String
  * time complexity: O(|s| + |t|)
  * space complexity: O(|s| + |t|)
- * Runtime: 19 ms, faster than 48.68% of Java online submissions for Minimum Window Substring.
- * Memory Usage: 37.2 MB, less than 98.94% of Java online submissions for Minimum Window Substring.
+ * Runtime: 14 ms, faster than 66.68% of Java online submissions for Minimum Window Substring.
+ * Memory Usage: 37.9 MB, less than 93.62% of Java online submissions for Minimum Window Substring.
  */
 public class MinimumWindowSubstring76 {
 
@@ -29,47 +29,43 @@ public class MinimumWindowSubstring76 {
       map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
     }
 
-    int counter = map.size();
-    int start = -1, minLen = -1;
-    int[] index = new int[2];
+    int diff = t.length();
 
-    for (int i = 0; i < s.length(); i++) {
-      char ch = s.charAt(i);
+    int minLen = -1;
 
-      if (map.containsKey(ch)) {
-        if (start == -1) {
-          start = i;
-        }
+    int[] indexes = new int[2];
 
-        map.put(ch, map.get(ch) - 1);
+    int start = 0;
 
-        if (map.get(ch) == 0) {
-          counter--;
-        }
+    for (int end = 0; end < s.length(); end++) {
+      char lastChar = s.charAt(end);
+
+      map.put(lastChar, map.getOrDefault(lastChar, 0) - 1);
+      if (map.get(lastChar) >= 0) {
+        diff--;
       }
 
-      while (counter == 0) {
-        int len = i - start + 1;
+      while (start <= end && diff == 0) {
+        int len = end - start + 1;
         if (minLen == -1 || len < minLen) {
           minLen = len;
-          index[0] = start;
-          index[1] = i;
+
+          indexes[0] = start;
+          indexes[1] = end;
         }
 
-        char prefix = s.charAt(start);
-        map.put(prefix, map.get(prefix) + 1);
-        if (map.get(prefix) > 0) {
-          counter++;
+        char startChar = s.charAt(start);
+
+        map.put(startChar, map.get(startChar) + 1);
+        if (map.get(startChar) > 0) {
+          diff++;
         }
 
         start++;
-        while (start < i && !map.containsKey(s.charAt(start))) {
-          start++;
-        }
       }
     }
 
-    return minLen > 0 ? s.substring(index[0], index[1] + 1) : "";
+    return minLen < 0 ? "" : s.substring(indexes[0], indexes[1] + 1);
   }
 
 }
