@@ -1,9 +1,15 @@
 package prep;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Prep {
+
+  private static final String[] LESS_20 = {"", "One", "Two", "Three", "Four", "Five", "Six",
+    "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen",
+    "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+
+  private static final String[] TENS = {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
+    "Seventy", "Eighty", "Ninety"};
+
+  private static final String[] THOUSANDS = {"", "Thousand", "Million", "Billion"};
 
   public static void main(String[] args) {
     Prep problem = new Prep();
@@ -11,53 +17,46 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(minWindow("ADOBECODEBANC", "ABC"));
-    System.out.println(minWindow("A", "A"));
+    System.out.println(numberToWords(1000000));
+//    System.out.println(numberToWords(50868));
+    //System.out.println(numberToWords(42562690));
   }
 
-  public String minWindow(String s, String t) {
-    Map<Character, Integer> map = new HashMap<>();
-    for (int i = 0; i < t.length(); i++) {
-      map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
+  public String numberToWords(int num) {
+    if (num == 0) {
+      return "Zero";
     }
 
-    int diff = t.length();
+    String s = "";
 
-    int minLen = -1;
+    int d = 0;
 
-    int[] indexes = new int[2];
+    while (num > 0) {
+      int k = num % 1000;
 
-    int start = 0;
-
-    for (int end = 0; end < s.length(); end++) {
-      char lastChar = s.charAt(end);
-
-      map.put(lastChar, map.getOrDefault(lastChar, 0) - 1);
-      if (map.get(lastChar) >= 0) {
-        diff--;
+      if (k != 0) {
+        s = helper(k).trim() + " " + THOUSANDS[d] + " " + s;
       }
 
-      while (start <= end && diff == 0) {
-        int len = end - start + 1;
-        if (minLen == -1 || len < minLen) {
-          minLen = len;
-
-          indexes[0] = start;
-          indexes[1] = end;
-        }
-
-        char startChar = s.charAt(start);
-
-        map.put(startChar, map.get(startChar) + 1);
-        if (map.get(startChar) > 0) {
-          diff++;
-        }
-
-        start++;
-      }
+      d++;
+      num = num / 1000;
     }
 
-    return minLen < 0 ? "" : s.substring(indexes[0], indexes[1] + 1);
+    return s.trim();
+  }
+
+  private String helper(int num) {
+    if (num == 0) {
+      return "";
+    }
+
+    if (num < 20) {
+      return LESS_20[num];
+    } else if (num < 100) {
+      return TENS[num / 10] + " " + helper(num % 10);
+    } else {
+      return helper(num / 100) + " Hundred " + helper(num % 100);
+    }
   }
 
 }

@@ -11,10 +11,9 @@ package leetcode;
  */
 public class IntegerToEnglishWords273 {
 
-  private static final String[] NUMS = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
-    "Eight", "Nine", "Ten",
-    "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen",
-    "Nineteen"};
+  private static final String[] LESS_20 = {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+    "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",
+    "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 
   private static final String[] TENS = {"", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
     "Seventy", "Eighty", "Ninety"};
@@ -27,7 +26,9 @@ public class IntegerToEnglishWords273 {
   }
 
   private void test() {
+    System.out.println(numberToWords(1000000));
     System.out.println(numberToWords(50868));
+    System.out.println(numberToWords(42562690));
   }
 
   public String numberToWords(int num) {
@@ -39,8 +40,10 @@ public class IntegerToEnglishWords273 {
     int i = 0;
 
     while (num > 0) {
-      if (num % 1000 != 0) {
-        s = convertLessThan1000(num % 1000).trim() + " " + THOUSANDS[i] + " " + s;
+      int k = num % 1000;
+
+      if (k != 0) {
+        s = helper(k).trim() + " " + THOUSANDS[i] + " " + s;
       }
 
       i++;
@@ -50,15 +53,18 @@ public class IntegerToEnglishWords273 {
     return s.trim();
   }
 
-  private String convertLessThan1000(int n) {
+  // deals with numbers < 1000
+  private String helper(int n) {
     if (n == 0) {
       return "";
-    } else if (n < 20) {
-      return NUMS[n] + " ";
+    }
+
+    if (n < 20) {
+      return LESS_20[n];
     } else if (n < 100) {
-      return TENS[n / 10] + " " + convertLessThan1000(n % 10);
+      return TENS[n / 10] + " " + helper(n % 10);
     } else {
-      return NUMS[n / 100] + " Hundred " + convertLessThan1000(n % 100);
+      return LESS_20[n / 100] + " Hundred " + helper(n % 100);
     }
   }
 
