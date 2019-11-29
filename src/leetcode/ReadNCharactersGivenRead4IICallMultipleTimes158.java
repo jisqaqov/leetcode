@@ -1,21 +1,18 @@
-package prep;
+package leetcode;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
-public class Prep {
-
-  public static void main(String[] args) {
-    Prep problem = new Prep();
-    problem.test();
-  }
-
-  private void test() {
-    char[] a = new char[2];
-    System.out.println(a);
-  }
+/**
+ * @author Jandos Iskakov
+ * problem: 158. Read N Characters Given Read4 II - Call multiple times
+ * algorithm: Array
+ * time complexity: O(N)
+ * space complexity: O(4)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions for Read N Characters Given Read4 II - Call multiple times.
+ * Memory Usage: 36.2 MB, less than 100.00% of Java online submissions for Read N Characters Given Read4 II - Call multiple times.
+ */
+public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
 
   /**
    * The read4 API is defined in the parent class Reader4.
@@ -44,7 +41,7 @@ public class Prep {
         int n4 = read4(buf4);
 
         for (int i = 0; i < n4; i++) {
-          queue.add(buf[i]);
+          queue.add(buf4[i]);
         }
 
         if (n4 == 0) {
@@ -72,7 +69,5 @@ public class Prep {
       return 0;
     }
   }
-
-
 
 }
