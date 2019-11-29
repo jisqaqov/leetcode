@@ -28,20 +28,27 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
      * @return    The number of actual characters read
      */
     public int read(char[] buf, int n) {
-      if (isEmpty) {
-        if (queue.size() == 0) {
-          return 0;
-        }
-
-        return fillBuf(buf, n);
+      if (isEmpty && queue.isEmpty()) {
+        return 0;
       }
 
-      while (queue.size() < n) {
+      int k = 0;
+      while (!queue.isEmpty() && k < n) {
+        buf[k] = queue.poll();
+        k++;
+      }
+
+      while (k < n) {
         char[] buf4 = new char[4];
         int n4 = read4(buf4);
 
         for (int i = 0; i < n4; i++) {
-          queue.add(buf4[i]);
+          if (k < n) {
+            buf[k] = buf4[i];
+            k++;
+          } else {
+            queue.add(buf4[i]);
+          }
         }
 
         if (n4 == 0) {
@@ -50,17 +57,7 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
         }
       }
 
-      return fillBuf(buf, n);
-    }
-
-    private int fillBuf(char[] buf, int n) {
-      int size = Math.min(queue.size(), n);
-
-      for (int i = 0; i < size; i++) {
-        buf[i] = queue.poll();
-      }
-
-      return size;
+      return k;
     }
   }
 
