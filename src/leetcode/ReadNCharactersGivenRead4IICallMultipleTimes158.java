@@ -19,7 +19,6 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
    *     int read4(char[] buf);
    */
     public class Solution extends Reader4 {
-      private boolean isEOF = false;
       private Queue<Character> queue = new LinkedList<>();
 
       /**
@@ -28,10 +27,6 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
        * @return    The number of actual characters read
        */
       public int read(char[] buf, int n) {
-        if (isEOF && queue.isEmpty()) {
-          return 0;
-        }
-
         int k = 0;
 
         while (!queue.isEmpty() && k < n) {
@@ -53,7 +48,6 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
           }
 
           if (n4 == 0) {
-            isEOF = true;
             break;
           }
         }
