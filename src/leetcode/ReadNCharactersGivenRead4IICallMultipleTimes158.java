@@ -18,34 +18,35 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
    * The read4 API is defined in the parent class Reader4.
    *     int read4(char[] buf);
    */
-  public class Solution extends Reader4 {
-    private boolean isEOF = false;
-    private Queue<Character> queue = new LinkedList<>();
+    public class Solution extends Reader4 {
+      private boolean isEOF = false;
+      private Queue<Character> queue = new LinkedList<>();
 
-    /**
-     * @param buf Destination buffer
-     * @param n   Number of characters to read
-     * @return    The number of actual characters read
-     */
-    public int read(char[] buf, int n) {
-      if (isEOF && queue.isEmpty()) {
-        return 0;
-      }
+      /**
+       * @param buf Destination buffer
+       * @param n   Number of characters to read
+       * @return    The number of actual characters read
+       */
+      public int read(char[] buf, int n) {
+        if (isEOF && queue.isEmpty()) {
+          return 0;
+        }
 
-      int size = 0;
+        int k = 0;
 
-      while (size < n) {
-        if (!queue.isEmpty()) {
-          buf[size] = queue.poll();
-          size++;
-        } else {
+        while (!queue.isEmpty() && k < n) {
+          buf[k] = queue.poll();
+          k++;
+        }
+
+        while (k < n) {
           char[] buf4 = new char[4];
           int n4 = read4(buf4);
 
           for (int i = 0; i < n4; i++) {
-            if (size < n) {
-              buf[size] = buf4[i];
-              size++;
+            if (k < n) {
+              buf[k] = buf4[i];
+              k++;
             } else {
               queue.add(buf4[i]);
             }
@@ -56,11 +57,10 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
             break;
           }
         }
-      }
 
-      return size;
+        return k;
+      }
     }
-  }
 
   private class Reader4 {
     int read4(char[] buf) {
