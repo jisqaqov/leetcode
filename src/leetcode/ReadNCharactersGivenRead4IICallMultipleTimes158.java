@@ -19,7 +19,6 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
    *     int read4(char[] buf);
    */
   public class Solution extends Reader4 {
-    private boolean isEmpty = false;
     private Queue<Character> queue = new LinkedList<>();
 
     /**
@@ -28,32 +27,28 @@ public class ReadNCharactersGivenRead4IICallMultipleTimes158 {
      * @return    The number of actual characters read
      */
     public int read(char[] buf, int n) {
-      if (isEmpty && queue.isEmpty()) {
-        return 0;
-      }
-
       int k = 0;
-      while (!queue.isEmpty() && k < n) {
-        buf[k] = queue.poll();
-        k++;
-      }
 
       while (k < n) {
-        char[] buf4 = new char[4];
-        int n4 = read4(buf4);
+        if (!queue.isEmpty()) {
+          buf[k] = queue.poll();
+          k++;
+        } else {
+          char[] buf4 = new char[4];
+          int n4 = read4(buf4);
 
-        for (int i = 0; i < n4; i++) {
-          if (k < n) {
-            buf[k] = buf4[i];
-            k++;
-          } else {
-            queue.add(buf4[i]);
+          for (int i = 0; i < n4; i++) {
+            if (k < n) {
+              buf[k] = buf4[i];
+              k++;
+            } else {
+              queue.add(buf4[i]);
+            }
           }
-        }
 
-        if (n4 == 0) {
-          isEmpty = true;
-          break;
+          if (n4 == 0) {
+            break;
+          }
         }
       }
 
