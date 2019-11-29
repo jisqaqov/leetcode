@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 161. One Edit Distance
+ * algorithm: String
+ * time complexity: O(|S| + |T|)
+ * space complexity: O(1)
+ * Runtime: 1 ms, faster than 99.45% of Java online submissions for One Edit Distance.
+ * Memory Usage: 38 MB, less than 85.29% of Java online submissions for One Edit Distance.
+ */
+public class OneEditDistance161 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    OneEditDistance161 problem = new OneEditDistance161();
     problem.test();
   }
 
@@ -55,6 +64,5 @@ public class Prep {
 
     return true;
   }
-
 
 }
