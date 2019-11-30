@@ -1,14 +1,23 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 791. Custom Sort String
+ * algorithm: String
+ * time complexity: O(|S| + |T|)
+ * space complexity: O(|S| + |T|)
+ * Runtime: 2 ms, faster than 46.91% of Java online submissions for Custom Sort String.
+ * Memory Usage: 34.5 MB, less than 100.00% of Java online submissions for Custom Sort String.
+ */
+public class CustomSortString791 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    CustomSortString791 problem = new CustomSortString791();
     problem.test();
   }
 
@@ -49,6 +58,5 @@ public class Prep {
 
     return output.toString();
   }
-
 
 }
