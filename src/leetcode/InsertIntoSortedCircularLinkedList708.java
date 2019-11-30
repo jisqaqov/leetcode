@@ -39,10 +39,10 @@ public class InsertIntoSortedCircularLinkedList708 {
 
     boolean isFound = false;
 
-    Node currNode = head.next;
+    Node currNode = head;
     Node tail = null;
 
-    while (currNode != head) {
+    while (true) {
       if (insertVal >= currNode.val && insertVal <= currNode.next.val) {
         isFound = true;
         break;
@@ -53,6 +53,10 @@ public class InsertIntoSortedCircularLinkedList708 {
       }
 
       currNode = currNode.next;
+
+      if (currNode == head) {
+        break;
+      }
     }
 
     if (isFound) {
