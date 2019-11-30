@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 708. Insert into a Sorted Circular Linked List
+ * algorithm: Linked List
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Insert into a Sorted Circular Linked List.
+ * Memory Usage: 36.2 MB, less than 10.00% of Java online submissions for Insert into a Sorted Circular Linked List.
+ */
+public class InsertIntoSortedCircularLinkedList708 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    InsertIntoSortedCircularLinkedList708 problem = new InsertIntoSortedCircularLinkedList708();
     problem.test();
   }
 
@@ -74,6 +83,5 @@ public class Prep {
       this.next = next;
     }
   }
-
 
 }
