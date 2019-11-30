@@ -7,7 +7,7 @@ package leetcode;
  * time complexity: O(|S| + |T|)
  * space complexity: O(1)
  * Runtime: 1 ms, faster than 99.45% of Java online submissions for One Edit Distance.
- * Memory Usage: 38 MB, less than 85.29% of Java online submissions for One Edit Distance.
+ * Memory Usage: 37.7 MB, less than 91.18% of Java online submissions for One Edit Distance.
  */
 public class OneEditDistance161 {
 
@@ -25,24 +25,19 @@ public class OneEditDistance161 {
 
   public boolean isOneEditDistance(String s, String t) {
     int i = 0;
-    int j = 0;
 
-    while (i < s.length() && j < t.length()) {
-      if (s.charAt(i) != t.charAt(j)) {
-        break;
-      }
-
+    int minLen = Math.min(s.length(), t.length());
+    while (i < minLen && s.charAt(i) == t.charAt(i)) {
       i++;
-      j++;
     }
 
-    if (i == s.length() && j == t.length()) {
+    if (i == s.length() && i == t.length()) {
       return false;
     }
 
-    return isEquals(s, i + 1, t, j + 1) ||
-      isEquals(s, i + 1, t, j) ||
-      isEquals(s, i, t, j + 1);
+    return isEquals(s, i + 1, t, i + 1) ||
+      isEquals(s, i + 1, t, i) ||
+      isEquals(s, i, t, i + 1);
   }
 
   private boolean isEquals(String s, int i, String t, int j) {
