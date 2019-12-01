@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 8. String to Integer (atoi)
+ * algorithm: Math, String
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 2 ms, faster than 56.90% of Java online submissions for String to Integer (atoi).
+ * Memory Usage: 35.6 MB, less than 100.00% of Java online submissions for String to Integer (atoi).
+ */
+public class StringToInteger8 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    StringToInteger8 problem = new StringToInteger8();
     problem.test();
   }
 
@@ -41,8 +50,7 @@ public class Prep {
     int num = 0;
     int len = 0;
 
-    int j = i;
-    for (; j < str.length(); j++) {
+    for (int j = i; j < str.length(); j++) {
       char ch = str.charAt(j);
 
       if (!Character.isDigit(ch)) {
