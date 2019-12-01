@@ -27,6 +27,8 @@ public class StringToInteger8 {
 
   public int myAtoi(String str) {
     int i = 0;
+
+    // skip whitespace
     while (i < str.length() && str.charAt(i) == ' ') {
       i++;
     }
@@ -71,7 +73,7 @@ public class StringToInteger8 {
 
       num = num * 10;
 
-      // check for overflow on multiplication
+      // check for overflow on addition
       if (sign == -1 && num < Integer.MIN_VALUE - digit) {
         return Integer.MIN_VALUE;
       } else if (sign == 1 && num > Integer.MAX_VALUE - digit) {
