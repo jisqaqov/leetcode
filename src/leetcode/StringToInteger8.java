@@ -17,79 +17,48 @@ public class StringToInteger8 {
   }
 
   private void test() {
+    System.out.println(myAtoi("   "));//0
     System.out.println(myAtoi("42"));//42
     System.out.println(myAtoi("   -42"));//-42
     System.out.println(myAtoi("4193 with words"));//4193
     System.out.println(myAtoi("words and 987"));//0
     System.out.println(myAtoi("-91283472332"));//-2147483648
+    System.out.println(myAtoi("-2147483648"));//-2147483648
     System.out.println(myAtoi("  3322147483647"));//2147483647
   }
 
   public int myAtoi(String str) {
+    str = str.trim();
+    if (str.isEmpty()) {
+      return 0;
+    }
+
     int i = 0;
 
-    // skip whitespace
-    while (i < str.length() && str.charAt(i) == ' ') {
-      i++;
-    }
-
-    if (i == str.length()) {
-      return 0;
-    }
-
-    char startChar = str.charAt(i);
-
     int sign = 1;
-    if (startChar == '+') {
+    if (str.charAt(i) == '+' || str.charAt(i) == '-') {
+      sign = str.charAt(i) == '+'? 1: -1;
       i++;
-    } else if (startChar == '-') {
-      sign = -1;
-      i++;
-    } else if (!Character.isDigit(startChar)) {
-      return 0;
     }
 
-    int num = 0;
-    int len = 0;
+    int number = 0;
 
-    for (int j = i; j < str.length(); j++) {
-      char ch = str.charAt(j);
-
-      if (!Character.isDigit(ch)) {
-        break;
-      }
+    while (i < str.length() && Character.isDigit(str.charAt(i))) {
+      char ch = str.charAt(i);
 
       int digit = Character.getNumericValue(ch);
-      if (sign == -1) {
-        digit *= -1;
+
+      // check for overflow
+      if (number > Integer.MAX_VALUE / 10 || (number > (Integer.MAX_VALUE - digit) / 10)) {
+        return sign == -1? Integer.MIN_VALUE: Integer.MAX_VALUE;
       }
 
-      // check for overflow on multiplication
-      if (sign == -1 && num < Integer.MIN_VALUE / 10) {
-        return Integer.MIN_VALUE;
-      } else if (sign == 1 && num > Integer.MAX_VALUE / 10) {
-        return Integer.MAX_VALUE;
-      }
+      number = number * 10 + digit;
 
-      num = num * 10;
-
-      // check for overflow on addition
-      if (sign == -1 && num < Integer.MIN_VALUE - digit) {
-        return Integer.MIN_VALUE;
-      } else if (sign == 1 && num > Integer.MAX_VALUE - digit) {
-        return Integer.MAX_VALUE;
-      }
-
-      num += digit;
-
-      len++;
+      i++;
     }
 
-    if (len == 0) {
-      return 0;
-    }
-
-    return num;
+    return number * sign;
   }
 
 }
