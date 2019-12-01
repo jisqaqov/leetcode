@@ -49,8 +49,10 @@ public class StringToInteger8 {
       int digit = Character.getNumericValue(ch);
 
       // check for overflow
-      // another option to check for overflow number == Integer.MAX_VALUE / 10 && digit > 7
-      if (number > Integer.MAX_VALUE / 10 || (number > (Integer.MAX_VALUE - digit) / 10)) {
+      // another option to check for overflow
+      // number > Integer.MAX_VALUE / 10 || (number == Integer.MAX_VALUE / 10 && digit > 7)
+      // number * 10 + digit > MAX => number > (MAX - digit) / 10
+      if (number > (Integer.MAX_VALUE - digit) / 10) {
         return sign == -1? Integer.MIN_VALUE: Integer.MAX_VALUE;
       }
 
