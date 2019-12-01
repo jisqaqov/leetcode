@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 162. Find Peak Element
+ * algorithm: Binary Search
+ * time complexity: O(log(N))
+ * space complexity: O(log(N))
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Find Peak Element.
+ * Memory Usage: 38.7 MB, less than 100.00% of Java online submissions for Find Peak Element.
+ */
+public class FindPeakElement162 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    FindPeakElement162 problem = new FindPeakElement162();
     problem.test();
   }
 
