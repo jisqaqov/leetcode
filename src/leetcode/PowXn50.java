@@ -33,6 +33,11 @@ public class PowXn50 {
     System.out.println(myPow(1, 2));
   }
 
+  /**
+   * case 1. n is even => x^n = x^n/2 * x^n/2
+   * case 2.a n is odd and n is positive => x^n = x * x^(n - 1)/2 * x^(n - 1)/2
+   * case 2.b n is odd and n is negative => x^-9 = x^-4 * x^-4 * x^-1
+   */
   public double myPow(double x, int n) {
     if (n == 0) {
       return 1;
