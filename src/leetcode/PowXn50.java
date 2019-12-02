@@ -34,25 +34,20 @@ public class PowXn50 {
   }
 
   public double myPow(double x, int n) {
-    if (n < 0) {
-      x = 1 / x;
-      n = -1 * n;
-    }
-
-    return squaring(x, n);
-  }
-
-  private double squaring(double x, int n) {
     if (n == 0) {
       return 1;
     }
 
-    double h = squaring(x, n / 2);
+    double y = myPow(x, n / 2);
 
     if (n % 2 == 0) {
-      return h * h;
+      return y * y;
     } else {
-      return h * h * x;
+      if (n < 0) {
+        return y * y * 1 / x;
+      } else {
+        return y * y * x;
+      }
     }
   }
 
