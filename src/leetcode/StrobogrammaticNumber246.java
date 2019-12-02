@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 246. Strobogrammatic Number
+ * algorithm: Math, Hash Table
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Strobogrammatic Number.
+ * Memory Usage: 33.9 MB, less than 100.00% of Java online submissions for Strobogrammatic Number.
+ */
+public class StrobogrammaticNumber246 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    StrobogrammaticNumber246 problem = new StrobogrammaticNumber246();
     problem.test();
   }
 
