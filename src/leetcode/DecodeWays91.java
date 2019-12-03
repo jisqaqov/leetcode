@@ -37,6 +37,7 @@ public class DecodeWays91 {
     System.out.println(v2.numDecodings("00"));//0
     System.out.println(v2.numDecodings("12"));//2
     System.out.println(v2.numDecodings("226"));//3
+    System.out.println(v2.numDecodings("1001"));//0
   }
 
   public int numDecodings(String s) {
@@ -106,9 +107,7 @@ public class DecodeWays91 {
           count += 1;
         } else {
           int k = numDecodings(s, i + 1, dp);
-          if (k > 0) {
-            count += k;
-          }
+          count += k;
         }
       }
 
