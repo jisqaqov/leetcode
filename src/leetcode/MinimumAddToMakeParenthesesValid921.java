@@ -24,22 +24,22 @@ public class MinimumAddToMakeParenthesesValid921 {
   }
 
   public int minAddToMakeValid(String s) {
-    int balance = 0;
-    int count = 0;
+    int left = 0;
+    int right = 0;
 
     for (int i = 0; i < s.length(); i++) {
       if (s.charAt(i) == '(') {
-        balance++;
+        left++;
       } else if (s.charAt(i) == ')') {
-        if (balance == 0) {
-          count++;
+        if (left == 0) {
+          right++;
         } else {
-          balance--;
+          left--;
         }
       }
     }
 
-    return balance + count;
+    return left + right;
   }
 
 }
