@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 921. Minimum Add to Make Parentheses Valid
+ * algorithm: Greedy
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Minimum Add to Make Parentheses Valid.
+ * Memory Usage: 34.1 MB, less than 100.00% of Java online submissions for Minimum Add to Make Parentheses Valid.
+ */
+public class MinimumAddToMakeParenthesesValid921 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    MinimumAddToMakeParenthesesValid921 problem = new MinimumAddToMakeParenthesesValid921();
     problem.test();
   }
 
@@ -32,6 +41,5 @@ public class Prep {
 
     return opened + count;
   }
-
 
 }
