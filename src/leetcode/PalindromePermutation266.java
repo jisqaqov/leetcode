@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 266. Palindrome Permutation
+ * algorithm: Hash Table
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 1 ms, faster than 67.52% of Java online submissions for Palindrome Permutation.
+ * Memory Usage: 34.3 MB, less than 100.00% of Java online submissions for Palindrome Permutation.
+ */
+public class PalindromePermutation266 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    PalindromePermutation266 problem = new PalindromePermutation266();
     problem.test();
   }
 
@@ -32,6 +41,5 @@ public class Prep {
 
     return odds <= 1;
   }
-
 
 }
