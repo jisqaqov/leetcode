@@ -81,36 +81,30 @@ public class DecodeWays91 {
     }
 
     public int numDecodings(String s, int index, int[] dp) {
+      if (index >= s.length()) {
+        return 1;
+      }
+
       if (dp[index] != -1) {
         return dp[index];
       }
 
-      int count = 0;
-      int number = 0;
+      dp[index] = 0;
 
-      int size = Math.min(s.length(), index + 2);
+      int a = Character.getNumericValue(s.charAt(index));
+      if (a > 0) {
+        dp[index] += numDecodings(s, index + 1, dp);
+      }
 
-      for (int i = index; i < size; i++) {
-        int digit = Character.getNumericValue(s.charAt(i));
-
-        number = number * 10 + digit;
-
-        if (number < 1 || number > 26) {
-          break;
-        }
-
-        int nextIndex = i + 1;
-        if (nextIndex == s.length()) {
-          count += 1;
-        } else {
-          int k = numDecodings(s, i + 1, dp);
-          count += k;
+      if (index < s.length() - 1) {
+        int b = Character.getNumericValue(s.charAt(index + 1));
+        int number = a * 10 + b;
+        if (number >= 10 && number <= 26) {
+          dp[index] += numDecodings(s, index + 2, dp);
         }
       }
 
-      dp[index] = count;
-
-      return count;
+      return dp[index];
     }
   }
 
