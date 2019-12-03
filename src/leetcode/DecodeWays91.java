@@ -6,8 +6,8 @@ import java.util.Arrays;
  * @author Jandos Iskakov
  * problem: 91. Decode Ways
  * algorithm: DP
- * time complexity: O(N^2)
- * space complexity: O(N^2)
+ * time complexity: O(N)
+ * space complexity: O(N)
  * Runtime: 1 ms, faster than 98.54% of Java online submissions for Decode Ways.
  * Memory Usage: 34.8 MB, less than 100.00% of Java online submissions for Decode Ways.
  */
