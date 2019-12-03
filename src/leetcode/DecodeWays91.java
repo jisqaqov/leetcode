@@ -19,14 +19,14 @@ public class DecodeWays91 {
   }
 
   private void test() {
-//    System.out.println(numDecodings("101"));//1
-//    System.out.println(numDecodings("100"));//0
-//    System.out.println(numDecodings("27"));//0
-//    System.out.println(numDecodings("0"));//0
-//    System.out.println(numDecodings("00"));//0
-//    System.out.println(numDecodings("12"));//2
-//    System.out.println(numDecodings("226"));//3
-//    System.out.println(numDecodings("1001"));//0
+    System.out.println(numDecodings("101"));//1
+    System.out.println(numDecodings("100"));//0
+    System.out.println(numDecodings("27"));//0
+    System.out.println(numDecodings("0"));//0
+    System.out.println(numDecodings("00"));//0
+    System.out.println(numDecodings("12"));//2
+    System.out.println(numDecodings("226"));//3
+    System.out.println(numDecodings("1001"));//0
 
     System.out.println("v2:");
     V2 v2 = new V2();
@@ -46,36 +46,30 @@ public class DecodeWays91 {
       return 0;
     }
 
-    int[] dp = new int[s.length()];
+    int[] dp = new int[s.length() + 1];
+    dp[0] = 1;
 
-    int num = Character.getNumericValue(s.charAt(0));
+    int k = 1;
 
-    if (num >= 1 && num <= 9) {
-      dp[0] = 1;
-    }
+    for (int i = 0; i < s.length(); i++) {
+      int b = Character.getNumericValue(s.charAt(i));
 
-    for (int i = 1; i < s.length(); i++) {
-      int n1 = Character.getNumericValue(s.charAt(i - 1));
-      int n2 = Character.getNumericValue(s.charAt(i));
-
-      if (n1 == 0 && n2 == 0) {
-        return 0;
+      if (b > 0) {
+        dp[k] += dp[k - 1];
       }
 
-      int k = n1 * 10 + n2;
-
-      if (i == 1) {
-        if (n1 > 0 && n2 > 0 && k <= 26) {
-          dp[i] = 2;
-        } else {
-          dp[i] = dp[i - 1];
+      if (i > 0) {
+        int a = Character.getNumericValue(s.charAt(i - 1));
+        int num = a * 10 + b;
+        if (a > 0 && num >= 1 && num <= 26) {
+          dp[k] += dp[k - 2];
         }
-      } else {
-        dp[i] = dp[i - 1] + dp[i - 2];
       }
+
+      k++;
     }
 
-    return dp[s.length() - 1];
+    return dp[s.length()];
   }
 
   private static class V2 {
