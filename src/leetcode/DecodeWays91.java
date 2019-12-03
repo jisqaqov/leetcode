@@ -61,7 +61,7 @@ public class DecodeWays91 {
       if (i > 0) {
         int a = Character.getNumericValue(s.charAt(i - 1));
         int num = a * 10 + b;
-        if (a > 0 && num >= 1 && num <= 26) {
+        if (num >= 10 && num <= 26) {
           dp[k] += dp[k - 2];
         }
       }
