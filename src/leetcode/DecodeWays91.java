@@ -1,7 +1,6 @@
 package leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * @author Jandos Iskakov
@@ -9,8 +8,8 @@ import java.util.Map;
  * algorithm: DP
  * time complexity: O(N^2)
  * space complexity: O(N^2)
- * Runtime: 2 ms, faster than 55.31% of Java online submissions for Decode Ways.
- * Memory Usage: 36.2 MB, less than 70.75% of Java online submissions for Decode Ways.
+ * Runtime: 1 ms, faster than 98.54% of Java online submissions for Decode Ways.
+ * Memory Usage: 34.8 MB, less than 100.00% of Java online submissions for Decode Ways.
  */
 public class DecodeWays91 {
 
@@ -79,12 +78,15 @@ public class DecodeWays91 {
 
   private static class V2 {
     public int numDecodings(String s) {
-      return numDecodings(s, 0, new HashMap<>());
+      int[] dp = new int[s.length()];
+      Arrays.fill(dp, -1);
+
+      return numDecodings(s, 0, dp);
     }
 
-    public int numDecodings(String s, int index, Map<Integer, Integer> map) {
-      if (map.containsKey(index)) {
-        return map.get(index);
+    public int numDecodings(String s, int index, int[] dp) {
+      if (dp[index] != -1) {
+        return dp[index];
       }
 
       int count = 0;
@@ -103,16 +105,16 @@ public class DecodeWays91 {
         if (nextIndex == s.length()) {
           count += 1;
         } else {
-          int k = numDecodings(s, i + 1, map);
+          int k = numDecodings(s, i + 1, dp);
           if (k > 0) {
             count += k;
           }
         }
       }
 
-      map.put(index, count);
+      dp[index] = count;
 
-      return map.get(index);
+      return count;
     }
   }
 
