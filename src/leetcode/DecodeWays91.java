@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 91. Decode Ways
+ * algorithm: DP
+ * time complexity: O(N^2)
+ * space complexity: O(N^2)
+ * Runtime: 5 ms, faster than 12.84% of Java online submissions for Decode Ways.
+ * Memory Usage: 40.7 MB, less than 5.66% of Java online submissions for Decode Ways.
+ */
+public class DecodeWays91 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    DecodeWays91 problem = new DecodeWays91();
     problem.test();
   }
 
@@ -48,6 +57,5 @@ public class Prep {
 
     return map.get(s);
   }
-
 
 }
