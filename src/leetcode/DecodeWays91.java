@@ -26,6 +26,7 @@ public class DecodeWays91 {
 //    System.out.println(numDecodings("00"));//0
 //    System.out.println(numDecodings("12"));//2
 //    System.out.println(numDecodings("226"));//3
+//    System.out.println(numDecodings("1001"));//0
 
     System.out.println("v2:");
     V2 v2 = new V2();
@@ -93,7 +94,9 @@ public class DecodeWays91 {
       int count = 0;
       int number = 0;
 
-      for (int i = index; i < Math.min(s.length(), index + 2); i++) {
+      int size = Math.min(s.length(), index + 2);
+
+      for (int i = index; i < size; i++) {
         int digit = Character.getNumericValue(s.charAt(i));
 
         number = number * 10 + digit;
