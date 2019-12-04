@@ -83,7 +83,7 @@ public class AverageOfLevelsInBinaryTree637 {
         return;
       }
 
-      if (list.size() <= depth) {
+      if (list.size() < depth + 1) {
         list.add(new double[] {0, 0});
       }
 
