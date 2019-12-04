@@ -66,32 +66,36 @@ public class AverageOfLevelsInBinaryTree637 {
   }
 
   private static class V2 {
+
     public List<Double> averageOfLevels(TreeNode root) {
-      List<double[]> list = new ArrayList<>();
-      preorder(root, list, 0);
+      List<Double> sums = new ArrayList<>();
+      List<Integer> counts = new ArrayList<>();
+
+      preorder(root, sums, counts, 0);
 
       List<Double> output = new ArrayList<>();
-      for (int i = 0; i < list.size(); i++) {
-        output.add(list.get(i)[0] / list.get(i)[1]);
+      for (int i = 0; i < sums.size(); i++) {
+        output.add(sums.get(i) / counts.get(i));
       }
 
       return output;
     }
 
-    private void preorder(TreeNode root, List<double[]> list, int depth) {
+    private void preorder(TreeNode root, List<Double> sums, List<Integer> counts, int depth) {
       if (root == null) {
         return;
       }
 
-      if (list.size() < depth + 1) {
-        list.add(new double[] {0, 0});
+      if (sums.size() <= depth) {
+        sums.add(0.0);
+        counts.add(0);
       }
 
-      list.get(depth)[0] += root.val;
-      list.get(depth)[1] += 1;
+      sums.set(depth, sums.get(depth) + root.val);
+      counts.set(depth, counts.get(depth) + 1);
 
-      preorder(root.left, list, depth + 1);
-      preorder(root.right, list, depth + 1);
+      preorder(root.left, sums, counts, depth + 1);
+      preorder(root.right, sums, counts, depth + 1);
     }
   }
 
