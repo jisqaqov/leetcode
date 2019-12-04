@@ -61,30 +61,22 @@ public class FlattenBinaryTreeToLinkedList114 {
   }
 
   private static class V2 {
+    TreeNode prev = null;
+
     public void flatten(TreeNode root) {
-      postorder(root);
-    }
-
-    public TreeNode postorder(TreeNode root) {
       if (root == null) {
-        return null;
+        return;
       }
 
-      TreeNode left = postorder(root.left);
-      TreeNode right = postorder(root.right);
+      flatten(root.right);
+      flatten(root.left);
 
-      if (left != null) {
-        left.right = root.right;
-      }
-
-      if (root.left != null) {
-        root.right = root.left;
-      }
-
+      root.right = prev;
       root.left = null;
 
-      return right != null ? right : left != null ? left : root;
+      prev = root;
     }
+
   }
 
 
