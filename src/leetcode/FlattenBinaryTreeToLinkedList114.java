@@ -34,30 +34,59 @@ public class FlattenBinaryTreeToLinkedList114 {
     System.out.println(root);
   }
 
+  TreeNode prev = null;
+
   public void flatten(TreeNode root) {
+    prev = null;
+
     preorder(root);
   }
 
-  public TreeNode preorder(TreeNode root) {
+  public void preorder(TreeNode root) {
     if (root == null) {
-      return null;
+      return;
     }
 
-    TreeNode left = preorder(root.left);
-    TreeNode right = preorder(root.right);
+    TreeNode right = root.right;
 
-    if (left != null) {
-      left.right = root.right;
+    if (prev != null) {
+      prev.right = root;
+      prev.left = null;
     }
 
-    if (root.left != null) {
-      root.right = root.left;
-    }
+    prev = root;
 
-    root.left = null;
-
-    return right != null ? right : left != null ? left : root;
+    preorder(root.left);
+    preorder(right);
   }
+
+  private static class V2 {
+    public void flatten(TreeNode root) {
+      postorder(root);
+    }
+
+    public TreeNode postorder(TreeNode root) {
+      if (root == null) {
+        return null;
+      }
+
+      TreeNode left = postorder(root.left);
+      TreeNode right = postorder(root.right);
+
+      if (left != null) {
+        left.right = root.right;
+      }
+
+      if (root.left != null) {
+        root.right = root.left;
+      }
+
+      root.left = null;
+
+      return right != null ? right : left != null ? left : root;
+    }
+  }
+
 
   /**
    * Definition for a binary tree node.
