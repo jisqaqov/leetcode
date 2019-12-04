@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 114. Flatten Binary Tree to Linked List
+ * algorithm: Tree
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Flatten Binary Tree to Linked List.
+ * Memory Usage: 35.8 MB, less than 100.00% of Java online submissions for Flatten Binary Tree to Linked List.
+ */
+public class FlattenBinaryTreeToLinkedList114 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    FlattenBinaryTreeToLinkedList114 problem = new FlattenBinaryTreeToLinkedList114();
     problem.test();
   }
 
@@ -72,6 +81,5 @@ public class Prep {
         '}';
     }
   }
-
 
 }
