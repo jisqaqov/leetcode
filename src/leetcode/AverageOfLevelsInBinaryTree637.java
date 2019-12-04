@@ -10,7 +10,7 @@ import java.util.Queue;
  * problem: 637. Average of Levels in Binary Tree
  * algorithm: Tree
  * time complexity: O(N)
- * space complexity: O(N)
+ * space complexity: O(h)
  * Runtime: 1 ms, faster than 100.00% of Java online submissions for Average of Levels in Binary Tree.
  * Memory Usage: 39.5 MB, less than 100.00% of Java online submissions for Average of Levels in Binary Tree.
  */
