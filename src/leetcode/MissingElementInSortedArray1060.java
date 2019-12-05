@@ -36,30 +36,18 @@ public class MissingElementInSortedArray1060 {
       int m = l + (r - l) / 2;
 
       int d1 = a[m] - a[l] - m + l;
-      int d2 = a[r] - a[m] - r + m;
-
-      if (r - l == 1) {
-        if (d2 >= k) {
-          r = l;
-        } else {
-          l = r;
-          k = k - d2;
-        }
+      if (d1 > 0 && d1 >= k) {
+        r = m - 1;
       } else {
-        if (d1 > 0) {
-          if (d1 >= k) {
-            r = m - 1;
-          } else {
-            k = k - d1;
-            l = m;
-          }
+        k -= d1;
+        int d2 = a[r] - a[m] - r + m;
+        if (d2 < k) {
+          k -= d2;
+          l = r;
+        } else if (l < m) {
+          l = m;
         } else {
-          if (d2 >= k) {
-            l = m;
-          } else {
-            l = r;
-            k = k - d2;
-          }
+          r = l;
         }
       }
     }
