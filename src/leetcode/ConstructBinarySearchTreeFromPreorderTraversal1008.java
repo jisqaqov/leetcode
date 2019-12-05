@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author Jandos Iskakov
  * problem: 1008. Construct Binary Search Tree from Preorder Traversal
@@ -22,6 +25,7 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
     int[] tc1a = {8, 5, 1, 7, 10, 12};
 
     System.out.println(bstFromPreorder(tc1a));
+    System.out.println(new V2().bstFromPreorder(tc1a));
   }
 
   public TreeNode bstFromPreorder(int[] preorder) {
@@ -43,10 +47,34 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
     return node;
   }
 
+  private static class V2 {
+    public TreeNode bstFromPreorder(int[] preorder) {
+      Queue<Integer> queue = new LinkedList<>();
+      for (int val : preorder) {
+        queue.add(val);
+      }
+
+      return bstFromPreorder(queue, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    private TreeNode bstFromPreorder(Queue<Integer> queue, int min, int max) {
+      if (queue.isEmpty() || queue.peek() < min || queue.peek() > max) {
+        return null;
+      }
+
+      TreeNode node = new TreeNode(queue.poll());
+
+      node.left = bstFromPreorder(queue, min, node.val);
+      node.right = bstFromPreorder(queue, node.val, max);
+
+      return node;
+    }
+  }
+
   /**
    * Definition for a binary tree node.
    */
-  public class TreeNode {
+  public static class TreeNode {
 
     int val;
     TreeNode left;
