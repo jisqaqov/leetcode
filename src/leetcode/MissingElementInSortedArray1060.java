@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 1060. Missing Element in Sorted Array
+ * algorithm: Binary Search
+ * time complexity: O(log(N))
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Missing Element in Sorted Array.
+ * Memory Usage: 48.5 MB, less than 100.00% of Java online submissions for Missing Element in Sorted Array.
+ */
+public class MissingElementInSortedArray1060 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    MissingElementInSortedArray1060 problem = new MissingElementInSortedArray1060();
     problem.test();
   }
 
@@ -42,7 +51,7 @@ public class Prep {
             r = m - 1;
           } else {
             k = k - d1;
-            l = m;   
+            l = m;
           }
         } else {
           if (d2 >= k) {
