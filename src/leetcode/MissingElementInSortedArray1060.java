@@ -28,31 +28,28 @@ public class MissingElementInSortedArray1060 {
     System.out.println(missingElement(tc4a, 3));//5
   }
 
-  public int missingElement(int[] a, int k) {
-    int l = 0;
-    int r = a.length - 1;
+  public int missingElement(int[] nums, int k) {
+    int left = 0;
+    int right = nums.length - 1;
 
-    while (l < r) {
-      int m = l + (r - l) / 2;
+    // number is beyond the array
+    if (nums[right] - nums[left] - right < k) {
+      return nums[left] + k + right;
+    }
 
-      int d1 = a[m] - a[l] - m + l;
-      if (d1 > 0 && d1 >= k) {
-        r = m - 1;
+    while (left + 1 < right) {
+      int middle = left + (right - left) / 2;
+
+      int missing = nums[middle] - nums[left] - middle + left;
+      if (missing >= k) {
+        right = middle;
       } else {
-        k -= d1;
-        int d2 = a[r] - a[m] - r + m;
-        if (d2 < k) {
-          k -= d2;
-          l = r;
-        } else if (l < m) {
-          l = m;
-        } else {
-          r = l;
-        }
+        left = middle;
+        k -= missing;
       }
     }
 
-    return a[l] + k;
+    return nums[left] + k;
   }
 
 }
