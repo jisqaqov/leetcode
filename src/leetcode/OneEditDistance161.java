@@ -21,43 +21,71 @@ public class OneEditDistance161 {
     System.out.println(isOneEditDistance("cab", "ad"));
     System.out.println(isOneEditDistance("1203", "1213"));
     System.out.println(isOneEditDistance("a", "ba"));
+    System.out.println(isOneEditDistance("", ""));
+
+    System.out.println("v2");
+    V2 v2 = new V2();
+    System.out.println(v2.isOneEditDistance("ab", "acb"));
+    System.out.println(v2.isOneEditDistance("cab", "ad"));
+    System.out.println(v2.isOneEditDistance("1203", "1213"));
+    System.out.println(v2.isOneEditDistance("a", "ba"));
+    System.out.println(v2.isOneEditDistance("", ""));
   }
 
   public boolean isOneEditDistance(String s, String t) {
-    int i = 0;
-
-    int minLen = Math.min(s.length(), t.length());
-    while (i < minLen && s.charAt(i) == t.charAt(i)) {
-      i++;
-    }
-
-    if (i == s.length() && i == t.length()) {
+    if (Math.abs(s.length() - t.length()) > 1) {
       return false;
     }
 
-    return isEquals(s, i + 1, t, i + 1) ||
-      isEquals(s, i + 1, t, i) ||
-      isEquals(s, i, t, i + 1);
+    int size = Math.min(s.length(), t.length());
+    for (int i = 0; i < size; i++) {
+      if (s.charAt(i) != t.charAt(i)) {
+        return s.substring(i + 1).equals(t.substring(i + 1)) ||
+          s.substring(i + 1).equals(t.substring(i)) ||
+          s.substring(i).equals(t.substring(i + 1));
+      }
+    }
+
+    return s.length() != t.length();
   }
 
-  private boolean isEquals(String s, int i, String t, int j) {
-    int len1 = s.length() - i;
-    int len2 = t.length() - j;
+  private static class V2 {
+    public boolean isOneEditDistance(String s, String t) {
+      int i = 0;
 
-    if (len1 != len2) {
-      return false;
-    }
+      int minLen = Math.min(s.length(), t.length());
+      while (i < minLen && s.charAt(i) == t.charAt(i)) {
+        i++;
+      }
 
-    while (i < s.length() && j < t.length()) {
-      if (s.charAt(i) != t.charAt(j)) {
+      if (i == s.length() && i == t.length()) {
         return false;
       }
 
-      i++;
-      j++;
+      return isEquals(s, i + 1, t, i + 1) ||
+        isEquals(s, i + 1, t, i) ||
+        isEquals(s, i, t, i + 1);
     }
 
-    return true;
+    private boolean isEquals(String s, int i, String t, int j) {
+      int len1 = s.length() - i;
+      int len2 = t.length() - j;
+
+      if (len1 != len2) {
+        return false;
+      }
+
+      while (i < s.length() && j < t.length()) {
+        if (s.charAt(i) != t.charAt(j)) {
+          return false;
+        }
+
+        i++;
+        j++;
+      }
+
+      return true;
+    }
   }
 
 }
