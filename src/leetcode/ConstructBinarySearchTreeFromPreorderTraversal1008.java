@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -26,6 +28,7 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
 
     System.out.println(bstFromPreorder(tc1a));
     System.out.println(new V2().bstFromPreorder(tc1a));
+    System.out.println(new V3().bstFromPreorder(tc1a));
   }
 
   public TreeNode bstFromPreorder(int[] preorder) {
@@ -48,6 +51,54 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
   }
 
   private static class V2 {
+
+    public TreeNode bstFromPreorder(int[] preorder) {
+      if (preorder.length == 0) {
+        return null;
+      }
+
+      TreeNode root = new TreeNode(preorder[0]);
+
+      Deque<TreeNode> parents = new ArrayDeque<>();
+      parents.push(root);
+
+      Deque<int[]> ranges = new ArrayDeque<>();
+      ranges.push(new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE});
+
+      for (int i = 1; i < preorder.length; i++) {
+        TreeNode newNode = new TreeNode(preorder[i]);
+
+        TreeNode parent = null;
+        while (parent == null) {
+          TreeNode temp = parents.peek();
+          int[] range = ranges.peek();
+
+          if (preorder[i] < range[0] || preorder[i] > range[1]) {
+            parents.pop();
+            ranges.pop();
+          } else {
+            parent = temp;
+
+            if (preorder[i] < parent.val) {
+              parent.left = newNode;
+              ranges.push(new int[]{range[0], parent.val});
+            } else {
+              parent.right = newNode;
+              ranges.push(new int[]{parent.val, range[1]});
+            }
+          }
+        }
+
+        parents.push(newNode);
+      }
+
+      return root;
+    }
+
+  }
+
+  private static class V3 {
+
     public TreeNode bstFromPreorder(int[] preorder) {
       Queue<Integer> queue = new LinkedList<>();
       for (int val : preorder) {
