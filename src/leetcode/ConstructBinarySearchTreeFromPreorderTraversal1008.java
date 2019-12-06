@@ -62,8 +62,8 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
       Deque<TreeNode> parents = new ArrayDeque<>();
       parents.push(root);
 
-      Deque<int[]> ranges = new ArrayDeque<>();
-      ranges.push(new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE});
+      Deque<int[]> limits = new ArrayDeque<>();
+      limits.push(new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE});
 
       for (int i = 1; i < preorder.length; i++) {
         TreeNode newNode = new TreeNode(preorder[i]);
@@ -71,20 +71,20 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
         TreeNode parent = null;
         while (parent == null) {
           TreeNode temp = parents.peek();
-          int[] range = ranges.peek();
+          int[] limit = limits.peek();
 
-          if (preorder[i] < range[0] || preorder[i] > range[1]) {
+          if (preorder[i] < limit[0] || preorder[i] > limit[1]) {
             parents.pop();
-            ranges.pop();
+            limits.pop();
           } else {
             parent = temp;
 
             if (preorder[i] < parent.val) {
               parent.left = newNode;
-              ranges.push(new int[]{range[0], parent.val});
+              limits.push(new int[]{limit[0], parent.val});
             } else {
               parent.right = newNode;
-              ranges.push(new int[]{parent.val, range[1]});
+              limits.push(new int[]{parent.val, limit[1]});
             }
           }
         }
