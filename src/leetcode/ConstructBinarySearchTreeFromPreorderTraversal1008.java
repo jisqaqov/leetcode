@@ -10,7 +10,7 @@ import java.util.Queue;
  * problem: 1008. Construct Binary Search Tree from Preorder Traversal
  * algorithm: Tree
  * time complexity: O(N)
- * space complexity: O(H)
+ * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions for Construct Binary Search Tree from Preorder Traversal.
  * Memory Usage: 35.8 MB, less than 100.00% of Java online submissions for Construct Binary Search Tree from Preorder Traversal.
  */
