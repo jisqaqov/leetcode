@@ -6,7 +6,7 @@ package leetcode;
  * algorithm: Linked List
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 2 ms, faster than 39.78% of Java online submissions for Reorder List.
+ * Runtime: 1 ms, faster than 99.95% of Java online submissions for Reorder List.
  * Memory Usage: 39.1 MB, less than 100.00% of Java online submissions for Reorder List.
  */
 public class ReorderList143 {
@@ -23,12 +23,14 @@ public class ReorderList143 {
     ListNode node4 = new ListNode(4);
     ListNode node5 = new ListNode(5);
     ListNode node6 = new ListNode(6);
+    ListNode node7 = new ListNode(7);
 
     head.next = node2;
-//    node2.next = node3;
-//    node3.next = node4;
-//    node4.next = node5;
-//    node5.next = node6;
+    node2.next = node3;
+    node3.next = node4;
+    node4.next = node5;
+    node5.next = node6;
+    node6.next = node7;
 
     reorderList(head);
 
@@ -36,68 +38,27 @@ public class ReorderList143 {
   }
 
   public void reorderList(ListNode head) {
-    int n = countSize(head);
-    if (n <= 2) {
+    if (head == null || head.next == null) {
       return;
     }
 
-    ListNode midNode = getMidOfList(head, n);
+    // find middle node
+    ListNode slow = head;
+    ListNode fast = head;
+    ListNode pre = null;
 
-    ListNode tail = reverseList(midNode);
+    while (fast != null && fast.next != null) {
+      pre = slow;
+      slow = slow.next;
+      fast = fast.next.next;
+    }
 
-    ListNode p = head;
-    ListNode q = tail;
+    pre.next = null;
+
+    // reverse from middle node
+    ListNode curr = slow;
+
     ListNode prev = null;
-
-    while (p != null && q != null) {
-      ListNode next1 = p.next;
-      ListNode next2 = q.next;
-
-      if (prev != null) {
-        prev.next = p;
-      }
-
-      p.next = q;
-      prev = q;
-
-      p = next1;
-      q = next2;
-    }
-
-    if (prev != null) {
-      prev.next = null;
-    }
-  }
-
-  private int countSize(ListNode head) {
-    int n = 0;
-
-    ListNode curr = head;
-    while (curr != null) {
-      n++;
-      curr = curr.next;
-    }
-
-    return n;
-  }
-
-  private ListNode getMidOfList(ListNode head, int n) {
-    ListNode midNode = head;
-
-    int index = 0;
-    while (index < n / 2) {
-      index++;
-      midNode = midNode.next;
-    }
-
-    return midNode;
-  }
-
-  private ListNode reverseList(ListNode head) {
-    ListNode curr = head.next;
-
-    ListNode prev = head;
-    head.next = null;
 
     while (curr != null) {
       ListNode next = curr.next;
@@ -107,7 +68,20 @@ public class ReorderList143 {
       curr = next;
     }
 
-    return prev;
+    // merge lists
+    ListNode p = head;
+    ListNode q = prev;
+
+    while (p != null && q != null) {
+      ListNode next1 = p.next;
+      ListNode next2 = q.next;
+
+      p.next = q;
+      q.next = next1 != null? next1: next2;
+
+      p = next1;
+      q = next2;
+    }
   }
 
 
