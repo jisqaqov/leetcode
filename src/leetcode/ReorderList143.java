@@ -51,7 +51,6 @@ public class ReorderList143 {
       fast = fast.next.next;
     }
 
-
     // reverse from middle node
     ListNode curr = slow.next;
     slow.next = null;
