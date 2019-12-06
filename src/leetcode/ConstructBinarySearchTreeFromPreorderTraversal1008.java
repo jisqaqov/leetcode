@@ -59,37 +59,24 @@ public class ConstructBinarySearchTreeFromPreorderTraversal1008 {
 
       TreeNode root = new TreeNode(preorder[0]);
 
-      Deque<TreeNode> parents = new ArrayDeque<>();
-      parents.push(root);
-
-      Deque<int[]> limits = new ArrayDeque<>();
-      limits.push(new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE});
+      Deque<TreeNode> stack = new ArrayDeque<>();
+      stack.push(root);
 
       for (int i = 1; i < preorder.length; i++) {
         TreeNode newNode = new TreeNode(preorder[i]);
 
-        TreeNode parent = null;
-        while (parent == null) {
-          TreeNode temp = parents.peek();
-          int[] limit = limits.peek();
-
-          if (preorder[i] < limit[0] || preorder[i] > limit[1]) {
-            parents.pop();
-            limits.pop();
-          } else {
-            parent = temp;
-
-            if (preorder[i] < parent.val) {
-              parent.left = newNode;
-              limits.push(new int[]{limit[0], parent.val});
-            } else {
-              parent.right = newNode;
-              limits.push(new int[]{parent.val, limit[1]});
-            }
+        TreeNode parent = stack.peek();
+        if (newNode.val < parent.val) {
+          parent.left = newNode;
+        } else {
+          while (!stack.isEmpty() && preorder[i] > stack.peek().val) {
+            parent = stack.poll();
           }
+
+          parent.right = newNode;
         }
 
-        parents.push(newNode);
+        stack.push(newNode);
       }
 
       return root;
