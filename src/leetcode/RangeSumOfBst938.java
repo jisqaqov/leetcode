@@ -1,11 +1,14 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 /**
  * @author Jandos Iskakov
  * problem: 938. Range Sum of BST
  * algorithm: BST
  * time complexity: O(N)
- * space complexity: O(N)
+ * space complexity: O(H)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions for Range Sum of BST.
  * Memory Usage: 45.6 MB, less than 97.67% of Java online submissions for Range Sum of BST.
  */
@@ -31,6 +34,7 @@ public class RangeSumOfBst938 {
     node15.right = node18;
 
     System.out.println(rangeSumBST(root, 7, 15));
+    System.out.println(new V2().rangeSumBST(root, 7, 15));
   }
 
   public int rangeSumBST(TreeNode root, int l, int r) {
@@ -53,6 +57,34 @@ public class RangeSumOfBst938 {
     }
 
     return s;
+  }
+
+  private static class V2 {
+    public int rangeSumBST(TreeNode root, int l, int r) {
+      Queue<TreeNode> queue = new ArrayDeque<>();
+      if (root != null) {
+        queue.add(root);
+      }
+
+      int s = 0;
+      while (!queue.isEmpty()) {
+        TreeNode node = queue.poll();
+
+        if (node.val >= l && node.val <= r) {
+          s += node.val;
+        }
+
+        if (node.val > l && node.left != null) {
+          queue.add(node.left);
+        }
+
+        if (node.val < r && node.right != null) {
+          queue.add(node.right);
+        }
+      }
+
+      return s;
+    }
   }
 
   /**
