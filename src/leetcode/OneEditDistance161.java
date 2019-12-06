@@ -5,7 +5,7 @@ package leetcode;
  * problem: 161. One Edit Distance
  * algorithm: String
  * time complexity: O(|S| + |T|)
- * space complexity: O(1)
+ * space complexity: O(|S| + |T|)
  * Runtime: 1 ms, faster than 99.45% of Java online submissions for One Edit Distance.
  * Memory Usage: 37.7 MB, less than 91.18% of Java online submissions for One Edit Distance.
  */
