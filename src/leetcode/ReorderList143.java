@@ -44,19 +44,17 @@ public class ReorderList143 {
 
     // find middle node
     ListNode slow = head;
-    ListNode fast = head;
-    ListNode pre = null;
+    ListNode fast = head.next;
 
     while (fast != null && fast.next != null) {
-      pre = slow;
       slow = slow.next;
       fast = fast.next.next;
     }
 
-    pre.next = null;
 
     // reverse from middle node
-    ListNode curr = slow;
+    ListNode curr = slow.next;
+    slow.next = null;
 
     ListNode prev = null;
 
@@ -77,7 +75,7 @@ public class ReorderList143 {
       ListNode next2 = q.next;
 
       p.next = q;
-      q.next = next1 != null? next1: next2;
+      q.next = next1;
 
       p = next1;
       q = next2;
