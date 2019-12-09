@@ -1,15 +1,26 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 105. Construct Binary Tree from Preorder and Inorder Traversal
+ * algorithm: Tree, DFS
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 2 ms, faster than 97.34% of Java online submissions for Construct
+ * Binary Tree from Preorder and Inorder Traversal.
+ * Memory Usage: 36.5 MB, less than 100.00% of Java online submissions for
+ * Construct Binary Tree from Preorder and Inorder Traversal.
+ */
+public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
 
   private int index = 0;
-  private int[] preorder;
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ConstructBinaryTreeFromPreorderAndInorderTraversal105 problem =
+      new ConstructBinaryTreeFromPreorderAndInorderTraversal105();
     problem.test();
     problem.test2();
   }
@@ -29,22 +40,17 @@ public class Prep {
   }
 
   public TreeNode buildTree(int[] preorder, int[] inorder) {
-    if (preorder.length == 0) {
-      return null;
-    }
-
     this.index = 0;
-    this.preorder = preorder;
 
     Map<Integer, Integer> map = new HashMap<>();
     for (int i = 0; i < inorder.length; i++) {
       map.put(inorder[i], i);
     }
 
-    return buildTree(null, null, map);
+    return buildTree(preorder, null, null, map);
   }
 
-  private TreeNode buildTree(TreeNode parent, TreeNode root,
+  private TreeNode buildTree(int[] preorder, TreeNode parent, TreeNode root,
     Map<Integer, Integer> map) {
     if (index >= preorder.length ||
       (root != null && map.get(preorder[index]) > map.get(root.val))) {
@@ -66,8 +72,8 @@ public class Prep {
 
     index++;
 
-    buildTree(node, left, map);
-    buildTree(node, left, map);
+    buildTree(preorder, node, left, map);
+    buildTree(preorder, node, left, map);
 
     return node;
   }
