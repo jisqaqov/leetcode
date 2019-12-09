@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
 
-  private int index = 0;
+  private int preOderIndex = 0;
 
   public static void main(String[] args) {
     ConstructBinaryTreeFromPreorderAndInorderTraversal105 problem =
@@ -42,42 +42,33 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
       return null;
     }
 
-    this.index = 0;
+    this.preOderIndex = 0;
 
-    Map<Integer, Integer> indexMap = new HashMap<>();
+    Map<Integer, Integer> idxMap = new HashMap<>();
     for (int i = 0; i < inorder.length; i++) {
-      indexMap.put(inorder[i], i);
+      idxMap.put(inorder[i], i);
     }
 
-    TreeNode root = new TreeNode(preorder[index++]);
-    root.left = helper(preorder, root, -1, indexMap, -1);
-    root.right = helper(preorder, root, -1, indexMap, 1);
-
-    return root;
+    return helper(preorder, 0, preorder.length - 1, idxMap);
   }
 
-  private TreeNode helper(int[] preorder, TreeNode parent, int leftBound,
-    Map<Integer, Integer> idxMap, int type) {
-    if (index >= preorder.length) {
+  private TreeNode helper(int[] preorder, int left, int right, Map<Integer, Integer> idxMap) {
+    if (preOderIndex >= preorder.length) {
       return null;
     }
 
-    int value = preorder[index];
-    int valIndex = idxMap.get(value);
-    if ((type == -1 && valIndex > idxMap.get(parent.val)) ||
-        (type == 1 && leftBound != -1 && valIndex > leftBound)) {
+    int value = preorder[preOderIndex];
+    int valueIdx = idxMap.get(value);
+
+    if (valueIdx < left || valueIdx > right) {
       return null;
-    }
-
-    index++;
-
-    if (type == -1) {
-      leftBound = idxMap.get(parent.val);
     }
 
     TreeNode node = new TreeNode(value);
-    node.left = helper(preorder, node, leftBound, idxMap, -1);
-    node.right = helper(preorder, node, leftBound, idxMap, 1);
+    preOderIndex++;
+
+    node.left = helper(preorder, left, valueIdx - 1, idxMap);
+    node.right = helper(preorder, valueIdx + 1, right, idxMap);
 
     return node;
   }
