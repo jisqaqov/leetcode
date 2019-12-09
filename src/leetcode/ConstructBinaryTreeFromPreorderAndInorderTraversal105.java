@@ -50,13 +50,13 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
     }
 
     TreeNode root = new TreeNode(preorder[index++]);
-    root.left = helper(preorder, root, null, indexMap, -1);
-    root.right = helper(preorder, root, null, indexMap, 1);
+    root.left = helper(preorder, root, -1, indexMap, -1);
+    root.right = helper(preorder, root, -1, indexMap, 1);
 
     return root;
   }
 
-  private TreeNode helper(int[] preorder, TreeNode parent, TreeNode leftAncestor,
+  private TreeNode helper(int[] preorder, TreeNode parent, int leftBound,
     Map<Integer, Integer> idxMap, int type) {
     if (index >= preorder.length) {
       return null;
@@ -65,19 +65,19 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
     int value = preorder[index];
     int valIndex = idxMap.get(value);
     if ((type == -1 && valIndex > idxMap.get(parent.val)) ||
-        (type == 1 && leftAncestor != null && valIndex > idxMap.get(leftAncestor.val))) {
+        (type == 1 && leftBound != -1 && valIndex > leftBound)) {
       return null;
     }
 
     index++;
 
     if (type == -1) {
-      leftAncestor = parent;
+      leftBound = idxMap.get(parent.val);
     }
 
     TreeNode node = new TreeNode(value);
-    node.left = helper(preorder, node, leftAncestor, idxMap, -1);
-    node.right = helper(preorder, node, leftAncestor, idxMap, 1);
+    node.left = helper(preorder, node, leftBound, idxMap, -1);
+    node.right = helper(preorder, node, leftBound, idxMap, 1);
 
     return node;
   }
