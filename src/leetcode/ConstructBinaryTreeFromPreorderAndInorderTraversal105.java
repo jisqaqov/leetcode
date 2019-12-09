@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
 
-  private int preOrderIndex = 0;
+  private int preorderIdx = 0;
 
   public static void main(String[] args) {
     ConstructBinaryTreeFromPreorderAndInorderTraversal105 problem =
@@ -42,7 +42,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
       return null;
     }
 
-    this.preOrderIndex = 0;
+    this.preorderIdx = 0;
 
     Map<Integer, Integer> idxMap = new HashMap<>();
     for (int i = 0; i < inorder.length; i++) {
@@ -53,11 +53,11 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
   }
 
   private TreeNode helper(int[] preorder, int left, int right, Map<Integer, Integer> idxMap) {
-    if (preOrderIndex >= preorder.length) {
+    if (preorderIdx >= preorder.length) {
       return null;
     }
 
-    int value = preorder[preOrderIndex];
+    int value = preorder[preorderIdx];
     int valueIdx = idxMap.get(value);
 
     if (valueIdx < left || valueIdx > right) {
@@ -65,7 +65,7 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
     }
 
     TreeNode node = new TreeNode(value);
-    preOrderIndex++;
+    preorderIdx++;
 
     node.left = helper(preorder, left, valueIdx - 1, idxMap);
     node.right = helper(preorder, valueIdx + 1, right, idxMap);
