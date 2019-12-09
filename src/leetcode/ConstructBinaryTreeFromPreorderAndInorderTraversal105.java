@@ -9,10 +9,8 @@ import java.util.Map;
  * algorithm: Tree, DFS
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 2 ms, faster than 97.34% of Java online submissions for Construct
- * Binary Tree from Preorder and Inorder Traversal.
- * Memory Usage: 36.5 MB, less than 100.00% of Java online submissions for
- * Construct Binary Tree from Preorder and Inorder Traversal.
+ * Runtime: 2 ms, faster than 97.34% of Java online submissions
+ * Memory Usage: 36.5 MB, less than 100.00% of Java online submissions
  */
 public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
 
@@ -40,40 +38,46 @@ public class ConstructBinaryTreeFromPreorderAndInorderTraversal105 {
   }
 
   public TreeNode buildTree(int[] preorder, int[] inorder) {
-    this.index = 0;
-
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < inorder.length; i++) {
-      map.put(inorder[i], i);
-    }
-
-    return buildTree(preorder, null, null, map);
-  }
-
-  private TreeNode buildTree(int[] preorder, TreeNode parent, TreeNode root,
-    Map<Integer, Integer> map) {
-    if (index >= preorder.length ||
-      (root != null && map.get(preorder[index]) > map.get(root.val))) {
+    if (preorder.length == 0) {
       return null;
     }
 
-    TreeNode left = root;
-    int value = preorder[index];
+    this.index = 0;
 
-    TreeNode node = new TreeNode(value);
-    if (parent != null) {
-      if (map.get(value) < map.get(parent.val)) {
-        left = parent;
-        parent.left = node;
-      } else {
-        parent.right = node;
-      }
+    Map<Integer, Integer> indexMap = new HashMap<>();
+    for (int i = 0; i < inorder.length; i++) {
+      indexMap.put(inorder[i], i);
+    }
+
+    TreeNode root = new TreeNode(preorder[index++]);
+    root.left = helper(preorder, root, null, indexMap, -1);
+    root.right = helper(preorder, root, null, indexMap, 1);
+
+    return root;
+  }
+
+  private TreeNode helper(int[] preorder, TreeNode parent, TreeNode leftAncestor,
+    Map<Integer, Integer> idxMap, int type) {
+    if (index >= preorder.length) {
+      return null;
+    }
+
+    int value = preorder[index];
+    int valIndex = idxMap.get(value);
+    if ((type == -1 && valIndex > idxMap.get(parent.val)) ||
+        (type == 1 && leftAncestor != null && valIndex > idxMap.get(leftAncestor.val))) {
+      return null;
     }
 
     index++;
 
-    buildTree(preorder, node, left, map);
-    buildTree(preorder, node, left, map);
+    if (type == -1) {
+      leftAncestor = parent;
+    }
+
+    TreeNode node = new TreeNode(value);
+    node.left = helper(preorder, node, leftAncestor, idxMap, -1);
+    node.right = helper(preorder, node, leftAncestor, idxMap, 1);
 
     return node;
   }
