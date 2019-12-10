@@ -61,8 +61,8 @@ public class MoveZeros283 {
         }
       }
 
-      for (;j < nums.length; j++) {
-        nums[j] = 0;
+      while (j < nums.length) {
+        nums[j++] = 0;
       }
     }
   }
