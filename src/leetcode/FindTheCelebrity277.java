@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 277. Find the Celebrity
+ * algorithm: Array
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 7 ms, faster than 74.16% of Java online submissions for Find the Celebrity.
+ * Memory Usage: 45.3 MB, less than 58.33% of Java online submissions for Find the Celebrity.
+ */
+public class FindTheCelebrity277 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    FindTheCelebrity277 problem = new FindTheCelebrity277();
     problem.test();
   }
 
