@@ -8,7 +8,7 @@ import java.util.Map;
  * problem: 76. Minimum Window Substring
  * algorithm: Hash Table, Two Pointers, Sliding Window, String
  * time complexity: O(|s| + |t|)
- * space complexity: O(|s| + |t|)
+ * space complexity: O(|t|)
  * Runtime: 14 ms, faster than 66.68% of Java online submissions for Minimum Window Substring.
  * Memory Usage: 37.9 MB, less than 93.62% of Java online submissions for Minimum Window Substring.
  */
@@ -20,7 +20,7 @@ public class MinimumWindowSubstring76 {
   }
 
   public void test() {
-    System.out.println(minWindow("yadobecodebanc", "abc"));
+    System.out.println(minWindow("yadobecodebanc", "abc"));//banc
   }
 
   public String minWindow(String s, String t) {
@@ -40,9 +40,11 @@ public class MinimumWindowSubstring76 {
     for (int end = 0; end < s.length(); end++) {
       char lastChar = s.charAt(end);
 
-      map.put(lastChar, map.getOrDefault(lastChar, 0) - 1);
-      if (map.get(lastChar) >= 0) {
-        diff--;
+      if (map.containsKey(lastChar)) {
+        map.put(lastChar, map.getOrDefault(lastChar, 0) - 1);
+        if (map.get(lastChar) >= 0) {
+          diff--;
+        }
       }
 
       while (start <= end && diff == 0) {
@@ -56,9 +58,11 @@ public class MinimumWindowSubstring76 {
 
         char startChar = s.charAt(start);
 
-        map.put(startChar, map.get(startChar) + 1);
-        if (map.get(startChar) > 0) {
-          diff++;
+        if (map.containsKey(startChar)) {
+          map.put(startChar, map.get(startChar) + 1);
+          if (map.get(startChar) > 0) {
+            diff++;
+          }
         }
 
         start++;
