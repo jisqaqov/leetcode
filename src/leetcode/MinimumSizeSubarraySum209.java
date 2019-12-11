@@ -26,7 +26,7 @@ public class MinimumSizeSubarraySum209 {
   }
 
   public int minSubArrayLen(int s, int[] nums) {
-    int minLen = 0;
+    int minLen = nums.length + 1;
 
     int p = 0;
     int start = 0;
@@ -34,21 +34,15 @@ public class MinimumSizeSubarraySum209 {
     for (int i = 0; i < nums.length; i++) {
       p += nums[i];
 
-      while (start <= i && p >= s) {
-        int len = i - start + 1;
-
-        if (minLen == 0) {
-          minLen = len;
-        } else {
-          minLen = Math.min(minLen, len);
-        }
+      while (p >= s) {
+        minLen = Math.min(minLen, i - start + 1);
 
         p -= nums[start];
         start++;
       }
     }
 
-    return minLen;
+    return minLen > nums.length ? 0: minLen;
   }
 
 }
