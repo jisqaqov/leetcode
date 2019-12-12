@@ -1,9 +1,7 @@
 package prep;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Prep {
 
@@ -13,45 +11,39 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(letterCombinations("23"));
+    System.out.println(permute(new int[]{1, 2, 3}));
   }
 
-  public List<String> letterCombinations(String digits) {
-    if (digits.isEmpty()) {
-      return new ArrayList<>();
-    }
+  public List<List<Integer>> permute(int[] nums) {
+    List<List<Integer>> output = new ArrayList<>();
 
-    Map<Integer, String> map = new HashMap<>();
-    map.put(2, "abc");
-    map.put(3, "def");
-    map.put(4, "ghi");
-    map.put(5, "jkl");
-    map.put(6, "mno");
-    map.put(7, "pqrs");
-    map.put(8, "tuv");
-    map.put(9, "wxyz");
+    boolean[] placed = new boolean[nums.length];
+    List<Integer> values = new ArrayList<>();
 
-    List<String> list = new ArrayList<>();
-    char[] letters = new char[digits.length()];
+    helper(nums, placed, values, output, 0);
 
-    helper(digits, 0, map, list, letters);
-
-    return list;
+    return output;
   }
 
-  private void helper(String digits, int index, Map<Integer, String> map, List<String> list,
-    char[] letters) {
-    if (index == digits.length()) {
-      list.add(String.valueOf(letters));
+  private void helper(int[] nums, boolean[] used, List<Integer> values,
+    List<List<Integer>> output, int index) {
+    if (index == nums.length) {
+      output.add(new ArrayList<>(values));
       return;
     }
 
-    int digit = Character.getNumericValue(digits.charAt(index));
-    String t = map.get(digit);
+    for (int i = 0; i < nums.length; i++) {
+      if (used[i]) {
+        continue;
+      }
 
-    for (int i = 0; i < t.length(); i++) {
-      letters[index] = t.charAt(i);
-      helper(digits, index + 1, map, list, letters);
+      used[i] = true;
+      values.add(nums[i]);
+
+      helper(nums, used, values, output, index + 1);
+
+      used[i] = false;
+      values.remove(values.size() - 1);
     }
   }
 

@@ -20,33 +20,26 @@ public class Permutations46 {
   }
 
   private void test() {
-    int[] t1a = {1,2,3};
-    System.out.println(permute(t1a));
+    System.out.println(permute(new int[]{1, 2, 3}));
   }
 
   public List<List<Integer>> permute(int[] nums) {
-    List<List<Integer>> list = new ArrayList<>();
+    List<List<Integer>> output = new ArrayList<>();
 
-    int n = nums.length;
-    if (n == 0) {
-      return list;
-    }
+    int[] values = new int[nums.length];
+    boolean[] used = new boolean[nums.length];
 
-    int[] p = new int[n];
-    boolean[] used = new boolean[n];
+    permute(nums, values, 0, used, output);
 
-    permute(nums, p, 0, used, list);
-
-    return list;
+    return output;
   }
 
-  private void permute(int[] nums, int[] p,
-    int index, boolean[] used,
+  private void permute(int[] nums, int[] values, int index, boolean[] used,
     List<List<Integer>> list) {
     if (index == nums.length) {
       list.add(new ArrayList<>());
 
-      for (int number : p) {
+      for (int number : values) {
         list.get(list.size() - 1).add(number);
       }
 
@@ -58,10 +51,11 @@ public class Permutations46 {
         continue;
       }
 
-      p[index] = nums[i];
-
+      values[index] = nums[i];
       used[i] = true;
-      permute(nums, p, index + 1, used, list);
+
+      permute(nums, values, index + 1, used, list);
+
       used[i] = false;
     }
   }
