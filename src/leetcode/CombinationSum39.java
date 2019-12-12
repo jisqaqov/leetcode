@@ -34,15 +34,15 @@ public class CombinationSum39 {
 
   private void helper(int[] candidates, int index, List<List<Integer>> output,
     int target, List<Integer> values) {
+    if (target == 0) {
+      output.add(new ArrayList<>(values));
+      return;
+    }
 
     for (int i = index; i < candidates.length && candidates[i] <= target; i++) {
       values.add(candidates[i]);
 
-      if (candidates[i] == target) {
-        output.add(new ArrayList<>(values));
-      } else {
-        helper(candidates, i, output, target - candidates[i], values);
-      }
+      helper(candidates, i, output, target - candidates[i], values);
 
       values.remove(values.size() - 1);
     }
