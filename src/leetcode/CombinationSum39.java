@@ -1,13 +1,20 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 39. Combination Sum
+ * algorithm: Backtracking
+ * Runtime: 2 ms, faster than 99.93% of Java online submissions for Combination Sum.
+ * Memory Usage: 37.5 MB, less than 100.00% of Java online submissions for Combination Sum.
+ */
+public class CombinationSum39 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    CombinationSum39 problem = new CombinationSum39();
     problem.test();
   }
 
@@ -27,12 +34,10 @@ public class Prep {
 
   private void helper(int[] candidates, int index, List<List<Integer>> output,
     int target, List<Integer> values) {
-    for (int i = index; i < candidates.length; i++) {
-      if (candidates[i] > target) {
-        continue;
-      }
 
+    for (int i = index; i < candidates.length && candidates[i] <= target; i++) {
       values.add(candidates[i]);
+
       if (candidates[i] == target) {
         output.add(new ArrayList<>(values));
       } else {
