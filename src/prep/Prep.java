@@ -1,13 +1,5 @@
 package prep;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Prep {
 
   public static void main(String[] args) {
@@ -16,51 +8,25 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(combinationSum2(new int[]{10, 1, 2, 7, 6, 1, 5}, 8));
+    System.out.println(peakIndexInMountainArray(new int[]{0, 1, 0}));//1
+    System.out.println(peakIndexInMountainArray(new int[]{0, 2, 1, 0}));//1
   }
 
-  public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-    List<List<Integer>> output = new ArrayList<>();
+  public int peakIndexInMountainArray(int[] a) {
+    int l = 0;
+    int r = a.length - 1;
 
-    Arrays.sort(candidates);
+    while (l < r) {
+      int m = l + (r - l) / 2;
 
-    Map<Integer, Integer> map = new LinkedHashMap<>();
-    for (int candidate : candidates) {
-      map.put(candidate, map.getOrDefault(candidate, 0) + 1);
-    }
-
-    int i = 0;
-    int[] values = new int[map.keySet().size()];
-
-    for (int number : map.keySet()) {
-      values[i++] = number;
-    }
-
-    helper(map, values, 0, output, target, new ArrayDeque<>());
-
-    return output;
-  }
-
-  private void helper(Map<Integer, Integer> map, int[] candidates, int index,
-    List<List<Integer>> output, int target, Deque<Integer> values) {
-    if (target == 0) {
-      output.add(new ArrayList<>(values));
-      return;
-    }
-
-    for (int i = index; i < candidates.length && candidates[i] <= target; i++) {
-      if (map.get(candidates[i]) == 0) {
-        continue;
+      if (a[m] < a[m + 1]) {
+        l = m + 1;
+      } else {
+        r = m;
       }
-
-      values.addLast(candidates[i]);
-      map.put(candidates[i], map.get(candidates[i]) - 1);
-
-      helper(map, candidates, i, output, target - candidates[i], values);
-
-      values.removeLast();
-      map.put(candidates[i], map.get(candidates[i]) + 1);
     }
+
+    return l;
   }
 
 }
