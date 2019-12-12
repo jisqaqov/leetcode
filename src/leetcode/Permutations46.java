@@ -7,7 +7,7 @@ import java.util.List;
  * @author Jandos Iskakov
  * problem: 46. Permutations
  * algorithm: Backtracking
- * time complexity: O()
+ * time complexity: O((N!)
  * space complexity: O(N!)
  * Runtime: 1 ms, faster than 97.75% of Java online submissions for Permutations.
  * Memory Usage: 36.6 MB, less than 97.16% of Java online submissions for Permutations.
