@@ -9,7 +9,7 @@ import java.util.Set;
 
 /**
  * @author Jandos Iskakov
- * algorithm: Sliding Window
+ * algorithm: Two Pointers
  * time complexity: O(|S| + |T|)
  * space complexity: O(|T|)
  * problem:
