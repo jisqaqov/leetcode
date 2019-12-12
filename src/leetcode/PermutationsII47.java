@@ -1,14 +1,23 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 47. Permutations II
+ * algorithm: Backtracking
+ * time complexity: O(N!)
+ * space complexity: O(N!)
+ * Runtime: 4 ms, faster than 26.73% of Java online submissions for Permutations II.
+ * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions for Permutations II.
+ */
+public class PermutationsII47 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    PermutationsII47 problem = new PermutationsII47();
     problem.test();
   }
 
@@ -18,7 +27,7 @@ public class Prep {
 
   public List<List<Integer>> permuteUnique(int[] nums) {
     List<List<Integer>> output = new ArrayList<>();
-    List<Integer> values = new ArrayList<>();
+    int[] values = new int[nums.length];
 
     Map<Integer, Integer> map = new HashMap<>();
     for (int num : nums) {
@@ -30,10 +39,17 @@ public class Prep {
     return output;
   }
 
-  public void helper(Map<Integer, Integer> map, List<List<Integer>> output,
-    List<Integer> values, int index, int n) {
+  private void helper(Map<Integer, Integer> map, List<List<Integer>> output,
+    int[] values, int index, int n) {
     if (index == n) {
-      output.add(new ArrayList<>(values));
+      List<Integer> list = new ArrayList<>();
+
+      for (int value : values) {
+        list.add(value);
+      }
+
+      output.add(list);
+
       return;
     }
 
@@ -42,15 +58,13 @@ public class Prep {
         continue;
       }
 
-      values.add(number);
+      values[index] = number;
       map.put(number, map.get(number) - 1);
 
       helper(map, output, values, index + 1, n);
 
       map.put(number, map.get(number) + 1);
-      values.remove(values.size() - 1);
     }
-
   }
 
 }
