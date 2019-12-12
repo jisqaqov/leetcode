@@ -43,7 +43,7 @@ public class CombinationSumII40 {
     }
 
     for (int i = index; i < candidates.length && candidates[i] <= target; i++) {
-      if (i > index && candidates[i] == candidates[index]) {
+      if (i > index && candidates[i] == candidates[i - 1]) {
         continue;
       }
 
