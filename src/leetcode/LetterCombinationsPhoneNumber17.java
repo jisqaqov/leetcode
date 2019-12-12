@@ -11,6 +11,13 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 17. Letter Combinations of a Phone Number
  * algorithm: Backtracking
+ * time complexity: O(3^n * 4^m)
+ * space complexity: O(3^n * 4^m)
+ * where N is the number of digits in the input that maps to 3 letters (e.g. 2, 3, 4, 5, 6, 8)
+ * and M is the number of digits in the input that maps to 4 letters (e.g. 7, 9),
+ * and N+M is the total number digits in the input.
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions for Letter Combinations of a Phone Number.
+ * Memory Usage: 35.9 MB, less than 98.63% of Java online submissions for Letter Combinations of a Phone Number.
  */
 public class LetterCombinationsPhoneNumber17 {
 
@@ -21,46 +28,45 @@ public class LetterCombinationsPhoneNumber17 {
 
   public void test() {
     System.out.println(letterCombinations("23"));
-    System.out.println(letterCombinations("123213124"));
+    System.out.println(letterCombinations("332"));
   }
 
   public List<String> letterCombinations(String digits) {
-    if (digits.length() == 0) {
+    if (digits.isEmpty()) {
       return new ArrayList<>();
     }
 
-    Map<Character, List<Character>> map = new HashMap<>();
-    map.put('1', Collections.singletonList('1'));
-    map.put('2', Arrays.asList('a', 'b', 'c'));
-    map.put('3', Arrays.asList('d', 'e', 'f'));
-    map.put('4', Arrays.asList('g', 'h', 'i'));
-    map.put('5', Arrays.asList('j', 'k', 'l'));
-    map.put('6', Arrays.asList('m', 'n', 'o'));
-    map.put('7', Arrays.asList('p', 'q', 'r', 's'));
-    map.put('8', Arrays.asList('t', 'u', 'v'));
-    map.put('9', Arrays.asList('w', 'x', 'y', 'z'));
+    Map<Integer, String> map = new HashMap<>();
+    map.put(2, "abc");
+    map.put(3, "def");
+    map.put(4, "ghi");
+    map.put(5, "jkl");
+    map.put(6, "mno");
+    map.put(7, "pqrs");
+    map.put(8, "tuv");
+    map.put(9, "wxyz");
 
     List<String> list = new ArrayList<>();
-    char[] array = new char[digits.length()];
+    char[] letters = new char[digits.length()];
 
-    letterCombinations(digits, 0, array, list, map);
+    helper(digits, 0, map, list, letters);
 
     return list;
   }
 
-  private void letterCombinations(String digits, int i, char[] memo, List<String> list,
-    Map<Character, List<Character>> map) {
-    if (i == digits.length()) {
-      list.add(new String(memo));
+  private void helper(String digits, int index, Map<Integer, String> map, List<String> list,
+    char[] letters) {
+    if (index == digits.length()) {
+      list.add(String.valueOf(letters));
       return;
     }
 
-    char number = digits.charAt(i);
-    List<Character> letters = map.get(number);
+    int digit = Character.getNumericValue(digits.charAt(index));
+    String t = map.get(digit);
 
-    for (Character letter : letters) {
-      memo[i] = letter;
-      letterCombinations(digits, i + 1, memo, list, map);
+    for (int i = 0; i < t.length(); i++) {
+      letters[index] = t.charAt(i);
+      helper(digits, index + 1, map, list, letters);
     }
   }
 

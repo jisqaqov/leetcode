@@ -1,5 +1,10 @@
 package prep;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -8,48 +13,46 @@ public class Prep {
   }
 
   private void test() {
-    Solution solution = new Solution();
-    solution.init(new int[][]{{1, 1}, {1, 1}});
-    System.out.println(solution.findCelebrity(2));
-
-    solution.init(new int[][]{{1, 1, 0}, {0, 1, 0}, {1, 1, 1}});
-    System.out.println(solution.findCelebrity(3));//1
+    System.out.println(letterCombinations("23"));
   }
 
-  /* The knows API is defined in the parent class Relation.*/
-  private class Relation {
-
-    private int[][] adjMatrix;
-
-    void init(int[][] adjMatrix) {
-      this.adjMatrix = adjMatrix;
+  public List<String> letterCombinations(String digits) {
+    if (digits.isEmpty()) {
+      return new ArrayList<>();
     }
 
-    boolean knows(int a, int b) {
-      return adjMatrix[a][b] == 1;
-    }
+    Map<Integer, String> map = new HashMap<>();
+    map.put(2, "abc");
+    map.put(3, "def");
+    map.put(4, "ghi");
+    map.put(5, "jkl");
+    map.put(6, "mno");
+    map.put(7, "pqrs");
+    map.put(8, "tuv");
+    map.put(9, "wxyz");
+
+    List<String> list = new ArrayList<>();
+    char[] letters = new char[digits.length()];
+
+    helper(digits, 0, map, list, letters);
+
+    return list;
   }
 
-  public class Solution extends Relation {
-
-    public int findCelebrity(int n) {
-      int celebrity = 0;
-
-      for (int i = 0; i < n; i++) {
-        if (knows(celebrity, i)) {
-          celebrity = i;
-        }
-      }
-
-      for (int i = 0; i < n; i++) {
-        if (i != celebrity && (knows(celebrity, i) || !knows(i, celebrity))) {
-          return -1;
-        }
-      }
-
-      return celebrity;
+  private void helper(String digits, int index, Map<Integer, String> map, List<String> list,
+    char[] letters) {
+    if (index == digits.length()) {
+      list.add(String.valueOf(letters));
+      return;
     }
 
+    int digit = Character.getNumericValue(digits.charAt(index));
+    String t = map.get(digit);
+
+    for (int i = 0; i < t.length(); i++) {
+      letters[index] = t.charAt(i);
+      helper(digits, index + 1, map, list, letters);
+    }
   }
 
 }
