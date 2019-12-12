@@ -39,7 +39,7 @@ public class PermutationsII47 {
     return output;
   }
 
-  public void helper(Map<Integer, Integer> map, List<List<Integer>> output,
+  private void helper(Map<Integer, Integer> map, List<List<Integer>> output,
     List<Integer> values, int index, int n) {
     if (index == n) {
       output.add(new ArrayList<>(values));
