@@ -2,11 +2,9 @@ package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Jandos Iskakov
@@ -14,7 +12,7 @@ import java.util.Map;
  * algorithm: Backtracking
  * time complexity:
  * space complexity: O(N)
- * Runtime: 5 ms, faster than 56.43% of Java online submissions for Combination Sum II.
+ * Runtime: 3 ms, faster than 82.21% of Java online submissions for Combination Sum II.
  * Memory Usage: 36.6 MB, less than 100.00% of Java online submissions for Combination Sum II.
  */
 public class CombinationSumII40 {
@@ -29,40 +27,31 @@ public class CombinationSumII40 {
   }
 
   public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+    Arrays.sort(candidates);
+
     List<List<Integer>> output = new ArrayList<>();
 
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int candidate : candidates) {
-      map.put(candidate, map.getOrDefault(candidate, 0) + 1);
-    }
-
-    List<Integer> values = new ArrayList<>(map.keySet());
-    Collections.sort(values);
-
-    helper(map, values, 0, output, target, new ArrayDeque<>());
+    helper(candidates, 0, output, target, new ArrayDeque<>());
 
     return output;
   }
 
-  private void helper(Map<Integer, Integer> map, List<Integer> candidates, int index,
-    List<List<Integer>> output, int target, Deque<Integer> values) {
+  private void helper(int[] candidates, int index, List<List<Integer>> output, int target, Deque<Integer> values) {
     if (target == 0) {
       output.add(new ArrayList<>(values));
       return;
     }
 
-    for (int i = index; i < candidates.size() && candidates.get(i) <= target; i++) {
-      if (map.get(candidates.get(i)) == 0) {
+    for (int i = index; i < candidates.length && candidates[i] <= target; i++) {
+      if (i > index && candidates[i] == candidates[index]) {
         continue;
       }
 
-      values.addLast(candidates.get(i));
-      map.put(candidates.get(i), map.get(candidates.get(i)) - 1);
+      values.addLast(candidates[i]);
 
-      helper(map, candidates, i, output, target - candidates.get(i), values);
+      helper(candidates, i + 1, output, target - candidates[i], values);
 
       values.removeLast();
-      map.put(candidates.get(i), map.get(candidates.get(i)) + 1);
     }
   }
 
