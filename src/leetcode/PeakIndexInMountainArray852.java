@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Binary Search
  * time complexity: O(log(N))
  * space complexity: O(1)
- * Runtime: 0 ms, faster than 100.00% of Java online submissions for Peak Index in a Mountain Array.
- * Memory Usage: 38.5 MB, less than 100.00% of Java online submissions for Peak Index in a Mountain Array.
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 38.5 MB, less than 100.00% of Java online submissions
  */
 public class PeakIndexInMountainArray852 {
 
@@ -19,6 +19,11 @@ public class PeakIndexInMountainArray852 {
   private void test() {
     System.out.println(peakIndexInMountainArray(new int[]{0, 1, 0}));//1
     System.out.println(peakIndexInMountainArray(new int[]{0, 2, 1, 0}));//1
+
+    System.out.println("v2:");
+    V2 v2 = new V2();
+    System.out.println(v2.peakIndexInMountainArray(new int[]{0, 1, 0}));//1
+    System.out.println(v2.peakIndexInMountainArray(new int[]{0, 2, 1, 0}));//1
   }
 
   public int peakIndexInMountainArray(int[] a) {
@@ -36,6 +41,29 @@ public class PeakIndexInMountainArray852 {
     }
 
     return l;
+  }
+
+  private static class V2 {
+
+    public int peakIndexInMountainArray(int[] a) {
+      int l = 0;
+      int r = a.length - 1;
+
+      while (l <= r) {
+        int m = l + (r - l) / 2;
+
+        if (a[m] > a[m - 1] && a[m] > a[m + 1]) {
+          return m;
+        } else if (a[m] < a[m + 1]) {
+          l = m + 1;
+        } else {
+          r = m - 1;
+        }
+      }
+
+      return -1;
+    }
+
   }
 
 }
