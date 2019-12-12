@@ -56,8 +56,8 @@ public class PermutationsII47 {
 
       helper(map, output, values, index + 1, n);
 
-      map.put(number, map.get(number) + 1);
       values.remove(values.size() - 1);
+      map.put(number, map.get(number) + 1);
     }
 
   }
