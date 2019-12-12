@@ -11,8 +11,8 @@ import java.util.Map;
  * algorithm: Backtracking
  * time complexity: O(N!)
  * space complexity: O(N!)
- * Runtime: 4 ms, faster than 26.73% of Java online submissions for Permutations II.
- * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions for Permutations II.
+ * Runtime: 4 ms, faster than 26.73% of Java online submissions
+ * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
  */
 public class PermutationsII47 {
 
@@ -27,7 +27,7 @@ public class PermutationsII47 {
 
   public List<List<Integer>> permuteUnique(int[] nums) {
     List<List<Integer>> output = new ArrayList<>();
-    int[] values = new int[nums.length];
+    List<Integer> values = new ArrayList<>();
 
     Map<Integer, Integer> map = new HashMap<>();
     for (int num : nums) {
@@ -39,17 +39,10 @@ public class PermutationsII47 {
     return output;
   }
 
-  private void helper(Map<Integer, Integer> map, List<List<Integer>> output,
-    int[] values, int index, int n) {
+  public void helper(Map<Integer, Integer> map, List<List<Integer>> output,
+    List<Integer> values, int index, int n) {
     if (index == n) {
-      List<Integer> list = new ArrayList<>();
-
-      for (int value : values) {
-        list.add(value);
-      }
-
-      output.add(list);
-
+      output.add(new ArrayList<>(values));
       return;
     }
 
@@ -58,13 +51,15 @@ public class PermutationsII47 {
         continue;
       }
 
-      values[index] = number;
+      values.add(number);
       map.put(number, map.get(number) - 1);
 
       helper(map, output, values, index + 1, n);
 
       map.put(number, map.get(number) + 1);
+      values.remove(values.size() - 1);
     }
+
   }
 
 }
