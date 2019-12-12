@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +12,8 @@ import java.util.Map;
  * algorithm: Backtracking
  * time complexity: O(N!)
  * space complexity: O(N)
- * Runtime: 4 ms, faster than 26.73% of Java online submissions
- * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions for Permutations II.
+ * Memory Usage: 38 MB, less than 98.51% of Java online submissions for Permutations II.
  */
 public class PermutationsII47 {
 
@@ -23,6 +24,7 @@ public class PermutationsII47 {
 
   private void test() {
     System.out.println(permuteUnique(new int[]{1, 1, 2}));
+    System.out.println(new V2().permuteUnique(new int[]{1, 1, 2}));
   }
 
   public List<List<Integer>> permuteUnique(int[] nums) {
@@ -60,6 +62,50 @@ public class PermutationsII47 {
       map.put(number, map.get(number) + 1);
     }
 
+  }
+
+  private static class V2 {
+    public List<List<Integer>> permuteUnique(int[] nums) {
+      Arrays.sort(nums);
+
+      List<List<Integer>> output = new ArrayList<>();
+      List<Integer> values = new ArrayList<>();
+
+      boolean[] used = new boolean[nums.length];
+
+      helper(nums, output, values, used);
+
+      return output;
+    }
+
+    private void helper(int[] nums, List<List<Integer>> output,
+      List<Integer> values, boolean[] used) {
+      if (values.size() == nums.length) {
+        output.add(new ArrayList<>(values));
+        return;
+      }
+
+      boolean set = false;
+      Integer prev = null;
+
+      for (int i = 0; i < nums.length; i++) {
+        if (used[i] || (set && nums[i] == prev)) {
+          continue;
+        }
+
+        set = true;
+        prev = nums[i];
+
+        used[i] = true;
+        values.add(nums[i]);
+
+        helper(nums, output, values, used);
+
+        used[i] = false;
+        values.remove(values.size() - 1);
+      }
+
+    }
   }
 
 }
