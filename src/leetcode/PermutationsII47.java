@@ -9,7 +9,7 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 47. Permutations II
  * algorithm: Backtracking
- * time complexity: O(N)
+ * time complexity: O(N!)
  * space complexity: O(N)
  * Runtime: 4 ms, faster than 26.73% of Java online submissions
  * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
