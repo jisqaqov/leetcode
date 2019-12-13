@@ -59,17 +59,11 @@ public class ValidateBinarySearchTree98 {
     TreeNode prev = null;
 
     public boolean isValidBST(TreeNode root) {
-      prev = null;
-
-      return helper(root);
-    }
-
-    public boolean helper(TreeNode root) {
       if (root == null) {
         return true;
       }
 
-      if (!helper(root.left)) {
+      if (!isValidBST(root.left)) {
         return false;
       }
 
@@ -79,7 +73,7 @@ public class ValidateBinarySearchTree98 {
 
       prev = root;
 
-      if (!helper(root.right)) {
+      if (!isValidBST(root.right)) {
         return false;
       }
 
