@@ -1,12 +1,16 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Jandos Iskakov
  * problem: 98. Validate Binary Search Tree
- * algorithm: Tree
+ * algorithm: Tree, DFS
  * time complexity: O(n)
  * space complexity: O(1)
- *
+ * Runtime: 1 ms, faster than 45.97% of Java online submissions
+ * Memory Usage: 39.2 MB, less than 80.93% of Java online submissions
  */
 public class ValidateBst98 {
 
@@ -24,23 +28,29 @@ public class ValidateBst98 {
   }
 
   public boolean isValidBST(TreeNode root) {
-    if (root == null) {
-      return true;
+    Deque<TreeNode> stack = new ArrayDeque<>();
+
+    TreeNode node = root;
+    TreeNode prev = null;
+
+    while (node != null || !stack.isEmpty()) {
+      while (node != null) {
+        stack.push(node);
+        node = node.left;
+      }
+
+      node = stack.pop();
+
+      if (prev != null && node.val < prev.val) {
+        return false;
+      }
+
+      prev = node;
+
+      node = node.right;
     }
 
-    // null values stand for infinity
-    return isValidBST(root, null, null);
-  }
-
-  public boolean isValidBST(TreeNode node, Integer min, Integer max) {
-    if ((min != null && node.val <= min) || (max != null && node.val >= max)) {
-      return false;
-    }
-
-    boolean isValidRightBst = node.right == null || isValidBST(node.right, node.val, max);
-    boolean isValidLeftBst = node.left == null || isValidBST(node.left, min, node.val);
-
-    return isValidLeftBst && isValidRightBst;
+    return true;
   }
 
   private class TreeNode {

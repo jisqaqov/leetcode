@@ -1,5 +1,8 @@
 package prep;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -8,25 +11,50 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(peakIndexInMountainArray(new int[]{0, 1, 0}));//1
-    System.out.println(peakIndexInMountainArray(new int[]{0, 2, 1, 0}));//1
+    //TODO:
+    TreeNode root = new TreeNode(2);
+    root.left = new TreeNode(1);
+    root.right = new TreeNode(3);
+
+    System.out.println(isValidBST(root));
+
   }
 
-  public int peakIndexInMountainArray(int[] a) {
-    int l = 0;
-    int r = a.length - 1;
+  public boolean isValidBST(TreeNode root) {
+    Deque<TreeNode> stack = new ArrayDeque<>();
 
-    while (l < r) {
-      int m = l + (r - l) / 2;
+    TreeNode node = root;
+    TreeNode prev = null;
 
-      if (a[m] < a[m + 1]) {
-        l = m + 1;
-      } else {
-        r = m;
+    while (node != null || !stack.isEmpty()) {
+      while (node != null) {
+        stack.addLast(node);
+        node = node.left;
       }
+
+      node = stack.pollLast();
+
+      if (prev != null && node.val < prev.val) {
+        return false;
+      }
+
+      prev = node;
+
+      node = node.right;
     }
 
-    return l;
+    return true;
+  }
+
+  private class TreeNode {
+
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    public TreeNode(int val) {
+      this.val = val;
+    }
   }
 
 }
