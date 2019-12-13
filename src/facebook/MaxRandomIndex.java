@@ -28,34 +28,30 @@ public class MaxRandomIndex {
   }
 
   private void test() {
-    TestUtils.printArray(maxRandomIndex(new int[]{11, 30, 2, 30, 30, 30, 6, 2, 62, 62}));
+    System.out.println(maxRandomIndex(new int[]{11, 30, 2, 30, 30, 30, 6, 2, 62, 62}));
   }
 
-    public int[] maxRandomIndex(int[] nums) {
-      Random random = new Random();
-      int maxIndex = 0;
+  public int maxRandomIndex(int[] nums) {
+    Random random = new Random();
+    int maxIndex = 0;
 
-      int count = 1;
-      int[] output = new int[nums.length];
-      output[0] = 0;
+    int count = 1;
 
-      for (int i = 1; i < nums.length; i++) {
-        if (nums[i] > nums[maxIndex]) {
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i] > nums[maxIndex]) {
+        maxIndex = i;
+        count = 1;
+      } else if (nums[i] == nums[maxIndex]) {
+        count++;
+
+        // probability of 1/count
+        if (random.nextInt(count) == 0) {
           maxIndex = i;
-          count = 1;
-        } else if (nums[i] == nums[maxIndex]) {
-          count++;
-
-          //Math.random() < 1.0 / count
-          if (random.nextInt(count) == 0) {
-            maxIndex = i;
-          }
         }
-
-        output[i] = maxIndex;
       }
-
-      return output;
     }
+
+    return maxIndex;
+  }
 
 }
