@@ -8,7 +8,7 @@ import java.util.Deque;
  * problem: 98. Validate Binary Search Tree
  * algorithm: Tree, DFS
  * time complexity: O(n)
- * space complexity: O(1)
+ * space complexity: O(n)
  * Runtime: 1 ms, faster than 45.97% of Java online submissions
  * Memory Usage: 39.2 MB, less than 80.93% of Java online submissions
  */
