@@ -38,4 +38,27 @@ public class PeakIndexInMountainArray852 {
     return l;
   }
 
+  private static class V2 {
+
+    // check
+    public int peakIndexInMountainArray(int[] a) {
+      int l = 0;
+      int r = a.length - 1;
+
+      while (l < r) {
+        int m = l + (r - l) / 2;
+
+        if (a[m] < a[m + 1]) {
+          l = m + 1;
+        } else if (a[m] < a[m - 1]) {
+          r = m;
+        } else {
+          return m;
+        }
+      }
+
+      return -1;
+    }
+  }
+
 }
