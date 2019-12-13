@@ -1,7 +1,7 @@
 package prep;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Random;
+import utils.TestUtils;
 
 public class Prep {
 
@@ -11,50 +11,35 @@ public class Prep {
   }
 
   private void test() {
-    //TODO:
-    TreeNode root = new TreeNode(2);
-    root.left = new TreeNode(1);
-    root.right = new TreeNode(3);
-
-    System.out.println(isValidBST(root));
-
+    TestUtils.printArray(maxValueRandom(new int[]{11, 30, 2, 30, 30, 30, 6, 2, 62, 62}));
   }
 
-  public boolean isValidBST(TreeNode root) {
-    Deque<TreeNode> stack = new ArrayDeque<>();
+  public int[] maxValueRandom(int[] nums) {
+    Random random = new Random();
+    int maxIndex = 0;
 
-    TreeNode node = root;
-    TreeNode prev = null;
+    int count = 1;
+    int[] output = new int[nums.length];
+    output[0] = 0;
 
-    while (node != null || !stack.isEmpty()) {
-      while (node != null) {
-        stack.addLast(node);
-        node = node.left;
+    for (int i = 1; i < nums.length; i++) {
+      if (nums[i] > nums[maxIndex]) {
+        maxIndex = i;
+        count = 1;
+      } else if (nums[i] == nums[maxIndex]) {
+        count++;
+
+        //Math.random() < 1.0 / count
+        if (random.nextInt(count) == 0) {
+          maxIndex = i;
+        }
       }
 
-      node = stack.pollLast();
-
-      if (prev != null && node.val < prev.val) {
-        return false;
-      }
-
-      prev = node;
-
-      node = node.right;
+      output[i] = maxIndex;
     }
 
-    return true;
+    return output;
   }
 
-  private class TreeNode {
-
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    public TreeNode(int val) {
-      this.val = val;
-    }
-  }
 
 }
