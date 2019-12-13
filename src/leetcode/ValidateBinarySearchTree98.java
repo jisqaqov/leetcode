@@ -12,10 +12,10 @@ import java.util.Deque;
  * Runtime: 1 ms, faster than 45.97% of Java online submissions
  * Memory Usage: 39.2 MB, less than 80.93% of Java online submissions
  */
-public class ValidateBst98 {
+public class ValidateBinarySearchTree98 {
 
   public static void main(String[] args) {
-    ValidateBst98 solution = new ValidateBst98();
+    ValidateBinarySearchTree98 solution = new ValidateBinarySearchTree98();
     solution.test();
   }
 
@@ -25,6 +25,7 @@ public class ValidateBst98 {
     root.right = new TreeNode(3);
 
     System.out.println(isValidBST(root));
+    System.out.println(new V2().isValidBST(root));
   }
 
   public boolean isValidBST(TreeNode root) {
@@ -51,6 +52,40 @@ public class ValidateBst98 {
     }
 
     return true;
+  }
+
+  private static class V2 {
+
+    TreeNode prev = null;
+
+    public boolean isValidBST(TreeNode root) {
+      prev = null;
+
+      return helper(root);
+    }
+
+    public boolean helper(TreeNode root) {
+      if (root == null) {
+        return true;
+      }
+
+      if (!helper(root.left)) {
+        return false;
+      }
+
+      if (prev != null && root.val <= prev.val) {
+        return false;
+      }
+
+      prev = root;
+
+      if (!helper(root.right)) {
+        return false;
+      }
+
+      return true;
+    }
+
   }
 
   private class TreeNode {
