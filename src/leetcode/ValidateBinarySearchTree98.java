@@ -26,6 +26,7 @@ public class ValidateBinarySearchTree98 {
 
     System.out.println(isValidBST(root));
     System.out.println(new V2().isValidBST(root));
+    System.out.println(new V3().isValidBST(root));
   }
 
   public boolean isValidBST(TreeNode root) {
@@ -78,6 +79,26 @@ public class ValidateBinarySearchTree98 {
       }
 
       return true;
+    }
+
+  }
+
+  private static class V3 {
+
+    public boolean isValidBST(TreeNode root) {
+      return isValidBST(root, null, null);
+    }
+
+    private boolean isValidBST(TreeNode node, TreeNode low, TreeNode high) {
+      if (node == null) {
+        return true;
+      }
+
+      if ((low != null && node.val <= low.val) || (high != null && node.val >= high.val)) {
+        return false;
+      }
+
+      return isValidBST(node.left, low, node) && isValidBST(node.right, node, high);
     }
 
   }
