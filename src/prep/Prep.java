@@ -1,6 +1,5 @@
 package prep;
 
-import java.util.Random;
 import utils.TestUtils;
 
 public class Prep {
@@ -11,35 +10,155 @@ public class Prep {
   }
 
   private void test() {
-    TestUtils.printArray(maxValueRandom(new int[]{11, 30, 2, 30, 30, 30, 6, 2, 62, 62}));
+    TestUtils.printArray(searchRange(new int[0], 8));
+    TestUtils.printArray(searchRange(new int[]{5, 7, 7, 8, 8, 10}, 5));
   }
 
-  public int[] maxValueRandom(int[] nums) {
-    Random random = new Random();
-    int maxIndex = 0;
+  public int[] searchRange(int[] nums, int target) {
+    int[] idx = {-1, -1};
 
-    int count = 1;
-    int[] output = new int[nums.length];
-    output[0] = 0;
+    if (nums.length == 0) {
+      return idx;
+    }
 
-    for (int i = 1; i < nums.length; i++) {
-      if (nums[i] > nums[maxIndex]) {
-        maxIndex = i;
-        count = 1;
-      } else if (nums[i] == nums[maxIndex]) {
-        count++;
+    int l = 0;
+    int r = nums.length - 1;
 
-        //Math.random() < 1.0 / count
-        if (random.nextInt(count) == 0) {
-          maxIndex = i;
+    while (l < r) {
+      int mid = l + (r - l) / 2;
+      if (nums[mid] < target ) {
+        l = mid + 1;
+      } else {
+        r = mid;
+      }
+    }
+
+    idx[0] = l;
+
+    r = nums.length - 1;
+
+    while (l < r) {
+      int mid = l + (r - l) / 2;
+      if (nums[mid + 1] <= target) {
+        l = mid + 1;
+      } else {
+        r = mid;
+      }
+    }
+
+    idx[1] = r;
+
+    if (nums[idx[0]] != target) {
+      idx[0] = -1;
+      idx[1] = -1;
+    }
+
+    return idx;
+  }
+
+  private static class V3 {
+    public int[] searchRange(int[] nums, int target) {
+      return new int[]{firstIndex(nums, target), lastIndex(nums, target)};
+    }
+
+    private int firstIndex(int[] nums, int target) {
+      int l = 0;
+      int r = nums.length - 1;
+
+      int index = -1;
+
+      while (l <= r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] >= target) {
+          if (nums[mid] == target) {
+            index = mid;
+          }
+
+          r = mid - 1;
+        } else {
+          l = mid + 1;
         }
       }
 
-      output[i] = maxIndex;
+      return index;
     }
 
-    return output;
+    private int lastIndex(int[] nums, int target) {
+      int l = 0;
+      int r = nums.length - 1;
+
+      int index = -1;
+
+      while (l <= r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] <= target) {
+          if (nums[mid] == target) {
+            index = mid;
+          }
+
+          l = mid + 1;
+        } else {
+          r = mid - 1;
+        }
+      }
+
+      return index;
+    }
   }
 
+  private static class V2 {
+
+    public int[] searchRange(int[] nums, int target) {
+      if (nums.length == 0) {
+        return new int[]{-1, -1};
+      }
+
+      return new int[]{firstIndex(nums, target), lastIndex(nums, target)};
+    }
+
+    private int firstIndex(int[] nums, int target) {
+      int l = 0;
+      int r = nums.length - 1;
+
+      while (l + 1 < r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] >= target) {
+          r = mid;
+        } else {
+          l = mid;
+        }
+      }
+
+      if (nums[l] != target && nums[r] != target) {
+        return -1;
+      }
+
+      return nums[l] == target ? l : r;
+    }
+
+    private int lastIndex(int[] nums, int target) {
+      int l = 0;
+      int r = nums.length - 1;
+
+      while (l + 1 < r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] <= target) {
+          l = mid;
+        } else {
+          r = mid;
+        }
+      }
+
+      if (nums[l] != target && nums[r] != target) {
+        return -1;
+      }
+
+      return nums[r] == target ? r : l;
+    }
+  }
 
 }
