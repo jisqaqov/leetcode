@@ -13,17 +13,19 @@ public class ClosestBinarySearchTreeValue270 {
 
   public int closestValue(TreeNode root, double target) {
     int val = -1;
+
     if (root.val < target && root.right != null) {
       val = closestValue(root.right, target);
     } else if (root.val > target && root.left != null) {
       val = closestValue(root.left, target);
     }
 
+    int k = root.val;
     if (val != -1 && Math.abs(root.val - target) > Math.abs(val - target)) {
-      return val;
+      k = val;
     }
 
-    return root.val;
+    return k;
   }
 
   private static class V2 {
@@ -36,7 +38,11 @@ public class ClosestBinarySearchTreeValue270 {
           val = node.val;
         }
 
-        node = node.val < target? node.right: node.left;
+        if (root.val > target) {
+          node = node.left;
+        } else {
+          node = node.right;
+        }
       }
 
       return val;
