@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 647. Palindromic Substrings
+ * algorithm: DP
+ * time complexity: O(N^2)
+ * space complexity: O(N^2)
+ * Runtime: 5 ms, faster than 44.24% of Java online submissions for Palindromic Substrings.
+ * Memory Usage: 35.8 MB, less than 63.29% of Java online submissions for Palindromic Substrings.
+ */
+public class PalindromicSubstrings647 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    PalindromicSubstrings647 problem = new PalindromicSubstrings647();
     problem.test();
   }
 
@@ -37,6 +46,7 @@ public class Prep {
     }
 
     int count = 0;
+
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
         if (dp[i][j]) {
