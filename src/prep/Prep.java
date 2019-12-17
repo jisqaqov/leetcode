@@ -8,13 +8,13 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(countSubstrings("abc"));
-    System.out.println(countSubstrings("aaa"));
+    System.out.println(countSubstrings("babad"));
+    System.out.println(countSubstrings("cbbd"));
   }
 
-  public int countSubstrings(String s) {
+  public String countSubstrings(String s) {
     if (s.length() == 0) {
-      return 0;
+      return "";
     }
 
     int n = s.length();
@@ -36,16 +36,25 @@ public class Prep {
       }
     }
 
-    int count = 0;
+    int maxLen = 0;
+    int[] idx = new int[2];
+
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < n; j++) {
-        if (dp[i][j]) {
-          count++;
+        if (!dp[i][j]) {
+          continue;
+        }
+
+        int len = j - i + 1;
+        if (len > maxLen) {
+          maxLen = len;
+          idx[0] = i;
+          idx[1] = j;
         }
       }
     }
 
-    return count;
+    return s.substring(idx[0], idx[1] + 1);
   }
 
 }
