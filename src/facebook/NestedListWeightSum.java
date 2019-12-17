@@ -4,6 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * @author Jandos Iskakov
+ * algorithm: Recursion
+ * time complexity: O(N)
+ * space complexity: O(D), D - max depth of nested list
  * variation of https://leetcode.com/problems/nested-list-weight-sum/
  * e.g. Input = [ [2, 1], 6, [1, [4, 3]] ], output = 2*(2+1)+6+2*(1+3*(4+3)) = 56
  */
