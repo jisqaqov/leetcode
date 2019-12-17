@@ -6,6 +6,8 @@ package leetcode;
  * algorithm: Dynamic Programming
  * time complexity: O(n^2)
  * space complexity: O(n^2)
+ * Runtime: 45 ms, faster than 35.69% of Java online submissions for Longest Palindromic Substring.
+ * Memory Usage: 37.2 MB, less than 93.95% of Java online submissions for Longest Palindromic Substring.
  */
 public class LongestPalindromicSubstring5 {
 
@@ -27,49 +29,48 @@ public class LongestPalindromicSubstring5 {
   }
 
   public String longestPalindrome(String s) {
-    int n = s.length();
-
-    if (n == 0) {
-      return s;
+    if (s.length() == 0) {
+      return "";
     }
 
-    boolean[][] memo = new boolean[n][n];
-    memo[0][0] = true;
+    int n = s.length();
+
+    boolean[][] dp = new boolean[n][n];
+    dp[0][0] = true;
 
     for (int i = 1; i < n; i++) {
-      char ch = s.charAt(i);
+      dp[i][i] = true;
 
-      memo[i][i] = true;
-
-      if (ch == s.charAt(i - 1)) {
-        memo[i - 1][i] = true;
+      if (s.charAt(i - 1) == s.charAt(i)) {
+        dp[i - 1][i] = true;
       }
 
-      for (int b = 1; b < n; b++) {
-        if (memo[b][i - 1] && ch == s.charAt(b - 1)) {
-          memo[b - 1][i] = true;
+      for (int j = i - 1; j > 0; j--) {
+        if (dp[j][i - 1] && s.charAt(j - 1) == s.charAt(i)) {
+          dp[j - 1][i] = true;
         }
       }
     }
 
-    int[] max = new int[2];
-    int k = 1;
+    int maxLen = 0;
+    int[] idx = new int[2];
 
     for (int i = 0; i < n; i++) {
-      for (int j = i; j < n; j++) {
-        if (!memo[i][j]) {
+      for (int j = 0; j < n; j++) {
+        if (!dp[i][j]) {
           continue;
         }
 
-        if (j - i + 1 > k) {
-          k = j - i + 1;
-          max[0] = i;
-          max[1] = j;
+        int len = j - i + 1;
+        if (len > maxLen) {
+          maxLen = len;
+          idx[0] = i;
+          idx[1] = j;
         }
       }
     }
 
-    return s.substring(max[0], max[1] + 1);
+    return s.substring(idx[0], idx[1] + 1);
   }
 
 }
