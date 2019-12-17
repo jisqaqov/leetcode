@@ -1,11 +1,20 @@
-package prep;
+package leetcode;
 
 import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 75. Sort Colors
+ * algorithm: Two Pointers
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 35.3 MB, less than 99.21% of Java online submissions
+ */
+public class SortColors75 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SortColors75 problem = new SortColors75();
     problem.test();
   }
 
