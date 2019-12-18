@@ -62,16 +62,14 @@ public class LowestCommonAncestorOfBinaryTree {
     int height1 = getHeight(node1);
     int height2 = getHeight(node2);
 
-    if (height2 > height1) {
-      while (height2 > height1) {
-        node2 = node2.parent;
-        height2--;
-      }
-    } else if (height1 > height2) {
-      while (height1 > height2) {
-        node1 = node1.parent;
-        height1--;
-      }
+    while (height2 > height1) {
+      node2 = node2.parent;
+      height2--;
+    }
+
+    while (height1 > height2) {
+      node1 = node1.parent;
+      height1--;
     }
 
     while (!node1.equals(node2)) {
