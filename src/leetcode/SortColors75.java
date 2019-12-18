@@ -37,45 +37,72 @@ public class SortColors75 {
   }
 
   public void sortColors(int[] nums) {
-    int idx1 = -1;
-    int idx2 = -1;
+    int p0 = 0;
+    int p2 = nums.length - 1;
 
-    for (int i = 0; i < nums.length; i++) {
-      if (nums[i] == 2 && idx2 == -1) {
-        idx2 = i;
+    int i = 0;
+
+    while (i <= p2) {
+      if (nums[i] == 0) {
+        nums[i] = nums[p0];
+        nums[p0] = 0;
+
+        i++;
+        p0++;
+      } else if (nums[i] == 2) {
+        nums[i] = nums[p2];
+        nums[p2] = 2;
+
+        p2--;
       } else if (nums[i] == 1) {
-        if (idx2 >= 0) {
-          nums[i] = 2;
-          nums[idx2] = 1;
+        i++;
+      }
+    }
+  }
 
-          if (idx1 == -1) {
-            idx1 = idx2;
+  private static class V2 {
+
+    public void sortColors(int[] nums) {
+      int idx1 = -1;
+      int idx2 = -1;
+
+      for (int i = 0; i < nums.length; i++) {
+        if (nums[i] == 2 && idx2 == -1) {
+          idx2 = i;
+        } else if (nums[i] == 1) {
+          if (idx2 >= 0) {
+            nums[i] = 2;
+            nums[idx2] = 1;
+
+            if (idx1 == -1) {
+              idx1 = idx2;
+            }
+
+            idx2++;
           }
 
-          idx2++;
-        }
+          if (idx1 == -1) {
+            idx1 = i;
+          }
+        } else if (nums[i] == 0) {
+          if (idx1 >= 0 && idx2 >= 0) {
+            nums[i] = 2;
+            nums[idx2] = 1;
+            nums[idx1] = 0;
 
-        if (idx1 == -1) {
-          idx1 = i;
-        }
-      } else if (nums[i] == 0) {
-        if (idx1 >= 0 && idx2 >= 0) {
-          nums[i] = 2;
-          nums[idx2] = 1;
-          nums[idx1] = 0;
+            idx1++;
+            idx2++;
+          } else if (idx2 >= 0) {
+            nums[i] = 2;
+            nums[idx2] = 0;
 
-          idx1++;
-          idx2++;
-        } else if (idx2 >= 0) {
-          nums[i] = 2;
-          nums[idx2] = 0;
+            idx2++;
+          } else if (idx1 >= 0) {
+            nums[i] = 1;
+            nums[idx1] = 0;
 
-          idx2++;
-        } else if (idx1 >= 0) {
-          nums[i] = 1;
-          nums[idx1] = 0;
-
-          idx1++;
+            idx1++;
+          }
         }
       }
     }
