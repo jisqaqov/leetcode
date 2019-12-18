@@ -81,7 +81,7 @@ public class LowestCommonAncestorOfBinaryTree {
   }
 
   private int getHeight(TreeNode node) {
-    int height = 0;
+    int height = 1;
 
     TreeNode temp = node;
     while (temp.parent != null) {
