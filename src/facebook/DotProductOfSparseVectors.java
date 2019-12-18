@@ -66,6 +66,7 @@ public class DotProductOfSparseVectors {
     while (i < v1.size() && j < v2.size()) {
       Entry a = v1.get(i);
       Entry b = v2.get(j);
+      
       if (a.index == b.index) {
         p += a.value * b.value;
 
