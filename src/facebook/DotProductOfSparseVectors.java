@@ -20,11 +20,20 @@ public class DotProductOfSparseVectors {
 
   public static void main(String[] args) {
     DotProductOfSparseVectors problem = new DotProductOfSparseVectors();
+
     problem.test();
     problem.testV2();
+    problem.testV3();
   }
 
   private void test() {
+    int[][] v1 = {{0, 44}, {3, 5}, {8, 7}, {11, 3}};
+    int[][] v2 = {{3, -1}, {11, 5}, {16, 2}};
+
+    System.out.println("v1: " + multiply(v1, v2));//10
+  }
+
+  private void testV2() {
     List<Entry> v1 = Arrays.asList(new Entry(0, 44),
       new Entry(3, 5),
       new Entry(8, 7),
@@ -34,10 +43,10 @@ public class DotProductOfSparseVectors {
       new Entry(11, 5),
       new Entry(16, 5));
 
-    System.out.println("v1: " + multiply(v1, v2));//10
+    System.out.println("v2: " + multiply(v1, v2));//10
   }
 
-  private void testV2() {
+  private void testV3() {
     ListNode a0 = new ListNode(0, 44);
     ListNode a3 = new ListNode(3, 5);
     ListNode a8 = new ListNode(8, 7);
@@ -54,7 +63,32 @@ public class DotProductOfSparseVectors {
     b3.next = b11;
     b11.next = b16;
 
-    System.out.println("v2: " + new V2().multiply(a0, b3));//10
+    System.out.println("v3: " + multiply(a0, b3));//10
+  }
+
+  public int multiply(int[][] v1, int[][] v2) {
+    int p = 0;
+
+    int i = 0;
+    int j = 0;
+
+    while (i < v1.length && j < v2.length) {
+      int[] a = v1[i];
+      int[] b = v2[j];
+
+      if (a[0] == b[0]) {
+        p += a[1] * b[1];
+
+        i++;
+        j++;
+      } else if (a[0] < b[0]) {
+        i++;
+      } else {
+        j++;
+      }
+    }
+
+    return p;
   }
 
   public int multiply(List<Entry> v1, List<Entry> v2) {
@@ -66,7 +100,7 @@ public class DotProductOfSparseVectors {
     while (i < v1.size() && j < v2.size()) {
       Entry a = v1.get(i);
       Entry b = v2.get(j);
-      
+
       if (a.index == b.index) {
         p += a.value * b.value;
 
@@ -82,26 +116,23 @@ public class DotProductOfSparseVectors {
     return p;
   }
 
-  private static class V2 {
+  public int multiply(ListNode v1, ListNode v2) {
+    int p = 0;
 
-    public int multiply(ListNode v1, ListNode v2) {
-      int p = 0;
+    while (v1 != null && v2 != null) {
+      if (v1.index == v2.index) {
+        p += v1.value * v2.value;
 
-      while (v1 != null && v2 != null) {
-        if (v1.index == v2.index) {
-          p += v1.value * v2.value;
-
-          v1 = v1.next;
-          v2 = v2.next;
-        } else if (v1.index < v2.index) {
-          v1 = v1.next;
-        } else {
-          v2 = v2.next;
-        }
+        v1 = v1.next;
+        v2 = v2.next;
+      } else if (v1.index < v2.index) {
+        v1 = v1.next;
+      } else {
+        v2 = v2.next;
       }
-
-      return p;
     }
+
+    return p;
   }
 
   private class Entry {
