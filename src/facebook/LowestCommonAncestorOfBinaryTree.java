@@ -72,7 +72,7 @@ public class LowestCommonAncestorOfBinaryTree {
       height1--;
     }
 
-    while (!node1.equals(node2)) {
+    while (node1 != node2) {
       node1 = node1.parent;
       node2 = node2.parent;
     }
