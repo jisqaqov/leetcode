@@ -36,7 +36,7 @@ public class KClosestPointsToOrigin973 {
   }
 
   public int[][] kClosest(int[][] points, int k) {
-    int len = k - 1;
+    int pos = k - 1;
 
     int l = 0;
     int r = points.length - 1;
@@ -44,9 +44,9 @@ public class KClosestPointsToOrigin973 {
     while (l <= r) {
       int pivotIndex = partition(l, r, points);
 
-      if (pivotIndex == len) {
+      if (pivotIndex == pos) {
         break;
-      } else if (pivotIndex < len) {
+      } else if (pivotIndex < pos) {
         l = pivotIndex + 1;
       } else {
         r = pivotIndex - 1;
