@@ -1,7 +1,9 @@
 package leetcode;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 /**
  * @author Jandos Iskakov
@@ -63,6 +65,30 @@ public class KthSmallestElementInABST230 {
   }
 
   private static class V2 {
+
+    public int kthSmallest(TreeNode root, int k) {
+      List<TreeNode> list = new ArrayList<>();
+
+      inorder(root, list);
+
+      return list.get(k - 1).val;
+    }
+
+    private void inorder(TreeNode root, List<TreeNode> list) {
+      if (root == null) {
+        return;
+      }
+
+      inorder(root.left, list);
+
+      list.add(root);
+
+      inorder(root.right, list);
+    }
+  }
+
+
+  private static class V3 {
 
     private int idx = 1;
     private TreeNode output;
