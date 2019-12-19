@@ -60,18 +60,21 @@ public class KthLargestElementInAnArray215 {
     int randomIndex = low + random.nextInt(high - low);
     swap(nums, randomIndex, high);
 
-    int index = low;
+    // use quick sort's idea
+    // put nums that are <= pivot to the left
+    // put nums that are  > pivot to the right
+    int pivot = low;
 
     for (int i = low; i < high; i++) {
       if (nums[i] < nums[high]) {
-        swap(nums, i, index);
-        index++;
+        swap(nums, i, pivot);
+        pivot++;
       }
     }
 
-    swap(nums, index, high);
+    swap(nums, pivot, high);
 
-    return index;
+    return pivot;
   }
 
   private void swap(int[] nums, int i, int j) {
