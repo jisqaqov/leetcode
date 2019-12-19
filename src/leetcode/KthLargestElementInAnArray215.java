@@ -35,10 +35,12 @@ public class KthLargestElementInAnArray215 {
     int low = 0;
     int high = nums.length - 1;
 
+    k = nums.length - k;
+
     while (low <= high) {
       int pivotIndex = partition(nums, low, high);
 
-      if (pivotIndex < k - 1) {
+      if (pivotIndex < k) {
         low = pivotIndex + 1;
       } else {
         high = pivotIndex - 1;
@@ -56,33 +58,20 @@ public class KthLargestElementInAnArray215 {
     Random random = new Random();
 
     int randomIndex = low + random.nextInt(high - low);
-    swap(nums, randomIndex, low);
+    swap(nums, randomIndex, high);
 
-    int i = low + 1;
-    int j = high;
+    int index = low;
 
-    while (true) {
-      while (i < high && nums[i] >= nums[low]) {
-        i++;
+    for (int i = low; i < high; i++) {
+      if (nums[i] < nums[high]) {
+        swap(nums, i, index);
+        index++;
       }
-
-      while (j > low && nums[j] <= nums[low]) {
-        j--;
-      }
-
-      if (i >= j) {
-        break;
-      }
-
-      swap(nums, i, j);
-
-      i++;
-      j--;
     }
 
-    swap(nums, low, j);
+    swap(nums, index, high);
 
-    return j;
+    return index;
   }
 
   private void swap(int[] nums, int i, int j) {
@@ -91,7 +80,46 @@ public class KthLargestElementInAnArray215 {
     nums[j] = temp;
   }
 
-  private static class V2 {
+  private class V2 {
+    private int partition(int[] nums, int low, int high) {
+      if (low == high) {
+        return low;
+      }
+
+      Random random = new Random();
+
+      int randomIndex = low + random.nextInt(high - low);
+      swap(nums, randomIndex, low);
+
+      int i = low + 1;
+      int j = high;
+
+      while (true) {
+        while (i < high && nums[i] <= nums[low]) {
+          i++;
+        }
+
+        while (j > low && nums[j] >= nums[low]) {
+          j--;
+        }
+
+        if (i >= j) {
+          break;
+        }
+
+        swap(nums, i, j);
+
+        i++;
+        j--;
+      }
+
+      swap(nums, low, j);
+
+      return j;
+    }
+  }
+
+  private class V3 {
 
     public int findKthLargest(int[] nums, int k) {
       PriorityQueue<Integer> heap = new PriorityQueue<>(k);
