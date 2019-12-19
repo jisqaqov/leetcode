@@ -62,7 +62,7 @@ public class KthLargestElementInAnArray215 {
     int j = high;
 
     while (i <= j) {
-      while (i < high && nums[i] > nums[low]) {
+      while (i < high && nums[i] >= nums[low]) {
         i++;
       }
 
