@@ -58,6 +58,8 @@ public class KthLargestElementInAnArray215 {
     Random random = new Random();
 
     int randomIndex = low + random.nextInt(high - low);
+
+    // optional to randomize elements
     swap(nums, randomIndex, high);
 
     // use quick sort's idea
