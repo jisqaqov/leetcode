@@ -71,9 +71,7 @@ public class Prep {
         return;
       }
 
-      if (output == null) {
-        inorder(root.left);
-      }
+      inorder(root.left);
 
       if (idx == 1) {
         output = root;

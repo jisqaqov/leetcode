@@ -107,10 +107,11 @@ public class KthSmallestElementInABST230 {
       idx--;
       if (idx == 0) {
         output = root;
-        return;
       }
 
-      inorder(root.right);
+      if (output == null) {
+        inorder(root.right);
+      }
     }
   }
 
