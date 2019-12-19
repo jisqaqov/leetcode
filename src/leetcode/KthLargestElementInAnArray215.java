@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /**
  * @author Jandos Iskakov
@@ -8,8 +9,8 @@ import java.util.PriorityQueue;
  * algorithm: QuickSelect, Sort
  * time complexity: O(n)
  * space complexity: O(log(n))
- * Runtime: 26 ms, faster than 29.10% of Java online submissions for Kth Largest Element in an Array.
- * Memory Usage: 37.5 MB, less than 90.16% of Java online submissions for Kth Largest Element in an Array.
+ * Runtime: 1 ms, faster than 99.53% of Java online submissions
+ * Memory Usage: 36.8 MB, less than 90.16% of Java online submissions
  */
 public class KthLargestElementInAnArray215 {
 
@@ -21,43 +22,51 @@ public class KthLargestElementInAnArray215 {
   private void test() {
     int[] tc1a = {3, 2, 3, 1, 2, 4, 5, 5, 6};
     int[] tc2a = {3, 2, 1, 5, 6, 4};
-    int[] tc3a = {-1, 2, 0};
+    int[] tc3a = {2, 4, 3};
+    int[] tc4a = {3, 1, 2, 4};
 
-    System.out.println(findKthLargest(tc1a, 4));
-    System.out.println(findKthLargest(tc2a, 2));
-    System.out.println(findKthLargest(tc3a, 1));
+    System.out.println(findKthLargest(tc1a, 4));//4
+    System.out.println(findKthLargest(tc2a, 2));//5
+    System.out.println(findKthLargest(tc3a, 1));//4
+    System.out.println(findKthLargest(tc4a, 2));//3
   }
 
   public int findKthLargest(int[] nums, int k) {
-    int l = 0;
-    int r = nums.length - 1;
+    int low = 0;
+    int high = nums.length - 1;
 
-    int pos = k - 1;
+    while (low <= high) {
+      int pivotIndex = partition(nums, low, high);
 
-    while (true) {
-      int index = partition(nums, l, r);
-
-      if (index == pos) {
-        return nums[index];
-      } else if (pos < index) {
-        r = index - 1;
+      if (pivotIndex < k - 1) {
+        low = pivotIndex + 1;
       } else {
-        l = index + 1;
+        high = pivotIndex - 1;
       }
     }
+
+    return nums[low];
   }
 
-  private int partition(int[] nums, int l, int r) {
-    int pivot = nums[l];
-    int i = l + 1;
-    int j = r;
+  private int partition(int[] nums, int low, int high) {
+    if (low == high) {
+      return low;
+    }
+
+    Random random = new Random();
+
+    int randomIndex = low + random.nextInt(high - low);
+    swap(nums, randomIndex, low);
+
+    int i = low + 1;
+    int j = high;
 
     while (true) {
-      while (i < r && nums[i] > pivot) {
+      while (i < high && nums[i] > nums[low]) {
         i++;
       }
 
-      while (j > l && nums[j] <= pivot) {
+      while (j > low && nums[j] <= nums[low]) {
         j--;
       }
 
@@ -71,7 +80,7 @@ public class KthLargestElementInAnArray215 {
       j--;
     }
 
-    swap(nums, l, j);
+    swap(nums, low, j);
 
     return j;
   }
@@ -82,62 +91,7 @@ public class KthLargestElementInAnArray215 {
     nums[j] = temp;
   }
 
-  private static class QuickSelectApproach {
-    public int findKthLargest(int[] nums, int k) {
-      int l = 0, r = nums.length - 1;
-      k = nums.length - k;
-
-      while (l < r) {
-        int pivotIndex = partition(l, r, nums);
-
-        if (pivotIndex < k) {
-          l = pivotIndex + 1;
-        } else if (pivotIndex > k) {
-          r = pivotIndex - 1;
-        } else {
-          break;
-        }
-      }
-
-      return nums[k];
-    }
-
-    private int partition(int l, int r, int[] a) {
-      int pivot = a[l];
-      int i = l + 1, j = r;
-
-      while (true) {
-        while (i < r && a[i] < pivot) {
-          i++;
-        }
-
-        while (j > l && a[j] > pivot) {
-          j--;
-        }
-
-        if (i >= j) {
-          break;
-        }
-
-        swap(i, j, a);
-
-        i++;
-        j--;
-      }
-
-      swap(l, j, a);
-
-      return j;
-    }
-
-    private void swap(int i, int j, int[] a) {
-      int temp = a[j];
-      a[j] = a[i];
-      a[i] = temp;
-    }
-  }
-
-  private static class HeapApproach {
+  private static class V2 {
 
     public int findKthLargest(int[] nums, int k) {
       PriorityQueue<Integer> heap = new PriorityQueue<>(k);
