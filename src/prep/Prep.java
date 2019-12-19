@@ -1,8 +1,5 @@
 package prep;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 public class Prep {
 
   public static void main(String[] args) {
@@ -11,96 +8,62 @@ public class Prep {
   }
 
   private void test() {
-    TreeNode root = new TreeNode(3);
-    TreeNode node1 = new TreeNode(1);
-    TreeNode node4 = new TreeNode(4);
-    TreeNode node2 = new TreeNode(2);
-
-    root.left = node1;
-    root.right = node4;
-    node1.right = node2;
-
-    System.out.println(kthSmallest(root, 1));
-    System.out.println(kthSmallest(root, 2));
-    System.out.println(kthSmallest(root, 3));
-    System.out.println(kthSmallest(root, 4));
+    //System.out.println(findKthLargest(new int[]{3, 2, 1, 5, 6, 4}, 2));
+    System.out.println(findKthLargest(new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6}, 3));
   }
 
-  public int kthSmallest(TreeNode root, int k) {
-    TreeNode output = null;
+  public int findKthLargest(int[] nums, int k) {
+    int l = 0;
+    int r = nums.length - 1;
 
-    TreeNode node = root;
-    Deque<TreeNode> stack = new ArrayDeque<>();
+    int pos = k - 1;
 
-    while (node != null || !stack.isEmpty()) {
-      while (node != null) {
-        stack.push(node);
-        node = node.left;
+    while (true) {
+      int index = partition(nums, l, r);
+
+      if (index == pos) {
+        return nums[index];
+      } else if (pos < index) {
+        r = index - 1;
+      } else {
+        l = index + 1;
+      }
+    }
+  }
+
+  private int partition(int[] nums, int l, int r) {
+    int pivot = nums[l];
+    int i = l + 1;
+    int j = r;
+
+    while (true) {
+      while (i < r && nums[i] > pivot) {
+        i++;
       }
 
-      node = stack.pop();
+      while (j > l && nums[j] <= pivot) {
+        j--;
+      }
 
-      if (k == 1) {
-        output = node;
+      if (i >= j) {
         break;
       }
 
-      k--;
+      swap(nums, i, j);
 
-      node = node.right;
+      i++;
+      j--;
     }
 
-    return output.val;
+    swap(nums, l, j);
+
+    return j;
   }
 
-  private static class V2 {
-    private int idx = 1;
-    private TreeNode output;
-
-    public int kthSmallest(TreeNode root, int k) {
-      idx = k;
-      output = null;
-
-      inorder(root);
-
-      return output.val;
-    }
-
-    private void inorder(TreeNode root) {
-      if (root == null) {
-        return;
-      }
-
-      inorder(root.left);
-
-      if (idx == 1) {
-        output = root;
-      }
-
-      idx--;
-
-      if (output == null) {
-        inorder(root.right);
-      }
-    }
+  private void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
   }
-
-
-
-  /**
-   * Definition for a binary tree node.
-   */
-  public class TreeNode {
-
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode(int x) {
-      val = x;
-    }
-  }
-
-
 
 }

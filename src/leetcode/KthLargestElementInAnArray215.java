@@ -8,6 +8,8 @@ import java.util.PriorityQueue;
  * algorithm: QuickSelect, Sort
  * time complexity: O(n)
  * space complexity: O(log(n))
+ * Runtime: 26 ms, faster than 29.10% of Java online submissions for Kth Largest Element in an Array.
+ * Memory Usage: 37.5 MB, less than 90.16% of Java online submissions for Kth Largest Element in an Array.
  */
 public class KthLargestElementInAnArray215 {
 
@@ -27,33 +29,35 @@ public class KthLargestElementInAnArray215 {
   }
 
   public int findKthLargest(int[] nums, int k) {
-    int l = 0, r = nums.length - 1;
-    return quickSelect(l, r, k, nums);
-  }
+    int l = 0;
+    int r = nums.length - 1;
 
-  private int quickSelect(int l, int r, int k, int[] a) {
-    int pivotIndex = partition(l, r, a);
-    int len = pivotIndex - l + 1;
-
-    if (len < k) {
-      return quickSelect(pivotIndex + 1, r, k - len, a);
-    } else if (len > k) {
-      return quickSelect(l, pivotIndex - 1, k, a);
-    }
-
-    return a[pivotIndex];
-  }
-
-  private int partition(int l, int r, int[] a) {
-    int pivot = a[l];
-    int i = l + 1, j = r;
+    int pos = k - 1;
 
     while (true) {
-      while (i < r && a[i] > pivot) {
+      int index = partition(nums, l, r);
+
+      if (index == pos) {
+        return nums[index];
+      } else if (pos < index) {
+        r = index - 1;
+      } else {
+        l = index + 1;
+      }
+    }
+  }
+
+  private int partition(int[] nums, int l, int r) {
+    int pivot = nums[l];
+    int i = l + 1;
+    int j = r;
+
+    while (true) {
+      while (i < r && nums[i] > pivot) {
         i++;
       }
 
-      while (j > l && a[j] < pivot) {
+      while (j > l && nums[j] <= pivot) {
         j--;
       }
 
@@ -61,21 +65,21 @@ public class KthLargestElementInAnArray215 {
         break;
       }
 
-      swap(i, j, a);
+      swap(nums, i, j);
 
       i++;
       j--;
     }
 
-    swap(l, j, a);
+    swap(nums, l, j);
 
     return j;
   }
 
-  private void swap(int i, int j, int[] a) {
-    int temp = a[j];
-    a[j] = a[i];
-    a[i] = temp;
+  private void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
   }
 
   private static class QuickSelectApproach {
