@@ -32,51 +32,36 @@ public class KthLargestElementInAnArray215 {
   }
 
   public int findKthLargest(int[] nums, int k) {
-    int low = 0;
-    int high = nums.length - 1;
-
-    k = nums.length - k;
-
-    while (low <= high) {
-      int pivotIndex = partition(nums, low, high);
-
-      if (pivotIndex < k) {
-        low = pivotIndex + 1;
-      } else {
-        high = pivotIndex - 1;
-      }
-    }
-
-    return nums[low];
+    return quickSelect(nums, 0, nums.length - 1, nums.length - k);
   }
 
-  private int partition(int[] nums, int low, int high) {
+  public int quickSelect(int[] nums, int low, int high, int k) {
     if (low == high) {
-      return low;
+      return nums[low];
     }
 
     Random random = new Random();
-
     int randomIndex = low + random.nextInt(high - low);
+    swap(nums, high, randomIndex);
 
-    // optional to randomize elements
-    swap(nums, randomIndex, high);
-
-    // use quick sort's idea
-    // put nums that are <= pivot to the left
-    // put nums that are  > pivot to the right
-    int pivot = low;
+    int pivotIndex = low;
 
     for (int i = low; i < high; i++) {
-      if (nums[i] <= nums[high]) {
-        swap(nums, i, pivot);
-        pivot++;
+      if (nums[i] < nums[high]) {
+        swap(nums, i, pivotIndex);
+        pivotIndex++;
       }
     }
 
-    swap(nums, pivot, high);
+    swap(nums, high, pivotIndex);
 
-    return pivot;
+    if (pivotIndex == k) {
+      return nums[k];
+    } else if (pivotIndex < k) {
+      return quickSelect(nums, pivotIndex + 1, high, k);
+    }
+
+    return quickSelect(nums, low, pivotIndex - 1, k);
   }
 
   private void swap(int[] nums, int i, int j) {
@@ -85,7 +70,78 @@ public class KthLargestElementInAnArray215 {
     nums[j] = temp;
   }
 
+  private class V1 {
+
+    public int findKthLargest(int[] nums, int k) {
+      int low = 0;
+      int high = nums.length - 1;
+
+      k = nums.length - k;
+
+      while (low <= high) {
+        int pivotIndex = partition(nums, low, high);
+
+        if (pivotIndex < k) {
+          low = pivotIndex + 1;
+        } else {
+          high = pivotIndex - 1;
+        }
+      }
+
+      return nums[low];
+    }
+
+    private int partition(int[] nums, int low, int high) {
+      if (low == high) {
+        return low;
+      }
+
+      Random random = new Random();
+
+      int randomIndex = low + random.nextInt(high - low);
+
+      // optional to randomize elements
+      swap(nums, randomIndex, high);
+
+      // use quick sort's idea
+      // put nums that are <= pivot to the left
+      // put nums that are  > pivot to the right
+      int pivot = low;
+
+      for (int i = low; i < high; i++) {
+        if (nums[i] <= nums[high]) {
+          swap(nums, i, pivot);
+          pivot++;
+        }
+      }
+
+      swap(nums, pivot, high);
+
+      return pivot;
+    }
+  }
+
   private class V2 {
+
+    public int findKthLargest(int[] nums, int k) {
+      int low = 0;
+      int high = nums.length - 1;
+
+      k = nums.length - k;
+
+      while (low <= high) {
+        int pivotIndex = partition(nums, low, high);
+
+        if (pivotIndex < k) {
+          low = pivotIndex + 1;
+        } else {
+          high = pivotIndex - 1;
+        }
+      }
+
+      return nums[low];
+    }
+
     private int partition(int[] nums, int low, int high) {
       if (low == high) {
         return low;
