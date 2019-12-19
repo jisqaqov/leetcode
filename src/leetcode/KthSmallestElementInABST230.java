@@ -38,12 +38,10 @@ public class KthSmallestElementInABST230 {
   }
 
   public int kthSmallest(TreeNode root, int k) {
-    TreeNode output = null;
-
     TreeNode node = root;
     Deque<TreeNode> stack = new ArrayDeque<>();
 
-    while (node != null || !stack.isEmpty()) {
+    while (true) {
       while (node != null) {
         stack.push(node);
         node = node.left;
@@ -52,16 +50,13 @@ public class KthSmallestElementInABST230 {
       node = stack.pop();
 
       if (k == 1) {
-        output = node;
-        break;
+        return node.val;
       }
 
       k--;
 
       node = node.right;
     }
-
-    return output.val;
   }
 
   private static class V2 {
@@ -107,15 +102,13 @@ public class KthSmallestElementInABST230 {
         return;
       }
 
-      if (output == null) {
-        inorder(root.left);
-      }
-
-      if (idx == 1) {
-        output = root;
-      }
+      inorder(root.left);
 
       idx--;
+      if (idx == 0) {
+        output = root;
+        return;
+      }
 
       if (output == null) {
         inorder(root.right);
