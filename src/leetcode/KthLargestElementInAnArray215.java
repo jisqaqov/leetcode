@@ -66,7 +66,7 @@ public class KthLargestElementInAnArray215 {
     int pivot = low;
 
     for (int i = low; i < high; i++) {
-      if (nums[i] < nums[high]) {
+      if (nums[i] <= nums[high]) {
         swap(nums, i, pivot);
         pivot++;
       }
