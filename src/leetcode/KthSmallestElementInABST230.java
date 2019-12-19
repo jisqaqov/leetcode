@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 230. Kth Smallest Element in a BST
+ * algorithm: Tree
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 37.2 MB, less than 100.00% of Java online submissions
+ */
+public class KthSmallestElementInABST230 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    KthSmallestElementInABST230 problem = new KthSmallestElementInABST230();
     problem.test();
   }
 
@@ -54,6 +63,7 @@ public class Prep {
   }
 
   private static class V2 {
+
     private int idx = 1;
     private TreeNode output;
 
@@ -87,8 +97,6 @@ public class Prep {
     }
   }
 
-
-
   /**
    * Definition for a binary tree node.
    */
@@ -102,7 +110,5 @@ public class Prep {
       val = x;
     }
   }
-
-
 
 }
