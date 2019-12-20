@@ -1,12 +1,13 @@
 package amazon;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import utils.TestUtils;
 
 /**
- * @author Jandos Iskakov
- * problem:
+ * @author Jandos Iskakov problem:
  *
  * Given 2 lists a and b. Each element is a pair of integers where the first integer represents the
  * unique id and the second integer represents a value. Your task is to find an element from a and
@@ -72,21 +73,27 @@ public class OptimalUtilization {
     Arrays.sort(a, Comparator.comparingInt(t -> t[1]));
     Arrays.sort(b, Comparator.comparingInt(t -> t[1]));
 
+    List<int[]> list = new ArrayList<>();
+
     int max = Integer.MIN_VALUE;
 
     int i = 0;
     int j = b.length - 1;
-    int k = 0;
 
     while (i < a.length && j >= 0) {
+      int id1 = a[i][0];
+      int id2 = b[j][0];
+
       int s = a[i][1] + b[j][1];
 
       if (s <= target) {
         if (s > max) {
           max = s;
-          k = 1;
+
+          list.clear();
+          list.add(new int[]{id1, id2});
         } else if (s == max) {
-          k++;
+          list.add(new int[]{id1, id2});
         }
 
         i++;
@@ -95,27 +102,9 @@ public class OptimalUtilization {
       }
     }
 
-    int[][] output = new int[k][2];
-
-    i = 0;
-    j = b.length - 1;
-    int p = 0;
-
-    while (i < a.length && j >= 0) {
-      int s = a[i][1] + b[j][1];
-
-      if (s == max) {
-        output[p][0] = a[i][0];
-        output[p][1] = b[j][0];
-
-        p++;
-      }
-
-      if (s <= target) {
-        i++;
-      } else {
-        j--;
-      }
+    int[][] output = new int[list.size()][2];
+    for (int k = 0; k < list.size(); k++) {
+      output[k] = list.get(k);
     }
 
     return output;
