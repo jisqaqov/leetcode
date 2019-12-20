@@ -1,17 +1,24 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Queue;
 import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 542. 01 Matrix
+ * algorithm: BFS
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ * Runtime: 19 ms, faster than 35.66% of Java online submissions
+ * Memory Usage: 54 MB, less than 95.83% of Java online submissions
+ */
+public class Matrix01542 {
 
   private static int[][] DIMS = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    Matrix01542 problem = new Matrix01542();
     problem.test();
   }
 
@@ -66,6 +73,5 @@ public class Prep {
 
     return dis;
   }
-
 
 }
