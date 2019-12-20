@@ -50,38 +50,79 @@ public class TreasureIsland {
   }
 
   public int minNumberSteps(char[][] grid) {
-    Queue<int[]> queue = new ArrayDeque<>();
-    queue.add(new int[]{0, 0});
-
     int n = grid.length;
     int m = grid[0].length;
 
+    Queue<int[]> queue = new ArrayDeque<>();
+    queue.add(new int[]{0, 0});
+
     boolean[][] visited = new boolean[n][m];
+    visited[0][0] = true;
 
-    int[][] dis = new int[n][m];
+    for (int steps = 0; !queue.isEmpty(); steps++) {
+      int size = queue.size();
 
-    while (!queue.isEmpty()) {
-      int[] node = queue.poll();
+      for (int k = 0; k < size; k++) {
+        int[] node = queue.poll();
 
-      if (grid[node[0]][node[1]] == 'X') {
-        return dis[node[0]][node[1]];
-      }
+        for (int[] dir : DIRS) {
+          int i = dir[0] + node[0];
+          int j = dir[1] + node[1];
 
-      for (int[] dir : DIRS) {
-        int i = dir[0] + node[0];
-        int j = dir[1] + node[1];
+          if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == 'D' || visited[i][j]) {
+            continue;
+          }
 
-        if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == 'D' || visited[i][j]) {
-          continue;
+          if (grid[i][j] == 'X') {
+            return steps + 1;
+          }
+
+          visited[i][j] = true;
+          queue.add(new int[]{i, j});
         }
-
-        visited[i][j] = true;
-        queue.add(new int[]{i, j});
-        dis[i][j] = dis[node[0]][node[1]] + 1;
       }
     }
 
     return 0;
+  }
+
+  private static class V2 {
+
+    public int minNumberSteps(char[][] grid) {
+      int n = grid.length;
+      int m = grid[0].length;
+
+      Queue<int[]> queue = new ArrayDeque<>();
+      queue.add(new int[]{0, 0});
+
+      boolean[][] visited = new boolean[n][m];
+      visited[0][0] = true;
+
+      int[][] dis = new int[n][m];
+
+      while (!queue.isEmpty()) {
+        int[] node = queue.poll();
+
+        if (grid[node[0]][node[1]] == 'X') {
+          return dis[node[0]][node[1]];
+        }
+
+        for (int[] dir : DIRS) {
+          int i = dir[0] + node[0];
+          int j = dir[1] + node[1];
+
+          if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == 'D' || visited[i][j]) {
+            continue;
+          }
+
+          visited[i][j] = true;
+          queue.add(new int[]{i, j});
+          dis[i][j] = dis[node[0]][node[1]] + 1;
+        }
+      }
+
+      return 0;
+    }
   }
 
 }
