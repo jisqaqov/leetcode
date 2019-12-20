@@ -4,8 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 /**
- * @author Jandos Iskakov
- *
  * problem: You have a map that marks the location of a treasure island. Some of the map area has
  * jagged rocks and dangerous reefs. Other areas are safe to sail in. There are other explorers
  * trying to find the treasure. So you must figure out a shortest route to the treasure island.
