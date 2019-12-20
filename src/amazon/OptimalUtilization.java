@@ -56,6 +56,16 @@ public class OptimalUtilization {
     int[][] tc2b = {{1, 2}, {2, 3}, {3, 4}, {4, 5}};
 
     TestUtils.printArray(maxPairs(tc2a, tc2b, 10));//[2, 4], [3, 2]
+
+    int[][] tc3a = {{1, 8}, {2, 7}, {3, 14}};
+    int[][] tc3b = {{1, 5}, {2, 10}, {3, 14}};
+
+    TestUtils.printArray(maxPairs(tc3a, tc3b, 20));//[3, 1]
+
+    int[][] tc4a = {{1, 8}, {2, 15}, {3, 9}};
+    int[][] tc4b = {{1, 8}, {2, 11}, {3, 12}};
+
+    TestUtils.printArray(maxPairs(tc4a, tc4b, 20));//[1, 3], [3, 2]
   }
 
   public int[][] maxPairs(int[][] a, int[][] b, int target) {

@@ -3,6 +3,8 @@ package utils;
 public final class TestUtils {
 
   public static void printArray(int[][] array) {
+    System.out.println("------------------------");
+
     int n = array.length, m = array[0].length;
 
     for (int i = 0; i < n; i++) {
