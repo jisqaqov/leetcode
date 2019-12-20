@@ -3,10 +3,9 @@ package amazon;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Given 2 lists a and b. Each element is a pair of integers where the first integer represents the
@@ -59,24 +58,20 @@ public class OptimalUtilization {
   public List<List<Integer>> maxPairs(List<List<Integer>> a, List<List<Integer>> b, int target) {
     List<List<Integer>> output = new ArrayList<>();
 
-    Map<Integer, List<Integer>> map = new HashMap<>();
-
-    TreeSet<Integer> tree = new TreeSet<>();
+    TreeMap<Integer, List<Integer>> tree = new TreeMap<>();
     for (List<Integer> list : b) {
       int id = list.get(0);
       int value = list.get(1);
 
-      tree.add(value);
-
-      map.putIfAbsent(value, new ArrayList<>());
-      map.get(value).add(id);
+      tree.putIfAbsent(value, new ArrayList<>());
+      tree.get(value).add(id);
     }
 
     int max = -1;
     for (List<Integer> list : a) {
       int value = list.get(1);
 
-      Integer floor = tree.floor(target - value);
+      Integer floor = tree.floorKey(target - value);
       if (floor == null) {
         continue;
       }
@@ -94,13 +89,13 @@ public class OptimalUtilization {
       int id = list.get(0);
       int value = list.get(1);
 
-      Integer floor = tree.floor(target - value);
+      Entry<Integer, List<Integer>> floor = tree.floorEntry(target - value);
       if (floor == null) {
         continue;
       }
 
-      if (value + floor == max) {
-        for (int id2 : map.get(floor)) {
+      if (value + floor.getKey() == max) {
+        for (int id2 : floor.getValue()) {
           output.add(Arrays.asList(id, id2));
         }
       }
