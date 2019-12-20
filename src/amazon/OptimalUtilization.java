@@ -1,4 +1,4 @@
-package prep;
+package amazon;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,13 +31,13 @@ import java.util.TreeSet;
  *
  * Explanation: There are two pairs possible. Element with id = 2 from the list `a` has a value 5,
  * and element with id = 4 from the list `b` also has a value 5. Combined, they add up to 10.
- * Similarily, element with id = 3 from `a` has a value 7, and element with id = 2 from `b` has a
+ * Similarly, element with id = 3 from `a` has a value 7, and element with id = 2 from `b` has a
  * value 3. These also add up to 10. Therefore, the optimal pairs are [2, 4] and [3, 2].
  */
-public class Prep {
+public class OptimalUtilization {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    OptimalUtilization problem = new OptimalUtilization();
     problem.test();
   }
 
