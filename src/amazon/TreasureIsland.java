@@ -47,6 +47,7 @@ public class TreasureIsland {
       {'X', 'D', 'D', 'O'}};
 
     System.out.println(minNumberSteps(tc1a));
+    System.out.println("v2: " + new V2().minNumberSteps(tc1a));
   }
 
   public int minNumberSteps(char[][] grid) {
