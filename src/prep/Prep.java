@@ -1,10 +1,7 @@
 package prep;
 
 import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Queue;
-import utils.TestUtils;
 
 public class Prep {
 
@@ -16,55 +13,47 @@ public class Prep {
   }
 
   private void test() {
-    int[][] tc1a = {{0, 0, 0},
-      {0, 1, 0},
-      {1, 1, 1}};
+    char[][] tc1a = {{'O', 'O', 'O', 'O'},
+      {'D', 'O', 'D', 'O'},
+      {'O', 'O', 'O', 'O'},
+      {'X', 'D', 'D', 'O'}};
 
-    TestUtils.printArray(updateMatrix(tc1a));
-
-    int[][] tc2a = {{0, 0, 0},
-      {0, 1, 0},
-      {0, 0, 0}};
-
-    TestUtils.printArray(updateMatrix(tc2a));
+    System.out.println(minNumberSteps(tc1a));
   }
 
-  public int[][] updateMatrix(int[][] matrix) {
+  public int minNumberSteps(char[][] grid) {
     Queue<int[]> queue = new ArrayDeque<>();
+    queue.add(new int[]{0, 0});
 
-    int n = matrix.length;
-    int m = matrix[0].length;
+    int n = grid.length;
+    int m = grid[0].length;
 
     boolean[][] visited = new boolean[n][m];
 
     int[][] dis = new int[n][m];
 
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < m; j++) {
-        if (matrix[i][j] == 0) {
-          queue.add(new int[]{i, j});
-        }
-      }
-    }
-
     while (!queue.isEmpty()) {
       int[] node = queue.poll();
+
+      if (grid[node[0]][node[1]] == 'X') {
+        return dis[node[0]][node[1]];
+      }
 
       for (int[] dim : DIMS) {
         int i = dim[0] + node[0];
         int j = dim[1] + node[1];
 
-        if (i < 0 || j < 0 || i >= n || j >= m || matrix[i][j] == 0 || visited[i][j]) {
+        if (i < 0 || j < 0 || i >= n || j >= m || grid[i][j] == 'D' || visited[i][j]) {
           continue;
         }
 
         visited[i][j] = true;
-        dis[i][j] = dis[node[0]][node[1]] + 1;
         queue.add(new int[]{i, j});
+        dis[i][j] = dis[node[0]][node[1]] + 1;
       }
     }
 
-    return dis;
+    return 0;
   }
 
 

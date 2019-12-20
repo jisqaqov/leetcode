@@ -7,7 +7,9 @@ import java.util.List;
 import utils.TestUtils;
 
 /**
- * @author Jandos Iskakov problem:
+ * @author Jandos Iskakov
+ *
+ * problem:
  *
  * Given 2 lists a and b. Each element is a pair of integers where the first integer represents the
  * unique id and the second integer represents a value. Your task is to find an element from a and
