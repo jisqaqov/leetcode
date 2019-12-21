@@ -38,23 +38,21 @@ public class FindPairWithGivenSum {
   }
 
   public int[] findPairWithGivenSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-
     int[] idx = {-1, -1};
 
-    target = target - 30;
+    target -= 30;
+
+    int largest = Integer.MIN_VALUE;
+    Map<Integer, Integer> map = new HashMap<>();
 
     for (int i = 0; i < nums.length; i++) {
-      int b = target - nums[i];
+      int num = target - nums[i];
 
-      if (map.containsKey(b)) {
-        if (idx[0] == -1) {
-          idx[0] = map.get(b);
-          idx[1] = i;
-        } else if (Math.max(nums[i], b) > Math.max(nums[idx[0]], nums[idx[1]])) {
-          idx[0] = map.get(b);
-          idx[1] = i;
-        }
+      if (map.containsKey(num) && Math.max(nums[i], num) > largest) {
+        idx[0] = map.get(num);
+        idx[1] = i;
+
+        largest = Math.max(num, i);
       }
 
       map.put(nums[i], i);
