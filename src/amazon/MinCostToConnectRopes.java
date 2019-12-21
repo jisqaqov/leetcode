@@ -63,9 +63,7 @@ public class MinCostToConnectRopes {
       int len = pq.poll() + pq.poll();
       cost += len;
 
-      if (!pq.isEmpty()) {
-        pq.add(len);
-      }
+      pq.add(len);
     }
 
     return cost;
