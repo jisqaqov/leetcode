@@ -47,14 +47,14 @@ public class ZombieInMatrix {
   }
 
   public void test() {
-    System.out.println(zombieInMatrix(
+    System.out.println(minHours(
       new int[][]{{0, 1, 1, 0, 1},
         {0, 1, 0, 1, 0},
         {0, 0, 0, 0, 1},
         {0, 1, 0, 0, 0}}));//2
   }
 
-  public int zombieInMatrix(int[][] grid) {
+  public int minHours(int[][] grid) {
     int n = grid.length;
     int m = grid[0].length;
 
@@ -72,12 +72,12 @@ public class ZombieInMatrix {
       }
     }
 
-    int hours = 0;
+    if (humans == 0) {
+      return 0;
+    }
 
-    for (; !queue.isEmpty() && humans > 0; hours++) {
-      int size = queue.size();
-
-      for (int k = 0; k < size; k++) {
+    for (int hours = 1; !queue.isEmpty(); hours++) {
+      for (int k = queue.size(); k >= 0; k--) {
         int[] node = queue.poll();
 
         for (int[] dir : DIRS) {
@@ -89,6 +89,9 @@ public class ZombieInMatrix {
           }
 
           humans--;
+          if (humans == 0) {
+            return hours;
+          }
 
           grid[i][j] = 1;
           queue.add(new int[]{i, j});
@@ -96,7 +99,7 @@ public class ZombieInMatrix {
       }
     }
 
-    return hours;
+    return -1;
   }
 
 }
