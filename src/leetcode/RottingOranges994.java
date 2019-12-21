@@ -45,12 +45,12 @@ public class RottingOranges994 {
       }
     }
 
-    int mins = 0;
+    if (freshes == 0) {
+      return 0;
+    }
 
-    for (; !queue.isEmpty() && freshes > 0; mins++) {
-      int size = queue.size();
-
-      for (int k = 0; k < size; k++) {
+    for (int mins = 0; !queue.isEmpty(); mins++) {
+      for (int s = queue.size(); s >= 0; s--) {
         int[] node = queue.poll();
 
         for (int[] dir : DIRS) {
@@ -63,13 +63,17 @@ public class RottingOranges994 {
 
           freshes--;
 
+          if (freshes == 0) {
+            return mins;
+          }
+
           grid[i][j] = 2;
           queue.add(new int[]{i, j});
         }
       }
     }
 
-    return freshes > 0? -1: mins;
+    return -1;
   }
 
 }
