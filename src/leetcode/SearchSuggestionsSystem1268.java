@@ -9,7 +9,7 @@ import java.util.List;
  * problem: 1268. Search Suggestions System
  * algorithm: Binary Search
  * time complexity: O(log(|p|) * (|s| + |p|))
- * space complexity: O(|s|)
+ * space complexity: O(3 * |s|)
  * Runtime: 13 ms, faster than 87.08% of Java online submissions
  * Memory Usage: 49.8 MB, less than 100.00% of Java online submissions
  */
