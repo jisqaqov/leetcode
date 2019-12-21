@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
  * algorithm: Greedy
  * time complexity: O(nlog(n))
  * space complexity: O(n)
- * Runtime: 41 ms, faster than 80.32% of Java online submissions
- * Memory Usage: 39.6 MB, less than 100.00% of Java online submissions
+ * Runtime: 40 ms, faster than 93.53% of Java online submissions
+ * Memory Usage: 39.7 MB, less than 100.00% of Java online submissions
  */
 public class MinimumCostToConnectSticks1167 {
 
@@ -34,16 +34,13 @@ public class MinimumCostToConnectSticks1167 {
 
     int cost = 0;
 
-    while (pq.size() >= 2) {
-      int a = pq.poll();
-      int b = pq.poll();
+    while (pq.size() > 1) {
+      int len = pq.poll() + pq.poll();
+      cost += len;
 
-      int c = a + b;
       if (!pq.isEmpty()) {
-        pq.add(c);
+        pq.add(len);
       }
-
-      cost += c;
     }
 
     return cost;
