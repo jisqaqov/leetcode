@@ -1,13 +1,34 @@
-package prep;
+package amazon;
 
 import java.util.HashMap;
 import java.util.Map;
 import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ *
+ * Given a list of positive integers nums and an int target, return indices of the two numbers such
+ * that they add up to a target - 30.
+ *
+ * Conditions:
+ *
+ * You will pick exactly 2 numbers. You cannot pick the same element twice. If you have muliple
+ * pairs, select the pair with the largest number.
+ *
+ * Example 1:
+ *
+ * Input: nums = [1, 10, 25, 35, 60], target = 90
+ * Output: [2, 3]
+ * Explanation: nums[2] + nums[3] = 25 + 35 = 60 = 90 - 30
+ *
+ * algorithm: Hash Table
+ * time complexity: O(N)
+ * space complexity: O(N)
+ */
+public class FindPairWithGivenSum {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    FindPairWithGivenSum problem = new FindPairWithGivenSum();
     problem.test();
   }
 
