@@ -1,13 +1,22 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 1268. Search Suggestions System
+ * algorithm: Binary Search
+ * time complexity: O(log(|p|) * (|s| + |p|))
+ * space complexity: O(|s|)
+ * Runtime: 13 ms, faster than 87.08% of Java online submissions
+ * Memory Usage: 49.8 MB, less than 100.00% of Java online submissions
+ */
+public class SearchSuggestionsSystem1268 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SearchSuggestionsSystem1268 problem = new SearchSuggestionsSystem1268();
     problem.test();
   }
 
