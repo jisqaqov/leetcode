@@ -77,7 +77,7 @@ public class ZombieInMatrix {
     }
 
     for (int hours = 1; !queue.isEmpty(); hours++) {
-      for (int k = queue.size(); k >= 0; k--) {
+      for (int k = queue.size(); k > 0; k--) {
         int[] node = queue.poll();
 
         for (int[] dir : DIRS) {

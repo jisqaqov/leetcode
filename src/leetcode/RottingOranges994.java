@@ -49,8 +49,8 @@ public class RottingOranges994 {
       return 0;
     }
 
-    for (int mins = 0; !queue.isEmpty(); mins++) {
-      for (int s = queue.size(); s >= 0; s--) {
+    for (int mins = 1; !queue.isEmpty(); mins++) {
+      for (int s = queue.size(); s > 0; s--) {
         int[] node = queue.poll();
 
         for (int[] dir : DIRS) {
