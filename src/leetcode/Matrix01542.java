@@ -15,8 +15,6 @@ import utils.TestUtils;
  */
 public class Matrix01542 {
 
-  private static int[][] DIRS = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
-
   public static void main(String[] args) {
     Matrix01542 problem = new Matrix01542();
     problem.test();
@@ -54,10 +52,12 @@ public class Matrix01542 {
       }
     }
 
+    int[][] dirs = {{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
+
     while (!queue.isEmpty()) {
       int[] node = queue.poll();
 
-      for (int[] dir : DIRS) {
+      for (int[] dir : dirs) {
         int i = dir[0] + node[0];
         int j = dir[1] + node[1];
 
