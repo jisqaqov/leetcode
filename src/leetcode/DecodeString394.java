@@ -31,46 +31,84 @@ public class DecodeString394 {
   }
 
   public String decodeString(String s) {
-    Deque<Integer> stack = new ArrayDeque<>();
+    Deque<Integer> nums = new ArrayDeque<>();
 
-    Map<Integer, Integer> map = new HashMap<>();
-
-    for (int i = 0; i < s.length(); i++) {
-      if (s.charAt(i) == '[') {
-        stack.push(i);
-      } else if (s.charAt(i) == ']') {
-        map.put(stack.pop(), i);
-      }
-    }
-
-    return decodeString(s, 0, s.length() - 1, map);
-  }
-
-  private String decodeString(String s, int l, int r, Map<Integer, Integer> map) {
-    StringBuilder sb = new StringBuilder();
+    Deque<StringBuilder> strings = new ArrayDeque<>();
+    strings.push(new StringBuilder());
 
     int k = 0;
 
-    for (int i = l; i <= r; i++) {
+    for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
 
       if (Character.isDigit(ch)) {
         k = k * 10 + Character.getNumericValue(ch);
-      } else if (s.charAt(i) == '[') {
-        String dec = decodeString(s, i + 1, map.get(i) - 1, map);
+      } else if (ch == '[') {
+        nums.push(k);
+        strings.push(new StringBuilder());
+
+        k = 0;
+      } else if (ch == ']') {
+        k = nums.pop();
+
+        StringBuilder low = strings.pop();
+        StringBuilder up = strings.peek();
 
         while (k > 0) {
-          sb.append(dec);
+          up.append(low);
           k--;
         }
-
-        i = map.get(i);
       } else {
-        sb.append(ch);
+        strings.peek().append(ch);
       }
     }
 
-    return sb.toString();
+    return strings.pop().toString();
+  }
+
+  private static class V2 {
+    public String decodeString(String s) {
+      Deque<Integer> stack = new ArrayDeque<>();
+
+      Map<Integer, Integer> map = new HashMap<>();
+
+      for (int i = 0; i < s.length(); i++) {
+        if (s.charAt(i) == '[') {
+          stack.push(i);
+        } else if (s.charAt(i) == ']') {
+          map.put(stack.pop(), i);
+        }
+      }
+
+      return decodeString(s, 0, s.length() - 1, map);
+    }
+
+    private String decodeString(String s, int l, int r, Map<Integer, Integer> map) {
+      StringBuilder sb = new StringBuilder();
+
+      int k = 0;
+
+      for (int i = l; i <= r; i++) {
+        char ch = s.charAt(i);
+
+        if (Character.isDigit(ch)) {
+          k = k * 10 + Character.getNumericValue(ch);
+        } else if (s.charAt(i) == '[') {
+          String dec = decodeString(s, i + 1, map.get(i) - 1, map);
+
+          while (k > 0) {
+            sb.append(dec);
+            k--;
+          }
+
+          i = map.get(i);
+        } else {
+          sb.append(ch);
+        }
+      }
+
+      return sb.toString();
+    }
   }
 
 }
