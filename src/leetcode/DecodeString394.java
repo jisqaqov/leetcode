@@ -32,9 +32,9 @@ public class DecodeString394 {
 
   public String decodeString(String s) {
     Deque<Integer> nums = new ArrayDeque<>();
-
     Deque<StringBuilder> strings = new ArrayDeque<>();
-    strings.push(new StringBuilder());
+
+    StringBuilder output = new StringBuilder();
 
     int k = 0;
 
@@ -45,25 +45,27 @@ public class DecodeString394 {
         k = k * 10 + Character.getNumericValue(ch);
       } else if (ch == '[') {
         nums.push(k);
-        strings.push(new StringBuilder());
+        strings.push(output);
 
         k = 0;
+        output = new StringBuilder();
       } else if (ch == ']') {
         k = nums.pop();
 
-        StringBuilder low = strings.pop();
-        StringBuilder up = strings.peek();
+        StringBuilder dec = strings.pop();
 
         while (k > 0) {
-          up.append(low);
+          dec.append(output);
           k--;
         }
+
+        output = dec;
       } else {
-        strings.peek().append(ch);
+        output.append(ch);
       }
     }
 
-    return strings.pop().toString();
+    return output.toString();
   }
 
   private static class V2 {
