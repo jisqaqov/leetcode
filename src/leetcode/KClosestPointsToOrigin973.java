@@ -21,11 +21,9 @@ public class KClosestPointsToOrigin973 {
   }
 
   private void test() {
-    V2 problem = new V2();
-
     int[][] tc1a = {{-95,76},{17,7},{-55,-58},{53,20},{-69,-8},{-57,87},{-2,-42},{-10,-87},{-36,-57},{97,-39},{97,49}};
 
-    printArray(problem.kClosest(tc1a, 5));
+    printArray(kClosest(tc1a, 5));
   }
 
   private void printArray(int[][] a) {

@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 557. Reverse Words in a String III
+ * algorithm: Graph, Topological Sort
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 5 ms, faster than 68.62% of Java online submissions
+ * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
+ */
+public class ReverseWordsInAStringIII557 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ReverseWordsInAStringIII557 problem = new ReverseWordsInAStringIII557();
     problem.test();
   }
 
