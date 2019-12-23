@@ -52,14 +52,13 @@ public class DecodeString394 {
       } else if (ch == ']') {
         k = nums.pop();
 
-        StringBuilder dec = strings.pop();
+        StringBuilder dec = output;
+        output = strings.pop();
 
         while (k > 0) {
-          dec.append(output);
+          output.append(dec);
           k--;
         }
-
-        output = dec;
       } else {
         output.append(ch);
       }
