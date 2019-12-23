@@ -7,8 +7,8 @@ import java.util.Arrays;
  * algorithm: String
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 2 ms, faster than 36.49% of Java online submissions
- * Memory Usage: 43.2 MB, less than 92.31% of Java online submissions
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 42.6 MB, less than 100.00% of Java online submissions
  */
 public class ReverseWordsInAStringII186 {
 

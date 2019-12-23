@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Graph, Topological Sort
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 5 ms, faster than 68.62% of Java online submissions
- * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
+ * Runtime: 3 ms, faster than 95.96% of Java online submissions
+ * Memory Usage: 38.1 MB, less than 100.00% of Java online submissions
  */
 public class ReverseWordsInAStringIII557 {
 
