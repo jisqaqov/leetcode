@@ -2,103 +2,75 @@ package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jandos Iskakov
  * problem: 394. Decode String
- * algorithm: DFS
- * time complexity: O(n)
- * space complexity: O(n)
+ * algorithm: Stack, DFS
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 34.5 MB, less than 100.00% of Java online submissions
  */
 public class DecodeString394 {
 
-    public static void main(String[] args) {
-        DecodeString394 solution = new DecodeString394();
-        solution.test();
+  public static void main(String[] args) {
+    DecodeString394 solution = new DecodeString394();
+    solution.test();
+  }
+
+  public void test() {
+    System.out.println(decodeString("3[a]2[bc]").equals("aaabcbc"));
+    System.out.println(decodeString("3[a2[c]]").equals("accaccacc"));
+    System.out.println(decodeString("2[abc]3[cd]ef").equals("abcabccdcdcdef"));
+    System.out.println(decodeString("3[a]2[b4[F]c]").equals("aaabFFFFcbFFFFc"));
+    System.out.println(decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef")
+      .equals("zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef"));
+  }
+
+  public String decodeString(String s) {
+    Deque<Integer> stack = new ArrayDeque<>();
+
+    Map<Integer, Integer> map = new HashMap<>();
+
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '[') {
+        stack.push(i);
+      } else if (s.charAt(i) == ']') {
+        map.put(stack.pop(), i);
+      }
     }
 
-    public void test() {
-        System.out.println(decodeString("3[a]2[bc]").equals("aaabcbc"));
-        System.out.println(decodeString("3[a2[c]]").equals("accaccacc"));
-        System.out.println(decodeString("2[abc]3[cd]ef").equals("abcabccdcdcdef"));
-        System.out.println(decodeString("3[a]2[b4[F]c]").equals("aaabFFFFcbFFFFc"));
-        System.out.println(decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef").equals("zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef"));
-    }
+    return decodeString(s, 0, s.length() - 1, map);
+  }
 
-    public String decodeString(String s) {
-        StringBuilder result = new StringBuilder();
+  private String decodeString(String s, int l, int r, Map<Integer, Integer> map) {
+    StringBuilder sb = new StringBuilder();
 
-        Deque<Object> stack = new ArrayDeque<>();
+    int k = 0;
 
-        int number = 0;
-        StringBuilder sb = new StringBuilder();
+    for (int i = l; i <= r; i++) {
+      char ch = s.charAt(i);
 
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
+      if (Character.isDigit(ch)) {
+        k = k * 10 + Character.getNumericValue(ch);
+      } else if (s.charAt(i) == '[') {
+        String dec = decodeString(s, i + 1, map.get(i) - 1, map);
 
-            if (ch == '[') {
-                if (sb.length() > 0) {
-                    stack.push(sb);
-                    sb = new StringBuilder();
-                }
-
-                stack.push(number);
-                number = 0;
-            } else if (ch == ']') {
-                StringBuilder t = sb;
-
-                if (sb.length() > 0) {
-                    if (stack.peek() instanceof StringBuilder) {
-                        t = ((StringBuilder) stack.pop()).append(sb);
-                    }
-
-                    sb = new StringBuilder();
-                } else {
-                    t = (StringBuilder) stack.pop();
-                }
-
-                int times = (int) stack.pop();
-
-                StringBuilder repeated = new StringBuilder();
-                while (times-- > 0) {
-                    repeated.append(t);
-                }
-
-                if (stack.isEmpty()) {
-                    result.append(repeated);
-                } else {
-                    if (stack.peek() instanceof StringBuilder) {
-                        repeated = ((StringBuilder) stack.pop()).append(repeated);
-                    }
-
-                    stack.push(repeated);
-                }
-            } else if (Character.isDigit(ch)) {
-                if (sb.length() > 0) {
-                    if (stack.peek() instanceof StringBuilder) {
-                        sb = ((StringBuilder)stack.pop()).append(sb);
-                    }
-
-                    stack.push(sb);
-
-                    sb = new StringBuilder();
-                }
-
-                number = number * 10 + Character.digit(ch, 10);
-            } else {
-                if (stack.isEmpty()) {
-                    result.append(ch);
-                } else {
-                    sb.append(ch);
-                }
-            }
+        while (k > 0) {
+          sb.append(dec);
+          k--;
         }
 
-        if (sb.length() > 0) {
-            result.append(sb);
-        }
-
-        return result.toString();
+        i = map.get(i);
+      } else {
+        sb.append(ch);
+      }
     }
+
+    return sb.toString();
+  }
 
 }

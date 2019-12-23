@@ -1,5 +1,10 @@
 package prep;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -8,73 +13,52 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(reverseWords("I  wish   you   a   merry   Christmas")
-      .equals("Christmas merry a you wish I"));
-    System.out.println(reverseWords("  I   wish    you   a    merry    Christmas   ")
-      .equals("Christmas merry a you wish I"));
-    System.out.println(reverseWords("I   wish    you   a    merry    Christmas   ")
-      .equals("Christmas merry a you wish I"));
-    System.out.println(reverseWords("  I   wish    you   a    merry    Christmas")
-      .equals("Christmas merry a you wish I"));
-    System.out.println(reverseWords("I wish you a merry Christmas")
-      .equals("Christmas merry a you wish I"));
+    System.out.println(decodeString("3[a]2[bc]").equals("aaabcbc"));
+    System.out.println(decodeString("3[a2[c]]").equals("accaccacc"));
+    System.out.println(decodeString("2[abc]3[cd]ef").equals("abcabccdcdcdef"));
   }
 
-  public String reverseWords(String s) {
-    char[] t = s.toCharArray();
+  public String decodeString(String s) {
+    Deque<Integer> stack = new ArrayDeque<>();
 
-    int pivot = moveSpaces(t);
+    Map<Integer, Integer> map = new HashMap<>();
 
-    reverseWords(t, pivot);
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == '[') {
+        stack.push(i);
+      } else if (s.charAt(i) == ']') {
+        map.put(stack.pop(), i);
+      }
+    }
 
-    return new String(t, 0, pivot);
+    return decodeString(s, 0, s.length() - 1, map);
   }
 
-  private int moveSpaces(char[] t) {
-    int pivot = 0;
+  private String decodeString(String s, int l, int r, Map<Integer, Integer> map) {
+    StringBuilder sb = new StringBuilder();
 
-    for (int i = 0; i < t.length; i++) {
-      if (t[i] != ' ') {
-        if (i > 0 && t[i - 1] == ' ' && pivot > 0 && t[pivot - 1] != ' ') {
-          t[pivot] = ' ';
-          pivot++;
+    int k = 0;
+
+    for (int i = l; i <= r; i++) {
+      char ch = s.charAt(i);
+
+      if (Character.isDigit(ch)) {
+        k = k * 10 + Character.getNumericValue(ch);
+      } else if (s.charAt(i) == '[') {
+        String dec = decodeString(s, i + 1, map.get(i) - 1, map);
+
+        while (k > 0) {
+          sb.append(dec);
+          k--;
         }
 
-        t[pivot] = t[i];
-        pivot++;
+        i = map.get(i);
+      } else {
+        sb.append(ch);
       }
     }
 
-    return pivot;
-  }
-
-  public void reverseWords(char[] s, int n) {
-    reverse(s, 0, n - 1);
-
-    int start = 0;
-
-    for (int i = 0; i <= n; i++) {
-      if (i == n || s[i] == ' ') {
-        reverse(s, start, i - 1);
-
-        start = i + 1;
-      }
-    }
-  }
-
-  private void reverse(char[] s, int l, int r) {
-    while (l < r) {
-      swap(s, l, r);
-
-      l++;
-      r--;
-    }
-  }
-
-  private void swap(char[] s, int i, int j) {
-    char temp = s[j];
-    s[j] = s[i];
-    s[i] = temp;
+    return sb.toString();
   }
 
 }
