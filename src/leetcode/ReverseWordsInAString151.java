@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: Alien Dictionary 269
+ * algorithm: Graph, Topological Sort
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 4 ms, faster than 66.46% of Java online submissions
+ * Memory Usage: 36.1 MB, less than 100.00% of Java online submissions
+ */
+public class ReverseWordsInAString151 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ReverseWordsInAString151 problem = new ReverseWordsInAString151();
     problem.test();
   }
 
@@ -35,6 +44,7 @@ public class Prep {
 
     for (int i = 0; i < t.length; i++) {
       if (t[i] != ' ') {
+        // add space between words
         if (i > 0 && t[i - 1] == ' ' && pivot > 0 && t[pivot - 1] != ' ') {
           t[pivot] = ' ';
           pivot++;
@@ -48,7 +58,7 @@ public class Prep {
     return pivot;
   }
 
-  public void reverseWords(char[] s, int n) {
+  private void reverseWords(char[] s, int n) {
     reverse(s, 0, n - 1);
 
     int start = 0;
