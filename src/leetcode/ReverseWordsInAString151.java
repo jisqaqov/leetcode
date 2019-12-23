@@ -2,8 +2,8 @@ package leetcode;
 
 /**
  * @author Jandos Iskakov
- * problem: Alien Dictionary 269
- * algorithm: Graph, Topological Sort
+ * problem: 151. Reverse Words in a String
+ * algorithm: String, Two Pointers
  * time complexity: O(N)
  * space complexity: O(1)
  * Runtime: 4 ms, faster than 66.46% of Java online submissions
