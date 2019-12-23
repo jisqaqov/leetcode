@@ -7,7 +7,7 @@ package leetcode;
  * time complexity: O(N)
  * space complexity: O(1)
  * Runtime: 3 ms, faster than 95.96% of Java online submissions
- * Memory Usage: 38.1 MB, less than 100.00% of Java online submissions
+ * Memory Usage: 37.9 MB, less than 100.00% of Java online submissions
  */
 public class ReverseWordsInAStringIII557 {
 
@@ -24,28 +24,31 @@ public class ReverseWordsInAStringIII557 {
   public String reverseWords(String s) {
     char[] t = s.toCharArray();
 
-    int start = 0;
-
-    for (int i = 0; i <= t.length; i++) {
-      if (i == t.length || t[i] == ' ') {
-        int l = start;
-        int r = i - 1;
-
-        while (l < r) {
-          char temp = t[r];
-          t[r] = t[l];
-          t[l] = temp;
-
-          l++;
-          r--;
-        }
-
-        start = i + 1;
+    for (int i = 0; i < t.length; i++) {
+      int start = i;
+      while (i < t.length && t[i] != ' ') {
+        i++;
       }
+
+      reverse(t, start, i - 1);
     }
 
     return new String(t);
   }
 
+  private void reverse(char[] s, int l, int r) {
+    while (l < r) {
+      swap(s, l, r);
+
+      l++;
+      r--;
+    }
+  }
+
+  private void swap(char[] s, int i, int j) {
+    char temp = s[j];
+    s[j] = s[i];
+    s[i] = temp;
+  }
 
 }
