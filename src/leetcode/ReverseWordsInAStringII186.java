@@ -1,12 +1,19 @@
-package prep;
+package leetcode;
 
 import java.util.Arrays;
-import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * algorithm: String
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 2 ms, faster than 36.49% of Java online submissions
+ * Memory Usage: 43.2 MB, less than 92.31% of Java online submissions
+ */
+public class ReverseWordsInAStringII186 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ReverseWordsInAStringII186 problem = new ReverseWordsInAStringII186();
     problem.test();
   }
 
