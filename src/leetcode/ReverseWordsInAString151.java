@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: String, Two Pointers
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 4 ms, faster than 66.46% of Java online submissions
- * Memory Usage: 36.1 MB, less than 100.00% of Java online submissions
+ * Runtime: 2 ms, faster than 86.36% of Java online submissions
+ * Memory Usage: 37.1 MB, less than 100.00% of Java online submissions
  */
 public class ReverseWordsInAString151 {
 
@@ -32,44 +32,36 @@ public class ReverseWordsInAString151 {
   public String reverseWords(String s) {
     char[] t = s.toCharArray();
 
-    int pivot = moveSpaces(t);
+    reverse(t, 0, t.length - 1);
 
-    reverseWords(t, pivot);
-
-    return new String(t, 0, pivot);
-  }
-
-  private int moveSpaces(char[] t) {
     int pivot = 0;
 
     for (int i = 0; i < t.length; i++) {
-      if (t[i] != ' ') {
-        // add space between words
-        if (i > 0 && t[i - 1] == ' ' && pivot > 0 && t[pivot - 1] != ' ') {
-          t[pivot] = ' ';
-          pivot++;
-        }
+      if (t[i] == ' ') {
+        continue;
+      }
 
-        t[pivot] = t[i];
+      if (pivot > 0) {
+        t[pivot] = ' ';
         pivot++;
       }
-    }
 
-    return pivot;
-  }
+      int start = pivot;
+      int end = i;
 
-  private void reverseWords(char[] s, int n) {
-    reverse(s, 0, n - 1);
+      while (end < t.length && t[end] != ' ') {
+        t[pivot] = t[end];
 
-    int start = 0;
-
-    for (int i = 0; i <= n; i++) {
-      if (i == n || s[i] == ' ') {
-        reverse(s, start, i - 1);
-
-        start = i + 1;
+        pivot++;
+        end++;
       }
+
+      reverse(t, start, pivot - 1);
+
+      i = end - 1;
     }
+
+    return new String(t, 0, pivot);
   }
 
   private void reverse(char[] s, int l, int r) {
