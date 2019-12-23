@@ -67,6 +67,7 @@ public class DecodeString394 {
   }
 
   private static class V2 {
+
     public String decodeString(String s) {
       Deque<Integer> stack = new ArrayDeque<>();
 
