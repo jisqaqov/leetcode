@@ -1,24 +1,24 @@
-package prep;
+package facebook;
 
 import java.util.Arrays;
 
-public class Prep {
+public class TaxBrackets {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    TaxBrackets problem = new TaxBrackets();
     problem.test();
   }
 
   private void test() {
-    System.out.println(calculateTaxBracket(12000,
+    System.out.println(calculateTax(12000,
       new double[][]{{0, 0.1}, {10000, 0.3}, {20000, 0.2}, {30000, 0.1}}));//3400
-    System.out.println(calculateTaxBracket(25000,
+    System.out.println(calculateTax(25000,
       new double[][]{{10000, 0.3}, {20000, 0.2}, {30000, 0.1}, {0, 0.1}}));//5500
-    System.out.println(calculateTaxBracket(35000,
+    System.out.println(calculateTax(35000,
       new double[][]{{10000, 0.3}, {30000, 0.1}, {20000, 0.2}, {0, 0.1}}));//6500
   }
 
-  private double calculateTaxBracket(int salary, double[][] brackets) {
+  private double calculateTax(int salary, double[][] brackets) {
     double tax = 0;
 
     Arrays.sort(brackets, (t1, t2) -> {
