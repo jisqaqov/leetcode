@@ -2,6 +2,18 @@ package facebook;
 
 import java.util.Arrays;
 
+/**
+ * @author Jandos Iskakov
+ * problem:
+ * Calculate tax if Salary and Tax Brackets are given as:
+ * calculateTax(double salary, Double[][] brackets)
+ * e.g. Salary = 35000
+ * Brackets = [ [10000, 0.1],[20000, 0.2], [10000, 0.3], [null, .4]]
+ * null being rest of the salary
+ * algorithm: Sort
+ * time complexity: O(N)
+ * space complexity: O(1)
+ */
 public class TaxBrackets {
 
   public static void main(String[] args) {
