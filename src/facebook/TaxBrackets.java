@@ -22,12 +22,13 @@ public class TaxBrackets {
   }
 
   private void test() {
-    System.out.println(calculateTax(17000,
-      new double[][]{{0, 0.1}, {10000, 0.3}, {23000, 0.2}, {31000, 0.1}}));//4400
-    System.out.println(calculateTax(25000,
-      new double[][]{{12000, 0.3}, {23000, 0.2}, {31000, 0.1}, {0, 0.1}}));//6000
-    System.out.println(calculateTax(35000,
-      new double[][]{{12000, 0.3}, {31000, 0.1}, {23000, 0.2}, {0, 0.1}}));//7000
+    double[][] tc1a = new double[][]{{5070, 0.1}, {8660, 0.14}, {14070, 0.23}, {21240, 0.3}, {40230, 0.33}, {0, 0.45}};
+
+    System.out.println(calculateTax(5000, tc1a));//500
+    System.out.println(calculateTax(5800, tc1a));//609.2
+    System.out.println(calculateTax(9000, tc1a));//1087.8
+    System.out.println(calculateTax(15000, tc1a));//2532.9
+    System.out.println(calculateTax(50000, tc1a));//15068.1
   }
 
   private double calculateTax(int salary, double[][] brackets) {
