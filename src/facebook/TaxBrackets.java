@@ -10,12 +10,12 @@ public class TaxBrackets {
   }
 
   private void test() {
-    System.out.println(calculateTax(12000,
-      new double[][]{{0, 0.1}, {10000, 0.3}, {20000, 0.2}, {30000, 0.1}}));//3400
+    System.out.println(calculateTax(17000,
+      new double[][]{{0, 0.1}, {10000, 0.3}, {23000, 0.2}, {31000, 0.1}}));//4400
     System.out.println(calculateTax(25000,
-      new double[][]{{10000, 0.3}, {20000, 0.2}, {30000, 0.1}, {0, 0.1}}));//5500
+      new double[][]{{12000, 0.3}, {23000, 0.2}, {31000, 0.1}, {0, 0.1}}));//6000
     System.out.println(calculateTax(35000,
-      new double[][]{{10000, 0.3}, {30000, 0.1}, {20000, 0.2}, {0, 0.1}}));//6500
+      new double[][]{{12000, 0.3}, {31000, 0.1}, {23000, 0.2}, {0, 0.1}}));//7000
   }
 
   private double calculateTax(int salary, double[][] brackets) {
