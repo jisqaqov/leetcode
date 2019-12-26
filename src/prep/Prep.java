@@ -1,6 +1,8 @@
 package prep;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Prep {
 
@@ -10,46 +12,72 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(calculateTaxBracket(12000,
-      new double[][]{{0, 0.1}, {10000, 0.3}, {20000, 0.2}, {30000, 0.1}}));//3400
-    System.out.println(calculateTaxBracket(25000,
-      new double[][]{{10000, 0.3}, {20000, 0.2}, {30000, 0.1}, {0, 0.1}}));//5500
-    System.out.println(calculateTaxBracket(35000,
-      new double[][]{{10000, 0.3}, {30000, 0.1}, {20000, 0.2}, {0, 0.1}}));//6500
+    char[] tasks = {'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'C', 'C', 'D'};
+    //System.out.println(leastInterval(tasks, 6));//29
+    System.out.println(leastInterval(tasks, 2));//13
   }
 
-  private double calculateTaxBracket(int salary, double[][] brackets) {
-    double tax = 0;
-
-    Arrays.sort(brackets, (t1, t2) -> {
-      if (t1[0] == 0 || t2[0] == 0) {
-        return t1[0] == 0 ? 1 : -1;
-      }
-
-      return Double.compare(t1[0], t2[0]);
-    });
-
-    double lowBound = 0;
-
-    for (int i = 0; i < brackets.length; i++) {
-      double taxable = 0;
-
-      if (salary < brackets[i][0] || brackets[i][0] == 0) {
-        taxable = salary - lowBound;
-      } else {
-        taxable = brackets[i][0] - lowBound;
-      }
-
-      tax += taxable * brackets[i][1];
-
-      if (salary < brackets[i][0]) {
-        break;
-      }
-
-      lowBound = brackets[i][0];
+  public int leastInterval(char[] tasks, int n) {
+    Map<Character, Integer> freq = new HashMap<>();
+    for (char task : tasks) {
+      freq.put(task, freq.getOrDefault(task, 0) + 1);
     }
 
-    return tax;
+    int t = 0;
+
+    Task[] list = new Task[freq.size()];
+    for (char task : freq.keySet()) {
+      list[t++] = new Task(task, freq.get(task));
+    }
+
+    int intervals = 0;
+
+    Arrays.sort(list, (t1, t2) -> t2.count - t1.count);
+
+    int index = 0;
+    int start = 0;
+    int end = list.length - 1;
+    int count = tasks.length;
+
+    while (count > 0) {
+      count--;
+      intervals++;
+
+      if (list[index].pos > 0 && intervals - list[index].pos - 1 < n) {
+        intervals += n - (intervals - list[index].pos - 1);
+      }
+
+      list[index].count--;
+      list[index].pos = intervals;
+
+      if (list[end].count == 0) {
+        end--;
+      }
+
+      if (list[start].count == 0) {
+        start++;
+      }
+
+      if (intervals - list[start].pos >= n || index == end) {
+        index = start;
+      } else {
+        index++;
+      }
+    }
+
+    return intervals;
+  }
+
+  private static class Task {
+
+    private int pos = -1;
+    private char id;
+    private int count;
+
+    public Task(char id, int count) {
+      this.id = id;
+      this.count = count;
+    }
   }
 
 }
