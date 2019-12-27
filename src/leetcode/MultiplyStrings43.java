@@ -34,16 +34,24 @@ public class MultiplyStrings43 {
 
     int[] nums = new int[n + m];
 
+    int pos = nums.length - 1;
+
     for (int i = n - 1; i >= 0; i--) {
+      int index = pos;
+
       for (int j = m - 1; j >= 0; j--) {
         int a = num1.charAt(i) - '0';
         int b = num2.charAt(j) - '0';
 
-        int p = a * b + nums[i + j + 1];
+        int p = a * b + nums[index];
 
-        nums[i + j + 1] = p % 10;
-        nums[i + j] += p / 10;
+        nums[index] = p % 10;
+        nums[index - 1] += p / 10;
+
+        index--;
       }
+
+      pos--;
     }
 
     StringBuilder output = new StringBuilder();
