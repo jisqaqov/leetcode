@@ -1,13 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 43. Multiply Strings
+ * algorithm: Math, String
+ * time complexity: O(|A| + |B|)
+ * space complexity: O(1)
+ * Runtime: 12 ms, faster than 20.66% of Java online submissions
+ * Memory Usage: 37 MB, less than 100.00% of Java online submissions
+ */
+public class MultiplyStrings43 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    MultiplyStrings43 problem = new MultiplyStrings43();
     problem.test();
   }
 
