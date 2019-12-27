@@ -42,55 +42,55 @@ public class AllNodesDistanceKInBinaryTree863 {
   }
 
   public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
-    List<Integer> list = new ArrayList<>();
+    List<Integer> output = new ArrayList<>();
 
-    search(root, target, k, list);
+    traverse(root, target, k, output);
 
-    return list;
+    return output;
   }
 
-  private int search(TreeNode root, TreeNode target, int k, List<Integer> list) {
+  private int traverse(TreeNode root, TreeNode target, int k, List<Integer> output) {
     if (root == null) {
       return -1;
     }
 
-    int d = -1;
+    int dis = -1;
 
     if (root == target) {
-      d = 0;
-      collect(root, 0, list, k);
+      dis = 0;
+      collect(root, 0, output, k);
     } else {
-      int dl = search(root.left, target, k, list);
-      int dr = search(root.right, target, k, list);
+      int disLeft = traverse(root.left, target, k, output);
+      int disRight = traverse(root.right, target, k, output);
 
-      if (dl >= 0 || dr >= 0) {
-        d = Math.max(dl, dr) + 1;
+      if (disLeft >= 0 || disRight >= 0) {
+        dis = Math.max(disLeft, disRight) + 1;
       }
 
-      if (d == k) {
-        list.add(root.val);
-      } else if (dl >= 0) {
-        collect(root.right, d + 1, list, k);
-      } else if (dr >= 0) {
-        collect(root.left, d + 1, list, k);
+      if (dis == k) {
+        output.add(root.val);
+      } else if (disLeft >= 0) {
+        collect(root.right, dis + 1, output, k);
+      } else if (disRight >= 0) {
+        collect(root.left, dis + 1, output, k);
       }
     }
 
-    return d;
+    return dis;
   }
 
-  private void collect(TreeNode root, int d, List<Integer> list, int k) {
-    if (root == null || d > k) {
+  private void collect(TreeNode root, int dis, List<Integer> output, int k) {
+    if (root == null || dis > k) {
       return;
     }
 
-    if (d == k) {
-      list.add(root.val);
+    if (dis == k) {
+      output.add(root.val);
       return;
     }
 
-    collect(root.left, d + 1, list, k);
-    collect(root.right, d + 1, list, k);
+    collect(root.left, dis + 1, output, k);
+    collect(root.right, dis + 1, output, k);
   }
 
   /**
