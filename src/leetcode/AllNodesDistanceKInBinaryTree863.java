@@ -12,6 +12,7 @@ import java.util.Set;
 /**
  * @author Jandos Iskakov
  * problem: 863. All Nodes Distance K in Binary Tree
+ * algorithm: BFS, DFS, Hash Table
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 3 ms, faster than 62.38% of Java online submissions
