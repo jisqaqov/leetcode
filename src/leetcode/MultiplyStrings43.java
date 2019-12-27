@@ -7,7 +7,7 @@ import java.util.List;
  * @author Jandos Iskakov
  * problem: 43. Multiply Strings
  * algorithm: Math, String
- * time complexity: O(|A| + |B|)
+ * time complexity: O(N*M)
  * space complexity: O(1)
  * Runtime: 12 ms, faster than 20.66% of Java online submissions
  * Memory Usage: 37 MB, less than 100.00% of Java online submissions
