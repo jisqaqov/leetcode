@@ -60,18 +60,18 @@ public class AllNodesDistanceKInBinaryTree863 {
       dis = 0;
       collect(root, 0, output, k);
     } else {
-      int disLeft = traverse(root.left, target, k, output);
-      int disRight = traverse(root.right, target, k, output);
+      int dl = traverse(root.left, target, k, output);
+      int dr = traverse(root.right, target, k, output);
 
-      if (disLeft >= 0 || disRight >= 0) {
-        dis = Math.max(disLeft, disRight) + 1;
+      if (dl >= 0 || dr >= 0) {
+        dis = Math.max(dl, dr) + 1;
       }
 
       if (dis == k) {
         output.add(root.val);
-      } else if (disLeft >= 0) {
+      } else if (dl >= 0) {
         collect(root.right, dis + 1, output, k);
-      } else if (disRight >= 0) {
+      } else if (dr >= 0) {
         collect(root.left, dis + 1, output, k);
       }
     }
