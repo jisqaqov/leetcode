@@ -58,24 +58,20 @@ public class AllNodesDistanceKInBinaryTree863 {
   public List<Integer> distanceK(TreeNode root, TreeNode target, int k) {
     List<Integer> output = new ArrayList<>();
 
-    traverse(root, target, k, output);
+    postorder(root, target, k, output);
 
     return output;
   }
 
-  private int traverse(TreeNode root, TreeNode target, int k, List<Integer> output) {
-    if (root == null) {
-      return -1;
-    }
-
+  private int postorder(TreeNode root, TreeNode target, int k, List<Integer> output) {
     int dis = -1;
 
     if (root == target) {
       dis = 0;
       collect(root, 0, output, k);
-    } else {
-      int dl = traverse(root.left, target, k, output);
-      int dr = traverse(root.right, target, k, output);
+    } else if (root != null) {
+      int dl = postorder(root.left, target, k, output);
+      int dr = postorder(root.right, target, k, output);
 
       if (dl >= 0 || dr >= 0) {
         dis = Math.max(dl, dr) + 1;
