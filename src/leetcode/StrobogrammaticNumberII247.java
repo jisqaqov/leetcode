@@ -46,10 +46,9 @@ public class StrobogrammaticNumberII247 {
       for (String s : sub) {
         char[] chs = new char[n];
 
-        int x = num;
-        int y = x == 9 ? 6 : x == 6 ? 9 : num;
+        int y = num == 9 ? 6 : num == 6 ? 9 : num;
 
-        chs[0] = (char) (x + '0');
+        chs[0] = (char) (num + '0');
         chs[n - 1] = (char) (y + '0');
 
         for (int i = 1; i <= n - 2; i++) {
