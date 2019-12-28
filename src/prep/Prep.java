@@ -1,13 +1,5 @@
 package prep;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 public class Prep {
 
   public static void main(String[] args) {
@@ -16,64 +8,30 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(findStrobogrammatic(4));
+    System.out.println(reverse(123));//321
+    System.out.println(reverse(-123));//-321
+    System.out.println(reverse(120));//21
+    System.out.println(reverse(1534236469));//0
+    System.out.println(reverse(-2147483648));//0
   }
 
-  public List<String> findStrobogrammatic(int n) {
-    if (n == 0) {
-      return Collections.emptyList();
-    } else if (n == 1) {
-      return Arrays.asList("0", "1", "8");
-    } else if (n == 2) {
-      return Arrays.asList("11", "69", "88", "96");
-    }
+  public int reverse(int x) {
+    int output = 0;
 
-    Set<String> output = new LinkedHashSet<>();
+    while (x != 0) {
+      int d = x % 10;
 
-    List<String> sub = findStrobogrammatic(n - 2);
-
-    int[] nums = {0, 1, 8, 9, 6};
-
-    for (int num : nums) {
-      for (String s : sub) {
-        char[] chs = new char[n];
-
-        int x = num;
-        int y = x == 9? 6: x == 6? 9: num;
-
-        chs[0] = (char) (x + '0');
-        chs[n - 1] = (char) (y + '0');
-
-        for (int i = 1; i <= n - 2; i++) {
-          chs[i] = s.charAt(i - 1);
-        }
-
-        if (num != 0) {
-          output.add(String.valueOf(chs));
-        }
-
-        int i = 0;
-        int j = n - 1;
-
-        while (j - i > 2) {
-          swap(i, i + 1, chs);
-          swap(j, j - 1, chs);
-
-          i++;
-          j--;
-
-          output.add(String.valueOf(chs));
-        }
+      if ((d > 0 && output > (Integer.MAX_VALUE - d) / 10) ||
+          (d < 0 && output < (Integer.MIN_VALUE - d) / 10)) {
+        return 0;
       }
+
+      output = output * 10 + d;
+
+      x /= 10;
     }
 
-    return new ArrayList<>(output);
-  }
-
-  private void swap(int i, int j, char[] chs) {
-    char temp = chs[j];
-    chs[j] = chs[i];
-    chs[i] = temp;
+    return output;
   }
 
 }
