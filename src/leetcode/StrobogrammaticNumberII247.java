@@ -1,17 +1,25 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 247. Strobogrammatic Number II
+ * algorithm: Math, Recursion
+ * time complexity:
+ * space complexity:
+ * Runtime: 41 ms, faster than 5.25% of Java online submissions
+ * Memory Usage: 50.5 MB, less than 100.00% of Java online submissions
+ */
+public class StrobogrammaticNumberII247 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    StrobogrammaticNumberII247 problem = new StrobogrammaticNumberII247();
     problem.test();
   }
 
@@ -39,7 +47,7 @@ public class Prep {
         char[] chs = new char[n];
 
         int x = num;
-        int y = x == 9? 6: x == 6? 9: num;
+        int y = x == 9 ? 6 : x == 6 ? 9 : num;
 
         chs[0] = (char) (x + '0');
         chs[n - 1] = (char) (y + '0');
