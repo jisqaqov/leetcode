@@ -7,8 +7,10 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 211. Add and Search Word - Data structure design
  * algorithm: Backtracking, Design, Trie
- * time complexity: O(|WORDS|)
- * space complexity: O(|WORDS|)
+ * time complexity: O(M) - M- total number of characters
+ * space complexity: O(N) - N- length of new word
+ * addWord() - O(n), n = length of the new word
+ * search() - Worst case: O(m), m = the total number of characters in the Trie
  * Runtime: 50 ms, faster than 65.98% of Java online submissions
  * Memory Usage: 55.2 MB, less than 81.82% of Java online submissions
  */
@@ -67,21 +69,44 @@ public class AddAndSearchWord211 {
      * A word could contain the dot character '.' to represent any one letter.
      */
     public boolean search(String word) {
-      return search(word, 0, root);
+      return search(word.toCharArray(), 0, root);
     }
 
-    private boolean search(String word, int index, TrieNode root) {
+    private boolean search(char[] word, int index, TrieNode node) {
+      if (index == word.length) {
+        return node.isWord;
+      }
+
+      if (word[index] != '.') {
+        if (!node.map.containsKey(word[index])) {
+          return false;
+        }
+
+        return search(word, index + 1, node.map.get(word[index]));
+      } else {
+        for (TrieNode adj : node.map.values()) {
+          if (search(word, index + 1, adj)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
+    }
+
+  }
+
+  private static class V2 {
+    private boolean search(char[] word, int index, TrieNode root) {
       TrieNode node = root;
 
-      for (; index < word.length(); index++) {
-        char ch = word.charAt(index);
-
-        if (ch != '.') {
-          if (!node.map.containsKey(ch)) {
+      for (; index < word.length; index++) {
+        if (word[index] != '.') {
+          if (!node.map.containsKey(word[index])) {
             return false;
           }
 
-          node = node.map.get(ch);
+          node = node.map.get(word[index]);
         } else {
           for (TrieNode adj : node.map.values()) {
             if (search(word, index + 1, adj)) {
@@ -93,9 +118,8 @@ public class AddAndSearchWord211 {
         }
       }
 
-      return node.isWord && index == word.length();
+      return node.isWord && index == word.length;
     }
-
   }
 
   private class TrieNode {
