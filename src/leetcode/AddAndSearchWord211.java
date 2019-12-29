@@ -7,6 +7,8 @@ import java.util.Map;
  * @author Jandos Iskakov
  * problem: 211. Add and Search Word - Data structure design
  * algorithm: Backtracking, Design, Trie
+ * time complexity: O(|WORDS|)
+ * space complexity: O(|WORDS|)
  * Runtime: 50 ms, faster than 65.98% of Java online submissions
  * Memory Usage: 55.2 MB, less than 81.82% of Java online submissions
  */
@@ -61,8 +63,8 @@ public class AddAndSearchWord211 {
     }
 
     /**
-     * Returns if the word is in the data structure. A word could contain the dot character '.' to
-     * represent any one letter.
+     * Returns if the word is in the data structure.
+     * A word could contain the dot character '.' to represent any one letter.
      */
     public boolean search(String word) {
       return search(word, 0, root);
@@ -93,7 +95,7 @@ public class AddAndSearchWord211 {
 
       return node.isWord && index == word.length();
     }
-    
+
   }
 
   private class TrieNode {
