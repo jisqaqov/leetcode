@@ -10,8 +10,8 @@ import utils.TestUtils;
  * algorithm: BFS
  * time complexity: O(N*M)
  * space complexity: O(N*M)
- * Runtime: 10 ms, faster than 31.40% of Java online submissions
- * Memory Usage: 41.2 MB, less than 100.00% of Java online submissions
+ * Runtime: 8 ms, faster than 49.66% of Java online submissions
+ * Memory Usage: 43.5 MB, less than 75.00% of Java online submissions
  */
 public class WallsAndGates286 {
 
