@@ -5,7 +5,7 @@ package leetcode;
  * problem: 766. Toeplitz Matrix
  * algorithm: Array
  * time complexity: O(N*M)
- * space complexity: O(N*M)
+ * space complexity: O(1)
  * Runtime: 1 ms, faster than 100.00% of Java online submissions
  * Memory Usage: 42.9 MB, less than 87.10% of Java online submissions
  */
