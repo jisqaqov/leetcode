@@ -1,6 +1,9 @@
 package prep;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class Prep {
 
@@ -29,27 +32,39 @@ public class Prep {
 
     int[] output = new int[n * m];
 
-    int i = 0, j = 0, k = 0;
-    int d = -1;
+    int r = 0, c = 0;
+    int d = 1;
 
-    while (i < n && j < m) {
-      while (i < n && j < m && i >= 0 && j >= 0) {
-        output[k++] = matrix[i][j];
+    int k = 0;
 
-        i += d;
-        j -= d;
-      }
+    while (r < n && c < m) {
+      int i = r;
+      int j = c;
 
-      i -= d;
-      j += d;
-
-      if ((i == 0 || i == n - 1) && j < m - 1) {
-        j++;
+      if (c < m - 1) {
+        c++;
       } else {
-        i++;
+        r++;
       }
 
       d *= -1;
+
+      List<Integer> list = new ArrayList<>();
+
+      while (i < n && j >= 0) {
+        list.add(matrix[i][j]);
+
+        i++;
+        j--;
+      }
+
+      if (d == -1) {
+        Collections.reverse(list);
+      }
+
+      for (int num : list) {
+        output[k++] = num;
+      }
     }
 
     return output;

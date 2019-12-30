@@ -20,12 +20,20 @@ public class DiagonalTraverse498 {
 
   private void test() {
     int[][] tc1a = {
+      {1, 2, 3, 4},
+      {5, 6, 7, 8},
+      {9, 10, 11, 12},
+      {13, 14, 15, 16}
+    };
+
+    int[][] tc2a = {
       {1, 2, 3},
       {4, 5, 6},
       {7, 8, 9}
     };
 
     System.out.println(Arrays.toString(findDiagonalOrder(tc1a)));
+    System.out.println(Arrays.toString(findDiagonalOrder(tc2a)));
   }
 
   public int[] findDiagonalOrder(int[][] matrix) {
@@ -62,6 +70,54 @@ public class DiagonalTraverse498 {
     }
 
     return output;
+  }
+
+  private static class V2 {
+
+    public int[] findDiagonalOrder(int[][] matrix) {
+      if (matrix.length == 0) {
+        return new int[0];
+      }
+
+      int n = matrix.length;
+      int m = matrix[0].length;
+
+      int[] output = new int[n * m];
+
+      int r = 0, c = 0;
+      int d = 1;
+
+      for (int i = 0; i < n * m; i++) {
+        output[i] = matrix[r][c];
+
+        r += d;
+        c -= d;
+
+        if (r >= n) {
+          r = n - 1;
+          c += 2;
+          d = -d;
+        }
+
+        if (c >= m) {
+          c = m - 1;
+          r += 2;
+          d = -d;
+        }
+
+        if (r < 0) {
+          r = 0;
+          d = -d;
+        }
+
+        if (c < 0) {
+          c = 0;
+          d = -d;
+        }
+      }
+
+      return output;
+    }
   }
 
 
