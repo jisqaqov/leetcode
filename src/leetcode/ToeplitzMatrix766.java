@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 766. Toeplitz Matrix
+ * algorithm: Array
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 42.9 MB, less than 87.10% of Java online submissions
+ */
+public class ToeplitzMatrix766 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ToeplitzMatrix766 problem = new ToeplitzMatrix766();
     problem.test();
   }
 
@@ -55,6 +64,5 @@ public class Prep {
 
     return true;
   }
-
 
 }
