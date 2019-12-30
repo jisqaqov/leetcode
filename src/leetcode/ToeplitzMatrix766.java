@@ -38,13 +38,13 @@ public class ToeplitzMatrix766 {
       int i = 1;
       int j = k + 1;
 
-      while (i < n && j < m) {
-        if (matrix[i][j] != matrix[i - 1][j - 1]) {
-          return false;
-        }
-
+      while (i < n && j < m && matrix[i][j] == matrix[i - 1][j - 1]) {
         i++;
         j++;
+      }
+
+      if (i < n && j < m) {
+        return false;
       }
     }
 
@@ -52,13 +52,13 @@ public class ToeplitzMatrix766 {
       int i = k + 1;
       int j = 1;
 
-      while (i < n && j < m) {
-        if (matrix[i][j] != matrix[i - 1][j - 1]) {
-          return false;
-        }
-
+      while (i < n && j < m && matrix[i][j] == matrix[i - 1][j - 1]) {
         i++;
         j++;
+      }
+
+      if (i < n && j < m) {
+        return false;
       }
     }
 
