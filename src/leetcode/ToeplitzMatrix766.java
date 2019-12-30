@@ -34,31 +34,11 @@ public class ToeplitzMatrix766 {
     int n = matrix.length;
     int m = matrix[0].length;
 
-    for (int k = 0; k < m; k++) {
-      int i = 1;
-      int j = k + 1;
-
-      while (i < n && j < m && matrix[i][j] == matrix[i - 1][j - 1]) {
-        i++;
-        j++;
-      }
-
-      if (i < n && j < m) {
-        return false;
-      }
-    }
-
-    for (int k = 1; k < n; k++) {
-      int i = k + 1;
-      int j = 1;
-
-      while (i < n && j < m && matrix[i][j] == matrix[i - 1][j - 1]) {
-        i++;
-        j++;
-      }
-
-      if (i < n && j < m) {
-        return false;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (i < n - 1 && j < m - 1 && matrix[i][j] != matrix[i + 1][j + 1]) {
+          return false;
+        }
       }
     }
 
