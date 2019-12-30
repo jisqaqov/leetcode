@@ -1,11 +1,20 @@
-package prep;
+package leetcode;
 
 import java.util.Arrays;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 498. Diagonal Traverse
+ * algorithm: Array
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ * Runtime: 2 ms, faster than 95.74% of Java online submissions
+ * Memory Usage: 38.8 MB, less than 100.00% of Java online submissions
+ */
+public class DiagonalTraverse498 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    DiagonalTraverse498 problem = new DiagonalTraverse498();
     problem.test();
   }
 
