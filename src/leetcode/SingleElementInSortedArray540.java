@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 540. Single Element in a Sorted Array
+ * algorithm: Binary Search
+ * time complexity: O(log(N))
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 36.9 MB, less than 100.00% of Java online submissions
+ */
+public class SingleElementInSortedArray540 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SingleElementInSortedArray540 problem = new SingleElementInSortedArray540();
     problem.test();
   }
 
@@ -40,6 +49,5 @@ public class Prep {
 
     return -1;
   }
-
 
 }
