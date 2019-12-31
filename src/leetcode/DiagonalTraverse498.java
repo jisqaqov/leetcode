@@ -46,31 +46,42 @@ public class DiagonalTraverse498 {
 
     int[] output = new int[n * m];
 
-    int i = 0, j = 0, k = 0;
-    int d = -1;
+    int r = 0, c = 0;
+    int d = 1;
 
-    while (i < n && j < m) {
-      while (i < n && j < m && i >= 0 && j >= 0) {
-        output[k++] = matrix[i][j];
+    for (int i = 0; i < n * m; i++) {
+      output[i] = matrix[r][c];
 
-        i += d;
-        j -= d;
+      r += d;
+      c -= d;
+
+      if (r >= n) {
+        r = n - 1;
+        c += 2;
+        d = -d;
       }
 
-      i -= d;
-      j += d;
-
-      if ((i == 0 || i == n - 1) && j < m - 1) {
-        j++;
-      } else {
-        i++;
+      if (c >= m) {
+        c = m - 1;
+        r += 2;
+        d = -d;
       }
 
-      d *= -1;
+      if (r < 0) {
+        r = 0;
+        d = -d;
+      }
+
+      if (c < 0) {
+        c = 0;
+        d = -d;
+      }
     }
 
     return output;
   }
+
+
 
   private static class V2 {
 
@@ -84,40 +95,32 @@ public class DiagonalTraverse498 {
 
       int[] output = new int[n * m];
 
-      int r = 0, c = 0;
-      int d = 1;
+      int i = 0, j = 0, k = 0;
+      int d = -1;
 
-      for (int i = 0; i < n * m; i++) {
-        output[i] = matrix[r][c];
+      while (i < n && j < m) {
+        while (i < n && j < m && i >= 0 && j >= 0) {
+          output[k++] = matrix[i][j];
 
-        r += d;
-        c -= d;
-
-        if (r >= n) {
-          r = n - 1;
-          c += 2;
-          d = -d;
+          i += d;
+          j -= d;
         }
 
-        if (c >= m) {
-          c = m - 1;
-          r += 2;
-          d = -d;
+        i -= d;
+        j += d;
+
+        if ((i == 0 || i == n - 1) && j < m - 1) {
+          j++;
+        } else {
+          i++;
         }
 
-        if (r < 0) {
-          r = 0;
-          d = -d;
-        }
-
-        if (c < 0) {
-          c = 0;
-          d = -d;
-        }
+        d *= -1;
       }
 
       return output;
     }
+
   }
 
 
