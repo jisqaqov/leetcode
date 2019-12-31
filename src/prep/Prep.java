@@ -10,6 +10,7 @@ public class Prep {
   private void test() {
     System.out.println(singleNonDuplicate(new int[]{3}));//3
     System.out.println(singleNonDuplicate(new int[]{1, 2, 2}));//1
+    System.out.println(singleNonDuplicate(new int[]{1, 1, 2, 3, 3}));//2
     System.out.println(singleNonDuplicate(new int[]{1, 1, 2, 3, 3, 4, 4, 8, 8}));//2
     System.out.println(singleNonDuplicate(new int[]{3, 3, 7, 7, 10, 11, 11}));//10
     System.out.println(singleNonDuplicate(new int[]{1, 1, 2}));//2
@@ -19,30 +20,21 @@ public class Prep {
     int l = 0;
     int r = nums.length - 1;
 
-    if (nums.length == 1) {
-      return nums[0];
-    }
-
-    while (l + 2 < r) {
+    while (l < r) {
       int m = l + (r - l) / 2;
 
-      if (nums[m] == nums[m - 1]) {
+      if (m % 2 == 1) {
         m--;
       }
 
-      int len = r - m + 1;
-      if (len % 2 > 0) {
-        l = m;
+      if (nums[m] == nums[m + 1]) {
+        l = m + 2;
       } else {
-        r = m - 1;
+        r = m;
       }
     }
 
-    if (nums[l] != nums[l + 1]) {
-      return nums[l];
-    }
-
-    return nums[r];
+    return nums[l];
   }
 
 
