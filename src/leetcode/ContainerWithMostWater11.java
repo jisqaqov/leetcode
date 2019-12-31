@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 11. Container With Most Water
+ * algorithm: Two Pointers
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 3 ms, faster than 42.45% of Java online submissions
+ * Memory Usage: 39.8 MB, less than 94.87% of Java online submissions
+ */
+public class ContainerWithMostWater11 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ContainerWithMostWater11 problem = new ContainerWithMostWater11();
     problem.test();
   }
 
