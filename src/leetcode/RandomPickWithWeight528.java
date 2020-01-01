@@ -46,7 +46,7 @@ public class RandomPickWithWeight528 {
       int index = 0;
       for (int i = 0; i < w.length; i++) {
         randomWeight -= w[i];
-        if (randomWeight <= 0) {
+        if (randomWeight < 0) {
           index = i;
           break;
         }
