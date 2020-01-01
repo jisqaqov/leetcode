@@ -1,16 +1,28 @@
-package prep;
+package leetcode;
 
 import java.util.Random;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 528. Random Pick with Weight
+ * algorithm: Random,
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 47 ms, faster than 52.70% of Java online submissions
+ * Memory Usage: 50.5 MB, less than 34.33% of Java online submissions
+ */
+public class RandomPickWithWeight528 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    RandomPickWithWeight528 problem = new RandomPickWithWeight528();
     problem.test();
   }
 
   private void test() {
-
+    Solution sol = new Solution(new int[] {3, 14, 1, 7});
+    for (int i = 0; i < 100; i++) {
+      System.out.println(sol.pickIndex());
+    }
   }
 
   class Solution {
