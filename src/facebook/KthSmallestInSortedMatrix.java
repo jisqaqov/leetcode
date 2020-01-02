@@ -1,11 +1,21 @@
-package prep;
+package facebook;
 
 import java.util.PriorityQueue;
 
-public class Prep {
+/**
+ * Given k sorted arrays of possibly different sizes, find m-th smallest value in the merged array.
+ *
+ * Example 1:
+ *
+ * Input: [[1, 3], [2, 4, 6], [0, 9, 10, 11]], m = 5
+ * Output: 4
+ * Explanation: The merged array would be [0, 1, 2, 3, 4, 6, 9, 10, 11].
+ * The 5-th smallest element in this merged array is 4.
+ */
+public class KthSmallestInSortedMatrix {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    KthSmallestInSortedMatrix problem = new KthSmallestInSortedMatrix();
     problem.test();
   }
 
