@@ -58,47 +58,67 @@ public class MatrixAntidiagonalTraverse {
       {-3, 15, 36, 71, 26},
       {4, -13, 55, 34, 15}};
 
-    System.out.println(antiDiagonalTraverse(tc1a));
+    System.out.println(traverse(tc1a));
 
     int[][] tc2a = {{1, 2, 3},
       {4, 5, 6},
       {7, 8, 9}};
 
-    System.out.println(antiDiagonalTraverse(tc2a));
+    System.out.println(traverse(tc2a));
   }
 
-  public List<List<Integer>> antiDiagonalTraverse(int[][] matrix) {
+  public List<List<Integer>> traverse(int[][] matrix) {
     List<List<Integer>> output = new ArrayList<>();
 
     int n = matrix.length;
     int m = matrix[0].length;
 
-    int r = 0, c = 0;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (output.size() <= i + j) {
+          output.add(new ArrayList<>());
+        }
 
-    for (int k = 0; k < n + m - 1; k++) {
-      int i = r;
-      int j = c;
-
-      List<Integer> vals = new ArrayList<>();
-
-      while (i < n && j >= 0) {
-        vals.add(matrix[i][j]);
-
-        i++;
-        j--;
-      }
-
-      output.add(vals);
-
-      if (c == m - 1) {
-        r++;
-      } else {
-        c++;
+        output.get(output.size() - 1).add(matrix[i][j]);
       }
     }
 
     return output;
   }
 
+  private static class V2 {
+    public List<List<Integer>> traverse(int[][] matrix) {
+      List<List<Integer>> output = new ArrayList<>();
+
+      int n = matrix.length;
+      int m = matrix[0].length;
+
+      int r = 0, c = 0;
+
+      for (int k = 0; k < n + m - 1; k++) {
+        int i = r;
+        int j = c;
+
+        List<Integer> vals = new ArrayList<>();
+
+        while (i < n && j >= 0) {
+          vals.add(matrix[i][j]);
+
+          i++;
+          j--;
+        }
+
+        output.add(vals);
+
+        if (c == m - 1) {
+          r++;
+        } else {
+          c++;
+        }
+      }
+
+      return output;
+    }
+  }
 
 }
