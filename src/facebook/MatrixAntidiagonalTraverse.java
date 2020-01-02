@@ -79,22 +79,22 @@ public class MatrixAntidiagonalTraverse {
       int i = r;
       int j = c;
 
-      List<Integer> list = new ArrayList<>();
+      List<Integer> vals = new ArrayList<>();
 
       while (i < n && j >= 0) {
-        list.add(matrix[i][j]);
+        vals.add(matrix[i][j]);
 
         i++;
         j--;
       }
+
+      output.add(vals);
 
       if (c == m - 1) {
         r++;
       } else {
         c++;
       }
-
-      output.add(list);
     }
 
     return output;
