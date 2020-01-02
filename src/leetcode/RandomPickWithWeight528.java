@@ -27,41 +27,10 @@ public class RandomPickWithWeight528 {
 
   class Solution {
     private Random random;
-    private int[] w;
-    private int totalWeight;
-
-    public Solution(int[] w) {
-      this.w = w;
-      random = new Random();
-
-      totalWeight = 0;
-      for (int weight : w) {
-        totalWeight += weight;
-      }
-    }
-
-    public int pickIndex() {
-      int randomWeight = random.nextInt(totalWeight);
-
-      int index = 0;
-      for (int i = 0; i < w.length; i++) {
-        randomWeight -= w[i];
-        if (randomWeight < 0) {
-          index = i;
-          break;
-        }
-      }
-
-      return index;
-    }
-  }
-
-  class SolutionV2 {
-    private Random random;
     private int[] prefix;
     private int totalWeight = 0;
 
-    public SolutionV2(int[] w) {
+    public Solution(int[] w) {
       random = new Random();
       prefix = new int[w.length];
 
@@ -90,6 +59,37 @@ public class RandomPickWithWeight528 {
       return l;
     }
 
+  }
+
+  class SolutionV2 {
+    private Random random;
+    private int[] w;
+    private int totalWeight;
+
+    public SolutionV2(int[] w) {
+      this.w = w;
+      random = new Random();
+
+      totalWeight = 0;
+      for (int weight : w) {
+        totalWeight += weight;
+      }
+    }
+
+    public int pickIndex() {
+      int randomWeight = random.nextInt(totalWeight);
+
+      int index = 0;
+      for (int i = 0; i < w.length; i++) {
+        randomWeight -= w[i];
+        if (randomWeight < 0) {
+          index = i;
+          break;
+        }
+      }
+
+      return index;
+    }
   }
 
 }
