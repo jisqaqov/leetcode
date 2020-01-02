@@ -65,14 +65,9 @@ public class RandomPickWithWeight528 {
       random = new Random();
       prefix = new int[w.length];
 
-      if (w.length > 0) {
-        prefix[0] = w[0];
-
-        for (int i = 1; i < w.length; i++) {
-          prefix[i] = prefix[i - 1] + w[i];
-        }
-
-        totalWeight = prefix[w.length - 1];
+      for (int i = 0; i < w.length; i++) {
+        totalWeight += w[i];
+        prefix[i] = totalWeight;
       }
     }
 
