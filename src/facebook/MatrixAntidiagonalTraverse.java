@@ -79,7 +79,7 @@ public class MatrixAntidiagonalTraverse {
           output.add(new ArrayList<>());
         }
 
-        output.get(output.size() - 1).add(matrix[i][j]);
+        output.get(i + j).add(matrix[i][j]);
       }
     }
 
