@@ -38,11 +38,11 @@ public class FlattenNestedListIterator341 {
     List<NestedInteger> getList();
   }
 
-  public class NestedIteratorV2 implements Iterator<Integer> {
+  public class NestedIterator implements Iterator<Integer> {
 
     private Deque<NestedInteger> stack = new ArrayDeque<>();
 
-    public NestedIteratorV2(List<NestedInteger> nestedList) {
+    public NestedIterator(List<NestedInteger> nestedList) {
       for (int i = nestedList.size() - 1; i >= 0; i--) {
         stack.push(nestedList.get(i));
       }
@@ -50,7 +50,7 @@ public class FlattenNestedListIterator341 {
 
     @Override
     public Integer next() {
-      return stack.pollFirst().getInteger();
+      return stack.poll().getInteger();
     }
 
     @Override
@@ -60,10 +60,10 @@ public class FlattenNestedListIterator341 {
       }
 
       while (!stack.isEmpty()) {
-        NestedInteger node = stack.peekFirst();
+        NestedInteger node = stack.peek();
 
         if (!node.isInteger()) {
-          List<NestedInteger> list = stack.pollFirst().getList();
+          List<NestedInteger> list = stack.poll().getList();
 
           for (int i = list.size() - 1; i >= 0; i--) {
             stack.push(list.get(i));
