@@ -1,14 +1,23 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 249. Group Shifted Strings
+ * algorithm: Hash Table
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 36.4 MB, less than 100.00% of Java online submissions
+ */
+public class GroupShiftedStrings249 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    GroupShiftedStrings249 problem = new GroupShiftedStrings249();
     problem.test();
   }
 
