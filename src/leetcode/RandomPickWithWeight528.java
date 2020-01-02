@@ -8,8 +8,8 @@ import java.util.Random;
  * algorithm: Random,
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 23 ms, faster than 92.21% of Java online submissions
- * Memory Usage: 47.7 MB, less than 62.69% of Java online submissions
+ * Runtime: 21 ms, faster than 99.96% of Java online submissions
+ * Memory Usage: 43.9 MB, less than 95.52% of Java online submissions
  * */
 public class RandomPickWithWeight528 {
 
@@ -77,7 +77,7 @@ public class RandomPickWithWeight528 {
     }
 
     public int pickIndex() {
-      int randomWeight = random.nextInt(totalWeight);
+      int target = random.nextInt(totalWeight);
 
       int l = 0;
       int r = prefix.length - 1;
@@ -85,7 +85,7 @@ public class RandomPickWithWeight528 {
       while (l < r) {
         int m = l + (r - l) / 2;
 
-        if (randomWeight - prefix[m] >= 0) {
+        if (target >= prefix[m]) {
           l = m + 1;
         } else {
           r = m;
