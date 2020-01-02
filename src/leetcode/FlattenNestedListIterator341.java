@@ -3,7 +3,9 @@ package leetcode;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
@@ -39,11 +41,67 @@ public class FlattenNestedListIterator341 {
   }
 
   public class NestedIterator implements Iterator<Integer> {
+    private Queue<Integer> queue = new LinkedList<>();
+
+    public NestedIterator(List<NestedInteger> nestedList) {
+      flatten(nestedList);
+    }
+
+    private void flatten(List<NestedInteger> nestedList) {
+      Deque<List<NestedInteger>> stack = new ArrayDeque<>();
+      Deque<Integer> indexes = new ArrayDeque<>();
+
+      stack.push(nestedList);
+      indexes.push(0);
+
+      while (!stack.isEmpty()) {
+        List<NestedInteger> list = stack.peek();
+        Integer pos = indexes.peek();
+
+        for (; pos < list.size(); pos++) {
+          NestedInteger ni = list.get(pos);
+
+          if (ni.isInteger()) {
+            queue.add(ni.getInteger());
+          } else {
+            indexes.pop();
+            indexes.push(pos);
+
+            stack.push(ni.getList());
+            indexes.push(0);
+            
+            break;
+          }
+        }
+
+        if (pos == list.size()) {
+          stack.pop();
+          indexes.pop();
+
+          if (!stack.isEmpty()) {
+            indexes.push(indexes.poll() + 1);
+          }
+        }
+      }
+    }
+
+    @Override
+    public Integer next() {
+      return queue.poll();
+    }
+
+    @Override
+    public boolean hasNext() {
+      return !queue.isEmpty();
+    }
+  }
+
+  public class NestedIteratorV2 implements Iterator<Integer> {
 
     private Deque<List<NestedInteger>> stack = new ArrayDeque<>();
     private Deque<Integer> indexes = new ArrayDeque<>();
 
-    public NestedIterator(List<NestedInteger> nestedList) {
+    public NestedIteratorV2(List<NestedInteger> nestedList) {
       stack.push(nestedList);
       indexes.push(-1);
     }
