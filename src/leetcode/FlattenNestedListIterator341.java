@@ -1,24 +1,28 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
-public class Prep {
-
-  public static void main(String[] args) {
-    Prep problem = new Prep();
-    problem.test();
-  }
+/**
+ * @author Jandos Iskakov
+ * problem: 341. Flatten Nested List Iterator
+ * algorithm: Stack, Design
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 4 ms, faster than 49.96% of Java online submissions
+ * Memory Usage: 37 MB, less than 100.00% of Java online submissions
+ */
+public class FlattenNestedListIterator341 {
 
   private void test() {
 
   }
 
   /**
-   * // This is the interface that allows for creating nested lists. // You should not implement it,
-   * or speculate about its implementation
+   * This is the interface that allows for creating nested lists.
+   * You should not implement it, or speculate about its implementation
    */
   interface NestedInteger {
 
@@ -35,6 +39,7 @@ public class Prep {
   }
 
   public class NestedIterator implements Iterator<Integer> {
+
     private Deque<List<NestedInteger>> stack = new ArrayDeque<>();
     private Deque<Integer> indexes = new ArrayDeque<>();
 
@@ -84,6 +89,5 @@ public class Prep {
       return false;
     }
   }
-
 
 }
