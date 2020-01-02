@@ -80,7 +80,7 @@ public class RandomPickWithWeight528 {
       while (l < r) {
         int m = l + (r - l) / 2;
 
-        if (target >= prefix[m]) {
+        if (prefix[m] <= target) {
           l = m + 1;
         } else {
           r = m;
