@@ -88,10 +88,10 @@ public class MatrixAntidiagonalTraverse {
         j--;
       }
 
-      if (k < m - 1) {
-        c++;
-      } else {
+      if (c == m - 1) {
         r++;
+      } else {
+        c++;
       }
 
       output.add(list);
