@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +73,7 @@ public class ReconstructItinerary332 {
       Collections.sort(adjList.get(node));
     }
 
-    List<String> output = new ArrayList<>();
+    LinkedList<String> output = new LinkedList<>();
 
     dfs("JFK", adjList, index, output, tickets.size());
 
@@ -83,29 +84,31 @@ public class ReconstructItinerary332 {
 
   private boolean dfs(String node, Map<String, List<String>> adjList,
     Map<String, Set<Integer>> index,
-    List<String> output, int n) {
-//
-    if (adjList.containsKey(node)) {
-      List<String> list = adjList.get(node);
+    LinkedList<String> output, int n) {
 
-      for (int i = 0; i < list.size(); i++) {
-        String adj = adjList.get(node).get(i);
+    if (!adjList.containsKey(node)) {
+      return output.size() == n;
+    }
 
-        if (index.get(node).contains(i)) {
-          continue;
-        }
+    List<String> list = adjList.get(node);
 
-        output.add(adj);
-        index.get(node).add(i);
+    for (int i = 0; i < list.size(); i++) {
+      String adj = adjList.get(node).get(i);
 
-        boolean valid = dfs(adj, adjList, index, output, n);
-        if (!valid) {
-          output.remove(output.size() - 1);
-          index.get(node).remove(i);
-        } else {
-          return true;
-        }
+      if (index.get(node).contains(i)) {
+        continue;
       }
+
+      output.add(adj);
+      index.get(node).add(i);
+
+      boolean valid = dfs(adj, adjList, index, output, n);
+      if (valid) {
+        return true;
+      }
+
+      output.removeLast();
+      index.get(node).remove(i);
     }
 
     return output.size() == n;

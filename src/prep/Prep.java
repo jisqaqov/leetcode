@@ -33,7 +33,7 @@ public class Prep {
       Arrays.asList("ATL", "JFK"),
       Arrays.asList("ATL", "SFO")
     );
-//
+
     System.out.println(findItinerary(tc2a));//["JFK","ATL","JFK","SFO","ATL","SFO"]
 
     List<List<String>> tc3a = Arrays.asList(
@@ -64,8 +64,13 @@ public class Prep {
     }
 
     List<String> output = new ArrayList<>();
+    List<String> bad = new ArrayList<>();
 
-    dfs("JFK", adjList, index, output, tickets.size());
+    dfs("JFK", adjList, index, output, bad, tickets.size());
+
+    for (int i = bad.size() - 1; i >= 0; i--) {
+      output.add(bad.get(i));
+    }
 
     output.add(0, "JFK");
 
@@ -74,28 +79,31 @@ public class Prep {
 
   private boolean dfs(String node, Map<String, List<String>> adjList,
     Map<String, Set<Integer>> index,
-    List<String> output, int n) {
+    List<String> output, List<String> bad, int n) {
 
-    if (adjList.containsKey(node)) {
-      List<String> list = adjList.get(node);
+    if (!adjList.containsKey(node)) {
+      return output.size() == n;
+    }
 
-      for (int i = 0; i < list.size(); i++) {
-        String adj = adjList.get(node).get(i);
+    List<String> list = adjList.get(node);
 
-        if (index.get(node).contains(i)) {
-          continue;
-        }
+    for (int i = 0; i < list.size(); i++) {
+      String adj = adjList.get(node).get(i);
 
-        output.add(adj);
-        index.get(node).add(i);
+      if (index.get(node).contains(i)) {
+        continue;
+      }
 
-        boolean valid = dfs(adj, adjList, index, output, n);
-        if (!valid) {
-          output.remove(output.size() - 1);
-          index.get(node).remove(i);
-        } else {
-          return true;
-        }
+      output.add(adj);
+      index.get(node).add(i);
+
+      boolean valid = dfs(adj, adjList, index, output, bad, n);
+      if (!valid) {
+        bad.add(output.get(output.size() - 1));
+        output.remove(output.size() - 1);
+        //index.get(node).remove(i);
+      } else {
+        return true;
       }
     }
 
