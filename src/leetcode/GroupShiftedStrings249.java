@@ -11,7 +11,7 @@ import java.util.Map;
  * algorithm: Hash Table
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Runtime: 2 ms, faster than 79.98% of Java online submissions
  * Memory Usage: 36.4 MB, less than 100.00% of Java online submissions
  */
 public class GroupShiftedStrings249 {
@@ -29,28 +29,55 @@ public class GroupShiftedStrings249 {
   public List<List<String>> groupStrings(String[] strings) {
     Map<String, List<String>> map = new HashMap<>();
 
-    for (String s : strings) {
-      String enc = encrypt(s.toCharArray());
+    for (String str : strings) {
+      StringBuilder kb = new StringBuilder();
 
-      map.putIfAbsent(enc, new ArrayList<>());
-      map.get(enc).add(s);
+      for (int i = 1; i < str.length(); i++) {
+        int offset = str.charAt(i) - str.charAt(i - 1);
+
+        if (offset < 0) {
+          offset += 26;
+        }
+
+        kb.append(offset).append(":");
+      }
+
+      String key = kb.toString();
+
+      map.putIfAbsent(key, new ArrayList<>());
+      map.get(key).add(str);
     }
 
     return new ArrayList<>(map.values());
   }
 
-  private String encrypt(char[] s) {
-    int inc = 'z' - s[0];
+  private static class V2 {
+    public List<List<String>> groupStrings(String[] strings) {
+      Map<String, List<String>> map = new HashMap<>();
 
-    StringBuilder sb = new StringBuilder();
+      for (String str : strings) {
+        String enc = encrypt(str.toCharArray());
 
-    for (int i = 0; i < s.length; i++) {
-      int index = s[i] - 'a';
-      int letter = (index + inc) % 26;
-      sb.append((char) ('a' + letter));
+        map.putIfAbsent(enc, new ArrayList<>());
+        map.get(enc).add(str);
+      }
+
+      return new ArrayList<>(map.values());
     }
 
-    return sb.toString();
+    private String encrypt(char[] s) {
+      int inc = 'z' - s[0];
+
+      StringBuilder sb = new StringBuilder();
+
+      for (int i = 0; i < s.length; i++) {
+        int index = s[i] - 'a';
+        int letter = (index + inc) % 26;
+        sb.append((char) ('a' + letter));
+      }
+
+      return sb.toString();
+    }
   }
 
 }
