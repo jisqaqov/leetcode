@@ -37,27 +37,29 @@ public class SortColors75 {
   }
 
   public void sortColors(int[] nums) {
-    int p0 = 0;
+    int p1 = 0;
     int p2 = nums.length - 1;
 
     int i = 0;
 
     while (i <= p2) {
       if (nums[i] == 0) {
-        nums[i] = nums[p0];
-        nums[p0] = 0;
-
+        swap(nums, p1, i);
         i++;
-        p0++;
+        p1++;
       } else if (nums[i] == 2) {
-        nums[i] = nums[p2];
-        nums[p2] = 2;
-
+        swap(nums, p2, i);
         p2--;
-      } else if (nums[i] == 1) {
+      } else {
         i++;
       }
     }
+  }
+
+  private void swap(int[] nums, int i, int j) {
+    int temp = nums[i];
+    nums[i] = nums[j];
+    nums[j] = temp;
   }
 
   private static class V2 {
