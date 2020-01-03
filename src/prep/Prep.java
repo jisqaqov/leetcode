@@ -1,9 +1,13 @@
 package prep;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Prep {
 
@@ -13,25 +17,89 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(encrypt("geks".toCharArray()));
-    System.out.println(encrypt("kiow".toCharArray()));
-    System.out.println(encrypt("wuai".toCharArray()));
-    System.out.println(encrypt("zxdl".toCharArray()));
-    System.out.println(encrypt("ayem".toCharArray()));
+    List<List<String>> tc1a = Arrays.asList(
+      Arrays.asList("MUC", "LHR"),
+      Arrays.asList("JFK", "MUC"),
+      Arrays.asList("SFO", "SJC"),
+      Arrays.asList("LHR", "SFO")
+    );
+
+    System.out.println(findItinerary(tc1a));//["JFK", "MUC", "LHR", "SFO", "SJC"]
+
+    List<List<String>> tc2a = Arrays.asList(
+      Arrays.asList("JFK", "SFO"),
+      Arrays.asList("JFK", "ATL"),
+      Arrays.asList("SFO", "ATL"),
+      Arrays.asList("ATL", "JFK"),
+      Arrays.asList("ATL", "SFO")
+    );
+//
+    System.out.println(findItinerary(tc2a));//["JFK","ATL","JFK","SFO","ATL","SFO"]
+
+    List<List<String>> tc3a = Arrays.asList(
+      Arrays.asList("JFK", "KUL"),
+      Arrays.asList("JFK", "NRT"),
+      Arrays.asList("NRT", "JFK")
+    );
+
+    System.out.println(findItinerary(tc3a));//["JFK","NRT","JFK","KUL"]
   }
 
-  private String encrypt(char[] s) {
-    int inc = 'z' - s[0];
+  public List<String> findItinerary(List<List<String>> tickets) {
+    Map<String, List<String>> adjList = new HashMap<>();
 
-    StringBuilder sb = new StringBuilder();
+    for (List<String> ticket : tickets) {
+      String src = ticket.get(0);
+      String dst = ticket.get(1);
 
-    for (int i = 0; i < s.length; i++) {
-      int index = s[i] - 'a';
-      int letter = (index + inc) % 26;
-      sb.append((char) ('a' + letter));
+      adjList.putIfAbsent(src, new ArrayList<>());
+      adjList.get(src).add(dst);
     }
 
-    return sb.toString();
+    Map<String, Set<Integer>> index = new HashMap<>();
+    for (String node : adjList.keySet()) {
+      index.put(node, new HashSet<>());
+
+      Collections.sort(adjList.get(node));
+    }
+
+    List<String> output = new ArrayList<>();
+
+    dfs("JFK", adjList, index, output, tickets.size());
+
+    output.add(0, "JFK");
+
+    return output;
+  }
+
+  private boolean dfs(String node, Map<String, List<String>> adjList,
+    Map<String, Set<Integer>> index,
+    List<String> output, int n) {
+
+    if (adjList.containsKey(node)) {
+      List<String> list = adjList.get(node);
+
+      for (int i = 0; i < list.size(); i++) {
+        String adj = adjList.get(node).get(i);
+
+        if (index.get(node).contains(i)) {
+          continue;
+        }
+
+        output.add(adj);
+        index.get(node).add(i);
+
+        boolean valid = dfs(adj, adjList, index, output, n);
+        if (!valid) {
+          output.remove(output.size() - 1);
+          index.get(node).remove(i);
+        } else {
+          return true;
+        }
+      }
+    }
+
+    return output.size() == n;
   }
 
 }
