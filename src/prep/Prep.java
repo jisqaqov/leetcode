@@ -8,58 +8,57 @@ public class Prep {
   }
 
   private void test() {
-    int[][] tc1a = {
-      {0, 0, 1, 0, 0},
-      {0, 0, 0, 0, 0},
-      {0, 0, 0, 1, 0},
-      {1, 1, 0, 1, 1},
-      {0, 0, 0, 0, 0}};
-
-    System.out.println(hasPath(tc1a, new int[]{0, 4}, new int[]{4, 4}));
-    System.out.println(hasPath(tc1a, new int[]{0, 4}, new int[]{3, 2}));
-    System.out.println(hasPath(tc1a, new int[]{0, 4}, new int[]{1, 2}));
+    System.out.println(backspaceCompare("ab#c", "ad#c"));//true
+    System.out.println(backspaceCompare("ab##", "c#d#"));//true
+    System.out.println(backspaceCompare("a##c", "#a#c"));//true
+    System.out.println(backspaceCompare("a#c", "b"));//false
+    System.out.println(backspaceCompare("gcf#cd##", "e#gf#ck#"));//true
+    System.out.println(backspaceCompare("gcf#cd##", "pe#gf#ck#"));//false
   }
 
-  public boolean hasPath(int[][] maze, int[] start, int[] dst) {
-    boolean[][] visited = new boolean[maze.length][maze[0].length];
+  public boolean backspaceCompare(String s, String t) {
+    int i = s.length() - 1;
+    int j = t.length() - 1;
 
-    return hasPath(start[0], start[1], 0, 0, maze, dst, visited);
-  }
+    char[] chs1 = s.toCharArray();
+    char[] chs2 = t.toCharArray();
 
-  private boolean hasPath(int row, int col, int dirRow, int dirCol,
-    int[][] grid, int[] dst, boolean[][] visited) {
+    int b1 = 0, b2 = 0;
 
-    int n = grid.length;
-    int m = grid[0].length;
-
-    if (row < 0 || col < 0 || row >= n || col >= m || grid[row][col] == 1) {
-      return false;
-    }
-
-    if (dirCol != dirRow) {
-      while (row >= 0 && col >= 0 && row < n && col < m && grid[row][col] == 0) {
-        row += dirRow;
-        col += dirCol;
+    while (i >= 0 || j >= 0) {
+      for (; i >= 0; i--) {
+        if (chs1[i] == '#') {
+          b1++;
+        } else if (b1 > 0) {
+          b1--;
+        } else {
+          break;
+        }
       }
 
-      row -= dirRow;
-      col -= dirCol;
+      for (; j >= 0; j--) {
+        if (chs2[j] == '#') {
+          b2++;
+        } else if (b2 > 0) {
+          b2--;
+        } else {
+          break;
+        }
+      }
+
+      if (i < 0 && j < 0) {
+        break;
+      }
+
+      if ((i < 0 && j >= 0) || (i >= 0 && j < 0) || chs1[i] != chs2[j]) {
+        return false;
+      }
+
+      i--;
+      j--;
     }
 
-    if (visited[row][col]) {
-      return false;
-    }
-
-    if (dst[0] == row && dst[1] == col) {
-      return true;
-    }
-
-    visited[row][col] = true;
-
-    return hasPath(row, col, -1, 0, grid, dst, visited) ||
-      hasPath(row, col, 1, 0, grid, dst, visited) ||
-      hasPath(row, col, 0, -1, grid, dst, visited) ||
-      hasPath(row, col, 0, 1, grid, dst, visited);
+    return true;
   }
 
 
