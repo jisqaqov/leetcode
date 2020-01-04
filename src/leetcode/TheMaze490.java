@@ -10,6 +10,7 @@ package leetcode;
  * Memory Usage: 45.9 MB, less than 91.67% of Java online submissions
  */
 public class TheMaze490 {
+  private static final int[][] DIRS = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
   public static void main(String[] args) {
     TheMaze490 problem = new TheMaze490();
@@ -29,46 +30,42 @@ public class TheMaze490 {
     System.out.println(hasPath(tc1a, new int[]{0, 4}, new int[]{1, 2}));
   }
 
-  public boolean hasPath(int[][] maze, int[] start, int[] dst) {
+  public boolean hasPath(int[][] maze, int[] start, int[] dest) {
     boolean[][] visited = new boolean[maze.length][maze[0].length];
 
-    return hasPath(start[0], start[1], 0, 0, maze, dst, visited);
+    return hasPath(start, maze, dest, visited);
   }
 
-  private boolean hasPath(int row, int col, int dirRow, int dirCol,
-    int[][] grid, int[] dst, boolean[][] visited) {
-
+  private boolean hasPath(int[] start, int[][] grid, int[] dest, boolean[][] visited) {
     int n = grid.length;
     int m = grid[0].length;
 
-    if (row < 0 || col < 0 || row >= n || col >= m || grid[row][col] == 1) {
+    if (visited[start[0]][start[1]]) {
       return false;
     }
 
-    if (dirCol != dirRow) {
-      while (row >= 0 && col >= 0 && row < n && col < m && grid[row][col] == 0) {
-        row += dirRow;
-        col += dirCol;
-      }
-
-      row -= dirRow;
-      col -= dirCol;
-    }
-
-    if (visited[row][col]) {
-      return false;
-    }
-
-    if (dst[0] == row && dst[1] == col) {
+    if (start[0] == dest[0] && start[1] == dest[1]) {
       return true;
     }
 
-    visited[row][col] = true;
+    visited[start[0]][start[1]] = true;
 
-    return hasPath(row, col, -1, 0, grid, dst, visited) ||
-      hasPath(row, col, 1, 0, grid, dst, visited) ||
-      hasPath(row, col, 0, -1, grid, dst, visited) ||
-      hasPath(row, col, 0, 1, grid, dst, visited);
+    for (int[] dir : DIRS) {
+      int i = start[0], j = start[1];
+
+      while (i >= 0 && j >= 0 && i < n && j < m && grid[i][j] == 0) {
+        i += dir[0];
+        j += dir[1];
+      }
+
+      int[] adj = {i - dir[0], j - dir[1]};
+
+      if (hasPath(adj, grid, dest, visited)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }
