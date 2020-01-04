@@ -15,8 +15,6 @@ import java.util.Queue;
  */
 @SuppressWarnings("DuplicatedCode")
 public class ReorganizeString767 {
-  private static final String NO_ANSWER = "";
-  private static final int K = 2;
 
   public static void main(String[] args) {
     ReorganizeString767 problem = new ReorganizeString767();
@@ -30,7 +28,8 @@ public class ReorganizeString767 {
   }
 
   public String reorganizeString(String s) {
-    PriorityQueue<Stat> pq = new PriorityQueue<>((stat1, stat2) -> stat2.number - stat1.number);
+    PriorityQueue<Stat> pq =
+      new PriorityQueue<>((stat1, stat2) -> stat2.number - stat1.number);
 
     Map<Character, Integer> map = new HashMap<>();
     for (int i = 0; i < s.length(); i++) {
@@ -44,35 +43,36 @@ public class ReorganizeString767 {
 
     Queue<Stat> queue = new LinkedList<>();
 
-    StringBuilder sb = new StringBuilder();
+    char[] output = new char[s.length()];
 
     for (int i = 0; i < s.length(); i++) {
-      while (!queue.isEmpty() && i - queue.peek().index >= K) {
+      if (!queue.isEmpty() && i - queue.peek().index >= 2) {
         pq.add(queue.poll());
       }
 
       if (pq.isEmpty()) {
-        return NO_ANSWER;
+        return "";
       }
 
       Stat stat = pq.poll();
 
-      sb.append(stat.ch);
+      output[i] = stat.ch;
 
       stat.number--;
+
       if (stat.number > 0) {
         stat.index = i;
         queue.add(stat);
       }
     }
 
-    return sb.toString();
+    return new String(output);
   }
 
   private static class Stat {
-    char ch;
-    int index;
-    int number;
+    private char ch;
+    private int index;
+    private int number;
 
     Stat(char ch, int index, int number) {
       this.ch = ch;
