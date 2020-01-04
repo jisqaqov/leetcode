@@ -59,12 +59,10 @@ public class TheMaze490 {
 
         int[] adj = {i - dir[0], j - dir[1]};
 
-        if (visited[adj[0]][adj[1]]) {
-          continue;
+        if (!visited[adj[0]][adj[1]]) {
+          queue.add(adj);
+          visited[adj[0]][adj[1]] = true;
         }
-
-        queue.add(adj);
-        visited[adj[0]][adj[1]] = true;
       }
     }
 
