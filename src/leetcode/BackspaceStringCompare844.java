@@ -29,74 +29,66 @@ public class BackspaceStringCompare844 {
   }
 
   public boolean backspaceCompare(String s, String t) {
-    return build(s).equals(build(t));
-  }
+    char[] chs1 = s.toCharArray();
+    char[] chs2 = t.toCharArray();
 
-  private String build(String s) {
-    char[] chs = s.toCharArray();
+    int i = chs1.length - 1;
+    int j = chs2.length - 1;
 
-    Deque<Character> stack = new ArrayDeque<>();
+    int b1 = 0;
+    int b2 = 0;
 
-    for (char ch : chs) {
-      if (ch != '#') {
-        stack.push(ch);
-      } else if (!stack.isEmpty()) {
-        stack.pop();
-      }
-    }
-
-    StringBuilder sb = new StringBuilder();
-    while (!stack.isEmpty()) {
-      sb.append(stack.poll());
-    }
-
-    return sb.reverse().toString();
-  }
-
-  private static class V2 {
-    public boolean backspaceCompare(String s, String t) {
-      int i = s.length() - 1;
-      int j = t.length() - 1;
-
-      char[] chs1 = s.toCharArray();
-      char[] chs2 = t.toCharArray();
-
-      int b1 = 0, b2 = 0;
-
-      while (i >= 0 || j >= 0) {
-        for (; i >= 0; i--) {
-          if (chs1[i] == '#') {
-            b1++;
-          } else if (b1 > 0) {
-            b1--;
-          } else {
-            break;
-          }
-        }
-
-        for (; j >= 0; j--) {
-          if (chs2[j] == '#') {
-            b2++;
-          } else if (b2 > 0) {
-            b2--;
-          } else {
-            break;
-          }
-        }
-
-        if (i < 0 && j < 0) {
-          break;
-        }
-
-        if ((i < 0 && j >= 0) || (i >= 0 && j < 0) || chs1[i] != chs2[j]) {
+    while (i >= 0 || j >= 0) {
+      if (i >= 0 && chs1[i] == '#') {
+        i--;
+        b1++;
+      } else if (i >= 0 && b1 > 0) {
+        i--;
+        b1--;
+      } else if (j >= 0 && chs2[j] == '#') {
+        j--;
+        b2++;
+      } else if (j >= 0 && b2 > 0) {
+        j--;
+        b2--;
+      } else {
+        if (i < 0 || j < 0 || chs1[i] != chs2[j]) {
           return false;
         }
 
         i--;
         j--;
       }
+    }
 
-      return true;
+    return true;
+  }
+
+  private static class V2 {
+
+    public boolean backspaceCompare(String s, String t) {
+      return build(s).equals(build(t));
+    }
+
+    private String build(String s) {
+      char[] chs = s.toCharArray();
+
+      Deque<Character> stack = new ArrayDeque<>();
+
+      for (char ch : chs) {
+        if (ch != '#') {
+          stack.push(ch);
+        } else if (!stack.isEmpty()) {
+          stack.pop();
+        }
+      }
+
+      StringBuilder sb = new StringBuilder();
+      while (!stack.isEmpty()) {
+        sb.append(stack.poll());
+      }
+
+      return sb.reverse().toString();
     }
   }
 
