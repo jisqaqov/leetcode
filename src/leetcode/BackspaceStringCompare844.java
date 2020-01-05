@@ -61,34 +61,29 @@ public class BackspaceStringCompare844 {
       int i = chs1.length - 1;
       int j = chs2.length - 1;
 
-      int b1 = 0, b2 = 0;
-
       while (i >= 0 || j >= 0) {
-        for (; i >= 0; i--) {
+        for (int b = 0; i >= 0; i--) {
           if (chs1[i] == '#') {
-            b1++;
-          } else if (b1 > 0) {
-            b1--;
+            b++;
+          } else if (b > 0) {
+            b--;
           } else {
             break;
           }
         }
 
-        for (; j >= 0; j--) {
+        for (int b = 0; j >= 0; j--) {
           if (chs2[j] == '#') {
-            b2++;
-          } else if (b2 > 0) {
-            b2--;
+            b++;
+          } else if (b > 0) {
+            b--;
           } else {
             break;
           }
         }
 
-        if (i < 0 && j < 0) {
-          return true;
-        }
-
-        if (i < 0 || j < 0 || chs1[i] != chs2[j]) {
+        if ((i >= 0 && j >= 0 && chs1[i] != chs2[j]) ||
+            (i >= 0 && j < 0) || (i < 0 && j >= 0)) {
           return false;
         }
 
@@ -98,46 +93,6 @@ public class BackspaceStringCompare844 {
 
       return true;
     }
-  }
-
-  private static class V3 {
-
-    public boolean backspaceCompare(String s, String t) {
-      char[] chs1 = s.toCharArray();
-      char[] chs2 = t.toCharArray();
-
-      int i = chs1.length - 1;
-      int j = chs2.length - 1;
-
-      int b1 = 0;
-      int b2 = 0;
-
-      while (i >= 0 || j >= 0) {
-        if (i >= 0 && chs1[i] == '#') {
-          i--;
-          b1++;
-        } else if (i >= 0 && b1 > 0) {
-          i--;
-          b1--;
-        } else if (j >= 0 && chs2[j] == '#') {
-          j--;
-          b2++;
-        } else if (j >= 0 && b2 > 0) {
-          j--;
-          b2--;
-        } else {
-          if (i < 0 || j < 0 || chs1[i] != chs2[j]) {
-            return false;
-          }
-
-          i--;
-          j--;
-        }
-      }
-
-      return true;
-    }
-
   }
 
 }
