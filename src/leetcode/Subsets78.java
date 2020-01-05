@@ -48,7 +48,7 @@ public class Subsets78 {
       List<List<Integer>> solution = new ArrayList<>();
 
       for (int l = 0; l <= nums.length; l++) {
-        subsets(nums, 0, 0, l, solution, new LinkedList<>());
+        subsets(nums, 0, 0, l, solution, new ArrayList<>());
       }
 
       return solution;
