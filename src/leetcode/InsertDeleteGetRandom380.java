@@ -34,53 +34,53 @@ public class InsertDeleteGetRandom380 {
   }
 
   class RandomizedSet {
-    private List<Integer> valueList;
-    private Map<Integer, Integer> valueMap;
+    private List<Integer> list;
+    private Map<Integer, Integer> map;
     private Random random;
 
     /** Initialize your data structure here. */
     public RandomizedSet() {
       random = new Random();
-      valueMap = new HashMap<>();
-      valueList = new ArrayList<>();
+      map = new HashMap<>();
+      list = new ArrayList<>();
     }
 
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
-      if (valueMap.containsKey(val)) {
+      if (map.containsKey(val)) {
         return false;
       }
 
-      valueList.add(val);
-      valueMap.put(val, valueList.size() - 1);
+      list.add(val);
+      map.put(val, list.size() - 1);
 
       return true;
     }
 
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
-      if (!valueMap.containsKey(val)) {
+      if (!map.containsKey(val)) {
         return false;
       }
 
-      int index = valueMap.get(val);
+      int index = map.get(val);
 
-      if (index < valueList.size() - 1) {
-        int lastVal = valueList.get(valueList.size() - 1);
+      if (index < list.size() - 1) {
+        int lastVal = list.get(list.size() - 1);
 
-        valueMap.put(lastVal, index);
-        valueList.set(index, lastVal);
+        map.put(lastVal, index);
+        list.set(index, lastVal);
       }
 
-      valueMap.remove(val);
-      valueList.remove(valueList.size() - 1);
+      map.remove(val);
+      list.remove(list.size() - 1);
 
       return true;
     }
 
     /** Get a random element from the set. */
     public int getRandom() {
-      return valueList.get(random.nextInt(valueList.size()));
+      return list.get(random.nextInt(list.size()));
     }
   }
 
