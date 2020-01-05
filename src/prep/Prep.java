@@ -1,7 +1,10 @@
 package prep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class Prep {
 
@@ -11,26 +14,68 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(subsets(new int[] {1, 2, 3}));
+    RandomizedSet randomizedSet = new RandomizedSet();
+    System.out.println(randomizedSet.insert(1));
+    System.out.println(randomizedSet.remove(2));
+    System.out.println(randomizedSet.insert(2));
+    System.out.println(randomizedSet.getRandom());
+    System.out.println(randomizedSet.remove(1));
+    System.out.println(randomizedSet.insert(2));
+    System.out.println(randomizedSet.getRandom());
   }
 
-  public List<List<Integer>> subsets(int[] nums) {
-    List<List<Integer>> output = new ArrayList<>();
-    subsets(nums, 0, new ArrayList<>(), output);
-    return output;
-  }
+  class RandomizedSet {
+    private List<Integer> valueList;
+    private Map<Integer, Integer> valueMap;
+    private Random random;
 
-  private void subsets(int[] nums, int index, List<Integer> list, List<List<Integer>> output) {
-    output.add(new ArrayList<>(list));
+    /** Initialize your data structure here. */
+    public RandomizedSet() {
+      random = new Random();
+      valueMap = new HashMap<>();
+      valueList = new ArrayList<>();
+    }
 
-    for (int i = index; i < nums.length; i++) {
-      list.add(nums[i]);
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
+    public boolean insert(int val) {
+      if (valueMap.containsKey(val)) {
+        return false;
+      }
 
-      subsets(nums, i + 1, list, output);
+      valueList.add(val);
+      valueMap.put(val, valueList.size() - 1);
 
-      list.remove(list.size() - 1);
+      return true;
+    }
+
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
+    public boolean remove(int val) {
+      if (!valueMap.containsKey(val)) {
+        return false;
+      }
+
+      int index = valueMap.get(val);
+
+      if (index < valueList.size() - 1) {
+        int lastVal = valueList.get(valueList.size() - 1);
+
+        valueMap.put(lastVal, index);
+        valueList.set(index, lastVal);
+      }
+
+      valueMap.remove(val);
+      valueList.remove(valueList.size() - 1);
+
+      return true;
+    }
+
+    /** Get a random element from the set. */
+    public int getRandom() {
+      return valueList.get(random.nextInt(valueList.size()));
     }
   }
+
+
 
 
 }

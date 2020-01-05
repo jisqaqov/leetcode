@@ -12,8 +12,8 @@ import java.util.Random;
  * algorithm: Hash Table
  * time complexity: O(1)
  * space complexity: O(N)
- * Runtime: 53 ms, faster than 81.50% of Java online submissions for Insert Delete GetRandom O(1).
- * Memory Usage: 44.9 MB, less than 84.00% of Java online submissions for Insert Delete GetRandom O(1).
+ * Runtime: 11 ms, faster than 90.25% of Java online submissions
+ * Memory Usage: 46 MB, less than 68.00% of Java online submissions
  */
 public class InsertDeleteGetRandom380 {
 
@@ -23,79 +23,64 @@ public class InsertDeleteGetRandom380 {
   }
 
   private void test() {
-    RandomizedSet randomSet = new RandomizedSet();
-    System.out.println(randomSet.insert(1));
-    System.out.println(randomSet.insert(2));
-    System.out.println(randomSet.insert(3));
-    System.out.println(randomSet.insert(4));
-    System.out.println(randomSet.insert(5));
-    System.out.println(randomSet.insert(6));
-    System.out.println(randomSet.getRandom());
-    System.out.println(randomSet.remove(2));
-    System.out.println(randomSet.getRandom());
-    System.out.println(randomSet.getRandom());
-    System.out.println(randomSet.remove(1));
-    System.out.println(randomSet.remove(3));
-    System.out.println(randomSet.remove(5));
-    System.out.println(randomSet.getRandom());
+    RandomizedSet randomizedSet = new RandomizedSet();
+    System.out.println(randomizedSet.insert(1));
+    System.out.println(randomizedSet.remove(2));
+    System.out.println(randomizedSet.insert(2));
+    System.out.println(randomizedSet.getRandom());
+    System.out.println(randomizedSet.remove(1));
+    System.out.println(randomizedSet.insert(2));
+    System.out.println(randomizedSet.getRandom());
   }
 
   class RandomizedSet {
+    private List<Integer> valueList;
+    private Map<Integer, Integer> valueMap;
+    private Random random;
 
-    Map<Integer, Integer> valueMap;
-    List<Integer> indexes;
-    private Random random = new Random();
-
-    /**
-     * Initialize your data structure here.
-     */
+    /** Initialize your data structure here. */
     public RandomizedSet() {
+      random = new Random();
       valueMap = new HashMap<>();
-      indexes = new ArrayList<>();
+      valueList = new ArrayList<>();
     }
 
-    /**
-     * Inserts a value to the set. Returns true if the set did not already contain the specified
-     * element.
-     */
+    /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
       if (valueMap.containsKey(val)) {
         return false;
       }
 
-      valueMap.put(val, indexes.size());
-      indexes.add(val);
+      valueList.add(val);
+      valueMap.put(val, valueList.size() - 1);
 
       return true;
     }
 
-    /**
-     * Removes a value from the set. Returns true if the set contained the specified element.
-     */
+    /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
       if (!valueMap.containsKey(val)) {
         return false;
       }
 
-      int valIndex = valueMap.get(val);
-      if (valIndex < indexes.size() - 1) {
-        int valueLast = indexes.get(indexes.size() - 1);
+      int index = valueMap.get(val);
 
-        indexes.set(valIndex, valueLast);
-        valueMap.put(valueLast, valIndex);
+      if (index < valueList.size() - 1) {
+        int lastVal = valueList.get(valueList.size() - 1);
+
+        valueMap.put(lastVal, index);
+        valueList.set(index, lastVal);
       }
 
       valueMap.remove(val);
-      indexes.remove(indexes.size() - 1);
+      valueList.remove(valueList.size() - 1);
 
       return true;
     }
 
-    /**
-     * Get a random element from the set.
-     */
+    /** Get a random element from the set. */
     public int getRandom() {
-      return indexes.get(random.nextInt(indexes.size()));
+      return valueList.get(random.nextInt(valueList.size()));
     }
   }
 
