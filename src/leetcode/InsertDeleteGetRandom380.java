@@ -65,12 +65,10 @@ public class InsertDeleteGetRandom380 {
 
       int index = map.get(val);
 
-      if (index < list.size() - 1) {
-        int lastVal = list.get(list.size() - 1);
+      int lastVal = list.get(list.size() - 1);
 
-        map.put(lastVal, index);
-        list.set(index, lastVal);
-      }
+      map.put(lastVal, index);
+      list.set(index, lastVal);
 
       map.remove(val);
       list.remove(list.size() - 1);
