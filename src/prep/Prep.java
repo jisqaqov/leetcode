@@ -1,5 +1,8 @@
 package prep;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -8,57 +11,25 @@ public class Prep {
   }
 
   private void test() {
-    System.out.println(backspaceCompare("ab#c", "ad#c"));//true
-    System.out.println(backspaceCompare("ab##", "c#d#"));//true
-    System.out.println(backspaceCompare("a##c", "#a#c"));//true
-    System.out.println(backspaceCompare("a#c", "b"));//false
-    System.out.println(backspaceCompare("gcf#cd##", "e#gf#ck#"));//true
-    System.out.println(backspaceCompare("gcf#cd##", "pe#gf#ck#"));//false
+    System.out.println(subsets(new int[] {1, 2, 3}));
   }
 
-  public boolean backspaceCompare(String s, String t) {
-    int i = s.length() - 1;
-    int j = t.length() - 1;
+  public List<List<Integer>> subsets(int[] nums) {
+    List<List<Integer>> output = new ArrayList<>();
+    subsets(nums, 0, new ArrayList<>(), output);
+    return output;
+  }
 
-    char[] chs1 = s.toCharArray();
-    char[] chs2 = t.toCharArray();
+  private void subsets(int[] nums, int index, List<Integer> list, List<List<Integer>> output) {
+    output.add(new ArrayList<>(list));
 
-    int b1 = 0, b2 = 0;
+    for (int i = index; i < nums.length; i++) {
+      list.add(nums[i]);
 
-    while (i >= 0 || j >= 0) {
-      for (; i >= 0; i--) {
-        if (chs1[i] == '#') {
-          b1++;
-        } else if (b1 > 0) {
-          b1--;
-        } else {
-          break;
-        }
-      }
+      subsets(nums, i + 1, list, output);
 
-      for (; j >= 0; j--) {
-        if (chs2[j] == '#') {
-          b2++;
-        } else if (b2 > 0) {
-          b2--;
-        } else {
-          break;
-        }
-      }
-
-      if (i < 0 && j < 0) {
-        break;
-      }
-
-      if ((i < 0 && j >= 0) || (i >= 0 && j < 0) || chs1[i] != chs2[j]) {
-        return false;
-      }
-
-      i--;
-      j--;
+      list.remove(list.size() - 1);
     }
-
-    return true;
   }
 
 
