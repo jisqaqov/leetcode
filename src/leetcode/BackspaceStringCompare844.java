@@ -55,11 +55,11 @@ public class BackspaceStringCompare844 {
 
   private static class V2 {
     public boolean backspaceCompare(String s, String t) {
-      int i = s.length() - 1;
-      int j = t.length() - 1;
-
       char[] chs1 = s.toCharArray();
       char[] chs2 = t.toCharArray();
+
+      int i = chs1.length - 1;
+      int j = chs2.length - 1;
 
       int b1 = 0, b2 = 0;
 
@@ -85,10 +85,10 @@ public class BackspaceStringCompare844 {
         }
 
         if (i < 0 && j < 0) {
-          break;
+          return true;
         }
 
-        if ((i < 0 && j >= 0) || (i >= 0 && j < 0) || chs1[i] != chs2[j]) {
+        if (i < 0 || j < 0 || chs1[i] != chs2[j]) {
           return false;
         }
 
