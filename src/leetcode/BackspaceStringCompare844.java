@@ -87,4 +87,46 @@ public class BackspaceStringCompare844 {
     }
   }
 
+  private static class V3 {
+    public boolean backspaceCompare(String s, String t) {
+      char[] chs1 = s.toCharArray();
+      char[] chs2 = t.toCharArray();
+
+      int i = chs1.length - 1;
+      int j = chs2.length - 1;
+
+      while (i >= 0 || j >= 0) {
+        for (int b = 0; i >= 0; i--) {
+          if (chs1[i] == '#') {
+            b++;
+          } else if (b > 0) {
+            b--;
+          } else {
+            break;
+          }
+        }
+
+        for (int b = 0; j >= 0; j--) {
+          if (chs2[j] == '#') {
+            b++;
+          } else if (b > 0) {
+            b--;
+          } else {
+            break;
+          }
+        }
+
+        if ((i >= 0 && j >= 0 && chs1[i] != chs2[j]) ||
+          (i >= 0 && j < 0) || (i < 0 && j >= 0)) {
+          return false;
+        }
+
+        i--;
+        j--;
+      }
+
+      return true;
+    }
+  }
+
 }
