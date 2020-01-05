@@ -62,24 +62,16 @@ public class BackspaceStringCompare844 {
       int j = chs2.length - 1;
 
       while (i >= 0 || j >= 0) {
-        for (int b = 0; i >= 0; i--) {
-          if (chs1[i] == '#') {
-            b++;
-          } else if (b > 0) {
-            b--;
-          } else {
-            break;
-          }
+        int b1 = 0;
+        while (i >= 0 && (chs1[i] == '#' || b1 > 0)) {
+          b1 += chs1[i] == '#'? 1: -1;
+          i--;
         }
 
-        for (int b = 0; j >= 0; j--) {
-          if (chs2[j] == '#') {
-            b++;
-          } else if (b > 0) {
-            b--;
-          } else {
-            break;
-          }
+        int b2 = 0;
+        while (j >= 0 && (chs2[j] == '#' || b2 > 0)) {
+          b2 += chs1[j] == '#'? 1: -1;
+          j--;
         }
 
         if ((i >= 0 && j >= 0 && chs1[i] != chs2[j]) ||
