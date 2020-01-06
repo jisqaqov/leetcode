@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 74. Search a 2D Matrix
+ * algorithm: Binary Search
+ * time complexity: O(log(N*M))
+ * space complexity: O(1)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 42.3 MB, less than 6.06% of Java online submissions
+ */
+public class Search2DMatrix74 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    Search2DMatrix74 problem = new Search2DMatrix74();
     problem.test();
   }
 
@@ -43,6 +52,5 @@ public class Prep {
 
     return false;
   }
-
 
 }
