@@ -41,12 +41,12 @@ public class Search2DMatrix74 {
       int i = mid / m;
       int j = mid % m;
 
-      if (matrix[i][j] == target) {
-        return true;
-      } else if (matrix[i][j] < target) {
+      if (matrix[i][j] < target) {
         l = mid + 1;
-      } else {
+      } else if (matrix[i][j] > target) {
         r = mid - 1;
+      } else {
+        return true;
       }
     }
 
