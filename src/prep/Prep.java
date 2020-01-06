@@ -8,12 +8,17 @@ public class Prep {
   }
 
   private void test() {
-    int[][] tc1a = {{1, 3, 5, 7},
-      {10, 11, 16, 20},
-      {23, 30, 34, 50}};
+    int[][] tc1a = {
+      {1, 4, 7, 11, 15},
+      {2, 5, 8, 12, 19},
+      {3, 6, 9, 16, 22},
+      {10, 13, 14, 17, 24},
+      {18, 21, 23, 26, 30}
+    };
 
-    System.out.println(searchMatrix(tc1a, 3));
-    System.out.println(searchMatrix(tc1a, 13));
+    System.out.println(searchMatrix(tc1a, 5));
+    System.out.println(searchMatrix(tc1a, 20));
+    System.out.println(searchMatrix(tc1a, 14));
   }
 
   public boolean searchMatrix(int[][] matrix, int target) {
@@ -24,20 +29,15 @@ public class Prep {
     int n = matrix.length;
     int m = matrix[0].length;
 
-    int l = 0, r = n * m - 1;
+    int i = 0, j = m - 1;
 
-    while (l <= r) {
-      int mid = l + (r - l) / 2;
-
-      int i = mid / m;
-      int j = mid % m;
-
+    while (i < n && j >= 0) {
       if (matrix[i][j] == target) {
         return true;
       } else if (matrix[i][j] < target) {
-        l = mid + 1;
+        i++;
       } else {
-        r = mid - 1;
+        j--;
       }
     }
 
