@@ -32,26 +32,22 @@ public class CarPooling1094 {
   public boolean carPooling(int[][] trips, int capacity) {
     int n = trips.length;
 
-    int[][] start = new int[n][2];
     int[][] end = new int[n][2];
 
     for (int i = 0; i < n; i++) {
-      start[i][0] = trips[i][1];
-      start[i][1] = trips[i][0];
-
       end[i][0] = trips[i][2];
       end[i][1] = trips[i][0];
     }
 
-    Arrays.sort(start, Comparator.comparingInt(a -> a[0]));
+    Arrays.sort(trips, Comparator.comparingInt(a -> a[1]));
     Arrays.sort(end, Comparator.comparingInt(a -> a[0]));
 
     int i = 0;
     int j = 0;
 
     while (i < n && j < n) {
-      if (start[i][0] < end[j][0]) {
-        capacity -= start[i][1];
+      if (trips[i][1] < end[j][0]) {
+        capacity -= trips[i][0];
         i++;
       } else {
         capacity += end[j][1];
