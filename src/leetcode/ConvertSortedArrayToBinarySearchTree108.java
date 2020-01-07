@@ -1,9 +1,19 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 108. Convert Sorted Array to Binary Search Tree
+ * algorithm: Divide and Conquer
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 36.9 MB, less than 100.00% of Java online submissions
+ */
+public class ConvertSortedArrayToBinarySearchTree108 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ConvertSortedArrayToBinarySearchTree108 problem =
+      new ConvertSortedArrayToBinarySearchTree108();
     problem.test();
   }
 
