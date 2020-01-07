@@ -88,37 +88,47 @@ public class TopNBuzzwords {
 
   private List<String> topToys(int numToys, int topToys, List<String> toys, int numQuotes,
     List<String> quotes) {
-    Map<String, Integer> freq = new HashMap<>();
+    Map<String, int[]> freq = new HashMap<>();
     for (String toy : toys) {
-      freq.put(toy, 0);
+      freq.put(toy, new int[] {0, 0});
     }
 
     for (String quote : quotes) {
       Set<String> used = new HashSet<>();
 
-      String[] words = quote.split(" ");
+      String[] words = quote.split("\\W+");
       for (String word : words) {
         String wordLc = word.toLowerCase();
-        if (used.contains(wordLc) || !freq.containsKey(wordLc)) {
+        if (!freq.containsKey(wordLc)) {
           continue;
         }
 
+        int[] nums = freq.get(wordLc);
+
+        nums[0]++;
+        if (!used.contains(wordLc)) {
+          nums[1]++;
+        }
+
         used.add(wordLc);
-        freq.put(wordLc, freq.get(wordLc) + 1);
       }
     }
 
     PriorityQueue<String> pq = new PriorityQueue<>((t1, t2) -> {
-      if (freq.get(t1).compareTo(freq.get(t2)) == 0) {
-        return t2.compareTo(t1);
+      if (freq.get(t1)[0] == freq.get(t2)[0]) {
+        if (freq.get(t1)[1] == freq.get(t2)[1]) {
+          return t2.compareTo(t1);
+        }
+
+        return freq.get(t1)[1] - freq.get(t2)[1];
       }
 
-      return freq.get(t1) - freq.get(t2);
+      return freq.get(t1)[0] - freq.get(t2)[0];
     });
 
     if (topToys > numToys) {
       for (String toy : freq.keySet()) {
-        if (freq.get(toy) > 0) {
+        if (freq.get(toy)[0] > 0) {
           pq.add(toy);
         }
       }
