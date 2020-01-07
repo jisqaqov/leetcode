@@ -1,7 +1,6 @@
 package amazon;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -43,6 +42,9 @@ import java.util.Set;
  * number of toys, return the names of only the toys mentioned in the quotes. If toys are mentioned
  * an equal number of times in quotes, sort alphabetically.
  *
+ * If the frequency is the same, then we need to sort based on the occurrences of each toy in different quotes.
+ * Ex: If both "Elmo" and "Elsa" are occurring 2 times, then we need to sort like this: If Elmo appears in more quotes than Elsa does, then Elma gets the highest priority. If both occur the same number of times in different quotes given, then we need to sort them alphabetically.
+ *
  * Example 1:
  *
  * Input:
@@ -75,22 +77,22 @@ public class TopNBuzzwords {
 
   private void test() {
     System.out.println(
-      topToys(6, 2, Arrays.asList("elmo", "elsa", "legos", "drone", "tablet", "warcraft"), 6,
-        Arrays.asList(
+      topToys(6, 5, new String[]{"elmo", "elsa", "legos", "drone", "tablet", "warcraft"}, 6,
+        new String[]{
           "Elmo is the hottest of the season! Elmo will be on every kid's wishlist!",
           "The new Elmo dolls are super high quality",
           "Expect the Elsa dolls to be very popular this year, Elsa!",
           "Elsa and Elmo are the toys I'll be buying for my kids, Elsa is good",
           "For parents of older kids, look into buying them a drone",
           "Warcraft is slowly rising in popularity ahead of the holiday season"
-        )));
+        }));
   }
 
-  private List<String> topToys(int numToys, int topToys, List<String> toys, int numQuotes,
-    List<String> quotes) {
+  public List<String> topToys(int numToys, int topToys, String[] toys, int numQuotes,
+    String[] quotes) {
     Map<String, int[]> freq = new HashMap<>();
     for (String toy : toys) {
-      freq.put(toy, new int[] {0, 0});
+      freq.put(toy, new int[]{0, 0});
     }
 
     for (String quote : quotes) {
@@ -115,15 +117,15 @@ public class TopNBuzzwords {
     }
 
     PriorityQueue<String> pq = new PriorityQueue<>((t1, t2) -> {
-      if (freq.get(t1)[0] == freq.get(t2)[0]) {
-        if (freq.get(t1)[1] == freq.get(t2)[1]) {
-          return t2.compareTo(t1);
-        }
+      if (freq.get(t1)[0] != freq.get(t2)[0]) {
+        return freq.get(t1)[0] - freq.get(t2)[0];
+      }
 
+      if (freq.get(t1)[1] != freq.get(t2)[1]) {
         return freq.get(t1)[1] - freq.get(t2)[1];
       }
 
-      return freq.get(t1)[0] - freq.get(t2)[0];
+      return t2.compareTo(t1);
     });
 
     if (topToys > numToys) {
