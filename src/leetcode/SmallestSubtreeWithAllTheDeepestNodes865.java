@@ -1,14 +1,22 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 865. Smallest Subtree with all the Deepest Nodes
+ * algorithm: Tree, BFS, DFS
+ * time complexity: O(N)
+ * space complexity: O(N)
+ */
+public class SmallestSubtreeWithAllTheDeepestNodes865 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SmallestSubtreeWithAllTheDeepestNodes865 problem =
+      new SmallestSubtreeWithAllTheDeepestNodes865();
     problem.test();
   }
 
