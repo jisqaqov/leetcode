@@ -8,8 +8,12 @@ import java.util.TreeMap;
  * @author Jandos Iskakov
  * problem: 1146. Snapshot Array
  * algorithm: Array
- * time complexity: O(N)
- * space complexity: O(N)
+ * time complexity:
+ *    SnapshotArray(n) - O(N)
+ *    set(index, val) - log(snaps)
+ *    get(index, val) - log(snaps)
+ *    snap() - O(1)
+ * space complexity: O(N * snaps)
  * Runtime: 54 ms, faster than 81.77% of Java online submissions
  * Memory Usage: 95.3 MB, less than 100.00% of Java online submissions
  */
@@ -55,60 +59,6 @@ public class SnapshotArray1146 {
 
     public int get(int index, int snap_id) {
       return list.get(index).floorEntry(snap_id).getValue();
-    }
-
-  }
-
-  class SnapshotArrayV2 {
-
-    private int snapIdx;
-    private List<List<int[]>> list;
-
-    public SnapshotArrayV2(int length) {
-      snapIdx = 0;
-
-      list = new ArrayList<>(length);
-      for (int i = 0; i < length; i++) {
-        list.add(new ArrayList<>());
-        list.get(i).add(0, new int[] {0, 0});
-      }
-    }
-
-    public void set(int index, int val) {
-      List<int[]> snaps = list.get(index);
-
-      int[] snap = snaps.get(snaps.size() - 1);
-      if (snap[0] < snapIdx) {
-        snaps.add(new int[] {snapIdx, val});
-      } else {
-        snap[1] = val;
-      }
-    }
-
-    public int snap() {
-      return snapIdx++;
-    }
-
-    public int get(int index, int snap_id) {
-      List<int[]> vals = list.get(index);
-
-      int val = 0;
-      int l = 0, r = vals.size() - 1;
-
-      while (l <= r) {
-        int mid = l + (r - l) / 2;
-
-        int[] snap = vals.get(mid);
-        if (snap[0] <= snap_id) {
-          val = snap[1];
-
-          l = mid + 1;
-        } else {
-          r = mid - 1;
-        }
-      }
-
-      return val;
     }
 
   }
