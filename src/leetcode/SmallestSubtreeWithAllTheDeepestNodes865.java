@@ -102,16 +102,16 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
     Object[] left = helper(root.left);
     Object[] right = helper(root.right);
 
-    int lh = (int) left[0];
-    int lr = (int) right[0];
+    int lh = (int) left[0] + 1;
+    int lr = (int) right[0] + 1;
 
     if (lh == lr) {
-      return new Object[] {lh + 1, root};
+      return new Object[] {lh, root};
     } else if (lh > lr) {
-      return new Object[] {lh + 1, left[1]};
+      return new Object[] {lh, left[1]};
     }
 
-    return new Object[] {lr + 1, right[1]};
+    return new Object[] {lr, right[1]};
   }
 
   private static class V2 {
