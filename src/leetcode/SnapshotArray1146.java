@@ -2,6 +2,7 @@ package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 /**
  * @author Jandos Iskakov
@@ -32,9 +33,38 @@ public class SnapshotArray1146 {
   class SnapshotArray {
 
     private int snapIdx;
-    private List<List<int[]>> list;
+    private List<TreeMap<Integer, Integer>> list;
 
     public SnapshotArray(int length) {
+      snapIdx = 0;
+
+      list = new ArrayList<>(length);
+      for (int i = 0; i < length; i++) {
+        list.add(new TreeMap<>());
+        list.get(i).put(0, 0);
+      }
+    }
+
+    public void set(int index, int val) {
+      list.get(index).put(snapIdx, val);
+    }
+
+    public int snap() {
+      return snapIdx++;
+    }
+
+    public int get(int index, int snap_id) {
+      return list.get(index).floorEntry(snap_id).getValue();
+    }
+
+  }
+
+  class SnapshotArrayV2 {
+
+    private int snapIdx;
+    private List<List<int[]>> list;
+
+    public SnapshotArrayV2(int length) {
       snapIdx = 0;
 
       list = new ArrayList<>(length);
