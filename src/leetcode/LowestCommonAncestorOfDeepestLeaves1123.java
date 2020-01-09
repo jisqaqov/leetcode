@@ -81,27 +81,61 @@ public class LowestCommonAncestorOfDeepestLeaves1123 {
   }
 
   public TreeNode lcaDeepestLeaves(TreeNode root) {
-    return (TreeNode) helper(root, 0)[0];
+    return helper(root,  0, maxDepth(root) - 1);
   }
 
-  private Object[] helper(TreeNode root, int depth) {
-    if (root == null) {
-      return new Object[] {root, depth};
+  private TreeNode helper(TreeNode root, int depth, int maxDepth) {
+    if (depth == maxDepth || root == null) {
+      return root;
     }
 
-    Object[] left = helper(root.left, depth + 1);
-    Object[] right = helper(root.right, depth + 1);
+    TreeNode left = helper(root.left, depth + 1, maxDepth);
+    TreeNode right = helper(root.right, depth + 1, maxDepth);
 
-    int lh = (int) left[1];
-    int lr = (int) right[1];
-
-    if (lh == lr) {
-      return new Object[] {root, lh};
-    } else if (lh > lr) {
+    if (left != null && right != null) {
+      return root;
+    } else if (left != null) {
       return left;
     }
 
     return right;
+  }
+
+  private int maxDepth(TreeNode root) {
+    if (root == null) {
+      return 0;
+    }
+
+    int lh = maxDepth(root.left);
+    int lr = maxDepth(root.right);
+
+    return Math.max(lh, lr) + 1;
+  }
+
+  private static class V3 {
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+      return (TreeNode) helper(root, 0)[0];
+    }
+
+    private Object[] helper(TreeNode root, int depth) {
+      if (root == null) {
+        return new Object[] {root, depth};
+      }
+
+      Object[] left = helper(root.left, depth + 1);
+      Object[] right = helper(root.right, depth + 1);
+
+      int lh = (int) left[1];
+      int lr = (int) right[1];
+
+      if (lh == lr) {
+        return new Object[] {root, lh};
+      } else if (lh > lr) {
+        return left;
+      }
+
+      return right;
+    }
   }
 
   private static class V2 {
