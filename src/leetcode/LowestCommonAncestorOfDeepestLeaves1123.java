@@ -1,5 +1,14 @@
 package leetcode;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 1123. Lowest Common Ancestor of Deepest Leaves
+ * algorithm: Tree, DFS
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 36.2 MB, less than 100.00% of Java online submissions
+ */
 public class LowestCommonAncestorOfDeepestLeaves1123 {
 
   public static void main(String[] args) {
@@ -93,6 +102,39 @@ public class LowestCommonAncestorOfDeepestLeaves1123 {
     }
 
     return right;
+  }
+
+  private static class V2 {
+    private int maxDepth = -1;
+    private TreeNode output = null;
+
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+      maxDepth = -1;
+      output = null;
+
+      helper(root, 0);
+      return output;
+    }
+
+    private int helper(TreeNode root, int depth) {
+      if (root == null) {
+        return depth;
+      }
+
+      int lh = helper(root.left, depth + 1);
+      int lr = helper(root.right, depth + 1);
+
+      int localDepth = Math.max(lh, lr);
+
+      maxDepth = Math.max(maxDepth, localDepth);
+
+      if (lh == maxDepth && lr == maxDepth) {
+        output = root;
+      }
+
+      return localDepth;
+    }
+
   }
 
   /**
