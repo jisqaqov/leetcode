@@ -48,31 +48,29 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
       return null;
     }
 
-    TreeNode lastNode = null;
-    Map<TreeNode, TreeNode> parents = new HashMap<>();
+    TreeNode[] lastNode = null;
 
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.add(root);
+    Queue<TreeNode[]> queue = new LinkedList<>();
+    queue.add(new TreeNode[] {root, null});
 
     while (!queue.isEmpty()) {
       lastNode = queue.poll();
+      TreeNode node = lastNode[0];
 
-      if (lastNode.left != null) {
-        queue.add(lastNode.left);
-        parents.put(lastNode.left, lastNode);
+      if (node.left != null) {
+        queue.add(new TreeNode[] {node.left, node});
       }
 
-      if (lastNode.right != null) {
-        queue.add(lastNode.right);
-        parents.put(lastNode.right, lastNode);
+      if (node.right != null) {
+        queue.add(new TreeNode[] {node.right, node});
       }
     }
 
-    if (parents.get(lastNode) == null) {
-      return lastNode;
+    if (lastNode[1] == null) {
+      return lastNode[0];
     }
 
-    return parents.get(lastNode);
+    return lastNode[1];
   }
 
   /**
