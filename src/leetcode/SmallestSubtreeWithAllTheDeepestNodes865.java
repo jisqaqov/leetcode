@@ -91,38 +91,64 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
   }
 
   public TreeNode subtreeWithAllDeepest(TreeNode root) {
-    return helper(root,  maxDepth(root));
+    return (TreeNode) helper(root)[1];
   }
 
-  private TreeNode helper(TreeNode root, int depth) {
-    if (depth == 1 || root == null) {
-      return root;
-    }
-
-    TreeNode left = helper(root.left, depth - 1);
-    TreeNode right = helper(root.right, depth - 1);
-
-    if (left != null && right != null) {
-      return root;
-    } else if (left != null) {
-      return left;
-    }
-
-    return right;
-  }
-
-  private int maxDepth(TreeNode root) {
+  private Object[] helper(TreeNode root) {
     if (root == null) {
-      return 0;
+      return new Object[] {0, null};
     }
 
-    int lh = maxDepth(root.left);
-    int lr = maxDepth(root.right);
+    Object[] left = helper(root.left);
+    Object[] right = helper(root.right);
 
-    return Math.max(lh, lr) + 1;
+    int lh = (int) left[0];
+    int lr = (int) right[0];
+
+    if (lh == lr) {
+      return new Object[] {lh + 1, root};
+    } else if (lh > lr) {
+      return new Object[] {lh + 1, left[1]};
+    }
+
+    return new Object[] {lr + 1, right[1]};
   }
 
   private static class V2 {
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+      return helper(root,  maxDepth(root));
+    }
+
+    private TreeNode helper(TreeNode root, int depth) {
+      if (depth == 1 || root == null) {
+        return root;
+      }
+
+      TreeNode left = helper(root.left, depth - 1);
+      TreeNode right = helper(root.right, depth - 1);
+
+      if (left != null && right != null) {
+        return root;
+      } else if (left != null) {
+        return left;
+      }
+
+      return right;
+    }
+
+    private int maxDepth(TreeNode root) {
+      if (root == null) {
+        return 0;
+      }
+
+      int lh = maxDepth(root.left);
+      int lr = maxDepth(root.right);
+
+      return Math.max(lh, lr) + 1;
+    }
+  }
+
+  private static class V3 {
     public TreeNode subtreeWithAllDeepest(TreeNode root) {
       if (root == null) {
         return null;
