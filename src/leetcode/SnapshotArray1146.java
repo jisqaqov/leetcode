@@ -1,21 +1,27 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 1146. Snapshot Array
+ * algorithm: Array
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 77 ms, faster than 15.00% of Java online submissions
+ * Memory Usage: 84.5 MB, less than 100.00% of Java online submissions
+ */
+public class SnapshotArray1146 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SnapshotArray1146 problem = new SnapshotArray1146();
     problem.test();
   }
 
   private void test() {
     SnapshotArray snapshotArray = new SnapshotArray(3);
-    System.out.println(snapshotArray.snap());//0
-    System.out.println(snapshotArray.get(0, 1));
-
     snapshotArray.set(0, 5);
     System.out.println(snapshotArray.snap());//0
     snapshotArray.set(0, 6);
@@ -48,7 +54,7 @@ public class Prep {
 
     public int get(int index, int snap_id) {
       TreeMap<Integer, Integer> snaps = list.get(index);
-      if (snaps.floorEntry(snap_id) == null) {
+      if (snaps.floorKey(snap_id) == null) {
         return 0;
       }
 
