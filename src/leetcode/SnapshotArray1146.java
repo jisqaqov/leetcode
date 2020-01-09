@@ -2,7 +2,6 @@ package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 
 /**
  * @author Jandos Iskakov
@@ -10,8 +9,8 @@ import java.util.TreeMap;
  * algorithm: Array
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 72 ms, faster than 32.83% of Java online submissions
- * Memory Usage: 80 MB, less than 100.00% of Java online submissions
+ * Runtime: 54 ms, faster than 81.77% of Java online submissions
+ * Memory Usage: 95.3 MB, less than 100.00% of Java online submissions
  */
 public class SnapshotArray1146 {
 
