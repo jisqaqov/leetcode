@@ -16,12 +16,15 @@ import sun.reflect.generics.tree.Tree;
  * algorithm: Tree, BFS, DFS
  * time complexity: O(N)
  * space complexity: O(N)
+ * Runtime: 2 ms, faster than 13.55% of Java online submissions
+ * Memory Usage: 37.5 MB, less than 80.00% of Java online submissions
  */
 public class SmallestSubtreeWithAllTheDeepestNodes865 {
 
   public static void main(String[] args) {
     SmallestSubtreeWithAllTheDeepestNodes865 problem =
       new SmallestSubtreeWithAllTheDeepestNodes865();
+
     problem.test1();
     problem.test2();
     problem.test3();
@@ -115,18 +118,18 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
     }
 
     queue.addAll(leafs);
-    Set<TreeNode> used = new HashSet<>();
+    Set<Integer> used = new HashSet<>();
 
     while (queue.size() > 1) {
       for (int sz = queue.size(); sz > 0; sz--) {
         TreeNode node = queue.poll();
         TreeNode parent = parents.get(node);
 
-        if (used.contains(parent )) {
+        if (used.contains(parent.val)) {
           continue;
         }
 
-        used.add(parent);
+        used.add(parent.val);
         queue.add(parent);
       }
     }
