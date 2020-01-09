@@ -1,13 +1,22 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 616. Add Bold Tag in String
+ * algorithm: String, Array
+ * time complexity:
+ * space complexity:
+ * Runtime: 17 ms, faster than 32.95% of Java online submissions
+ * Memory Usage: 38.8 MB, less than 61.54% of Java online submissions
+ */
+public class AddBoldTagInString616 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    AddBoldTagInString616 problem = new AddBoldTagInString616();
     problem.test();
   }
 
