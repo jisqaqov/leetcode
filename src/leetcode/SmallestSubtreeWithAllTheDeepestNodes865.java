@@ -16,8 +16,8 @@ import sun.reflect.generics.tree.Tree;
  * algorithm: Tree, BFS, DFS
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 2 ms, faster than 13.55% of Java online submissions
- * Memory Usage: 37.5 MB, less than 80.00% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 37.3 MB, less than 80.00% of Java online submissions
  */
 public class SmallestSubtreeWithAllTheDeepestNodes865 {
 
@@ -28,6 +28,7 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
     problem.test1();
     problem.test2();
     problem.test3();
+    problem.test4();
   }
 
   private void test1() {
@@ -85,56 +86,94 @@ public class SmallestSubtreeWithAllTheDeepestNodes865 {
     System.out.println(subtreeWithAllDeepest(root));//0
   }
 
+  private void test4() {
+    System.out.println(subtreeWithAllDeepest(null));//null
+  }
+
   public TreeNode subtreeWithAllDeepest(TreeNode root) {
+    return helper(root,  maxDepth(root));
+  }
+
+  private TreeNode helper(TreeNode root, int depth) {
+    if (depth == 1 || root == null) {
+      return root;
+    }
+
+    TreeNode left = helper(root.left, depth - 1);
+    TreeNode right = helper(root.right, depth - 1);
+
+    if (left != null && right != null) {
+      return root;
+    } else if (left != null) {
+      return left;
+    }
+
+    return right;
+  }
+
+  private int maxDepth(TreeNode root) {
     if (root == null) {
-      return null;
+      return 0;
     }
 
-    Map<TreeNode, TreeNode> parents = new HashMap<>();
-    parents.put(root, null);
+    int lh = maxDepth(root.left);
+    int lr = maxDepth(root.right);
 
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.add(root);
+    return Math.max(lh, lr) + 1;
+  }
 
-    List<TreeNode> leafs = new ArrayList<>();
+  private static class V2 {
+    public TreeNode subtreeWithAllDeepest(TreeNode root) {
+      if (root == null) {
+        return null;
+      }
 
-    while (!queue.isEmpty()) {
-      leafs.clear();
-      leafs.addAll(queue);
+      Map<TreeNode, TreeNode> parents = new HashMap<>();
+      parents.put(root, null);
 
-      for (int sz = queue.size(); sz > 0; sz--) {
-        TreeNode node = queue.poll();
+      Queue<TreeNode> queue = new LinkedList<>();
+      queue.add(root);
 
-        if (node.left != null) {
-          parents.put(node.left, node);
-          queue.add(node.left);
-        }
+      List<TreeNode> leafs = new ArrayList<>();
 
-        if (node.right != null) {
-          parents.put(node.right, node);
-          queue.add(node.right);
+      while (!queue.isEmpty()) {
+        leafs.clear();
+        leafs.addAll(queue);
+
+        for (int sz = queue.size(); sz > 0; sz--) {
+          TreeNode node = queue.poll();
+
+          if (node.left != null) {
+            parents.put(node.left, node);
+            queue.add(node.left);
+          }
+
+          if (node.right != null) {
+            parents.put(node.right, node);
+            queue.add(node.right);
+          }
         }
       }
-    }
 
-    queue.addAll(leafs);
-    Set<Integer> used = new HashSet<>();
+      queue.addAll(leafs);
+      Set<Integer> used = new HashSet<>();
 
-    while (queue.size() > 1) {
-      for (int sz = queue.size(); sz > 0; sz--) {
-        TreeNode node = queue.poll();
-        TreeNode parent = parents.get(node);
+      while (queue.size() > 1) {
+        for (int sz = queue.size(); sz > 0; sz--) {
+          TreeNode node = queue.poll();
+          TreeNode parent = parents.get(node);
 
-        if (used.contains(parent.val)) {
-          continue;
+          if (used.contains(parent.val)) {
+            continue;
+          }
+
+          used.add(parent.val);
+          queue.add(parent);
         }
-
-        used.add(parent.val);
-        queue.add(parent);
       }
-    }
 
-    return queue.poll();
+      return queue.poll();
+    }
   }
 
   /**
