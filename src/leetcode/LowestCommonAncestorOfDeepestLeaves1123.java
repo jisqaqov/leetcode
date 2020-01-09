@@ -81,7 +81,7 @@ public class LowestCommonAncestorOfDeepestLeaves1123 {
   }
 
   public TreeNode lcaDeepestLeaves(TreeNode root) {
-    return helper(root,  0, maxDepth(root) - 1);
+    return helper(root,  1, maxDepth(root));
   }
 
   private TreeNode helper(TreeNode root, int depth, int maxDepth) {
