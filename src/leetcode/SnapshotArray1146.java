@@ -33,19 +33,27 @@ public class SnapshotArray1146 {
   class SnapshotArray {
 
     private int snapIdx;
-    private List<TreeMap<Integer, Integer>> list;
+    private List<List<int[]>> list;
 
     public SnapshotArray(int length) {
       snapIdx = 0;
 
       list = new ArrayList<>(length);
       for (int i = 0; i < length; i++) {
-        list.add(new TreeMap<>());
+        list.add(new ArrayList<>());
+        list.get(i).add(0, new int[] {0, 0});
       }
     }
 
     public void set(int index, int val) {
-      list.get(index).put(snapIdx, val);
+      List<int[]> snaps = list.get(index);
+
+      int[] snap = snaps.get(snaps.size() - 1);
+      if (snap[0] < snapIdx) {
+        snaps.add(new int[] {snapIdx, val});
+      } else {
+        snap[1] = val;
+      }
     }
 
     public int snap() {
@@ -53,12 +61,25 @@ public class SnapshotArray1146 {
     }
 
     public int get(int index, int snap_id) {
-      TreeMap<Integer, Integer> snaps = list.get(index);
-      if (snaps.floorKey(snap_id) == null) {
-        return 0;
+      List<int[]> vals = list.get(index);
+
+      int val = 0;
+      int l = 0, r = vals.size() - 1;
+
+      while (l <= r) {
+        int mid = l + (r - l) / 2;
+
+        int[] snap = vals.get(mid);
+        if (snap[0] <= snap_id) {
+          val = snap[1];
+
+          l = mid + 1;
+        } else {
+          r = mid - 1;
+        }
       }
 
-      return snaps.floorEntry(snap_id).getValue();
+      return val;
     }
 
   }
