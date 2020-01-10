@@ -1,18 +1,9 @@
-package prep;
+package leetcode;
 
-/**
- * @author Jandos Iskakov
- * problem: 463. Island Perimeter
- * algorithm: Graph, Topological Sort
- * time complexity: O(N*M)
- * space complexity: O(1)
- * Runtime: 7 ms, faster than 74.95% of Java online submissions
- * Memory Usage: 59 MB, less than 97.92% of Java online submissions
- */
-public class Prep {
+public class IslandPerimeter463 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    IslandPerimeter463 problem = new IslandPerimeter463();
     problem.test();
   }
 
