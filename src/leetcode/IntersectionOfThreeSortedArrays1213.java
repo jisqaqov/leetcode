@@ -10,7 +10,7 @@ import java.util.Map;
  * problem: 1213. Intersection of Three Sorted Arrays
  * algorithm: Two Pointers
  * time complexity: O(N+M+K)
- * space complexity: O(MIN(N, M, K))
+ * space complexity: O(1)
  * Runtime: 1 ms, faster than 100.00% of Java online submissions
  * Memory Usage: 39.4 MB, less than 100.00% of Java online submissions
  */
