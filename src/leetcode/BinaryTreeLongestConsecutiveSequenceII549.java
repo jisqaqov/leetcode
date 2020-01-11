@@ -1,9 +1,19 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 549. Binary Tree Longest Consecutive Sequence II
+ * algorithm: Tree
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 1 ms, faster than 97.82% of Java online submissions
+ * Memory Usage: 39.6 MB, less than 16.67% of Java online submissions
+ */
+public class BinaryTreeLongestConsecutiveSequenceII549 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    BinaryTreeLongestConsecutiveSequenceII549 problem =
+      new BinaryTreeLongestConsecutiveSequenceII549();
 
     Solution solution = new Solution();
 
@@ -21,7 +31,7 @@ public class Prep {
     root.left = node2;
     root.right = node3;
 
-    System.out.println(solution.longestConsecutive(root));
+    System.out.println(solution.longestConsecutive(root));//2
   }
 
   private void test2(Solution solution) {
@@ -32,7 +42,7 @@ public class Prep {
     root.left = node1;
     root.right = node3;
 
-    System.out.println(solution.longestConsecutive(root));
+    System.out.println(solution.longestConsecutive(root));//3
   }
 
   private void test3(Solution solution) {
@@ -45,7 +55,7 @@ public class Prep {
     root.right = node3;
     node2.left = node4;
 
-    System.out.println(solution.longestConsecutive(root));
+    System.out.println(solution.longestConsecutive(root));//2
   }
 
   private void test4(Solution solution) {
@@ -58,7 +68,7 @@ public class Prep {
     node4.right = node1;
     node1.right = node2;
 
-    System.out.println(solution.longestConsecutive(node3));
+    System.out.println(solution.longestConsecutive(node3));//2
   }
 
   private static class Solution {
@@ -72,12 +82,9 @@ public class Prep {
     }
 
     private int[] helper(TreeNode root) {
-      int[] len = {0, 0};
       if (root == null) {
-        return len;
+        return new int[] {0, 0};
       }
-
-      len[0] = len[1] = 1;
 
       int[] left = helper(root.left);
       int[] right = helper(root.right);
@@ -100,27 +107,26 @@ public class Prep {
         right[0]++;
         right[1] = 0;
       } else if (root.val - rightVal == 1) {
-        right[1]++;
         right[0] = 0;
+        right[1]++;
       } else {
         right[0] = 1;
         right[1] = 1;
       }
 
+      int[] len = new int[2];
       len[0] = Math.max(Math.max(left[0], right[0]), 1);
       len[1] = Math.max(Math.max(left[1], right[1]), 1);
 
       int len2 = 0;
-      if (root.val - leftVal == 1 && root.val - rightVal == -1) {
+      if (leftVal - root.val == -1 && root.val - rightVal == -1) {
         len2 = left[1] + right[0] - 1;
-      } else if (root.val - leftVal == -1 && root.val - rightVal == 1) {
+      } else if (rightVal - root.val == -1 && root.val - leftVal == -1) {
         len2 = left[0] + right[1] - 1;
       }
 
-      max = Math.max(max, left[0]);
-      max = Math.max(max, left[1]);
-      max = Math.max(max, right[0]);
-      max = Math.max(max, right[1]);
+      max = Math.max(max, len[0]);
+      max = Math.max(max, len[1]);
       max = Math.max(max, len2);
 
       return len;
@@ -138,6 +144,5 @@ public class Prep {
       val = x;
     }
   }
-
 
 }
