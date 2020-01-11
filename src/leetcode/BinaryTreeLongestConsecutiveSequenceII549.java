@@ -7,7 +7,7 @@ package leetcode;
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 1 ms, faster than 97.82% of Java online submissions
- * Memory Usage: 39.5 MB, less than 33.33% of Java online submissions
+ * Memory Usage: 39.9 MB, less than 16.67% of Java online submissions
  */
 public class BinaryTreeLongestConsecutiveSequenceII549 {
 
@@ -72,6 +72,52 @@ public class BinaryTreeLongestConsecutiveSequenceII549 {
   }
 
   private static class Solution {
+
+    private int max = 0;
+
+    public int longestConsecutive(TreeNode root) {
+      max = 0;
+      helper(root);
+      return max;
+    }
+
+    private int[] helper(TreeNode root) {
+      if (root == null) {
+        return new int[] {0, 0};
+      }
+
+      int inc = 1, dec = 1;
+
+      if (root.left != null) {
+        int[] left = helper(root.left);
+        if (root.val - root.left.val == -1) {
+          inc = left[0] + 1;
+        } else if (root.val - root.left.val == 1) {
+          dec = left[1] + 1;
+        }
+      }
+
+      if (root.right != null) {
+        int[] right = helper(root.right);
+        if (root.val - root.right.val == -1) {
+          inc = Math.max(right[0] + 1, inc);
+        } else if (root.val - root.right.val == 1) {
+          dec = Math.max(right[1] + 1, dec);
+        }
+      }
+
+      max = Math.max(max, Math.max(dec, inc));
+      max = Math.max(max, inc + dec - 1);
+
+      return new int[] {inc, dec};
+    }
+
+  }
+
+  /**
+   * First original version of solution
+   */
+  private static class SolutionV2 {
 
     private int max = 0;
 
