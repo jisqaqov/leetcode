@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Tree
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 1 ms, faster than 97.82% of Java online submissions
- * Memory Usage: 39.9 MB, less than 16.67% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 40 MB, less than 16.67% of Java online submissions
  */
 public class BinaryTreeLongestConsecutiveSequenceII549 {
 
@@ -106,7 +106,6 @@ public class BinaryTreeLongestConsecutiveSequenceII549 {
         }
       }
 
-      max = Math.max(max, Math.max(dec, inc));
       max = Math.max(max, inc + dec - 1);
 
       return new int[] {inc, dec};
