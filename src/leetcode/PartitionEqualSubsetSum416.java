@@ -4,10 +4,10 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 416. Partition Equal Subset Sum
  * algorithm: DP
- * time complexity: O(N * S)
- * space complexity: O(N* S)
- * Runtime: 17 ms, faster than 44.93% of Java online submissions
- * Memory Usage: 37.9 MB, less than 50.79% of Java online submissions
+ * time complexity: O(N * SUM)
+ * space complexity: O(N * SUM)
+ * Runtime: 10 ms, faster than 70.93% of Java online submissions
+ * Memory Usage: 37 MB, less than 95.24% of Java online submissions
  */
 public class PartitionEqualSubsetSum416 {
 
@@ -36,25 +36,56 @@ public class PartitionEqualSubsetSum416 {
     int n = nums.length;
     sum /= 2;
 
-    boolean[][] dp = new boolean[n + 1][sum + 1];
+    boolean[] dp = new boolean[sum + 1];
+    dp[0] = true;
 
-    dp[0][0] = true;
-
-    for (int i = 1; i <= n; i++) {
-      dp[i][0] = true;
-    }
-
-    for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= sum; j++) {
-        dp[i][j] = dp[i - 1][j];
-
-        if (j >= nums[i - 1]) {
-          dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
+    for (int num : nums) {
+      for (int i = sum; i >= num; i--) {
+        if (dp[i - num]) {
+          dp[i] = dp[i - num];
         }
       }
     }
 
-    return dp[n][sum];
+    return dp[sum];
+  }
+
+  private static class V2 {
+
+    public boolean canPartition(int[] nums) {
+      int sum = 0;
+      for (int num : nums) {
+        sum += num;
+      }
+
+      if (sum % 2 == 1) {
+        return false;
+      }
+
+      sum /= 2;
+      int n = nums.length;
+
+      boolean[][] dp = new boolean[n + 1][sum + 1];
+
+      dp[0][0] = true;
+
+      for (int i = 1; i <= n; i++) {
+        dp[i][0] = true;
+      }
+
+      for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= sum; j++) {
+          dp[i][j] = dp[i - 1][j];
+
+          if (j >= nums[i - 1]) {
+            dp[i][j] = dp[i][j] || dp[i - 1][j - nums[i - 1]];
+          }
+        }
+      }
+
+      return dp[n][sum];
+    }
+
   }
 
 
