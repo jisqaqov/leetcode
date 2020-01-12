@@ -1,16 +1,26 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 416. Partition Equal Subset Sum
+ * algorithm: DP
+ * time complexity: O(N * S)
+ * space complexity: O(N* S)
+ * Runtime: 17 ms, faster than 44.93% of Java online submissions
+ * Memory Usage: 37.9 MB, less than 50.79% of Java online submissions
+ */
+public class PartitionEqualSubsetSum416 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
-
+    PartitionEqualSubsetSum416 problem =
+      new PartitionEqualSubsetSum416();
     problem.test();
   }
 
   private void test() {
     System.out.println(canPartition(new int[]{1, 5, 11, 5}));
     System.out.println(canPartition(new int[]{1, 2, 3, 5}));
+    System.out.println(canPartition(new int[]{1, 2, 5}));
   }
 
   public boolean canPartition(int[] nums) {
@@ -46,5 +56,6 @@ public class Prep {
 
     return dp[n][sum];
   }
+
 
 }
