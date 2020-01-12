@@ -32,7 +32,7 @@ public class PartitionEqualSubsetSum416 {
     if (sum % 2 == 1) {
       return false;
     }
-    
+
     sum /= 2;
 
     boolean[] dp = new boolean[sum + 1];
