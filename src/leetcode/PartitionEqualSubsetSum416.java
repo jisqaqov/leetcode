@@ -32,8 +32,7 @@ public class PartitionEqualSubsetSum416 {
     if (sum % 2 == 1) {
       return false;
     }
-
-    int n = nums.length;
+    
     sum /= 2;
 
     boolean[] dp = new boolean[sum + 1];
