@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jandos Iskakov
  * problem: 825. Friends Of Appropriate Ages
@@ -57,36 +60,24 @@ public class FriendsOfAppropriateAges825 {
    */
   private static class V2 {
     public int numFriendRequests(int[] ages) {
-      int[] freq = new int[121];
+      Map<Integer, Integer> map = new HashMap<>();
       for (int age : ages) {
-        freq[age]++;
-      }
-
-      int[] prefix = new int[121];
-
-      prefix[120] = 0;
-      for (int age = 119; age >= 1; age--) {
-        prefix[age] = freq[age + 1] + prefix[age + 1];
+        map.put(age, map.getOrDefault(age, 0) + 1);
       }
 
       int req = 0;
-      for (int age = 120; age >= 1; age--) {
-        if (freq[age] == 0) {
-          continue;
+      for (int a : map.keySet()) {
+        for (int b : map.keySet()) {
+          if (b > a || b <= 0.5 * a + 7) {
+            continue;
+          }
+
+          if (a == b) {
+            req += map.get(a) * (map.get(a) - 1);
+          } else {
+            req += map.get(a) * map.get(b);
+          }
         }
-
-        int temp = 0;
-
-        int half = age / 2 + 7;
-        if (half < age) {
-          // requests to people older than > age[a] * 0.5 + 7
-          temp += freq[age] * (prefix[half] - prefix[age - 1]);
-
-          // request to each other M * (M - 1)
-          temp += freq[age] * (freq[age] - 1);
-        }
-
-        req += temp;
       }
 
       return req;
