@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Jandos Iskakov
  * problem: 785. Is Graph Bipartite?
@@ -13,15 +16,15 @@ public class IsGraphBipartite785 {
 
   public boolean isBipartite(int[][] graph) {
     int n = graph.length;
-    int[] set = new int[n];
+    int[] colour = new int[n];
 
     for (int u = 0; u < n; u++) {
-      if (set[u] != 0) {
+      if (colour[u] != 0) {
         continue;
       }
 
-      set[u] = 1;
-      if (!isBipartite(u, set, graph)) {
+      colour[u] = 1;
+      if (!isBipartite(u, colour, graph)) {
         return false;
       }
     }
@@ -44,6 +47,40 @@ public class IsGraphBipartite785 {
     }
 
     return true;
+  }
+
+  private static class V2 {
+    public boolean isBipartite(int[][] graph) {
+      int n = graph.length;
+      int[] colour = new int[n];
+
+      Deque<Integer> stack = new ArrayDeque<>();
+      for (int v = 0; v < n; v++) {
+        if (colour[v] != 0) {
+          continue;
+        }
+
+        colour[v] = 1;
+        stack.push(v);
+
+        while (!stack.isEmpty()) {
+          int node = stack.poll();
+
+          for (int adj : graph[node]) {
+            if (colour[adj] == colour[node]) {
+              return false;
+            }
+
+            if (colour[adj] == 0) {
+              colour[adj] = colour[node] == 1? 2: 1;
+              stack.push(adj);
+            }
+          }
+        }
+      }
+
+      return true;
+    }
   }
 
 }
