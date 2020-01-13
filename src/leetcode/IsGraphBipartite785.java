@@ -54,13 +54,14 @@ public class IsGraphBipartite785 {
       int n = graph.length;
       int[] colour = new int[n];
 
-      Deque<Integer> stack = new ArrayDeque<>();
       for (int v = 0; v < n; v++) {
         if (colour[v] != 0) {
           continue;
         }
 
         colour[v] = 1;
+
+        Deque<Integer> stack = new ArrayDeque<>();
         stack.push(v);
 
         while (!stack.isEmpty()) {
