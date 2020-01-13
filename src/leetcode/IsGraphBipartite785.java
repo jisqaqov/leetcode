@@ -2,6 +2,7 @@ package leetcode;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
@@ -39,7 +40,7 @@ public class IsGraphBipartite785 {
       }
 
       if (colour[adj] == 0) {
-        colour[adj] = colour[node] == 1? 2: 1;
+        colour[adj] = -colour[node];
         if (!isBipartite(adj, colour, graph)) {
           return false;
         }
@@ -49,7 +50,8 @@ public class IsGraphBipartite785 {
     return true;
   }
 
-  private static class V2 {
+  private static class IterativeDFSApproach {
+
     public boolean isBipartite(int[][] graph) {
       int n = graph.length;
       int[] colour = new int[n];
@@ -59,7 +61,7 @@ public class IsGraphBipartite785 {
           continue;
         }
 
-        colour[v] = 1;
+        colour[v] = -1;
 
         Deque<Integer> stack = new ArrayDeque<>();
         stack.push(v);
@@ -73,8 +75,44 @@ public class IsGraphBipartite785 {
             }
 
             if (colour[adj] == 0) {
-              colour[adj] = colour[node] == 1? 2: 1;
+              colour[adj] = -colour[node];
               stack.push(adj);
+            }
+          }
+        }
+      }
+
+      return true;
+    }
+  }
+
+  private static class BFSApproach {
+
+    public boolean isBipartite(int[][] graph) {
+      int n = graph.length;
+      int[] colour = new int[n];
+
+      for (int v = 0; v < n; v++) {
+        if (colour[v] != 0) {
+          continue;
+        }
+
+        colour[v] = 1;
+
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.add(v);
+
+        while (!queue.isEmpty()) {
+          int node = queue.poll();
+
+          for (int adj : graph[node]) {
+            if (colour[adj] == colour[node]) {
+              return false;
+            }
+
+            if (colour[adj] == 0) {
+              colour[adj] = -colour[node];
+              queue.add(adj);
             }
           }
         }
