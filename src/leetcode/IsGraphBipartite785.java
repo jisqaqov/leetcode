@@ -32,15 +32,15 @@ public class IsGraphBipartite785 {
     return true;
   }
 
-  private boolean isBipartite(int s, int[] set, int[][] graph) {
-    for (int adj : graph[s]) {
-      if (set[adj] == set[s]) {
+  private boolean isBipartite(int node, int[] colour, int[][] graph) {
+    for (int adj : graph[node]) {
+      if (colour[adj] == colour[node]) {
         return false;
       }
 
-      if (set[adj] == 0) {
-        set[adj] = set[s] == 1? 2: 1;
-        if (!isBipartite(adj, set, graph)) {
+      if (colour[adj] == 0) {
+        colour[adj] = colour[node] == 1? 2: 1;
+        if (!isBipartite(adj, colour, graph)) {
           return false;
         }
       }
