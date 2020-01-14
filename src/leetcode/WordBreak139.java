@@ -1,10 +1,8 @@
 package leetcode;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -30,9 +28,6 @@ public class WordBreak139 {
     System.out.println(wordBreak("leetcode", Arrays.asList("leet", "code")));//true
     System.out.println(wordBreak("applepenapple", Arrays.asList("apple", "pen")));//true
     System.out.println(wordBreak("catsandog", Arrays.asList("cats", "dog", "sand", "and", "cat")));//false
-
-    System.out.println(new AmazonProblem().wordBreak(
-      new ArrayList<>(Arrays.asList("leet", "code", "rock", "star", "rockstarcode", "leetcode"))));
   }
 
   public boolean wordBreak(String s, List<String> wordDict) {
@@ -58,7 +53,6 @@ public class WordBreak139 {
 
     public boolean wordBreak(String s, List<String> wordDict) {
       Boolean[] memo = new Boolean[s.length()];
-
       return wordBreak(s, 0, new HashSet<>(wordDict), memo);
     }
 
@@ -86,57 +80,5 @@ public class WordBreak139 {
       return false;
     }
   }
-
-  private static class AmazonProblem {
-
-    public List<List<String>> wordBreak(List<String> wordDict) {
-      Set<String> wordSet = new HashSet<>(wordDict);
-
-      List<List<String>> solution = new ArrayList<>();
-
-      for (String word : wordDict) {
-        LinkedList<String> list = new LinkedList<>();
-        Boolean[] memo = new Boolean[word.length()];
-
-        wordBreak(word, 0, wordSet, list, memo);
-
-        solution.add(list);
-      }
-
-      return solution;
-    }
-
-    private boolean wordBreak(String s, int index, Set<String> wordDict, LinkedList<String> list,
-      Boolean[] memo) {
-      if (index == s.length()) {
-        return true;
-      }
-
-      if (memo[index] != null) {
-        return memo[index];
-      }
-
-      for (int i = index; i < s.length(); i++) {
-        String prefix = s.substring(index, i + 1);
-
-        if (wordDict.contains(prefix)) {
-          list.add(prefix);
-
-          memo[index] = wordBreak(s, i + 1, wordDict, list, memo);
-
-          if (memo[index] && prefix.length() < s.length()) {
-            return true;
-          }
-
-          list.removeLast();
-        }
-      }
-
-      memo[index] = false;
-
-      return false;
-    }
-  }
-
 
 }
