@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * @author Jandos Iskakov
  * problem: 140. Word Break II
- * algorithm: Recursion with memoization
+ * algorithm: DP, Recursion with memoization
  * time complexity: O(|S|^3*N)
  * space complexity: O(|S|^3*N)
  * Runtime: 7 ms, faster than 52.60% of Java online submissions for Word Break II.
@@ -32,91 +32,74 @@ public class WordBreakII140 {
 
     System.out.println(wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
 
-    AmazonProblem amazonProblem = new AmazonProblem();
-    System.out.println(amazonProblem.wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
 
-    BacktrackingApproach backtrackingApproach = new BacktrackingApproach();
-    System.out.println(backtrackingApproach.wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
   }
 
-  public List<String> wordBreak(String s, List<String> words) {
-    return wordBreak(s, 0, new HashSet<>(words), new HashMap<>());
-  }
+  public List<String> wordBreak(String s, List<String> wordDict) {
+    Set<String> words = new HashSet<>(wordDict);
 
-  private List<String> wordBreak(String word, int index, Set<String> set,
-    Map<Integer, List<String>> memo) {
+    boolean[] valid = new boolean[s.length() + 1];
+    valid[0] = true;
 
-    if (memo.containsKey(index)) {
-      return memo.get(index);
-    }
-
-    if (index == word.length()) {
-      return new ArrayList<>(Collections.singletonList(""));
-    }
-
-    List<String> res = new ArrayList<>();
-
-    for (int i = index; i < word.length(); i++) {
-      String prefix = word.substring(index, i + 1);
-
-      if (!set.contains(prefix)) {
-        continue;
-      }
-
-      List<String> sub = wordBreak(word, i + 1, set, memo);
-      if (sub != null) {
-        for (String temp : sub) {
-          res.add(prefix + " " + temp.trim());
+    for (int i = 1; i <= s.length(); i++) {
+      for (int j = 0; j < i; j++) {
+        String word = s.substring(j, i);
+        if (words.contains(word) && valid[j]) {
+          valid[i] = true;
         }
       }
     }
 
-    memo.put(index, res);
+    if (!valid[s.length()]) {
+      return new ArrayList<>();
+    }
 
-    return res;
-  }
+    List<String>[] dp = new ArrayList[s.length() + 1];
+    dp[0] = new ArrayList<>();
+    dp[0].add("");
 
-  private static class AmazonProblem {
-    public List<String> wordBreak(String s, List<String> words) {
-      Set<String> set = new HashSet<>(words);
+    for (int i = 1; i <= s.length(); i++) {
+      List<String> list = new ArrayList<>();
 
-      List<String> solution = new ArrayList<>();
+      for (int j = 0; j < i; j++) {
+        String word = s.substring(j, i);
 
-      Map<Integer, List<List<String>>> memo = new HashMap<>();
-
-      wordBreak(s, 0, set, memo);
-
-      if (memo.get(0) != null) {
-        for (List<String> list : memo.get(0)) {
-          StringBuilder sb = new StringBuilder();
-          for (String word : list) {
-            if (sb.length() > 0) {
-              sb.append(" ");
+        if (words.contains(word) && !dp[j].isEmpty()) {
+          for (String prefix : dp[j]) {
+            if (prefix.isEmpty()) {
+              list.add(word);
+            } else {
+              list.add(prefix + " " + word);
             }
-
-            sb.append(word);
           }
-          solution.add(sb.toString());
         }
       }
 
-      return solution;
+      dp[i] = list;
     }
 
-    private List<List<String>> wordBreak(String word, int index, Set<String> set,
-      Map<Integer, List<List<String>>> memo) {
+    return dp[s.length()];
+  }
+
+
+
+  private static class RecustionApproach {
+    public List<String> wordBreak(String s, List<String> words) {
+      return wordBreak(s, 0, new HashSet<>(words), new HashMap<>());
+    }
+
+    private List<String> wordBreak(String word, int index, Set<String> set,
+      Map<Integer, List<String>> memo) {
 
       if (memo.containsKey(index)) {
         return memo.get(index);
       }
 
       if (index == word.length()) {
-        List<List<String>> temp = new ArrayList<>();
-        temp.add(new ArrayList<>());
-        return temp;
+        return new ArrayList<>(Collections.singletonList(""));
       }
 
-      List<List<String>> res = new ArrayList<>();
+      List<String> res = new ArrayList<>();
 
       for (int i = index; i < word.length(); i++) {
         String prefix = word.substring(index, i + 1);
@@ -125,13 +108,10 @@ public class WordBreakII140 {
           continue;
         }
 
-        List<List<String>> sub = wordBreak(word, i + 1, set, memo);
+        List<String> sub = wordBreak(word, i + 1, set, memo);
         if (sub != null) {
-          for (List<String> temp : sub) {
-            List<String> list = new ArrayList<>(Collections.singleton(prefix));
-            list.addAll(temp);
-
-            res.add(list);
+          for (String temp : sub) {
+            res.add(prefix + " " + temp.trim());
           }
         }
       }
