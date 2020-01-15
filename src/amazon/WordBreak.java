@@ -18,7 +18,7 @@ import leetcode.WordBreak139;
 public class WordBreak {
 
   public static void main(String[] args) {
-    WordBreak139 solution = new WordBreak139();
+    WordBreak solution = new WordBreak();
     solution.test();
   }
 

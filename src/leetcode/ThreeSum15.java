@@ -1,13 +1,22 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 15. 3Sum
+ * algorithm: Two Pointers
+ * time complexity: O(N^2)
+ * space complexity: O(N)
+ * Runtime: 32 ms, faster than 64.52% of Java online submissions
+ * Memory Usage: 49 MB, less than 55.12% of Java online submissions
+ */
+public class ThreeSum15 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ThreeSum15 problem = new ThreeSum15();
 
     problem.test();
   }
@@ -21,7 +30,7 @@ public class Prep {
 
     List<List<Integer>> output = new ArrayList<>();
 
-    for (int i = 0; i < nums.length; i++) {
+    for (int i = 0; i < nums.length - 2; i++) {
       if (i > 0 && nums[i] == nums[i - 1]) {
         continue;
       }
