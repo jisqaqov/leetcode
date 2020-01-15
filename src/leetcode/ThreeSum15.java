@@ -9,7 +9,7 @@ import java.util.List;
  * problem: 15. 3Sum
  * algorithm: Two Pointers
  * time complexity: O(N^2)
- * space complexity: O(N)
+ * space complexity: O(1)
  * Runtime: 32 ms, faster than 64.52% of Java online submissions
  * Memory Usage: 49 MB, less than 55.12% of Java online submissions
  */
