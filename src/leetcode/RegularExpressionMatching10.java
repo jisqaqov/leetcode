@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 10. Regular Expression Matching
+ * algorithm: DP
+ * time complexity: O(N*M)
+ * space complexity: O(N*M)
+ * Runtime: 2 ms, faster than 92.59% of Java online submissions
+ * Memory Usage: 36.7 MB, less than 100.00% of Java online submissions
+ */
+public class RegularExpressionMatching10 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    RegularExpressionMatching10 problem = new RegularExpressionMatching10();
 
     problem.test();
   }
