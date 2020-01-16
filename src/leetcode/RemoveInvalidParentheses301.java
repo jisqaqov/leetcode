@@ -65,9 +65,8 @@ public class RemoveInvalidParentheses301 {
     }
 
     int ops = remOpen + remClose;
-    int open = 0;
 
-    gen(s.toCharArray(), new StringBuilder(), ops, open, 0, output);
+    gen(s.toCharArray(), new StringBuilder(), ops, 0, 0, output);
 
     if (!output.isEmpty()) {
       return new ArrayList<>(output);
