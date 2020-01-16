@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 282. Expression Add Operators
+ * algorithm: Math
+ * time complexity: O(4^N)
+ * space complexity: O(N)
+ * Runtime: 235 ms, faster than 5.56% of Java online submissions
+ * Memory Usage: 71.2 MB, less than 5.41% of Java online submissions
+ */
+public class ExpressionAddOperators282 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ExpressionAddOperators282 problem = new ExpressionAddOperators282();
 
     problem.test();
   }
