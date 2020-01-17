@@ -1,12 +1,13 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+public class LongestArithmeticSequence1027 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    LongestArithmeticSequence1027 problem =
+      new LongestArithmeticSequence1027();
 
     problem.test();
   }
