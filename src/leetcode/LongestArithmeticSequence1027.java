@@ -3,6 +3,15 @@ package leetcode;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Jandos Iskakov
+ * problem: 1027. Longest Arithmetic Sequence
+ * algorithm: DP
+ * time complexity: O(N^2)
+ * space complexity: O(N)
+ * Runtime: 3 ms, faster than 88.19% of Java online submissions for Alien Dictionary.
+ * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
+ */
 public class LongestArithmeticSequence1027 {
 
   public static void main(String[] args) {
