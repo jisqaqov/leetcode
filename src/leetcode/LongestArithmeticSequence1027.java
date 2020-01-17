@@ -9,8 +9,8 @@ import java.util.Map;
  * algorithm: DP
  * time complexity: O(N^2)
  * space complexity: O(N)
- * Runtime: 3 ms, faster than 88.19% of Java online submissions for Alien Dictionary.
- * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
+ * Runtime: 335 ms, faster than 64.48% of Java online submissions
+ * Memory Usage: 161.7 MB, less than 46.67% of Java online submissions
  */
 public class LongestArithmeticSequence1027 {
 
