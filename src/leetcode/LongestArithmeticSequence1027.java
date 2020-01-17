@@ -8,9 +8,9 @@ import java.util.Map;
  * problem: 1027. Longest Arithmetic Sequence
  * algorithm: DP
  * time complexity: O(N^2)
- * space complexity: O(N)
- * Runtime: 335 ms, faster than 64.48% of Java online submissions
- * Memory Usage: 161.7 MB, less than 46.67% of Java online submissions
+ * space complexity: O(N^2)
+ * Runtime: 373 ms, faster than 25.12% of Java online submissions
+ * Memory Usage: 178.7 MB, less than 6.67% of Java online submissions
  */
 public class LongestArithmeticSequence1027 {
 
@@ -38,7 +38,12 @@ public class LongestArithmeticSequence1027 {
       for (int j = 0; j < i; j++) {
         int d = a[i] - a[j];
 
-        dp[i].put(d, dp[j].getOrDefault(d, 1) + 1);
+        int len = dp[i].getOrDefault(d, 0);
+        int newLen = dp[j].getOrDefault(d, 1) + 1;
+
+        if (len < newLen) {
+          dp[i].put(d, newLen);
+        }
 
         max = Math.max(max, dp[i].get(d));
       }
