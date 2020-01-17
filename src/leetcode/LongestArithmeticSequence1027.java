@@ -38,12 +38,14 @@ public class LongestArithmeticSequence1027 {
       for (int j = 0; j < i; j++) {
         int diff = a[i] - a[j];
 
-        int currLen = dp[i].getOrDefault(diff, 0);
+        dp[i].put(diff, dp[j].getOrDefault(diff, 1) + 1);
+
+        /*int len = dp[i].getOrDefault(diff, 0);
         int newLen = dp[j].getOrDefault(diff, 1) + 1;
 
-        if (currLen < newLen) {
+        if (len < newLen) {
           dp[i].put(diff, newLen);
-        }
+        }*/
 
         max = Math.max(max, dp[i].get(diff));
       }
