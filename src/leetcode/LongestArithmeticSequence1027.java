@@ -54,5 +54,32 @@ public class LongestArithmeticSequence1027 {
     return max;
   }
 
+  private static class V2 {
+    public int longestArithSeqLength(int[] a) {
+      Map<Integer, Integer>[] dp = new HashMap[a.length];
+
+      int max = 0;
+
+      for (int i = 0; i < a.length; i++) {
+        dp[i] = new HashMap<>();
+
+        for (int j = i - 1; j >= 0; j--) {
+          int diff = a[i] - a[j];
+
+          int len = dp[i].getOrDefault(diff, 0);
+          int newLen = dp[j].getOrDefault(diff, 1) + 1;
+
+          if (len < newLen) {
+            dp[i].put(diff, newLen);
+          }
+
+          max = Math.max(max, dp[i].get(diff));
+        }
+      }
+
+      return max;
+    }
+  }
+
 
 }
