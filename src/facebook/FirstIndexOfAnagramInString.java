@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * algorithm: Sliding Window
  * time complexity: O(|S| + |P|)
- * space complexity: O(|P|)
+ * space complexity: O(|S| + |P|)
  */
 public class FirstIndexOfAnagramInString {
 
@@ -46,23 +46,19 @@ public class FirstIndexOfAnagramInString {
     int diff = p.length;
 
     for (int i = 0; i < s.length; i++) {
-      if (map.containsKey(s[i])) {
-        map.put(s[i], map.get(s[i]) - 1);
+      map.put(s[i], map.getOrDefault(s[i], 0) - 1);
 
-        if (map.get(s[i]) >= 0) {
-          diff--;
-        }
+      if (map.get(s[i]) >= 0) {
+        diff--;
       }
 
       if (i >= p.length) {
         int start = i - p.length;
 
-        if (map.containsKey(s[start])) {
-          map.put(s[start], map.get(s[start]) + 1);
-          
-          if (map.get(s[start]) > 0) {
-            diff++;
-          }
+        map.put(s[start], map.get(s[start]) + 1);
+
+        if (map.get(s[start]) > 0) {
+          diff++;
         }
       }
 
@@ -72,6 +68,43 @@ public class FirstIndexOfAnagramInString {
     }
 
     return -1;
+  }
+
+  private static class V2 {
+    // when p has only unique characters
+    private int findFirstAnagram(char[] s, char[] p) {
+      Map<Character, Integer> map = new HashMap<>();
+      for (char ch : p) {
+        map.put(ch, -1);
+      }
+
+      int diff = p.length;
+
+      for (int i = 0; i < s.length; i++) {
+        if (map.containsKey(s[i])) {
+          if (map.get(s[i]) < 0) {
+            diff--;
+          }
+
+          map.put(s[i], i);
+        }
+
+        if (i >= p.length) {
+          int start = i - p.length;
+
+          if (map.getOrDefault(s[start], -1) == start) {
+            diff++;
+            map.put(s[start], - 1);
+          }
+        }
+
+        if (diff == 0) {
+          return i - p.length + 1;
+        }
+      }
+
+      return -1;
+    }
   }
 
 }
