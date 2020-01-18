@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * @author Jandos Iskakov
@@ -36,25 +37,21 @@ public class MeetingRoomsII253 {
   public int minMeetingRooms(int[][] intervals) {
     int n = intervals.length;
 
-    int[] starts = new int[n];
     int[] ends = new int[n];
-
     for (int i = 0; i < intervals.length; i++) {
-      starts[i] = intervals[i][0];
       ends[i] = intervals[i][1];
     }
 
-    Arrays.sort(starts);
+    Arrays.sort(intervals, Comparator.comparingInt(i -> i[0]));
     Arrays.sort(ends);
 
-    int i = 0;
-    int j = 0;
+    int i = 0, j = 0;
 
-    int rooms = 0;
     int max = 0;
+    int rooms = 0;
 
     while (i < n) {
-      if (ends[j] <= starts[i]) {
+      if (ends[j] <= intervals[i][0]) {
         rooms--;
         j++;
       } else {
@@ -67,45 +64,5 @@ public class MeetingRoomsII253 {
 
     return max;
   }
-
-  private static class V2 {
-
-    public int minMeetingRooms(int[][] intervals) {
-      int n = intervals.length;
-
-      int[][] starts = new int[2 * n][2];
-
-      for (int i = 0, j = 0; i < n; i++, j += 2) {
-        starts[j][0] = intervals[i][0];
-        starts[j][1] = 2;//start
-
-        starts[j + 1][0] = intervals[i][1];
-        starts[j + 1][1] = 1;//end
-      }
-
-      Arrays.sort(starts, (a1, a2) -> {
-        if (a1[0] == a2[0]) {
-          return a1[1] - a2[1];
-        }
-
-        return a1[0] - a2[0];
-      });
-
-      int rooms = 0;
-      int max = 0;
-
-      for (int i = 0; i < starts.length; i++) {
-        if (starts[i][1] == 2) {
-          rooms++;
-          max = Math.max(rooms, max);
-        } else {
-          rooms--;
-        }
-      }
-
-      return max;
-    }
-  }
-
 
 }

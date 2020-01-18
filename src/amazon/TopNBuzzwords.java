@@ -98,21 +98,20 @@ public class TopNBuzzwords {
     for (String quote : quotes) {
       Set<String> used = new HashSet<>();
 
-      String[] words = quote.split("\\W+");
+      String[] words = quote.toLowerCase().split("\\W+");
       for (String word : words) {
-        String wordLc = word.toLowerCase();
-        if (!freq.containsKey(wordLc)) {
+        if (!freq.containsKey(word)) {
           continue;
         }
 
-        int[] nums = freq.get(wordLc);
+        int[] nums = freq.get(word);
 
         nums[0]++;
-        if (!used.contains(wordLc)) {
+        if (!used.contains(word)) {
           nums[1]++;
         }
 
-        used.add(wordLc);
+        used.add(word);
       }
     }
 
