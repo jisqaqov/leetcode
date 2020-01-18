@@ -56,7 +56,7 @@ public class FirstIndexOfAnagramInString {
 
       if (i >= p.length) {
         int start = i - p.length;
-        
+
         if (map.containsKey(s[start])) {
           map.put(s[start], map.get(s[start]) + 1);
           
