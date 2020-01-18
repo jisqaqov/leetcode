@@ -44,11 +44,10 @@ public class FirstIndexOfAnagramInString {
     }
 
     int diff = p.length;
-    int start = 0;
 
     for (int i = 0; i < s.length; i++) {
       if (map.containsKey(s[i])) {
-        map.put(s[i], map.getOrDefault(s[i], 0) - 1);
+        map.put(s[i], map.get(s[i]) - 1);
 
         if (map.get(s[i]) >= 0) {
           diff--;
@@ -56,6 +55,8 @@ public class FirstIndexOfAnagramInString {
       }
 
       if (i >= p.length) {
+        int start = i - p.length;
+        
         if (map.containsKey(s[start])) {
           map.put(s[start], map.get(s[start]) + 1);
           
@@ -63,8 +64,6 @@ public class FirstIndexOfAnagramInString {
             diff++;
           }
         }
-
-        start++;
       }
 
       if (diff == 0) {
