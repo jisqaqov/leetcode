@@ -39,25 +39,25 @@ public class SortColors {
 
   public void sort(int[] nums) {
     int low = 0;
+    int mid = 0;
     int high = nums.length - 1;
-    int i = 0;
 
-    while (i <= high) {
-      String cat = getCategory(nums[i]);
+    while (mid <= high) {
+      String cat = getCategory(nums[mid]);
 
       switch (cat) {
         case "low":
-          swap(nums, i, low);
+          swap(nums, mid, low);
 
           low++;
-          i++;
+          mid++;
           break;
         case "high":
-          swap(nums, i, high);
+          swap(nums, mid, high);
           high--;
           break;
         default:
-          i++;
+          mid++;
           break;
       }
     }
