@@ -64,17 +64,9 @@ public class SetMatrixZeros73 {
       }
     }
 
-    for (int j = 1; j < m; j++) {
-      if (matrix[0][j] == 0) {
-        for (int i = 0; i < n; i++) {
-          matrix[i][j] = 0;
-        }
-      }
-    }
-
     for (int i = 1; i < n; i++) {
-      if (matrix[i][0] == 0) {
-        for (int j = 1; j < m; j++) {
+      for (int j = 1; j < m; j++) {
+        if (matrix[0][j] == 0 || matrix[i][0] == 0) {
           matrix[i][j] = 0;
         }
       }
@@ -115,22 +107,10 @@ public class SetMatrixZeros73 {
       }
 
       for (int i = 0; i < n; i++) {
-        if (!rows[i]) {
-          continue;
-        }
-
         for (int j = 0; j < m; j++) {
-          matrix[i][j] = 0;
-        }
-      }
-
-      for (int j = 0; j < m; j++) {
-        if (!cols[j]) {
-          continue;
-        }
-
-        for (int i = 0; i < n; i++) {
-          matrix[i][j] = 0;
+          if (rows[i] || cols[j]) {
+            matrix[i][j] = 0;
+          }
         }
       }
     }
