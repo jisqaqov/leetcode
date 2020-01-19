@@ -1,11 +1,20 @@
-package prep;
+package leetcode;
 
 import utils.TestUtils;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 73. Set Matrix Zeroes
+ * algorithm: Array
+ * time complexity: O(N*M)
+ * space complexity: O(1)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 50.1 MB, less than 7.14% of Java online submissions
+ */
+public class SetMatrixZeros73 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    SetMatrixZeros73 problem = new SetMatrixZeros73();
     problem.test();
   }
 
