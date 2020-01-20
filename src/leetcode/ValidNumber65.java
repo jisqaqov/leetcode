@@ -1,9 +1,18 @@
-package prep;
+package leetcode;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 65. Valid Number
+ * algorithm: Math, String
+ * time complexity: O(N)
+ * space complexity: O(1)
+ * Runtime: 3 ms, faster than 88.19% of Java online submissions for Alien Dictionary.
+ * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
+ */
+public class ValidNumber65 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    ValidNumber65 problem = new ValidNumber65();
     problem.test();
   }
 
