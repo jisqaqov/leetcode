@@ -7,8 +7,8 @@ import java.util.PriorityQueue;
  * @author Jandos Iskakov
  * problem: 378. Kth Smallest Element in a Sorted Matrix
  * algorithm: Heap
- * time complexity: O(N^2*log(N))
- * space complexity: O(N)
+ * time complexity: O((n+k)*log(n))
+ * space complexity: O(n)
  * Runtime: 22 ms, faster than 18.75% of Java online submissions
  * Memory Usage: 52.8 MB, less than 5.41% of Java online submissions
  */
