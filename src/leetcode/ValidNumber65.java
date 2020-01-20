@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Math, String
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 3 ms, faster than 88.19% of Java online submissions for Alien Dictionary.
- * Memory Usage: 35.9 MB, less than 97.30% of Java online submissions for Alien Dictionary.
+ * Runtime: 9 ms, faster than 19.01% of Java online submissions
+ * Memory Usage: 42.6 MB, less than 6.25% of Java online submissions
  */
 public class ValidNumber65 {
 
