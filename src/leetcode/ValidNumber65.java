@@ -46,69 +46,39 @@ public class ValidNumber65 {
   }
 
   public boolean isNumber(String s) {
-    System.out.print(s + " -> ");
+    s = s.trim();
 
-    int n = s.length();
-    if (n == 0) {
-      return false;
-    }
-
-    int nums = 0, fracs = 0;
-    boolean decimal = false;
-
-    int expN = 0;
+    boolean numbers = false;
+    boolean dot = false;
     boolean exp = false;
-    boolean expSign = false;
 
-    int startIndex = 0;
-    while (startIndex < n && s.charAt(startIndex) == ' ') {
-      startIndex++;
-    }
-
-    int endIndex = n - 1;
-    while (endIndex > startIndex && s.charAt(endIndex) == ' ') {
-      endIndex--;
-    }
-
-    for (int i = startIndex; i <= endIndex; i++) {
+    for (int i = 0; i < s.length(); i++) {
       char ch = s.charAt(i);
 
       if (ch == '-' || ch == '+') {
-        if ((i > startIndex && !exp) || i == endIndex || (exp && expSign)) {
+        if (i > 0 && s.charAt(i - 1) != 'e') {
+          return false;
+        }
+      } else if (ch == 'e') {
+        if (exp || !numbers) {
           return false;
         }
 
-        if (exp) {
-          expSign = true;
-        }
-      } else if (ch == 'e') {
-        if (exp) {
-          return false;
-        }
         exp = true;
+        numbers = false;
       } else if (ch == '.') {
-        if (exp || decimal) {
+        if (dot || exp) {
           return false;
         }
-        decimal = true;
+        dot = true;
       } else if (ch >= '0' && ch <= '9') {
-        if (exp) {
-          expN++;
-        } else if (decimal) {
-          fracs++;
-        } else {
-          nums++;
-        }
+        numbers = true;
       } else {
         return false;
       }
     }
 
-    if ((exp && expN == 0) || (nums == 0 && fracs == 0)) {
-      return false;
-    }
-
-    return true;
+    return numbers;
   }
 
 }
