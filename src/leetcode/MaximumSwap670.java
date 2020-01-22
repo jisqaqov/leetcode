@@ -1,8 +1,5 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author Jandos Iskakov
  * problem: 670. Maximum Swap
@@ -27,19 +24,17 @@ public class MaximumSwap670 {
   }
 
   public int maximumSwap(int num) {
-    List<Integer> list = new ArrayList<>();
+    int[] digits = new int[10];
 
+    int k = digits.length - 1;
     while (num > 0) {
-      list.add(num % 10);
+      digits[k--] = num % 10;
       num /= 10;
     }
 
-    int[] digits = new int[list.size()];
-    for (int i = list.size() - 1; i >= 0; i--) {
-      digits[list.size() - i - 1] = list.get(i);
-    }
+    int start = k + 1;
 
-    for (int i = 0; i < digits.length; i++) {
+    for (int i = start; i < digits.length; i++) {
       int maxIndex = i;
       for (int j = i + 1; j < digits.length; j++) {
         if (digits[j] > digits[i] && digits[j] >= digits[maxIndex]) {
@@ -48,23 +43,20 @@ public class MaximumSwap670 {
       }
 
       if (maxIndex > i) {
-        swap(maxIndex, i, digits);
+        int temp = digits[maxIndex];
+        digits[maxIndex] = digits[i];
+        digits[i] = temp;
+
         break;
       }
     }
 
     int output = 0;
-    for (int digit : digits) {
-      output = output * 10 + digit;
+    for (int i = start; i < digits.length; i++) {
+      output = output * 10 + digits[i];
     }
 
     return output;
-  }
-
-  private void swap(int i, int j, int[] a) {
-    int temp = a[j];
-    a[j] = a[i];
-    a[i] = temp;
   }
 
 }
