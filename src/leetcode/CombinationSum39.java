@@ -50,4 +50,34 @@ public class CombinationSum39 {
     }
   }
 
+  private static class V2 {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+      List<List<Integer>> output = new ArrayList<>();
+
+      helper(candidates, 0, output, target, new ArrayList<>());
+
+      return output;
+    }
+
+    private void helper(int[] candidates, int index, List<List<Integer>> output,
+      int target, List<Integer> values) {
+      if (target == 0) {
+        output.add(new ArrayList<>(values));
+        return;
+      }
+
+      for (int i = index; i < candidates.length; i++) {
+        if (candidates[i] > target) {
+          continue;
+        }
+
+        values.add(candidates[i]);
+
+        helper(candidates, i, output, target - candidates[i], values);
+
+        values.remove(values.size() - 1);
+      }
+    }
+  }
+
 }
