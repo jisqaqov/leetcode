@@ -8,8 +8,8 @@ import java.util.Arrays;
  * algorithm: Array, Math
  * time complexity: O(D^2)
  * space complexity: O(D)
- * Runtime: 0 ms, faster than 100.00% of Java online submissions
- * Memory Usage: 39.2 MB, less than 25.00% of Java online submissions
+ * Runtime: 1 ms, faster than 51.46% of Java online submissions
+ * Memory Usage: 41.5 MB, less than 25.00% of Java online submissions
  */
 public class MaximumSwap670 {
 
@@ -26,42 +26,27 @@ public class MaximumSwap670 {
   }
 
   public int maximumSwap(int num) {
-    int[] digits = new int[10];
+    char[] digits = String.valueOf(num).toCharArray();
 
-    int k = digits.length - 1;
-    while (num > 0) {
-      digits[k--] = num % 10;
-      num /= 10;
-    }
+    int[] index = {-1, -1};
+    int maxIndex = digits.length - 1;
 
-    digits = Arrays.copyOfRange(digits, k + 1, digits.length);
-
-    int[] p = new int[digits.length];
-    p[p.length - 1] = p.length - 1;
-
-    for (int i = p.length - 2; i >= 0; i--) {
-      p[i] = i;
-      if (digits[p[i]] <= digits[p[i + 1]]) {
-        p[i] = p[i + 1];
+    for (int i = digits.length - 1; i >= 0; i--) {
+      if (digits[i] > digits[maxIndex]) {
+        maxIndex = i;
+      } else if (digits[i] < digits[maxIndex]) {
+        index[0] = i;
+        index[1] = maxIndex;
       }
     }
 
-    for (int i = 0; i < digits.length; i++) {
-      if (digits[i] < digits[p[i]]) {
-        int temp = digits[p[i]];
-        digits[p[i]] = digits[i];
-        digits[i] = temp;
-
-        break;
-      }
+    if (index[0] != -1) {
+      char temp = digits[index[0]];
+      digits[index[0]] = digits[index[1]];
+      digits[index[1]] = temp;
     }
 
-    int output = 0;
-    for (int digit : digits) {
-      output = output * 10 + digit;
-    }
-
-    return output;
+    return Integer.parseInt(String.valueOf(digits));
   }
 
   private static class V2 {
@@ -87,6 +72,47 @@ public class MaximumSwap670 {
         if (maxIndex > i) {
           int temp = digits[maxIndex];
           digits[maxIndex] = digits[i];
+          digits[i] = temp;
+
+          break;
+        }
+      }
+
+      int output = 0;
+      for (int digit : digits) {
+        output = output * 10 + digit;
+      }
+
+      return output;
+    }
+  }
+
+  private static class V3 {
+    public int maximumSwap(int num) {
+      int[] digits = new int[10];
+
+      int k = digits.length - 1;
+      while (num > 0) {
+        digits[k--] = num % 10;
+        num /= 10;
+      }
+
+      digits = Arrays.copyOfRange(digits, k + 1, digits.length);
+
+      int[] p = new int[digits.length];
+      p[p.length - 1] = p.length - 1;
+
+      for (int i = p.length - 2; i >= 0; i--) {
+        p[i] = i;
+        if (digits[p[i]] <= digits[p[i + 1]]) {
+          p[i] = p[i + 1];
+        }
+      }
+
+      for (int i = 0; i < digits.length; i++) {
+        if (digits[i] < digits[p[i]]) {
+          int temp = digits[p[i]];
+          digits[p[i]] = digits[i];
           digits[i] = temp;
 
           break;
