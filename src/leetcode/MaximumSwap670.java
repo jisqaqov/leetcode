@@ -28,28 +28,55 @@ public class MaximumSwap670 {
   public int maximumSwap(int num) {
     char[] digits = String.valueOf(num).toCharArray();
 
-    int[] index = {-1, -1};
-    int maxIndex = digits.length - 1;
-
-    for (int i = digits.length - 1; i >= 0; i--) {
-      if (digits[i] > digits[maxIndex]) {
-        maxIndex = i;
-      } else if (digits[i] < digits[maxIndex]) {
-        index[0] = i;
-        index[1] = maxIndex;
-      }
+    int[] pos = new int[10];
+    for (int i = 0; i < digits.length; i++) {
+      pos[digits[i] - '0'] = i;
     }
 
-    if (index[0] != -1) {
-      char temp = digits[index[0]];
-      digits[index[0]] = digits[index[1]];
-      digits[index[1]] = temp;
+    for (int i = 0; i < digits.length; i++) {
+      for (int d = 9; d > digits[i] - '0'; d--) {
+        if (pos[d] > i) {
+          char temp = digits[i];
+          digits[i] = digits[pos[d]];
+          digits[pos[d]] = temp;
+
+          return Integer.parseInt(String.valueOf(digits));
+        }
+      }
     }
 
     return Integer.parseInt(String.valueOf(digits));
   }
 
   private static class V2 {
+
+    public int maximumSwap(int num) {
+      char[] digits = String.valueOf(num).toCharArray();
+
+      int[] index = {-1, -1};
+      int maxIndex = digits.length - 1;
+
+      for (int i = digits.length - 1; i >= 0; i--) {
+        if (digits[i] > digits[maxIndex]) {
+          maxIndex = i;
+        } else if (digits[i] < digits[maxIndex]) {
+          index[0] = i;
+          index[1] = maxIndex;
+        }
+      }
+
+      if (index[0] != -1) {
+        char temp = digits[index[0]];
+        digits[index[0]] = digits[index[1]];
+        digits[index[1]] = temp;
+      }
+
+      return Integer.parseInt(String.valueOf(digits));
+    }
+
+  }
+
+  private static class V3 {
     public int maximumSwap(int num) {
       int[] digits = new int[10];
 
@@ -87,7 +114,7 @@ public class MaximumSwap670 {
     }
   }
 
-  private static class V3 {
+  private static class V4 {
     public int maximumSwap(int num) {
       int[] digits = new int[10];
 
