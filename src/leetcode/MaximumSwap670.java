@@ -6,8 +6,8 @@ import java.util.Arrays;
  * @author Jandos Iskakov
  * problem: 670. Maximum Swap
  * algorithm: Array, Math
- * time complexity: O(D^2)
- * space complexity: O(D)
+ * time complexity: O(N)
+ * space complexity: O(1)
  * Runtime: 1 ms, faster than 51.46% of Java online submissions
  * Memory Usage: 41.5 MB, less than 25.00% of Java online submissions
  */
