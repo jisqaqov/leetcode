@@ -41,9 +41,9 @@ public class PeakOrValley {
     int peakIndex = findPeak(nums);
     int valleyIndex = findValley(nums);
 
-    if (peakIndex >= 0 && valleyIndex >= 0) {
+    if (peakIndex > 0 && valleyIndex > 0) {
       return -1;
-    } else if (peakIndex >= 0) {
+    } else if (peakIndex > 0) {
       return peakIndex;
     }
 
