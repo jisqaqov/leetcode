@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.Arrays;
+
 /**
  * @author Jandos Iskakov
  * problem: 670. Maximum Swap
@@ -32,9 +34,9 @@ public class MaximumSwap670 {
       num /= 10;
     }
 
-    int start = k + 1;
+    digits = Arrays.copyOfRange(digits, k + 1, digits.length);
 
-    for (int i = start; i < digits.length; i++) {
+    for (int i = 0; i < digits.length; i++) {
       int maxIndex = i;
       for (int j = i + 1; j < digits.length; j++) {
         if (digits[j] > digits[i] && digits[j] >= digits[maxIndex]) {
@@ -52,8 +54,8 @@ public class MaximumSwap670 {
     }
 
     int output = 0;
-    for (int i = start; i < digits.length; i++) {
-      output = output * 10 + digits[i];
+    for (int digit : digits) {
+      output = output * 10 + digit;
     }
 
     return output;
