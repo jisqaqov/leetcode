@@ -6,8 +6,8 @@ import java.util.Arrays;
  * @author Jandos Iskakov
  * problem: 670. Maximum Swap
  * algorithm: Array, Math
- * time complexity: O(|D^2|)
- * space complexity: O(|D|)
+ * time complexity: O(D^2)
+ * space complexity: O(D)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
  * Memory Usage: 39.2 MB, less than 25.00% of Java online submissions
  */
@@ -36,17 +36,20 @@ public class MaximumSwap670 {
 
     digits = Arrays.copyOfRange(digits, k + 1, digits.length);
 
-    for (int i = 0; i < digits.length; i++) {
-      int maxIndex = i;
-      for (int j = i + 1; j < digits.length; j++) {
-        if (digits[j] > digits[i] && digits[j] >= digits[maxIndex]) {
-          maxIndex = j;
-        }
-      }
+    int[] p = new int[digits.length];
+    p[p.length - 1] = p.length - 1;
 
-      if (maxIndex > i) {
-        int temp = digits[maxIndex];
-        digits[maxIndex] = digits[i];
+    for (int i = p.length - 2; i >= 0; i--) {
+      p[i] = i;
+      if (digits[p[i]] <= digits[p[i + 1]]) {
+        p[i] = p[i + 1];
+      }
+    }
+
+    for (int i = 0; i < digits.length; i++) {
+      if (digits[i] < digits[p[i]]) {
+        int temp = digits[p[i]];
+        digits[p[i]] = digits[i];
         digits[i] = temp;
 
         break;
@@ -59,6 +62,44 @@ public class MaximumSwap670 {
     }
 
     return output;
+  }
+
+  private static class V2 {
+    public int maximumSwap(int num) {
+      int[] digits = new int[10];
+
+      int k = digits.length - 1;
+      while (num > 0) {
+        digits[k--] = num % 10;
+        num /= 10;
+      }
+
+      digits = Arrays.copyOfRange(digits, k + 1, digits.length);
+
+      for (int i = 0; i < digits.length; i++) {
+        int maxIndex = i;
+        for (int j = i + 1; j < digits.length; j++) {
+          if (digits[j] > digits[i] && digits[j] >= digits[maxIndex]) {
+            maxIndex = j;
+          }
+        }
+
+        if (maxIndex > i) {
+          int temp = digits[maxIndex];
+          digits[maxIndex] = digits[i];
+          digits[i] = temp;
+
+          break;
+        }
+      }
+
+      int output = 0;
+      for (int digit : digits) {
+        output = output * 10 + digit;
+      }
+
+      return output;
+    }
   }
 
 }
