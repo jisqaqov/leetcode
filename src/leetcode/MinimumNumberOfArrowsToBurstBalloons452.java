@@ -36,7 +36,7 @@ public class MinimumNumberOfArrowsToBurstBalloons452 {
     int arrows = 1;
 
     for (int i = 1; i < points.length; i++) {
-      if (end < points[i][0]) {
+      if (points[i][0] > end) {
         arrows++;
         end = points[i][1];
       }
