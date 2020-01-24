@@ -1,6 +1,7 @@
 package leetcode;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jandos Iskakov
@@ -8,68 +9,58 @@ import java.util.*;
  * algorithm: DFS, Graph, Topological Sort
  * time complexity: O(V+E)
  * space complexity: O(V+E)
+ * Runtime: 2 ms, faster than 99.66% of Java online submissions
+ * Memory Usage: 52 MB, less than 27.69% of Java online submissions
  */
 public class CourseSchedule207 {
 
-    public static void main(String[] args) {
-        CourseSchedule207 solution = new CourseSchedule207();
-        solution.test();
+  public static void main(String[] args) {
+    CourseSchedule207 solution = new CourseSchedule207();
+    solution.test();
+  }
+
+  private void test() {
+    System.out.println(canFinish(2, new int[][]{{1, 0}}));
+    System.out.println(canFinish(2, new int[][]{{1, 0}, {0, 1}}));
+  }
+
+  public boolean canFinish(int numCourses, int[][] prerequisites) {
+    List<Integer>[] adjList = new ArrayList[numCourses];
+
+    for (int i = 0; i < numCourses; i++) {
+      adjList[i] = new ArrayList<>();
     }
 
-    public void test() {
-        int[][] tc1a = {{1,0},{0,1}};
-        int[][] tc2a = {{1,0}};
-        int[][] tc3a = {{0,1}, {0, 2}, {1, 2}};
-        System.out.println(!canFinish(2, tc1a));
-        System.out.println(canFinish(2, tc2a));
-        System.out.println(canFinish(3, tc3a));
+    for (int[] pre : prerequisites) {
+      adjList[pre[1]].add(pre[0]);
     }
 
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
-        List<Integer>[] adj = new List[numCourses];
-        for (int i = 0; i < prerequisites.length; i++) {
-            if (adj[prerequisites[i][1]] == null) {
-                adj[prerequisites[i][1]] = new LinkedList<>();
-            }
+    boolean[] visited = new boolean[numCourses];
+    boolean[] explored = new boolean[numCourses];
 
-            adj[prerequisites[i][1]].add(prerequisites[i][0]);
-        }
+    for (int i = 0; i < numCourses; i++) {
+      if (!visited[i] && isCyclic(i, adjList, visited, explored)) {
+        return false;
+      }
+    }
 
-        Set<Integer> explored = new HashSet<>();
-        Set<Integer> visited = new HashSet<>();
+    return true;
+  }
 
-        for (int i = 0; i < numCourses; i++) {
-            if (!visited.contains(i) && !canFinish(i, adj, visited, explored)) {
-                return false;
-            }
-        }
+  private boolean isCyclic(int course, List<Integer>[] adjList, boolean[] visited,
+    boolean[] explored) {
+    visited[course] = true;
 
+    for (int adj : adjList[course]) {
+      if ((visited[adj] && !explored[adj]) || (!visited[adj] && isCyclic(adj, adjList, visited,
+        explored))) {
         return true;
+      }
     }
 
-    private boolean canFinish(int course, List<Integer>[] prerequisites, Set<Integer> visited, Set<Integer> explored) {
-        visited.add(course);
+    explored[course] = true;
 
-        if (prerequisites[course] == null) {
-            explored.add(course);
-
-            return true;
-        }
-
-        for (int prerequisit : prerequisites[course]) {
-            if (!explored.contains(prerequisit) && visited.contains(prerequisit)) {
-                return false;
-            } else if (!visited.contains(prerequisit)) {
-                boolean canFinish = canFinish(prerequisit, prerequisites, visited, explored);
-                if (!canFinish) {
-                    return false;
-                }
-            }
-        }
-
-        explored.add(course);
-
-        return true;
-    }
+    return false;
+  }
 
 }
