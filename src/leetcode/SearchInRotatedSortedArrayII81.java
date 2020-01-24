@@ -4,7 +4,7 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 81. Search in Rotated Sorted Array II
  * algorithm: Binary Search
- * time complexity: O(nlog(n))
+ * time complexity: O(nlog(n)) on average, O(n) worst case
  * space complexity: O(1)
  * Runtime: 2 ms, faster than 25.74% of Java online submissions
  * Memory Usage: 46.9 MB, less than 5.63% of Java online submissions
