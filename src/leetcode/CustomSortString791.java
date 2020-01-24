@@ -10,9 +10,9 @@ import java.util.Set;
  * problem: 791. Custom Sort String
  * algorithm: String
  * time complexity: O(|S| + |T|)
- * space complexity: O(|S| + |T|)
- * Runtime: 2 ms, faster than 46.91% of Java online submissions for Custom Sort String.
- * Memory Usage: 34.5 MB, less than 100.00% of Java online submissions for Custom Sort String.
+ * space complexity: O(|T|)
+ * Runtime: 2 ms, faster than 50.23% of Java online submissions
+ * Memory Usage: 41 MB, less than 6.06% of Java online submissions
  */
 public class CustomSortString791 {
 
@@ -31,32 +31,24 @@ public class CustomSortString791 {
       map.put(t.charAt(i), map.getOrDefault(t.charAt(i), 0) + 1);
     }
 
-    Set<Character> set = new HashSet<>();
-    for (int i = 0; i < s.length(); i++) {
-      set.add(s.charAt(i));
-    }
-
-    StringBuilder output = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
 
     for (int i = 0; i < s.length(); i++) {
-      if (!map.containsKey(s.charAt(i))) {
-        continue;
+      int cnt = map.getOrDefault(s.charAt(i), 0);
+      for (int k = cnt; k > 0; k--) {
+        sb.append(s.charAt(i));
       }
 
-      int n = map.get(s.charAt(i));
-      while (n > 0) {
-        output.append(s.charAt(i));
-        n--;
+      map.remove(s.charAt(i));
+    }
+
+    for (char ch : map.keySet()) {
+      for (int k = map.get(ch); k > 0; k--) {
+        sb.append(ch);
       }
     }
 
-    for (int i = 0; i < t.length(); i++) {
-      if (!set.contains(t.charAt(i))) {
-        output.append(t.charAt(i));
-      }
-    }
-
-    return output.toString();
+    return sb.toString();
   }
 
 }
