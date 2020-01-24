@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Binary Search
  * time complexity: O(nlog(n)) on average, O(n) worst case
  * space complexity: O(1)
- * Runtime: 1 ms, faster than 25.74% of Java online submissions
- * Memory Usage: 45.7 MB, less than 5.63% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 47.6 MB, less than 5.63% of Java online submissions
  */
 public class SearchInRotatedSortedArrayII81 {
 
@@ -33,30 +33,65 @@ public class SearchInRotatedSortedArrayII81 {
         return true;
       }
 
-      if (nums[mid] < nums[r]) {
+      if (nums[l] == nums[mid] && nums[mid] == nums[r]) {
+        l++;
+        r--;
+      } else if (nums[mid] <= nums[r]) {
         if (target > nums[mid] && target <= nums[r]) {
           l = mid + 1;
         } else {
           r = mid - 1;
         }
-      } else if (nums[l] < nums[mid]) {
+      } else if (nums[l] <= nums[mid]) {
         if (target >= nums[l] && target < nums[mid]) {
           r = mid - 1;
         } else {
           l = mid + 1;
         }
-      } else {
-        if (nums[mid] == nums[r]) {
-          r--;
-        }
-        if (nums[mid] == nums[l]) {
-          l++;
-        }
       }
     }
 
     return false;
+  }
 
+  private static class V2 {
+
+    public boolean search(int[] nums, int target) {
+      int l = 0;
+      int r = nums.length - 1;
+
+      while (l <= r) {
+        int mid = l + (r - l) / 2;
+
+        if (nums[mid] == target) {
+          return true;
+        }
+
+        if (nums[mid] < nums[r]) {
+          if (target > nums[mid] && target <= nums[r]) {
+            l = mid + 1;
+          } else {
+            r = mid - 1;
+          }
+        } else if (nums[l] < nums[mid]) {
+          if (target >= nums[l] && target < nums[mid]) {
+            r = mid - 1;
+          } else {
+            l = mid + 1;
+          }
+        } else {
+          if (nums[mid] == nums[r]) {
+            r--;
+          }
+          if (nums[mid] == nums[l]) {
+            l++;
+          }
+        }
+      }
+
+      return false;
+
+    }
   }
 
 }
