@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Binary Search
  * time complexity: O(nlog(n)) on average, O(n) worst case
  * space complexity: O(1)
- * Runtime: 2 ms, faster than 25.74% of Java online submissions
- * Memory Usage: 46.9 MB, less than 5.63% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 43 MB, less than 7.04% of Java online submissions
  */
 public class SearchInRotatedSortedArrayII81 {
 
@@ -39,7 +39,7 @@ public class SearchInRotatedSortedArrayII81 {
         } else {
           r = mid - 1;
         }
-      } else if (nums[mid] > nums[r]) {
+      } else if (nums[l] > nums[mid]) {
         if (target >= nums[l] && target <= nums[mid]) {
           r = mid - 1;
         } else {
