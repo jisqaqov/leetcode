@@ -9,10 +9,10 @@ import java.util.Arrays;
  * time complexity: O(V*E)
  * space complexity: O(V+E)
  */
-public class NetworkDelayTime {
+public class NetworkDelayTime743 {
 
     public static void main(String[] args) {
-        NetworkDelayTime solution = new NetworkDelayTime();
+        NetworkDelayTime743 solution = new NetworkDelayTime743();
 
         int[][] tc1times = {{2,1,3}, {1,2,1}};
 
