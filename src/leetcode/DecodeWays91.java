@@ -46,33 +46,105 @@ public class DecodeWays91 {
       return 0;
     }
 
+    char[] chs = s.toCharArray();
+
     int[] dp = new int[s.length() + 1];
+
     dp[0] = 1;
+    if (chs[0] > '0') {
+      dp[1] = 1;
+    }
 
-    int k = 1;
+    for (int i = 2; i <= s.length(); i++) {
+      int digit = chs[i - 1] - '0';
 
-    for (int i = 0; i < s.length(); i++) {
-      int b = Character.getNumericValue(s.charAt(i));
+      int num = (chs[i - 2] - '0') * 10 + digit;
 
-      if (b > 0) {
-        dp[k] += dp[k - 1];
+      if (digit > 0) {
+        dp[i] = dp[i - 1];
       }
 
-      if (i > 0) {
-        int a = Character.getNumericValue(s.charAt(i - 1));
-        int num = a * 10 + b;
-        if (num >= 10 && num <= 26) {
-          dp[k] += dp[k - 2];
-        }
+      if (num >= 10 && num <= 26) {
+        dp[i] += dp[i - 2];
       }
-
-      k++;
     }
 
     return dp[s.length()];
   }
 
+  private static class V1 {
+
+    public int numDecodings(String s) {
+      if (s.isEmpty()) {
+        return 0;
+      }
+
+      int[] dp = new int[s.length() + 1];
+      dp[0] = 1;
+
+      int k = 1;
+
+      for (int i = 0; i < s.length(); i++) {
+        int b = Character.getNumericValue(s.charAt(i));
+
+        if (b > 0) {
+          dp[k] += dp[k - 1];
+        }
+
+        if (i > 0) {
+          int a = Character.getNumericValue(s.charAt(i - 1));
+          int num = a * 10 + b;
+          if (num >= 10 && num <= 26) {
+            dp[k] += dp[k - 2];
+          }
+        }
+
+        k++;
+      }
+
+      return dp[s.length()];
+    }
+  }
+
   private static class V2 {
+
+    public int numDecodings(String s) {
+      int[] dp = new int[s.length()];
+      Arrays.fill(dp, -1);
+
+      return numDecodings(s, dp, 0);
+    }
+
+    public int numDecodings(String s, int[] dp, int index) {
+      if (index >= dp.length) {
+        return 1;
+      }
+
+      if (dp[index] != -1) {
+        return dp[index];
+      }
+
+      int num = 0;
+      int cnt = 0;
+
+      for (int i = index; i < s.length(); i++) {
+        num = num * 10 + (s.charAt(i) - '0');
+
+        if (num > 26 || num == 0) {
+          break;
+        }
+
+        int k = numDecodings(s, dp, i + 1);
+        cnt += k;
+      }
+
+      dp[index] = cnt;
+
+      return cnt;
+    }
+  }
+
+  private static class V3 {
     public int numDecodings(String s) {
       int[] dp = new int[s.length()];
       Arrays.fill(dp, -1);
