@@ -32,31 +32,27 @@ public class MultiplyStrings43 {
     int n = num1.length();
     int m = num2.length();
 
-    int[] nums = new int[n + m];
+    int[] vals = new int[n + m];
 
-    int pos = nums.length - 1;
+    int pos = vals.length - 1;
 
-    for (int i = n - 1; i >= 0; i--) {
+    for (int i = n - 1; i >= 0; i--, pos--) {
       int index = pos;
 
-      for (int j = m - 1; j >= 0; j--) {
+      for (int j = m - 1; j >= 0; j--, index--) {
         int a = num1.charAt(i) - '0';
         int b = num2.charAt(j) - '0';
 
-        int p = a * b + nums[index];
+        int p = a * b + vals[index];
 
-        nums[index] = p % 10;
-        nums[index - 1] += p / 10;
-
-        index--;
+        vals[index] = p % 10;
+        vals[index - 1] += p / 10;
       }
-
-      pos--;
     }
 
     StringBuilder output = new StringBuilder();
 
-    for (int num : nums) {
+    for (int num : vals) {
       if (output.length() != 0 || num != 0) {
         output.append(num);
       }
