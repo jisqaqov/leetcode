@@ -15,8 +15,8 @@ import java.util.Set;
  * algorithm: DFS, Graph
  * time complexity: O(V+E)
  * space complexity: O(V+E)
- * Runtime: 44 ms, faster than 58.44% of Java online submissions for Accounts Merge.
- * Memory Usage: 47.8 MB, less than 35.29% of Java online submissions for Accounts Merge.
+ * Runtime: 44 ms, faster than 58.44% of Java online submissions
+ * Memory Usage: 47.8 MB, less than 35.29% of Java online submissions
  */
 public class AccountsMerge721 {
 
@@ -41,7 +41,6 @@ public class AccountsMerge721 {
 
     for (List<String> account : accounts) {
       String name = account.get(0);
-
       String rootEmail = account.get(1);
 
       for (int i = 1; i < account.size(); i++) {
@@ -50,15 +49,15 @@ public class AccountsMerge721 {
         graph.putIfAbsent(rootEmail, new HashSet<>());
         graph.putIfAbsent(email, new HashSet<>());
 
-        graph.get(email).add(rootEmail);
         graph.get(rootEmail).add(email);
+        graph.get(email).add(rootEmail);
 
         emailName.put(email, name);
       }
     }
 
-    Set<String> used = new HashSet<>();
     List<List<String>> output = new ArrayList<>();
+    Set<String> used = new HashSet<>();
 
     for (String email : graph.keySet()) {
       if (used.contains(email)) {
@@ -66,7 +65,7 @@ public class AccountsMerge721 {
       }
 
       List<String> emails = new ArrayList<>();
-      dfs(emails, graph, used, email);
+      dfs(email, graph, emails, used);
       Collections.sort(emails);
 
       List<String> account = new ArrayList<>();
@@ -79,15 +78,14 @@ public class AccountsMerge721 {
     return output;
   }
 
-  private void dfs(List<String> list, Map<String, Set<String>> graph, Set<String> used,
-    String email) {
-    list.add(email);
-
+  private void dfs(String email, Map<String, Set<String>> graph, List<String> emails,
+    Set<String> used) {
     used.add(email);
+    emails.add(email);
 
     for (String adj : graph.get(email)) {
       if (!used.contains(adj)) {
-        dfs(list, graph, used, adj);
+        dfs(adj, graph, emails, used);
       }
     }
   }
