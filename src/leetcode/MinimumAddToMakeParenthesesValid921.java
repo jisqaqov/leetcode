@@ -6,13 +6,14 @@ package leetcode;
  * algorithm: Greedy
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 0 ms, faster than 100.00% of Java online submissions for Minimum Add to Make Parentheses Valid.
- * Memory Usage: 34.1 MB, less than 100.00% of Java online submissions for Minimum Add to Make Parentheses Valid.
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 34.1 MB, less than 100.00% of Java online submissions
  */
 public class MinimumAddToMakeParenthesesValid921 {
 
   public static void main(String[] args) {
-    MinimumAddToMakeParenthesesValid921 problem = new MinimumAddToMakeParenthesesValid921();
+    MinimumAddToMakeParenthesesValid921 problem =
+      new MinimumAddToMakeParenthesesValid921();
     problem.test();
   }
 
@@ -24,22 +25,20 @@ public class MinimumAddToMakeParenthesesValid921 {
   }
 
   public int minAddToMakeValid(String s) {
-    int left = 0;
-    int right = 0;
+    int open = 0;
+    int close = 0;
 
     for (int i = 0; i < s.length(); i++) {
       if (s.charAt(i) == '(') {
-        left++;
-      } else if (s.charAt(i) == ')') {
-        if (left == 0) {
-          right++;
-        } else {
-          left--;
-        }
+        open++;
+      } else if (open > 0) {
+        open--;
+      } else {
+        close++;
       }
     }
 
-    return left + right;
+    return open + close;
   }
 
 }
