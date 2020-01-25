@@ -40,19 +40,20 @@ public class AccountsMerge721 {
     Map<String, String> emailName = new HashMap<>();
 
     for (List<String> account : accounts) {
-      String username = account.get(0);
+      String name = account.get(0);
 
       String rootEmail = account.get(1);
 
       for (int i = 1; i < account.size(); i++) {
         String email = account.get(i);
 
+        graph.putIfAbsent(rootEmail, new HashSet<>());
         graph.putIfAbsent(email, new HashSet<>());
 
         graph.get(email).add(rootEmail);
         graph.get(rootEmail).add(email);
 
-        emailName.putIfAbsent(email, username);
+        emailName.put(email, name);
       }
     }
 
