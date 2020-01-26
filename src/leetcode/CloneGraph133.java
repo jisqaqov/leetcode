@@ -1,80 +1,123 @@
 package leetcode;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
  * problem: 133. Clone Graph
- * algorithm: DFS
+ * algorithm: DFS, BFS
  * time complexity: O(V+E)
  * space complexity: O(V+E)
+ * Runtime: 25 ms, faster than 25.00% of Java online submissions
+ * Memory Usage: 38.6 MB, less than 5.88% of Java online submissions
  */
 public class CloneGraph133 {
 
-    public static void main(String[] args) {
-        CloneGraph133 solution = new CloneGraph133();
-        solution.test();
+  public static void main(String[] args) {
+    CloneGraph133 solution = new CloneGraph133();
+    solution.test();
+  }
+
+  public void test() {
+    Node node1 = new Node(1);
+    Node node2 = new Node(2);
+    Node node3 = new Node(3);
+    Node node4 = new Node(4);
+
+    node1.neighbors = Arrays.asList(node2, node4);
+    node2.neighbors = Arrays.asList(node1, node3);
+    node3.neighbors = Arrays.asList(node2, node4);
+    node4.neighbors = Arrays.asList(node1, node3);
+
+    System.out.println(cloneGraph(node1));
+  }
+
+  public Node cloneGraph(Node node) {
+    if (node == null) {
+      return null;
     }
 
-    private class Node {
-        public int val;
-        public List<Node> neighbors;
+    Map<Node, Node> map = new HashMap<>();
+    return clone(node, map);
+  }
 
-        public Node() {}
-
-        public Node(int _val,List<Node> _neighbors) {
-            val = _val;
-            neighbors = _neighbors;
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "val=" + val +
-                    ", neighbors=" + neighbors
-                    .stream()
-                    .map(node -> node.val)
-                    .collect(Collectors.toList()) +
-                    '}';
-        }
+  private Node clone(Node node, Map<Node, Node> map) {
+    if (map.containsKey(node)) {
+      return map.get(node);
     }
 
-    public void test() {
-        Node node1 = new Node(1, new LinkedList<>());
-        Node node2 = new Node(2, new LinkedList<>());
-        Node node3 = new Node(3, new LinkedList<>());
-        Node node4 = new Node(4, new LinkedList<>());
+    Node clone = new Node(node.val);
 
-        node1.neighbors = Arrays.asList(node2, node4);
-        node2.neighbors = Arrays.asList(node1, node3);
-        node3.neighbors = Arrays.asList(node2, node4);
-        node4.neighbors = Arrays.asList(node1, node3);
+    map.put(node, clone);
 
-        System.out.println(cloneGraph(node1));
+    for (Node adj : node.neighbors) {
+      clone.neighbors.add(clone(adj, map));
     }
+
+    return clone;
+  }
+
+  private static class V2 {
 
     public Node cloneGraph(Node node) {
-        Map<Node, Node> memo = new HashMap<>();
-        return cloneGraph(node, memo);
+      Map<Node, Node> map = new HashMap<>();
+
+      map.put(node, new Node(node.val));
+
+      Queue<Node> queue = new LinkedList<>();
+      queue.add(node);
+
+      while (!queue.isEmpty()) {
+        Node temp = queue.poll();
+
+        Node clone = map.get(temp);
+
+        for (Node adj : temp.neighbors) {
+          Node adjClone = map.get(adj);
+
+          if (adjClone == null) {
+            adjClone = new Node(adj.val);
+
+            map.put(adj, adjClone);
+            queue.add(adj);
+          }
+
+          clone.neighbors.add(adjClone);
+        }
+      }
+
+      return map.get(node);
+    }
+  }
+
+  /**
+   * Definition for a Node.
+   */
+  static class Node {
+
+    public int val;
+    public List<Node> neighbors;
+
+    public Node() {
+      val = 0;
+      neighbors = new ArrayList<Node>();
     }
 
-    private Node cloneGraph(Node src, Map<Node, Node> memo) {
-        if (memo.containsKey(src)) {
-            return memo.get(src);
-        }
-
-        Node clone = new Node();
-        clone.val = src.val;
-        clone.neighbors = new LinkedList<>();
-
-        memo.put(src, clone);
-
-        for (Node child : src.neighbors) {
-            clone.neighbors.add(cloneGraph(child, memo));
-        }
-
-        return clone;
+    public Node(int _val) {
+      val = _val;
+      neighbors = new ArrayList<Node>();
     }
+
+    public Node(int _val, ArrayList<Node> _neighbors) {
+      val = _val;
+      neighbors = _neighbors;
+    }
+  }
 
 }
