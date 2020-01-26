@@ -66,6 +66,10 @@ public class CloneGraph133 {
   private static class V2 {
 
     public Node cloneGraph(Node node) {
+      if (node == null) {
+        return null;
+      }
+
       Map<Node, Node> map = new HashMap<>();
 
       map.put(node, new Node(node.val));
@@ -79,16 +83,12 @@ public class CloneGraph133 {
         Node clone = map.get(temp);
 
         for (Node adj : temp.neighbors) {
-          Node adjClone = map.get(adj);
-
-          if (adjClone == null) {
-            adjClone = new Node(adj.val);
-
-            map.put(adj, adjClone);
+          if (!map.containsKey(adj)) {
+            map.put(adj, new Node(adj.val));
             queue.add(adj);
           }
 
-          clone.neighbors.add(adjClone);
+          clone.neighbors.add(map.get(adj));
         }
       }
 
@@ -117,6 +117,13 @@ public class CloneGraph133 {
     public Node(int _val, ArrayList<Node> _neighbors) {
       val = _val;
       neighbors = _neighbors;
+    }
+
+    @Override
+    public String toString() {
+      return "Node{" +
+        "val=" + val +
+        '}';
     }
   }
 
