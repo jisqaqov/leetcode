@@ -8,7 +8,7 @@ import java.util.Random;
  * problem: 215. Kth Largest Element in an Array
  * algorithm: QuickSelect, Sort
  * time complexity: O(n)
- * space complexity: O(n)
+ * space complexity: O(1)
  * Runtime: 1 ms, faster than 99.53% of Java online submissions
  * Memory Usage: 36.8 MB, less than 90.16% of Java online submissions
  */
