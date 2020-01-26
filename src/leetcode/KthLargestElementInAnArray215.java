@@ -33,7 +33,7 @@ public class KthLargestElementInAnArray215 {
 
     int pos = nums.length - k;
 
-    while (true) {
+    while (l <= r) {
       int pivotIndex = partition(l, r, nums);
       if (pivotIndex == pos) {
         return nums[pivotIndex];
@@ -45,6 +45,8 @@ public class KthLargestElementInAnArray215 {
         r = pivotIndex - 1;
       }
     }
+
+    return nums[l];
   }
 
   private int partition(int l, int r, int[] nums) {
