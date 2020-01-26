@@ -16,8 +16,8 @@ import java.util.Set;
  * algorithm: DP, Recursion with memoization
  * time complexity: O(|S|^3*N)
  * space complexity: O(|S|^3*N)
- * Runtime: 7 ms, faster than 52.60% of Java online submissions for Word Break II.
- * Memory Usage: 40.8 MB, less than 8.20% of Java online submissions for Word Break II.
+ * Runtime: 7 ms, faster than 52.60% of Java online submissions
+ * Memory Usage: 40.8 MB, less than 8.20% of Java online submissions
  */
 public class WordBreakII140 {
 
@@ -29,10 +29,7 @@ public class WordBreakII140 {
   public void test() {
     System.out.println(
       wordBreak("catsanddog", new ArrayList<>(Arrays.asList("cat", "cats", "and", "sand", "dog"))));
-
     System.out.println(wordBreak("abcd", new ArrayList<>(Arrays.asList("a", "abc", "b", "cd"))));
-
-
   }
 
   public List<String> wordBreak(String s, List<String> wordDict) {
@@ -80,8 +77,6 @@ public class WordBreakII140 {
 
     return dp[s.length()];
   }
-
-
 
   private static class RecustionApproach {
     public List<String> wordBreak(String s, List<String> words) {
