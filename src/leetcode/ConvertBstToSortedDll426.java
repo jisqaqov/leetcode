@@ -84,7 +84,7 @@ public class ConvertBstToSortedDll426 {
       head = null;
       tail = null;
 
-      inOrderTraverse(root);
+      inorder(root);
 
       head.left = tail;
       tail.right = head;
@@ -92,12 +92,12 @@ public class ConvertBstToSortedDll426 {
       return head;
     }
 
-    private void inOrderTraverse(Node root) {
+    private void inorder(Node root) {
       if (root == null) {
         return;
       }
 
-      inOrderTraverse(root.left);
+      inorder(root.left);
 
       if (head == null) {
         head = root;
@@ -108,7 +108,7 @@ public class ConvertBstToSortedDll426 {
 
       tail = root;
 
-      inOrderTraverse(root.right);
+      inorder(root.right);
     }
   }
 
