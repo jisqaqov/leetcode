@@ -32,20 +32,26 @@ public class MoveZeros283 {
 
     System.out.println("v3:");
     int[] tc3a = {0, 1, 0, 3, 12};
-    new V3().moveZeroes(tc3a);
+    moveZeroes(tc3a);
 
     TestUtils.printArray(tc3a);
   }
 
   public void moveZeroes(int[] nums) {
-    int zeros = 0;
+    int p = 0;
+
     for (int i = 0; i < nums.length; i++) {
-      if (nums[i] == 0) {
-        zeros++;
-      } else if (zeros > 0) {
-        nums[i - zeros] = nums[i];
-        nums[i] = 0;
+      if (nums[i] != 0) {
+        if (i != p) {
+          nums[p] = nums[i];
+        }
+
+        p++;
       }
+    }
+
+    while (p < nums.length) {
+      nums[p++] = 0;
     }
   }
 
@@ -56,34 +62,18 @@ public class MoveZeros283 {
       for (int i = 0; i < nums.length; i++) {
         if (nums[i] != 0) {
           if (i != j) {
-            nums[j] = nums[i];
+            swap(i, j, nums);
           }
 
           j++;
         }
-      }
-
-      while (j < nums.length) {
-        nums[j++] = 0;
       }
     }
-  }
 
-  private static class V3 {
-    public void moveZeroes(int[] nums) {
-      int j = 0;
-
-      for (int i = 0; i < nums.length; i++) {
-        if (nums[i] != 0) {
-          if (i != j) {
-            int temp = nums[j];
-            nums[j] = nums[i];
-            nums[i] = temp;
-          }
-
-          j++;
-        }
-      }
+    private void swap(int i, int j, int[] nums) {
+      int temp = nums[j];
+      nums[j] = nums[i];
+      nums[i] = temp;
     }
   }
 
