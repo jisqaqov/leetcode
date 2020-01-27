@@ -11,8 +11,8 @@ import utils.TestUtils;
  * algorithm: Hash Table, Two Pointer
  * time complexity: O(n + m)
  * space complexity: O(n + m)
- * Runtime: 1 ms, faster than 100.00% of Java online submissions for Intersection of Two Arrays II.
- * Memory Usage: 36.2 MB, less than 83.87% of Java online submissions for Intersection of Two Arrays II.
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 36.2 MB, less than 83.87% of Java online submissions
  */
 public class IntersectionOfTwoArraysII350 {
 
@@ -22,97 +22,28 @@ public class IntersectionOfTwoArraysII350 {
   }
 
   private void test() {
-    int[] tc1a = {1,2,2,1};
-    int[] tc1b = {2,2};
-
-    V2 v2 = new V2();
-    FacebookInterview facebookInterview = new FacebookInterview();
-
-    TestUtils.printArray(intersect(tc1a, tc1b));
-    TestUtils.printArray(facebookInterview.intersect(tc1a, tc1b));
-    TestUtils.printArray(v2.intersect(tc1a, tc1b));
+    TestUtils.printArray(intersect(new int[]{1, 1, 2, 2}, new int[]{2, 2}));
   }
 
   public int[] intersect(int[] nums1, int[] nums2) {
-    Map<Integer, Integer> c1 = new HashMap<>();
+    Map<Integer, Integer> mapOfNums1 = new HashMap<>();
     for (int num : nums1) {
-      c1.put(num, c1.getOrDefault(num, 0) + 1);
+      mapOfNums1.put(num, mapOfNums1.getOrDefault(num, 0) + 1);
     }
 
-    Map<Integer, Integer> c2 = new HashMap<>();
+    int k = 0;
+    int[] output = new int[nums1.length];
+
     for (int num : nums2) {
-      c2.put(num, c2.getOrDefault(num, 0) + 1);
-    }
+      int cnt = mapOfNums1.getOrDefault(num, 0);
 
-    int n = 0;
-
-    int[] list = new int[nums1.length];
-
-    for (int num : c1.keySet()) {
-      int m = Math.min(c1.get(num), c2.getOrDefault(num, 0));
-
-      for (int k = 0; k < m; k++) {
-        list[n++] = num;
+      if (cnt > 0) {
+        output[k++] = num;
+        mapOfNums1.put(num, mapOfNums1.get(num) - 1);
       }
     }
 
-    return Arrays.copyOf(list, n);
-  }
-
-  private static class V2 {
-    public int[] intersect(int[] nums1, int[] nums2) {
-      Map<Integer, Integer> mapOfNums1 = new HashMap<>();
-      for (int num : nums1) {
-        mapOfNums1.put(num, mapOfNums1.getOrDefault(num, 0) + 1);
-      }
-
-      int index = 0;
-      int[] list = new int[nums1.length];
-
-      for (int number : nums2) {
-        int k = mapOfNums1.getOrDefault(number, 0);
-        if (k > 0) {
-          list[index++] = number;
-          mapOfNums1.put(number, mapOfNums1.get(number) - 1);
-        }
-      }
-
-      return Arrays.copyOf(list, index);
-    }
-  }
-
-  /**
-   * Facebook interview question
-   * solve in (1) space and O(N) time complexity
-   * in case that arrays are already sorted
-   */
-  private static class FacebookInterview {
-    public int[] intersect(int[] nums1, int[] nums2) {
-      Arrays.sort(nums1);
-      Arrays.sort(nums2);
-
-      int i = 0;
-      int j = 0;
-      int k = 0;
-
-      int[] sol = new int[nums1.length];
-
-      while (i < nums1.length && j < nums2.length) {
-        if (nums1[i] < nums2[j]) {
-          i++;
-        } else if (nums1[i] > nums2[j]) {
-          j++;
-        } else {
-          sol[k] = nums1[i];
-
-          k++;
-          i++;
-          j++;
-        }
-      }
-
-      return Arrays.copyOfRange(sol, 0, k);
-    }
+    return Arrays.copyOf(output, k);
   }
 
 }
