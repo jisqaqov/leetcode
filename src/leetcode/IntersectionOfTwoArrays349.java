@@ -9,10 +9,10 @@ import utils.TestUtils;
  * @author Jandos Iskakov
  * problem: 349. Intersection of Two Arrays
  * algorithm: Hash Table, Two Pointer
- * time complexity: O(n + m)
+ * time complexity: O(min(n, m))
  * space complexity: O(n + m)
- * Runtime: 1 ms, faster than 99.71% of Java online submissions for Intersection of Two Arrays.
- * Memory Usage: 38 MB, less than 39.19% of Java online submissions for Intersection of Two Arrays.
+ * Runtime: 2 ms, faster than 97.53% of Java online submissions
+ * Memory Usage: 39.7 MB, less than 6.75% of Java online submissions
  */
 public class IntersectionOfTwoArrays349 {
 
@@ -22,72 +22,59 @@ public class IntersectionOfTwoArrays349 {
   }
 
   private void test() {
-    int[] tc1a = {1,2,2,1};
-    int[] tc1b = {2,2};
-
-    FacebookInterview facebookInterview = new FacebookInterview();
-
-    TestUtils.printArray(intersection(tc1a, tc1b));
-    TestUtils.printArray(facebookInterview.intersection(tc1a, tc1b));
+    TestUtils.printArray(intersection(new int[]{1, 2, 2, 1}, new int[]{2, 2}));
   }
 
   public int[] intersection(int[] nums1, int[] nums2) {
-    Set<Integer> set1 = new HashSet<>();
-    for (int num : nums1) {
-      set1.add(num);
-    }
-
-    Set<Integer> set2 = new HashSet<>();
+    Set<Integer> setOfNums2 = new HashSet<>();
     for (int num : nums2) {
-      set2.add(num);
+      setOfNums2.add(num);
     }
 
-    int i = 0;
-    int[] output = new int[set2.size()];
+    int[] output = new int[Math.min(nums1.length, nums2.length)];
 
-    for (int number : set1) {
-      if (set2.contains(number)) {
-        output[i++] = number;
+    int k = 0;
+    for (int number : nums1) {
+      if (setOfNums2.contains(number)) {
+        output[k++] = number;
+        setOfNums2.remove(number);
       }
     }
 
-    return Arrays.copyOf(output, i);
+    return Arrays.copyOf(output, k);
   }
 
-  /**
-   * Facebook interview question
-   * solve in (1) space and O(N) time complexity
-   * in case that arrays are already sorted
-   */
-  private static class FacebookInterview {
+  private static class V2 {
+
     public int[] intersection(int[] nums1, int[] nums2) {
       Arrays.sort(nums1);
       Arrays.sort(nums2);
 
-      int i = 0;
-      int j = 0;
+      int i = 0, j = 0;
       int k = 0;
 
-      int[] sol = new int[nums1.length + nums2.length];
+      int[] output = new int[Math.min(nums1.length, nums2.length)];
 
       while (i < nums1.length && j < nums2.length) {
-        if (nums1[i] < nums2[j]) {
-          i++;
-        } else if (nums1[i] > nums2[j]) {
-          j++;
-        } else {
-          if (k == 0 || sol[k - 1] != nums1[i]) {
-            sol[k] = nums1[i];
+        if (nums1[i] == nums2[j]) {
+          if (k == 0 || output[k - 1] != nums1[i]) {
+            output[k] = nums1[i];
             k++;
           }
 
           i++;
           j++;
+        } else if (nums1[i] < nums2[j]) {
+          i++;
+        } else {
+          j++;
         }
       }
 
-      return Arrays.copyOfRange(sol, 0, k);
+      return Arrays.copyOfRange(output, 0, k);
     }
+
+
   }
 
 }
