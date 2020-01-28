@@ -49,22 +49,22 @@ public class BinaryTreeLongestConsecutiveSequence298 {
       return 0;
     }
 
-    int leftLen = helper(root.left);
-    int rightLen = helper(root.right);
+    int l = helper(root.left);
+    int r = helper(root.right);
 
-    if (root.left != null && root.val - root.left.val == -1) {
-      leftLen++;
+    if (root.left != null && root.val + 1 == root.left.val) {
+      l++;
     } else {
-      leftLen = 1;
+      l = 1;
     }
 
-    if (root.right != null && root.val - root.right.val == -1) {
-      rightLen++;
+    if (root.right != null && root.val + 1 == root.right.val) {
+      r++;
     } else {
-      rightLen = 1;
+      r = 1;
     }
 
-    int tempMax = Math.max(leftLen, rightLen);
+    int tempMax = Math.max(l, r);
 
     maxLen = Math.max(tempMax, maxLen);
 
