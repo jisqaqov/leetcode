@@ -1,12 +1,19 @@
-package prep;
+package leetcode;
 
-public class Prep {
-
-
-  private int maxLen = 0;
+/**
+ * @author Jandos Iskakov
+ * problem: 298. Binary Tree Longest Consecutive Sequence
+ * algorithm: Graph, Topological Sort
+ * time complexity: O(N)
+ * space complexity: O(N)
+ * Runtime: 1 ms, faster than 98.17% of Java online submissions
+ * Memory Usage: 43.6 MB, less than 5.88% of Java online submissions
+ */
+public class BinaryTreeLongestConsecutiveSequence298 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    BinaryTreeLongestConsecutiveSequence298 problem =
+      new BinaryTreeLongestConsecutiveSequence298();
     problem.test1();
   }
 
@@ -27,15 +34,17 @@ public class Prep {
     System.out.println(longestConsecutive(root));
   }
 
+  private int maxLen = 0;
+
   public int longestConsecutive(TreeNode root) {
-    this.maxLen = -1;
+    this.maxLen = 0;
 
     helper(root);
 
     return maxLen;
   }
 
-  public int helper(TreeNode root) {
+  private int helper(TreeNode root) {
     if (root == null) {
       return 0;
     }
