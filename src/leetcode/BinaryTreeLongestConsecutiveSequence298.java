@@ -71,6 +71,23 @@ public class BinaryTreeLongestConsecutiveSequence298 {
     return tempMax;
   }
 
+  private static class V2 {
+    public int longestConsecutive(TreeNode root) {
+      return helper(root, null, 0);
+    }
+
+    public int helper(TreeNode root, TreeNode parent, int len) {
+      if (root == null) {
+        return 0;
+      }
+
+      len = parent != null && parent.val + 1 == root.val ? len + 1 : 1;
+
+      return Math.max(len, Math.max(helper(root.left, root, len),
+        helper(root.right, root, len)));
+    }
+  }
+
   /**
    * Definition for a binary tree node.
    */

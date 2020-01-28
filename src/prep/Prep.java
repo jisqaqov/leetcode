@@ -28,38 +28,18 @@ public class Prep {
   }
 
   public int longestConsecutive(TreeNode root) {
-    this.maxLen = -1;
-
-    helper(root);
-
-    return maxLen;
+    return helper(root, null, 0);
   }
 
-  public int helper(TreeNode root) {
+  public int helper(TreeNode root, TreeNode parent, int len) {
     if (root == null) {
       return 0;
     }
 
-    int leftLen = helper(root.left);
-    int rightLen = helper(root.right);
+    len = parent != null && parent.val + 1 == root.val ? len + 1 : 1;
 
-    if (root.left != null && root.val - root.left.val == -1) {
-      leftLen++;
-    } else {
-      leftLen = 1;
-    }
-
-    if (root.right != null && root.val - root.right.val == -1) {
-      rightLen++;
-    } else {
-      rightLen = 1;
-    }
-
-    int tempMax = Math.max(leftLen, rightLen);
-
-    maxLen = Math.max(tempMax, maxLen);
-
-    return tempMax;
+    return Math.max(len, Math.max(helper(root.left, root, len),
+      helper(root.right, root, len)));
   }
 
   /**
