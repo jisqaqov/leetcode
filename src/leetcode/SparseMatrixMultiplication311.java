@@ -6,8 +6,8 @@ import utils.TestUtils;
  * @author Jandos Iskakov
  * problem: 311. Sparse Matrix Multiplication
  * algorithm: Array
- * time complexity: O(N*M*K)
- * space complexity: O(N*K)
+ * time complexity: O(N*M*P)
+ * space complexity: O(N*P)
  * Runtime: 3 ms, faster than 35.54% of Java online submissions
  * Memory Usage: 41.3 MB, less than 7.14% of Java online submissions
  */
@@ -30,13 +30,15 @@ public class SparseMatrixMultiplication311 {
 
   public int[][] multiply(int[][] a, int[][] b) {
     int n = a.length;
+    int p = b[0].length;
+    int m = a[0].length;
 
     int[][] c = new int[n][b[0].length];
 
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < c[i].length; j++) {
+      for (int j = 0; j < p; j++) {
         c[i][j] = 0;
-        for (int k = 0; k < a[i].length; k++) {
+        for (int k = 0; k < m; k++) {
           c[i][j] += a[i][k] * b[k][j];
         }
       }
