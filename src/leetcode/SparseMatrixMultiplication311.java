@@ -29,16 +29,12 @@ public class SparseMatrixMultiplication311 {
   }
 
   public int[][] multiply(int[][] a, int[][] b) {
-    int n = a.length;
-    int p = b[0].length;
-    int m = a[0].length;
+    int[][] c = new int[a.length][b[0].length];
 
-    int[][] c = new int[n][p];
-
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < p; j++) {
+    for (int i = 0; i < a.length; i++) {
+      for (int j = 0; j < b[0].length; j++) {
         c[i][j] = 0;
-        for (int k = 0; k < m; k++) {
+        for (int k = 0; k < a[0].length; k++) {
           c[i][j] += a[i][k] * b[k][j];
         }
       }
