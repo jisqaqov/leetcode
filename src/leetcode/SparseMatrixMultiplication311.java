@@ -8,8 +8,8 @@ import utils.TestUtils;
  * algorithm: Array
  * time complexity: O(N*M*P)
  * space complexity: O(N*P)
- * Runtime: 3 ms, faster than 35.54% of Java online submissions
- * Memory Usage: 41.3 MB, less than 7.14% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 41.9 MB, less than 7.14% of Java online submissions
  */
 public class SparseMatrixMultiplication311 {
 
@@ -33,7 +33,7 @@ public class SparseMatrixMultiplication311 {
     int p = b[0].length;
     int m = a[0].length;
 
-    int[][] c = new int[n][b[0].length];
+    int[][] c = new int[n][p];
 
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < p; j++) {
@@ -45,6 +45,35 @@ public class SparseMatrixMultiplication311 {
     }
 
     return c;
+  }
+
+  private static class V2 {
+
+    public int[][] multiply(int[][] a, int[][] b) {
+      int n = a.length;
+      int p = b[0].length;
+      int m = a[0].length;
+
+      int[][] c = new int[n][p];
+
+      for (int i = 0; i < n; i++) {
+        for (int k = 0; k < m; k++) {
+          if (a[i][k] != 0) {
+            for (int j = 0; j < p; j++) {
+              c[i][j] += a[i][k] * b[k][j];
+            }
+          }
+        }
+      }
+
+      return c;
+    }
+
+  }
+
+  private static class V3 {
+    //TODO:
+
   }
 
 
