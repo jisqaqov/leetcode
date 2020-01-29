@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
 import utils.TestUtils;
 
 /**
@@ -64,7 +66,40 @@ public class SparseMatrixMultiplication311 {
   }
 
   private static class V3 {
-    //TODO:
+
+    public int[][] multiply(int[][] a, int[][] b) {
+      Map<Integer, Map<Integer, Integer>> mapOfA = convert(a);
+      Map<Integer, Map<Integer, Integer>> mapOfB = convert(b);
+
+      int[][] c = new int[a.length][b[0].length];
+
+      for (int i : mapOfA.keySet()) {
+        for (int k : mapOfA.get(i).keySet()) {
+          if (mapOfB.containsKey(k)) {
+            for (int j : mapOfB.get(k).keySet()) {
+              c[i][j] += mapOfA.get(i).get(k) * mapOfB.get(k).get(j);
+            }
+          }
+        }
+      }
+
+      return c;
+    }
+
+    private Map<Integer, Map<Integer, Integer>> convert(int[][] a) {
+      Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+
+      for (int i = 0; i < a.length; i++) {
+        map.put(i, new HashMap<>());
+        for (int j = 0; j < a[i].length; j++) {
+          if (a[i][j] != 0) {
+            map.get(i).put(j, a[i][j]);
+          }
+        }
+      }
+
+      return map;
+    }
 
   }
 
