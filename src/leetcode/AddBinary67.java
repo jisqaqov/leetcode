@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: String, Math
  * time complexity: O(|a| + |b|)
  * space complexity: O(|a| + |b|)
- * Runtime: 2 ms, faster than 66.26% of Java online submissions for Add Binary.
- * Memory Usage: 36.2 MB, less than 100.00% of Java online submissions for Add Binary.
+ * Runtime: 2 ms, faster than 64.31% of Java online submissions
+ * Memory Usage: 38 MB, less than 5.62% of Java online submissions
  */
 public class AddBinary67 {
 
@@ -27,30 +27,26 @@ public class AddBinary67 {
     int carry = 0;
     StringBuilder sb = new StringBuilder();
 
-    while (i >= 0 || j >= 0) {
-      int num1 = 0;
-      int num2 = 0;
-
+    while (i >= 0 || j >= 0 || carry > 0) {
+      int d1 = 0;
       if (i >= 0) {
-        num1 = Character.getNumericValue(a.charAt(i));
+        d1 = a.charAt(i) - '0';
       }
 
+      int d2 = 0;
       if (j >= 0) {
-        num2 = Character.getNumericValue(b.charAt(j));
+        d2 = b.charAt(j) - '0';
       }
 
-      int k = num1 + num2 + carry;
-      carry = k / 2;
+      int k = d1 + d2 + carry;
+
       int c = k % 2;
+      carry = k / 2;
 
       sb.append(c);
 
       i--;
       j--;
-    }
-
-    if (carry != 0) {
-      sb.append(carry);
     }
 
     return sb.reverse().toString();

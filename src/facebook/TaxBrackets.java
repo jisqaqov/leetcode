@@ -22,7 +22,8 @@ public class TaxBrackets {
   }
 
   private void test() {
-    double[][] tc1a = new double[][]{{5070, 0.1}, {8660, 0.14}, {14070, 0.23}, {21240, 0.3}, {40230, 0.33}, {0, 0.45}};
+    double[][] tc1a = new double[][]{{5070, 0.1}, {8660, 0.14}, {14070, 0.23},
+      {21240, 0.3}, {40230, 0.33}, {0, 0.45}};
 
     System.out.println(calculateTax(5000, tc1a));//500
     System.out.println(calculateTax(5800, tc1a));//609.2
