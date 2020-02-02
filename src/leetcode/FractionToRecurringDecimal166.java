@@ -26,77 +26,54 @@ public class FractionToRecurringDecimal166 {
     System.out.println(fractionToDecimal(2, 3));//0.(6)
     System.out.println(fractionToDecimal(4, 333));//0.(012)
     System.out.println(fractionToDecimal(1, 6));//0.1(6)
-    System.out.println(fractionToDecimal(22, 7));//30.(142857)
+    System.out.println(fractionToDecimal(22, 7));//3.(142857)
     System.out.println(fractionToDecimal(-50, 8));//-6.25
     System.out.println(fractionToDecimal(-22, -2));//11
     System.out.println(fractionToDecimal(-1, -2147483648));//0.0000000004656612873077392578125
   }
 
-  public String fractionToDecimal(int num1, int num2) {
-    long p = num1;
-    long q = num2;
+  public String fractionToDecimal(int numerator, int denominator) {
+    boolean negative = (numerator < 0 && denominator > 0) || (numerator > 0 && denominator < 0);
+
+    long p = Math.abs((long) numerator);
+    long q = Math.abs((long) denominator);
 
     if (p == 0) {
       return "0";
     }
 
-    boolean negative = false;
-    if ((p < 0 && q > 0) || (p > 0 && q < 0)) {
-      negative = true;
+    StringBuilder output = new StringBuilder();
+
+    if (negative) {
+      output.append('-');
     }
 
-    p = Math.abs(p);
-    q = Math.abs(q);
+    output.append(p / q);
+    p %= q;
+
+    if (p == 0) {
+      return output.toString();
+    }
+
+    output.append('.');
 
     Map<Long, Integer> map = new HashMap<>();
 
-    boolean decimal = false;
-    StringBuilder output = new StringBuilder();
+    while (p != 0) {
+      map.put(p, output.length());
 
-    while (true) {
-      if (p >= q) {
-        long div = p / q;
-        long rem = p - div * q;
+      p *= 10;
 
-        output.append(div);
+      output.append(p / q);
 
-        if (map.containsKey(rem)) {
-          output.insert(map.get(rem), "(");
-          output.append(")");
+      p %= q;
 
-          break;
-        }
+      if (map.containsKey(p)) {
+        output.insert(map.get(p), "(");
+        output.append(")");
 
-        p = rem;
-        map.put(rem, output.length());
-
-        if (rem == 0) {
-          break;
-        }
-      } else {
-        if (!decimal) {
-          if (output.length() == 0) {
-            output.append("0.");
-          } else {
-            output.append(".");
-          }
-
-          map.put(p, output.length());
-
-          decimal = true;
-        }
-
-        p *= 10;
-
-        while (p < q) {
-          p *= 10;
-          output.append('0');
-        }
+        break;
       }
-    }
-
-    if (negative) {
-      output.insert(0, '-');
     }
 
     return output.toString();
