@@ -1,12 +1,21 @@
-package prep;
+package leetcode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 166. Fraction to Recurring Decimal
+ * algorithm: Math, Hash Table
+ * time complexity: O(1)
+ * space complexity: O(D)
+ * Runtime: 1 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 37 MB, less than 9.52% of Java online submissions
+ */
+public class FractionToRecurringDecimal166 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    FractionToRecurringDecimal166 problem = new FractionToRecurringDecimal166();
     problem.test();
   }
 
