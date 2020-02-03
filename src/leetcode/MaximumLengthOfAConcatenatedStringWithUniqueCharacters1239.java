@@ -1,4 +1,4 @@
-package prep;
+package leetcode;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -6,12 +6,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Prep {
-
-
+/**
+ * @author Jandos Iskakov
+ * problem: 1239. Maximum Length of a Concatenated String with Unique Characters
+ * algorithm: Backtracking
+ * time complexity: O(2^N)
+ * space complexity: O(N)
+ * Runtime: 25 ms, faster than 40.32% of Java online submissions
+ * Memory Usage: 41.1 MB, less than 100.00% of Java online submissions
+ */
+public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 problem = new MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239();
     problem.test();
   }
 
