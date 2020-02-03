@@ -12,7 +12,7 @@ import java.util.Set;
  * algorithm: Backtracking
  * time complexity: O(2^N)
  * space complexity: O(N)
- * Runtime: 25 ms, faster than 40.32% of Java online submissions
+ * Runtime: 25 ms, faster than 54.81% of Java online submissions
  * Memory Usage: 41.1 MB, less than 100.00% of Java online submissions
  */
 public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
@@ -51,21 +51,12 @@ public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
 
     Set<Character> chars = new HashSet<>();
     for (char ch : s) {
-      if (chars.contains(ch)) {
+      if (chars.contains(ch) || set.contains(ch)) {
         merge = false;
         break;
       }
 
       chars.add(ch);
-    }
-
-    if (merge) {
-      for (char ch : chars) {
-        if (set.contains(ch)) {
-          merge = false;
-          break;
-        }
-      }
     }
 
     helper(set, arr, index + 1);
