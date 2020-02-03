@@ -1,5 +1,6 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -68,6 +69,52 @@ public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
       helper(set, arr, index + 1);
       set.removeAll(chars);
     }
+  }
+
+  private static class V2 {
+
+    public int maxLength(List<String> arr) {
+      List<String> list = new ArrayList<>();
+      list.add("");
+
+      for (String s : arr) {
+        if (!isUnique(s)) {
+          continue;
+        }
+
+        List<String> temp = new ArrayList<>();
+        for (String t : list) {
+          String p = t + s;
+          if (isUnique(p)) {
+            temp.add(p);
+          }
+        }
+
+        list.addAll(temp);
+      }
+
+      int maxLen = 0;
+      for (String s : list) {
+        maxLen = Math.max(maxLen, s.length());
+      }
+
+      return maxLen;
+    }
+
+    private boolean isUnique(String s) {
+      Set<Character> set = new HashSet<>();
+
+      for (int i = 0; i < s.length(); i++) {
+        if (set.contains(s.charAt(i))) {
+          return false;
+        }
+
+        set.add(s.charAt(i));
+      }
+
+      return true;
+    }
+
   }
 
 }
