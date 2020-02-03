@@ -47,12 +47,12 @@ public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
 
     char[] s = arr.get(index).toCharArray();
 
-    boolean merge = true;
+    boolean unique = true;
 
     Set<Character> chars = new HashSet<>();
     for (char ch : s) {
       if (chars.contains(ch) || set.contains(ch)) {
-        merge = false;
+        unique = false;
         break;
       }
 
@@ -61,7 +61,7 @@ public class MaximumLengthOfAConcatenatedStringWithUniqueCharacters1239 {
 
     helper(set, arr, index + 1);
 
-    if (merge) {
+    if (unique) {
       maxLen = Math.max(maxLen, set.size() + s.length);
 
       set.addAll(chars);
