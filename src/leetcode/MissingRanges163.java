@@ -20,13 +20,19 @@ public class MissingRanges163 {
   }
 
   private void test() {
-    System.out.println(findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 99));//[2, 4->49, 51->74, 76->99]
-    System.out.println(findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 75));//[2, 4->49, 51->74]
+    //[2, 4->49, 51->74, 76->99]
+    System.out.println(findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 99));
+    //[2, 4->49, 51->74]
+    System.out.println(findMissingRanges(new int[]{0, 1, 3, 50, 75}, 0, 75));
     System.out.println(findMissingRanges(new int[]{}, 0, 75));//[0->75]
     System.out.println(findMissingRanges(new int[]{-1}, -2, -1));//[-2]
-    System.out.println(findMissingRanges(new int[]{-2147483648, 2147483647}, -2147483648, 2147483647));//[-2147483647->2147483646]
-    System.out.println(findMissingRanges(new int[]{2147483647}, -2147483648, 2147483647));//[-2147483648->2147483646]
-    System.out.println(findMissingRanges(new int[]{}, -2147483648, 2147483647));//[-2147483648->2147483647]
+
+    //[-2147483647->2147483646]
+    System.out.println(findMissingRanges(new int[]{-2147483648, 2147483647}, -2147483648, 2147483647));
+    //[-2147483648->2147483646]
+    System.out.println(findMissingRanges(new int[]{2147483647}, -2147483648, 2147483647));
+    //[-2147483648->2147483647]
+    System.out.println(findMissingRanges(new int[]{}, -2147483648, 2147483647));
   }
 
   public List<String> findMissingRanges(int[] nums, int lower, int upper) {
@@ -35,13 +41,21 @@ public class MissingRanges163 {
 
     if (n == 0) {
       addRange(lower, upper, output);
-    } else {
-      addRange(lower, (long)nums[0] - 1, output);
+      return output;
+    }
 
-      for (int i = 1; i < n; i++)
-        addRange((long)nums[i - 1] + 1, (long)nums[i] - 1, output);
+    if (lower < nums[0]) {
+      addRange(lower, nums[0] - 1, output);
+    }
 
-      addRange((long)nums[n - 1] + 1, upper, output);
+    for (int i = 0; i < n - 1; i++) {
+      if (nums[i] != nums[i + 1] && nums[i] + 1 != nums[i + 1]) {
+        addRange(nums[i] + 1, nums[i + 1] - 1, output);
+      }
+    }
+
+    if (nums[n - 1] < upper) {
+      addRange(nums[n - 1] + 1, upper, output);
     }
 
     return output;
