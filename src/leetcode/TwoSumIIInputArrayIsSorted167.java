@@ -8,8 +8,8 @@ import utils.TestUtils;
  * algorithm: Two Pointers
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 1 ms, faster than 55.02% of Java online submissions
- * Memory Usage: 42.6 MB, less than 5.22% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00% of Java online submissions
+ * Memory Usage: 42.3 MB, less than 5.22% of Java online submissions
  */
 public class TwoSumIIInputArrayIsSorted167 {
 
@@ -26,21 +26,17 @@ public class TwoSumIIInputArrayIsSorted167 {
     int i = 0;
     int j = numbers.length - 1;
 
-    int[] output = {-1, -1};
-
     while (i < j) {
-      if (numbers[i] + numbers[j] == target) {
-        output[0] = i + 1;
-        output[1] = j + 1;
-        break;
-      } else if (numbers[i] + numbers[j] > target) {
+      if (numbers[i] + numbers[j] > target) {
         j--;
-      } else {
+      } else if (numbers[i] + numbers[j] < target) {
         i++;
+      } else {
+        break;
       }
     }
 
-    return output;
+    return new int[] {i + 1, j + 1};
   }
 
 }
