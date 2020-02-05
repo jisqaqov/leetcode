@@ -40,33 +40,29 @@ public class MissingRanges163 {
     List<String> output = new ArrayList<>();
 
     if (n == 0) {
-      addRange(lower, upper, output);
+      output.add(getRange(lower, upper));
       return output;
     }
 
     if (lower < nums[0]) {
-      addRange(lower, nums[0] - 1, output);
+      output.add(getRange(lower, nums[0] - 1));
     }
 
     for (int i = 0; i < n - 1; i++) {
       if (nums[i] != nums[i + 1] && nums[i] + 1 != nums[i + 1]) {
-        addRange(nums[i] + 1, nums[i + 1] - 1, output);
+        output.add(getRange(nums[i] + 1, nums[i + 1] - 1));
       }
     }
 
     if (nums[n - 1] < upper) {
-      addRange(nums[n - 1] + 1, upper, output);
+      output.add(getRange(nums[n - 1] + 1, upper));
     }
 
     return output;
   }
 
-  private void addRange(long lower, long upper, List<String> output) {
-    if (lower == upper) {
-      output.add(String.valueOf(lower));
-    } else if (lower < upper) {
-      output.add(lower + "->" + upper);
-    }
+  private String getRange(long lower, long upper) {
+    return lower == upper? String.valueOf(lower): lower + "->" + upper;
   }
 
 }
