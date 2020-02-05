@@ -36,17 +36,12 @@ public class MissingRanges163 {
     if (n == 0) {
       addRange(lower, upper, output);
     } else {
-      if (lower < nums[0]) {
-        addRange(lower, (long)nums[0] - 1, output);
-      }
+      addRange(lower, (long)nums[0] - 1, output);
 
-      for (int i = 1; i < n; i++) {
+      for (int i = 1; i < n; i++)
         addRange((long)nums[i - 1] + 1, (long)nums[i] - 1, output);
-      }
 
-      if (nums[n - 1] < upper) {
-        addRange((long)nums[n - 1] + 1, upper, output);
-      }
+      addRange((long)nums[n - 1] + 1, upper, output);
     }
 
     return output;
