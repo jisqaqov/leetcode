@@ -28,11 +28,14 @@ public class PancakeSorting969 {
 
     for (int i = a.length - 1; i > 0; i--) {
       int maxIndex = findMax(a, i);
-      reverse(a, maxIndex);
-      reverse(a, i);
 
-      flips.add(maxIndex + 1);
-      flips.add(i + 1);
+      if (maxIndex != i) {
+        reverse(a, maxIndex);
+        reverse(a, i);
+
+        flips.add(maxIndex + 1);
+        flips.add(i + 1);
+      }
     }
 
     return flips;
