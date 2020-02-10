@@ -23,61 +23,110 @@ public class SpiralOrder54 {
     System.out.println(spiralOrder(new int[][]{
       {1, 2, 3},
       {4, 5, 6},
-      {7, 8, 9}}));
+      {7, 8, 9}}));//[1, 2, 3, 6, 9, 8, 7, 4, 5]
 
     System.out.println(spiralOrder(new int[][]{
       {1, 2, 3, 4},
       {5, 6, 7, 8},
-      {9, 10, 11, 12}}));
+      {9, 10, 11, 12}}));//[1, 2, 3, 4, 8, 12, 11, 10, 9, 5, 6, 7]
   }
 
   public List<Integer> spiralOrder(int[][] matrix) {
     List<Integer> output = new ArrayList<>();
 
-    int n = matrix.length;
-    if (n == 0) {
+    if (matrix.length == 0) {
       return output;
     }
 
-    int m = matrix[0].length;
+    int startRow = 0;
+    int endRow = matrix.length - 1;
+    int startCol = 0;
+    int endCol = matrix[0].length - 1;
 
-    int cnt = n * m;
-    int i = 0, j = 0;
-
-    int k = 0;
-    while (output.size() < n * m) {
-      for (; output.size() < cnt && j < m - k; j++) {
-        output.add(matrix[i][j]);
+    while (startRow <= endRow && startCol <= endCol) {
+      for (int j = startCol; j <= endCol; j++) {
+        output.add(matrix[startRow][j]);
       }
 
-      j--;
-      i++;
+      startRow++;
 
-      for (; output.size() < cnt && i < n - k; i++) {
-        output.add(matrix[i][j]);
+      for (int i = startRow; i <= endRow; i++) {
+        output.add(matrix[i][endCol]);
       }
 
-      i--;
-      j--;
+      endCol--;
 
-      for (; output.size() < cnt && j >= k; j--) {
-        output.add(matrix[i][j]);
+      if (startRow <= endRow) {
+        for (int j = endCol; j >= startCol; j--) {
+          output.add(matrix[endRow][j]);
+        }
       }
 
-      j++;
-      i--;
+      endRow--;
 
-      k++;
-
-      for (; output.size() < cnt && i >= k; i--) {
-        output.add(matrix[i][j]);
+      if (startCol <= endCol) {
+        for (int i = endRow; i >= startRow; i--) {
+          output.add(matrix[i][startCol]);
+        }
       }
 
-      i++;
-      j++;
+      startCol++;
     }
 
     return output;
+  }
+
+
+  private static class V2 {
+
+    public List<Integer> spiralOrder(int[][] matrix) {
+      List<Integer> output = new ArrayList<>();
+
+      int n = matrix.length;
+      if (n == 0) {
+        return output;
+      }
+
+      int m = matrix[0].length;
+
+      int cnt = n * m;
+      int i = 0, j = 0;
+
+      int k = 0;
+      while (output.size() < n * m) {
+        for (; output.size() < cnt && j < m - k; j++) {
+          output.add(matrix[i][j]);
+        }
+
+        j--;
+        i++;
+
+        for (; output.size() < cnt && i < n - k; i++) {
+          output.add(matrix[i][j]);
+        }
+
+        i--;
+        j--;
+
+        for (; output.size() < cnt && j >= k; j--) {
+          output.add(matrix[i][j]);
+        }
+
+        j++;
+        i--;
+
+        k++;
+
+        for (; output.size() < cnt && i >= k; i--) {
+          output.add(matrix[i][j]);
+        }
+
+        i++;
+        j++;
+      }
+
+      return output;
+    }
   }
 
 }
