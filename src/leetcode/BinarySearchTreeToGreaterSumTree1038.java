@@ -60,7 +60,7 @@ public class BinarySearchTreeToGreaterSumTree1038 {
 
   private static class V3 {
     public TreeNode bstToGst(TreeNode root) {
-      int pre = 0;
+      int sum = 0;
 
       TreeNode node = root;
       Deque<TreeNode> stack = new ArrayDeque<>();
@@ -72,9 +72,9 @@ public class BinarySearchTreeToGreaterSumTree1038 {
         }
 
         node = stack.pop();
-        node.val += pre;
+        sum += node.val;
 
-        pre = node.val;
+        node.val = sum;
 
         node = node.left;
       }
