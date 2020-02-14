@@ -44,26 +44,43 @@ public class BinarySearchTreeToGreaterSumTree1038 {
   }
 
   public TreeNode bstToGst(TreeNode root) {
-    int pre = 0;
+    helper(root, 0);
+    return root;
+  }
 
-    TreeNode node = root;
-    Deque<TreeNode> stack = new ArrayDeque<>();
-
-    while (node != null || !stack.isEmpty()) {
-      while (node != null) {
-        stack.push(node);
-        node = node.right;
-      }
-
-      node = stack.pop();
-      node.val += pre;
-
-      pre = node.val;
-
-      node = node.left;
+  private int helper(TreeNode root, int p) {
+    if (root == null) {
+      return p;
     }
 
-    return root;
+    root.val += helper(root.right, p);
+
+    return helper(root.left, root.val);
+  }
+
+  private static class V3 {
+    public TreeNode bstToGst(TreeNode root) {
+      int pre = 0;
+
+      TreeNode node = root;
+      Deque<TreeNode> stack = new ArrayDeque<>();
+
+      while (node != null || !stack.isEmpty()) {
+        while (node != null) {
+          stack.push(node);
+          node = node.right;
+        }
+
+        node = stack.pop();
+        node.val += pre;
+
+        pre = node.val;
+
+        node = node.left;
+      }
+
+      return root;
+    }
   }
 
   private static class V2 {
@@ -85,6 +102,25 @@ public class BinarySearchTreeToGreaterSumTree1038 {
       return root;
     }
 
+  }
+
+  private static class V4 {
+    private int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+      if (root == null) {
+        return null;
+      }
+
+      convertBST(root.right);
+
+      sum += root.val;
+      root.val = sum;
+
+      convertBST(root.left);
+
+      return root;
+    }
   }
 
   /**
