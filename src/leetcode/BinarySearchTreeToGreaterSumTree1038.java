@@ -7,7 +7,7 @@ package leetcode;
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
- * Memory Usage: 37.2 MB, less than 100.00% of Java online submissions
+ * Memory Usage: 37.3 MB, less than 100.00% of Java online submissions
  */
 public class BinarySearchTreeToGreaterSumTree1038 {
 
@@ -40,24 +40,19 @@ public class BinarySearchTreeToGreaterSumTree1038 {
     System.out.println(bstToGst(root));
   }
 
-  public TreeNode bstToGst(TreeNode root) {
-    this.last = 0;
-    return helper(root);
-  }
-
   int last = 0;
 
-  private TreeNode helper(TreeNode root) {
+  public TreeNode bstToGst(TreeNode root) {
     if (root == null) {
       return null;
     }
 
-    helper(root.right);
+    bstToGst(root.right);
 
     root.val += last;
     last = root.val;
 
-    helper(root.left);
+    bstToGst(root.left);
 
     return root;
   }
