@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Jandos Iskakov
  * problem: 1038. Binary Search Tree to Greater Sum Tree
@@ -40,21 +43,48 @@ public class BinarySearchTreeToGreaterSumTree1038 {
     System.out.println(bstToGst(root));
   }
 
-  int last = 0;
-
   public TreeNode bstToGst(TreeNode root) {
-    if (root == null) {
-      return null;
+    int pre = 0;
+
+    TreeNode node = root;
+    Deque<TreeNode> stack = new ArrayDeque<>();
+
+    while (node != null || !stack.isEmpty()) {
+      while (node != null) {
+        stack.push(node);
+        node = node.right;
+      }
+
+      node = stack.pop();
+      node.val += pre;
+
+      pre = node.val;
+
+      node = node.left;
     }
 
-    bstToGst(root.right);
-
-    root.val += last;
-    last = root.val;
-
-    bstToGst(root.left);
-
     return root;
+  }
+
+  private static class V2 {
+
+    int last = 0;
+
+    public TreeNode bstToGst(TreeNode root) {
+      if (root == null) {
+        return null;
+      }
+
+      bstToGst(root.right);
+
+      root.val += last;
+      last = root.val;
+
+      bstToGst(root.left);
+
+      return root;
+    }
+
   }
 
   /**
