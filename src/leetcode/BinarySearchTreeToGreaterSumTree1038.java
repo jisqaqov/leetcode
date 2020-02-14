@@ -1,8 +1,5 @@
 package leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author Jandos Iskakov
  * problem: 1038. Binary Search Tree to Greater Sum Tree
@@ -10,7 +7,7 @@ import java.util.Map;
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
- * Memory Usage: 37.3 MB, less than 100.00% of Java online submissions
+ * Memory Usage: 37.2 MB, less than 100.00% of Java online submissions
  */
 public class BinarySearchTreeToGreaterSumTree1038 {
 
@@ -44,75 +41,25 @@ public class BinarySearchTreeToGreaterSumTree1038 {
   }
 
   public TreeNode bstToGst(TreeNode root) {
-    this.last = new TreeNode(0);
+    this.last = 0;
     return helper(root);
   }
 
-  TreeNode last = new TreeNode(0);
+  int last = 0;
 
   private TreeNode helper(TreeNode root) {
     if (root == null) {
       return null;
     }
 
-    TreeNode clone = new TreeNode(0);
+    helper(root.right);
 
-    clone.right = helper(root.right);
+    root.val += last;
+    last = root.val;
 
-    clone.val = root.val + last.val;
-    last = clone;
+    helper(root.left);
 
-    clone.left = helper(root.left);
-
-    return clone;
-  }
-
-  private static class V2 {
-
-    public TreeNode bstToGst(TreeNode root) {
-      Map<Integer, Integer> map = new HashMap<>();
-
-      sumTree(root, map);
-
-      return helper(root, map, 0);
-    }
-
-    private TreeNode helper(TreeNode root, Map<Integer, Integer> map, int p) {
-      if (root == null) {
-        return null;
-      }
-
-      int sum = root.val + p;
-
-      if (root.right != null) {
-        sum += map.get(root.right.val);
-      }
-
-      TreeNode clone = new TreeNode(sum);
-
-      TreeNode left = helper(root.left, map, sum);
-      TreeNode right = helper(root.right, map, p);
-
-      clone.left = left;
-      clone.right = right;
-
-      return clone;
-    }
-
-    private int sumTree(TreeNode root, Map<Integer, Integer> map) {
-      if (root == null) {
-        return 0;
-      }
-
-      int ls = sumTree(root.left, map);
-      int rs = sumTree(root.right, map);
-
-      int sum = root.val + ls + rs;
-
-      map.put(root.val, sum);
-
-      return sum;
-    }
+    return root;
   }
 
   /**
