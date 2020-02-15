@@ -52,7 +52,7 @@ public class RecoverBinarySearchTree99 {
     Deque<TreeNode> stack = new ArrayDeque<>();
     TreeNode node = root;
     TreeNode pre = null;
-    TreeNode[] swaps = new TreeNode[2];
+    TreeNode a = null, b = null;
 
     while (node != null || !stack.isEmpty()) {
       while (node != null) {
@@ -62,13 +62,13 @@ public class RecoverBinarySearchTree99 {
 
       node = stack.pop();
       if (pre != null && pre.val > node.val) {
-        swaps[0] = node;
+        b = node;
 
-        if (swaps[1] != null) {
+        if (a == null) {
+          a = pre;
+        } else {
           break;
         }
-
-        swaps[1] = pre;
       }
 
       pre = node;
@@ -76,42 +76,46 @@ public class RecoverBinarySearchTree99 {
       node = node.right;
     }
 
-    int temp = swaps[0].val;
-    swaps[0].val = swaps[1].val;
-    swaps[1].val = temp;
+    swap(a, b);
   }
 
-  private static class V2 {
+  private void swap(TreeNode a, TreeNode b) {
+    int temp = a.val;
+    a.val = b.val;
+    b.val = temp;
+  }
+
+  private class V2 {
     private TreeNode pre = null;
+    private TreeNode a, b;
 
     public void recoverTree(TreeNode root) {
-      this.pre = null;
-      TreeNode[] swaps = new TreeNode[2];
+      pre = a = b = null;
 
-      inorder(root, swaps);
+      inorder(root);
 
-      int temp = swaps[0].val;
-      swaps[0].val = swaps[1].val;
-      swaps[1].val = temp;
+      swap(a, b);
     }
 
-    private void inorder(TreeNode root, TreeNode[] swaps) {
+    private void inorder(TreeNode root) {
       if (root == null) {
         return;
       }
 
-      inorder(root.left, swaps);
+      inorder(root.left);
 
       if (pre != null && pre.val > root.val) {
-        swaps[0] = root;
-        if (swaps[1] == null) {
-          swaps[1] = pre;
+        b = root;
+        if (a == null) {
+          a = pre;
+        } else {
+          return;
         }
       }
 
       pre = root;
 
-      inorder(root.right, swaps);
+      inorder(root.right);
     }
 
   }
