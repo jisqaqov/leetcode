@@ -39,10 +39,6 @@ public class DailyTemperatures739 {
       stack.push(i);
     }
 
-    while (!stack.isEmpty()) {
-      output[stack.pop()] = 0;
-    }
-
     return output;
   }
 
