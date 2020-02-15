@@ -9,8 +9,8 @@ import java.util.Deque;
  * algorithm: Tree, DFS
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 2 ms, faster than 96.06% of Java online submissions
- * Memory Usage: 41.5 MB, less than 69.23% of Java online submissions
+ * Runtime: 3 ms, faster than 40.42% of Java online submissions
+ * Memory Usage: 41.1 MB, less than 73.08% of Java online submissions
  */
 public class RecoverBinarySearchTree99 {
 
@@ -61,11 +61,14 @@ public class RecoverBinarySearchTree99 {
       }
 
       node = stack.pop();
-      if (swaps[0] != null && swaps[0].val > node.val) {
-        swaps[1] = node;
-      } else if (pre != null && pre.val > node.val) {
-        swaps[0] = pre;
-        swaps[1] = node;
+      if (pre != null && pre.val > node.val) {
+        swaps[0] = node;
+
+        if (swaps[1] != null) {
+          break;
+        }
+
+        swaps[1] = pre;
       }
 
       pre = node;
@@ -99,11 +102,11 @@ public class RecoverBinarySearchTree99 {
 
       inorder(root.left, swaps);
 
-      if (swaps[0] != null && swaps[0].val > root.val) {
-        swaps[1] = root;
-      } else if (pre != null && pre.val > root.val) {
-        swaps[0] = pre;
-        swaps[1] = root;
+      if (pre != null && pre.val > root.val) {
+        swaps[0] = root;
+        if (swaps[1] == null) {
+          swaps[1] = pre;
+        }
       }
 
       pre = root;
