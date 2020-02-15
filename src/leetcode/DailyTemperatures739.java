@@ -42,5 +42,27 @@ public class DailyTemperatures739 {
     return output;
   }
 
+  private static class V2 {
+
+    public int[] dailyTemperatures(int[] t) {
+      int[] output = new int[t.length];
+
+      Deque<Integer> stack = new ArrayDeque<>();
+
+      for (int i = t.length - 1; i  >= 0; i--) {
+        while (!stack.isEmpty() &&  t[i] >= t[stack.peek()]) {
+          stack.pop();
+        }
+
+        output[i] = stack.isEmpty()? 0: stack.peek() - i;
+
+        stack.push(i);
+      }
+
+      return output;
+    }
+
+  }
+
 
 }
