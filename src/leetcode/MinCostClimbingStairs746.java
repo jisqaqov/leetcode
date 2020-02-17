@@ -1,7 +1,5 @@
 package leetcode;
 
-import java.util.Arrays;
-
 /**
  * @author Jandos Iskakov
  * problem: 746. Min Cost Climbing Stairs
@@ -9,7 +7,7 @@ import java.util.Arrays;
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 1 ms, faster than 97.42% of Java online submissions
- * Memory Usage: 39.6 MB, less than 39.29% of Java online submissions
+ * Memory Usage: 39.1 MB, less than 62.50% of Java online submissions
  */
 public class MinCostClimbingStairs746 {
 
@@ -28,16 +26,16 @@ public class MinCostClimbingStairs746 {
       return 0;
     }
 
-    int climb2 = 0;
-    int climb1 = cost[0];
+    int cost0 = cost[0];
+    int cost1 = cost[1];
 
-    for (int i = 2; i <= cost.length; i++) {
-      int climb = cost[i - 1] + Math.min(climb1, climb2);
-      climb2 = climb1;
-      climb1 = climb;
+    for (int i = 2; i < cost.length; i++) {
+      int currCost = cost[i] + Math.min(cost1, cost0);
+      cost0 = cost1;
+      cost1 = currCost;
     }
 
-    return Math.min(climb1, climb2);
+    return Math.min(cost1, cost0);
   }
 
   private static class V3 {
@@ -48,49 +46,15 @@ public class MinCostClimbingStairs746 {
         return 0;
       }
 
-      int[] dp = new int[n + 1];
-      dp[0] = 0;
-      dp[1] = cost[0];
+      int[] dp = new int[n];
+      dp[0] = cost[0];
+      dp[1] = cost[1];
 
-      for (int i = 2; i <= cost.length; i++) {
-        dp[i] = cost[i - 1] + Math.min(dp[i - 2], dp[i - 1]);
+      for (int i = 2; i < cost.length; i++) {
+        dp[i] = cost[i] + Math.min(dp[i - 1], dp[i - 2]);
       }
 
-      return Math.min(dp[n - 1], dp[n]);
-    }
-
-  }
-
-  private static class V2 {
-
-    public int minCostClimbingStairs(int[] cost) {
-      if (cost.length == 0) {
-        return 0;
-      }
-
-      int[] dp = new int[cost.length + 2];
-      Arrays.fill(dp, -1);
-
-      return helper(cost, cost.length + 1, dp);
-    }
-
-    private int helper(int[] cost, int n, int[] dp) {
-      if (n <= 0) {
-        return 0;
-      }
-
-      if (dp[n] != -1) {
-        return dp[n];
-      }
-
-      dp[n] = 0;
-      if (n <= cost.length) {
-        dp[n] = cost[n - 1];
-      }
-
-      dp[n] += Math.min(helper(cost, n - 1, dp), helper(cost, n - 2, dp));
-
-      return dp[n];
+      return Math.min(dp[n - 1], dp[n - 2]);
     }
 
   }
