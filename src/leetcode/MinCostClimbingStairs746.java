@@ -22,10 +22,6 @@ public class MinCostClimbingStairs746 {
   }
 
   public int minCostClimbingStairs(int[] cost) {
-    if (cost.length == 0) {
-      return 0;
-    }
-
     int cost0 = cost[0];
     int cost1 = cost[1];
 
@@ -42,9 +38,6 @@ public class MinCostClimbingStairs746 {
 
     public int minCostClimbingStairs(int[] cost) {
       int n = cost.length;
-      if (n == 0) {
-        return 0;
-      }
 
       int[] dp = new int[n];
       dp[0] = cost[0];
