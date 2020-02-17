@@ -22,32 +22,32 @@ public class MinCostClimbingStairs746 {
   }
 
   public int minCostClimbingStairs(int[] cost) {
-    int cost0 = cost[0];
-    int cost1 = cost[1];
+    int n = cost.length;
+
+    int[] dp = new int[n];
+    dp[0] = cost[0];
+    dp[1] = cost[1];
 
     for (int i = 2; i < cost.length; i++) {
-      int currCost = cost[i] + Math.min(cost1, cost0);
-      cost0 = cost1;
-      cost1 = currCost;
+      dp[i] = cost[i] + Math.min(dp[i - 1], dp[i - 2]);
     }
 
-    return Math.min(cost1, cost0);
+    return Math.min(dp[n - 1], dp[n - 2]);
   }
 
   private static class V3 {
 
     public int minCostClimbingStairs(int[] cost) {
-      int n = cost.length;
-
-      int[] dp = new int[n];
-      dp[0] = cost[0];
-      dp[1] = cost[1];
+      int cost0 = cost[0];
+      int cost1 = cost[1];
 
       for (int i = 2; i < cost.length; i++) {
-        dp[i] = cost[i] + Math.min(dp[i - 1], dp[i - 2]);
+        int currCost = cost[i] + Math.min(cost1, cost0);
+        cost0 = cost1;
+        cost1 = currCost;
       }
 
-      return Math.min(dp[n - 1], dp[n - 2]);
+      return Math.min(cost1, cost0);
     }
 
   }
