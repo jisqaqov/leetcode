@@ -19,44 +19,44 @@ public class MinCostClimbingStairs746 {
   }
 
   private void test() {
-    System.out.println(new V2().minCostClimbingStairs(new int[]{10, 15, 20}));//15
-    System.out.println(new V2().minCostClimbingStairs(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));//6
+    System.out.println(minCostClimbingStairs(new int[]{10, 15, 20}));//15
+    System.out.println(minCostClimbingStairs(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));//6
   }
 
   public int minCostClimbingStairs(int[] cost) {
-    int n = cost.length;
-    if (n == 0) {
+    if (cost.length == 0) {
       return 0;
     }
 
-    int[] dp = new int[n + 1];
-    dp[0] = 0;
-    dp[1] = cost[0];
+    int climb2 = 0;
+    int climb1 = cost[0];
 
     for (int i = 2; i <= cost.length; i++) {
-      dp[i] = cost[i - 1] + Math.min(dp[i - 2], dp[i - 1]);
+      int climb = cost[i - 1] + Math.min(climb1, climb2);
+      climb2 = climb1;
+      climb1 = climb;
     }
 
-    return Math.min(dp[n - 1], dp[n]);
+    return Math.min(climb1, climb2);
   }
 
   private static class V3 {
 
     public int minCostClimbingStairs(int[] cost) {
-      if (cost.length == 0) {
+      int n = cost.length;
+      if (n == 0) {
         return 0;
       }
 
-      int climb2 = 0;
-      int climb1 = cost[0];
+      int[] dp = new int[n + 1];
+      dp[0] = 0;
+      dp[1] = cost[0];
 
       for (int i = 2; i <= cost.length; i++) {
-        int climb = cost[i - 1] + Math.min(climb1, climb2);
-        climb2 = climb1;
-        climb1 = climb;
+        dp[i] = cost[i - 1] + Math.min(dp[i - 2], dp[i - 1]);
       }
 
-      return Math.min(climb1, climb2);
+      return Math.min(dp[n - 1], dp[n]);
     }
 
   }
