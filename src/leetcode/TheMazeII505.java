@@ -7,7 +7,7 @@ import java.util.Queue;
 /**
  * @author Jandos Iskakov
  * problem: 505. The Maze II
- * algorithm: BFS
+ * algorithm: BFS, DFS
  * time complexity: O(N*M)
  * space complexity: O(N*M)
  * Runtime: 6 ms, faster than 97.70% of Java online submissions
