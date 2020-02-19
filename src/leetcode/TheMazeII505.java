@@ -14,6 +14,7 @@ import java.util.Queue;
  * Memory Usage: 42.5 MB, less than 100.00% of Java online submissions
  */
 public class TheMazeII505 {
+  private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
   public static void main(String[] args) {
     TheMazeII505 problem = new TheMazeII505();
@@ -43,13 +44,11 @@ public class TheMazeII505 {
 
     dis[start[0]][start[1]] = 0;
 
-    int[][] dirs = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-
     while (!queue.isEmpty()) {
       for (int sz = queue.size(); sz > 0; sz--) {
         int[] node = queue.poll();
 
-        for (int[] dir : dirs) {
+        for (int[] dir : DIRS) {
           int x = node[0];
           int y = node[1];
 
@@ -72,11 +71,53 @@ public class TheMazeII505 {
       }
     }
 
-    if (dis[dest[0]][dest[1]] != Integer.MAX_VALUE) {
-      return dis[dest[0]][dest[1]];
+    return dis[dest[0]][dest[1]] != Integer.MAX_VALUE? dis[dest[0]][dest[1]] : -1;
+  }
+
+  private static class V2 {
+
+    public int shortestDistance(int[][] maze, int[] start, int[] dest) {
+      int n = maze.length;
+      int m = maze[0].length;
+
+      int[][] dis = new int[n][m];
+      for (int[] temp : dis) {
+        Arrays.fill(temp, Integer.MAX_VALUE);
+      }
+
+      dis[start[0]][start[1]] = 0;
+
+      helper(maze, start, dis);
+
+      return dis[dest[0]][dest[1]] != Integer.MAX_VALUE? dis[dest[0]][dest[1]] : -1;
     }
 
-    return -1;
+    private void helper(int[][] maze, int[] node, int[][] dis) {
+      int n = maze.length;
+      int m = maze[0].length;
+
+      for (int[] dir : DIRS) {
+        int x = node[0];
+        int y = node[1];
+
+        while (x >= 0 && y >= 0 && x < n && y < m && maze[x][y] == 0) {
+          x += dir[0];
+          y += dir[1];
+        }
+
+        x -= dir[0];
+        y -= dir[1];
+
+        int k = Math.abs(node[0] - x) + Math.abs(node[1] - y);
+        int newDis = dis[node[0]][node[1]] + k;
+
+        if (dis[x][y] > newDis) {
+          dis[x][y] = newDis;
+          helper(maze, new int[] {x, y}, dis);
+        }
+      }
+    }
+
   }
 
 
