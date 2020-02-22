@@ -81,7 +81,7 @@ public class NumberOfConnectedComponentsInAnUndirectedGraph323 {
    * @author Jandos Iskakov
    * algorithm: BFS
    * time complexity: O(v+e)
-   * space complexity: O(v)
+   * space complexity: O(v+e)
    * Runtime: 5 ms, faster than 46.32% of Java online submissions
    * Memory Usage: 41.7 MB, less than 100.00% of Java online submissions
    */
@@ -131,7 +131,7 @@ public class NumberOfConnectedComponentsInAnUndirectedGraph323 {
    * @author Jandos Iskakov
    * algorithm: DFS
    * time complexity: O(v+e)
-   * space complexity: O(v)
+   * space complexity: O(v+e)
    * Runtime: 3 ms, faster than 69.81% of Java online submissions
    * Memory Usage: 41.1 MB, less than 100.00% of Java online submissions
    */
