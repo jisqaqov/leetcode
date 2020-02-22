@@ -12,8 +12,8 @@ import java.util.Queue;
  * algorithm: BFS, DFS, Greedy (Dijkstra)
  * time complexity: O(N*M)
  * space complexity: O(N*M)
- * Runtime: 6 ms, faster than 97.70% of Java online submissions
- * Memory Usage: 42.5 MB, less than 100.00% of Java online submissions
+ * Runtime: 5 ms, faster than 99.86% of Java online submissions
+ * Memory Usage: 42.1 MB, less than 100.00% of Java online submissions
  */
 public class TheMazeII505 {
 
@@ -55,16 +55,18 @@ public class TheMazeII505 {
           int x = node[0];
           int y = node[1];
 
+          int count = -1;
           while (x >= 0 && y >= 0 && x < n && y < m && maze[x][y] == 0) {
             x += dir[0];
             y += dir[1];
+
+            count++;
           }
 
           x -= dir[0];
           y -= dir[1];
 
-          int k = Math.abs(node[0] - x) + Math.abs(node[1] - y);
-          int newDis = dis[node[0]][node[1]] + k;
+          int newDis = dis[node[0]][node[1]] + count;
 
           if (dis[x][y] > newDis) {
             dis[x][y] = newDis;
@@ -103,16 +105,18 @@ public class TheMazeII505 {
         int x = node[0];
         int y = node[1];
 
+        int count = 0;
         while (x >= 0 && y >= 0 && x < n && y < m && maze[x][y] == 0) {
           x += dir[0];
           y += dir[1];
+
+          count++;
         }
 
         x -= dir[0];
         y -= dir[1];
 
-        int k = Math.abs(node[0] - x) + Math.abs(node[1] - y);
-        int newDis = dis[node[0]][node[1]] + k;
+        int newDis = dis[node[0]][node[1]] + count - 1;
 
         if (dis[x][y] > newDis) {
           dis[x][y] = newDis;
