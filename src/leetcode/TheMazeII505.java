@@ -10,8 +10,8 @@ import java.util.Queue;
  * @author Jandos Iskakov
  * problem: 505. The Maze II
  * algorithm: BFS, DFS, Greedy (Dijkstra)
- * time complexity: O(N*M)
- * space complexity: O(N*M)
+ * time complexity: O(n*m*max(n, m))
+ * space complexity: O(n*m)
  * Runtime: 5 ms, faster than 99.86% of Java online submissions
  * Memory Usage: 42.1 MB, less than 100.00% of Java online submissions
  */
@@ -128,8 +128,8 @@ public class TheMazeII505 {
   }
 
   /**
-   * time complexity: O(N*M*log(N*M))
-   * space complexity: O(N*M)
+   * time complexity: O(n*m*log(n*m))
+   * space complexity: O(n*m)
     */
   private static class Dijkstra {
 
@@ -163,16 +163,18 @@ public class TheMazeII505 {
           int x2 = node[0];
           int y2 = node[1];
 
+          int count = -1;
           while (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m && maze[x2][y2] == 0) {
             x2 += dir[0];
             y2 += dir[1];
+
+            count++;
           }
 
           x2 -= dir[0];
           y2 -= dir[1];
 
-          int k = Math.abs(node[0] - x2) + Math.abs(node[1] - y2);
-          int newDis = dis[node[0]][node[1]] + k;
+          int newDis = dis[node[0]][node[1]] + count;
 
           if (!visited[x2][y2]) {
             pq.add(new int[]{x2, y2, newDis});
