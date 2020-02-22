@@ -90,12 +90,12 @@ public class TheMazeII505 {
 
       dis[start[0]][start[1]] = 0;
 
-      helper(maze, start, dis);
+      dfs(maze, start, dis);
 
       return dis[dest[0]][dest[1]] != Integer.MAX_VALUE ? dis[dest[0]][dest[1]] : -1;
     }
 
-    private void helper(int[][] maze, int[] node, int[][] dis) {
+    private void dfs(int[][] maze, int[] node, int[][] dis) {
       int n = maze.length;
       int m = maze[0].length;
 
@@ -116,7 +116,7 @@ public class TheMazeII505 {
 
         if (dis[x][y] > newDis) {
           dis[x][y] = newDis;
-          helper(maze, new int[]{x, y}, dis);
+          dfs(maze, new int[]{x, y}, dis);
         }
       }
     }
