@@ -26,7 +26,7 @@ public class NumberOfConnectedComponentsInAnUndirectedGraph323 {
 
   /**
    * algorithm: Union Find
-   * time complexity: O(n*gamma(m))
+   * time complexity: O(n+e*log(n))
    * space complexity: O(n)
    * Runtime: 1 ms, faster than 100.00% of Java online submissions
    * Memory Usage: 40.9 MB, less than 100.00% of Java online submissions
