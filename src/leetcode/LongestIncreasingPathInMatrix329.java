@@ -1,7 +1,5 @@
 package leetcode;
 
-import java.util.Arrays;
-
 /**
  * @author Jandos Iskakov
  * problem: 329. Longest Increasing Path in a Matrix
@@ -44,9 +42,6 @@ public class LongestIncreasingPathInMatrix329 {
     int m = matrix[0].length;
 
     int[][] dp = new int[n][m];
-    for (int[] a : dp) {
-      Arrays.fill(a, -1);
-    }
 
     int max = 0;
     for (int i = 0; i < n; i++) {
@@ -59,7 +54,7 @@ public class LongestIncreasingPathInMatrix329 {
   }
 
   private int dfs(int[][] matrix, int[][] dp, int i, int j) {
-    if (dp[i][j] != -1) {
+    if (dp[i][j] != 0) {
       return dp[i][j];
     }
 
