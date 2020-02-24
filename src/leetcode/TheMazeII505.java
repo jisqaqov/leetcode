@@ -1,19 +1,22 @@
 package leetcode;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
  * @author Jandos Iskakov
  * problem: 505. The Maze II
- * algorithm: BFS, DFS
- * time complexity: O(N*M)
- * space complexity: O(N*M)
- * Runtime: 6 ms, faster than 97.70% of Java online submissions
- * Memory Usage: 42.5 MB, less than 100.00% of Java online submissions
+ * algorithm: BFS, DFS, Greedy (Dijkstra)
+ * time complexity: O(n*m*max(n, m))
+ * space complexity: O(n*m)
+ * Runtime: 5 ms, faster than 99.86% of Java online submissions
+ * Memory Usage: 42.1 MB, less than 100.00% of Java online submissions
  */
 public class TheMazeII505 {
+
   private static final int[][] DIRS = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
 
   public static void main(String[] args) {
@@ -52,16 +55,18 @@ public class TheMazeII505 {
           int x = node[0];
           int y = node[1];
 
+          int count = -1;
           while (x >= 0 && y >= 0 && x < n && y < m && maze[x][y] == 0) {
             x += dir[0];
             y += dir[1];
+
+            count++;
           }
 
           x -= dir[0];
           y -= dir[1];
 
-          int k = Math.abs(node[0] - x) + Math.abs(node[1] - y);
-          int newDis = dis[node[0]][node[1]] + k;
+          int newDis = dis[node[0]][node[1]] + count;
 
           if (dis[x][y] > newDis) {
             dis[x][y] = newDis;
@@ -71,10 +76,10 @@ public class TheMazeII505 {
       }
     }
 
-    return dis[dest[0]][dest[1]] != Integer.MAX_VALUE? dis[dest[0]][dest[1]] : -1;
+    return dis[dest[0]][dest[1]] != Integer.MAX_VALUE ? dis[dest[0]][dest[1]] : -1;
   }
 
-  private static class V2 {
+  private static class DFS {
 
     public int shortestDistance(int[][] maze, int[] start, int[] dest) {
       int n = maze.length;
@@ -87,12 +92,12 @@ public class TheMazeII505 {
 
       dis[start[0]][start[1]] = 0;
 
-      helper(maze, start, dis);
+      dfs(maze, start, dis);
 
-      return dis[dest[0]][dest[1]] != Integer.MAX_VALUE? dis[dest[0]][dest[1]] : -1;
+      return dis[dest[0]][dest[1]] != Integer.MAX_VALUE ? dis[dest[0]][dest[1]] : -1;
     }
 
-    private void helper(int[][] maze, int[] node, int[][] dis) {
+    private void dfs(int[][] maze, int[] node, int[][] dis) {
       int n = maze.length;
       int m = maze[0].length;
 
@@ -100,22 +105,85 @@ public class TheMazeII505 {
         int x = node[0];
         int y = node[1];
 
+        int count = 0;
         while (x >= 0 && y >= 0 && x < n && y < m && maze[x][y] == 0) {
           x += dir[0];
           y += dir[1];
+
+          count++;
         }
 
         x -= dir[0];
         y -= dir[1];
 
-        int k = Math.abs(node[0] - x) + Math.abs(node[1] - y);
-        int newDis = dis[node[0]][node[1]] + k;
+        int newDis = dis[node[0]][node[1]] + count - 1;
 
         if (dis[x][y] > newDis) {
           dis[x][y] = newDis;
-          helper(maze, new int[] {x, y}, dis);
+          dfs(maze, new int[]{x, y}, dis);
         }
       }
+    }
+
+  }
+
+  /**
+   * time complexity: O(n*m*log(n*m))
+   * space complexity: O(n*m)
+    */
+  private static class Dijkstra {
+
+    public int shortestDistance(int[][] maze, int[] start, int[] dest) {
+      int n = maze.length;
+      int m = maze[0].length;
+
+      PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[2]));
+      pq.add(new int[]{start[0], start[1], 0});
+
+      int[][] dis = new int[n][m];
+      for (int[] temp : dis) {
+        Arrays.fill(temp, Integer.MAX_VALUE);
+      }
+
+      dis[start[0]][start[1]] = 0;
+
+      boolean[][] visited = new boolean[n][m];
+
+      while (!pq.isEmpty()) {
+        int[] node = pq.poll();
+
+        if (visited[node[0]][node[1]]) {
+          continue;
+        }
+
+        visited[node[0]][node[1]] = true;
+        dis[node[0]][node[1]] = node[2];
+
+        for (int[] dir : DIRS) {
+          int x2 = node[0];
+          int y2 = node[1];
+
+          int count = -1;
+          while (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m && maze[x2][y2] == 0) {
+            x2 += dir[0];
+            y2 += dir[1];
+
+            count++;
+          }
+
+          x2 -= dir[0];
+          y2 -= dir[1];
+
+          int newDis = dis[node[0]][node[1]] + count;
+
+          if (!visited[x2][y2]) {
+            pq.add(new int[]{x2, y2, newDis});
+          }
+        }
+
+      }
+
+      return dis[dest[0]][dest[1]] != Integer.MAX_VALUE ? dis[dest[0]][dest[1]] : -1;
     }
 
   }
