@@ -8,8 +8,8 @@ import java.util.PriorityQueue;
  * algorithm: BFS, Heap, Greedy
  * time complexity: O(n*m*log(n*m))
  * space complexity: O(n*m)
- * Runtime: 163 ms, faster than 31.63% of Java online submissions
- * Memory Usage: 42.5 MB, less than 100.00% of Java online submissions
+ * Runtime: 82 ms, faster than 80.37% of Java online submissions
+ * Memory Usage: 41.9 MB, less than 100.00% of Java online submissions
  */
 public class PathWithMaximumMinimumValue1102 {
 
@@ -70,7 +70,7 @@ public class PathWithMaximumMinimumValue1102 {
 
         if (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m && !visited[x2][y2]) {
           pq.add(new int[]{x2, y2, a[x2][y2]});
-          visited[x][y] = true;
+          visited[x2][y2] = true;
         }
       }
     }
