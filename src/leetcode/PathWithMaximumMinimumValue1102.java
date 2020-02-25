@@ -5,11 +5,11 @@ import java.util.PriorityQueue;
 /**
  * @author Jandos Iskakov
  * problem: 1102. Path With Maximum Minimum Value
- * algorithm: Greedy (Dijkstra),
+ * algorithm: BFS, Heap, Greedy
  * time complexity: O(n*m*log(n*m))
  * space complexity: O(n*m)
- * Runtime: 79 ms, faster than 86.02% of Java online submissions
- * Memory Usage: 42.3 MB, less than 100.00% of Java online submissions
+ * Runtime: 163 ms, faster than 31.63% of Java online submissions
+ * Memory Usage: 42.5 MB, less than 100.00% of Java online submissions
  */
 public class PathWithMaximumMinimumValue1102 {
 
@@ -44,38 +44,38 @@ public class PathWithMaximumMinimumValue1102 {
     int n = a.length;
     int m = a[0].length;
 
-    int[][] score = new int[n][m];
+    int maxScore = a[0][0];
 
     PriorityQueue<int[]> pq = new PriorityQueue<>((a1, a2) -> a2[2] - a1[2]);
     pq.add(new int[]{0, 0, a[0][0]});
 
     boolean[][] visited = new boolean[n][m];
+    visited[0][0] = true;
 
     while (!pq.isEmpty()) {
       int[] node = pq.poll();
-      int x = node[0], y = node[1];
 
-      if (visited[x][y]) {
-        continue;
+      int x = node[0];
+      int y = node[1];
+
+      maxScore = Math.min(maxScore, node[2]);
+
+      if (x == n - 1 && y == m - 1) {
+        break;
       }
 
-      visited[x][y] = true;
-
       for (int[] dir : DIRS) {
-        int x2 = node[0] + dir[0];
-        int y2 = node[1] + dir[1];
+        int x2 = x + dir[0];
+        int y2 = y + dir[1];
 
-        if (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m) {
-          int newScore = Math.min(node[2], a[x2][y2]);
-          if (score[x2][y2] < newScore) {
-            pq.add(new int[]{x2, y2, newScore});
-            score[x2][y2] = newScore;
-          }
+        if (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m && !visited[x2][y2]) {
+          pq.add(new int[]{x2, y2, a[x2][y2]});
+          visited[x][y] = true;
         }
       }
     }
 
-    return score[n - 1][m - 1];
+    return maxScore;
   }
 
 }
