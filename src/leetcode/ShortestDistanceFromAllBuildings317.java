@@ -1,8 +1,6 @@
 package leetcode;
 
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -11,8 +9,8 @@ import java.util.Queue;
  * algorithm: BFS
  * time complexity: O(nmk), k- number of buildings
  * space complexity: O(nmk)
- * Runtime: 67 ms, faster than 23.73% of Java online submissions
- * Memory Usage: 46.3 MB, less than 7.69% of Java online submissions
+ * Runtime: 28 ms, faster than 72.78% of Java online submissions
+ * Memory Usage: 41.2 MB, less than 76.92% of Java online submissions
  */
 public class ShortestDistanceFromAllBuildings317 {
 
@@ -24,13 +22,17 @@ public class ShortestDistanceFromAllBuildings317 {
   }
 
   private void test() {
+    //7
     System.out.println(shortestDistance(
       new int[][]{
         {1, 0, 2, 0, 1},
         {0, 0, 0, 0, 0},
-        {0, 0, 1, 0, 0}}));
-    System.out.println(shortestDistance(new int[][]{{1}, {0}}));
+        {0, 0, 1, 0, 0}}));//7
 
+    //1
+    System.out.println(shortestDistance(new int[][]{{1}, {0}}));//1
+
+    //88
     System.out.println(shortestDistance(
       new int[][]{
         {1, 1, 1, 1, 1, 0},
@@ -46,63 +48,62 @@ public class ShortestDistanceFromAllBuildings317 {
     int n = grid.length;
     int m = grid[0].length;
 
-    Map[][] map = new HashMap[n][m];
+    int[][] count = new int[n][m];
+    int[][] dis = new int[n][m];
 
-    int[][] ids = new int[n][m];
+    int b = 0;
 
-    Queue<int[]> queue = new LinkedList<>();
-
-    int buildings = 0;
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        map[i][j] = new HashMap<Integer, Integer>();
-
         if (grid[i][j] == 1) {
-          ids[i][j] = buildings++;
+          b++;
 
-          queue.add(new int[]{i, j, ids[i][j]});
+          bfs(grid, dis, count, i, j);
         }
       }
     }
 
     int min = Integer.MAX_VALUE;
-    int dis = 0;
 
-    while (!queue.isEmpty()) {
-      dis++;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+        if (grid[i][j] == 0 && count[i][j] == b) {
+          min = Math.min(min, dis[i][j]);
+        }
+      }
+    }
 
+    return min == Integer.MAX_VALUE ? -1 : min;
+  }
+
+  private void bfs(int[][] grid, int[][] dis, int[][] count, int x, int y) {
+    int n = grid.length;
+    int m = grid[0].length;
+
+    boolean[][] visited = new boolean[n][m];
+
+    Queue<int[]> queue = new LinkedList<>();
+    queue.add(new int[]{x, y});
+
+    for (int k = 1; !queue.isEmpty(); k++) {
       for (int sz = queue.size(); sz > 0; sz--) {
         int[] node = queue.poll();
-
-        int x = node[0];
-        int y = node[1];
-
-        if (map[x][y].size() == buildings) {
-          int amount = 0;
-          for (Object bdis : map[x][y].values()) {
-            amount += (Integer) bdis;
-          }
-
-          min = Math.min(min, amount);
-        }
 
         for (int[] dir : DIRS) {
           int x2 = node[0] + dir[0];
           int y2 = node[1] + dir[1];
 
-          if (x2 < 0 || y2 < 0 || x2 >= n || y2 >= m || grid[x2][y2] == 1 || grid[x2][y2] == 2) {
-            continue;
-          }
+          if (x2 >= 0 && y2 >= 0 && x2 < n && y2 < m && grid[x2][y2] == 0 && !visited[x2][y2]) {
+            dis[x2][y2] += k;
+            count[x2][y2]++;
 
-          if (!map[x2][y2].containsKey(node[2])) {
-            queue.add(new int[]{x2, y2, node[2]});
-            map[x2][y2].put(node[2], dis);
+            visited[x2][y2] = true;
+
+            queue.add(new int[]{x2, y2});
           }
         }
       }
     }
-
-    return min == Integer.MAX_VALUE? -1: min;
   }
 
 }
