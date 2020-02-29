@@ -52,37 +52,33 @@ public class DeleteNodesAndReturnForest1110 {
       output.add(root);
     }
 
-    postorder(root, null, deletable, output);
+    postorder(root, deletable, output);
 
     return output;
   }
 
-  private void postorder(TreeNode root, TreeNode parent, Set<Integer> deletable,
+  private TreeNode postorder(TreeNode root, Set<Integer> deletable,
     List<TreeNode> output) {
     if (root == null) {
-      return;
+      return null;
     }
 
-    postorder(root.left, root, deletable, output);
-    postorder(root.right, root, deletable, output);
+    root.left = postorder(root.left, deletable, output);
+    root.right = postorder(root.right, deletable, output);
 
-    if (!deletable.contains(root.val)) {
-      return;
+    if (deletable.contains(root.val)) {
+      if (root.left != null) {
+        output.add(root.left);
+      }
+
+      if (root.right != null) {
+        output.add(root.right);
+      }
+
+      return null;
     }
 
-    if (root.left != null && !deletable.contains(root.left.val)) {
-      output.add(root.left);
-    }
-
-    if (root.right != null && !deletable.contains(root.right.val)) {
-      output.add(root.right);
-    }
-
-    if (parent != null && parent.left != null && parent.left.val == root.val) {
-      parent.left = null;
-    } else if (parent != null && parent.right != null && parent.right.val == root.val) {
-      parent.right = null;
-    }
+    return root;
   }
 
   /**
