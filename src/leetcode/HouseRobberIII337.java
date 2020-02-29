@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * @author Jandos Iskakov
  * problem: 337. House Robber III
- * algorithm: Tree, DFS
+ * algorithm: DP, Tree, DFS
  * time complexity: O(N)
  * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
@@ -14,30 +14,50 @@ import java.util.Map;
  */
 public class HouseRobberIII337 {
 
-  private static final int[] ZERO_ARR = {0, 0};
-
   public int rob(TreeNode root) {
-    return helper(root)[0];
+    int[] max = helper(root);
+    return Math.max(max[0], max[1]);
   }
 
   private int[] helper(TreeNode root) {
     if (root == null) {
-      return ZERO_ARR;
+      return new int[2];
     }
 
     int[] left = helper(root.left);
     int[] right = helper(root.right);
 
     int[] max = new int[2];
-
-    max[0] = Math.max(root.val + left[1] + right[1],
-      left[0] + right[0]);
-
-    max[1] = left[0] + right[0];
+    max[0] = root.val + left[1] + right[1];
+    max[1] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
 
     return max;
   }
 
+  private static class V3 {
+
+    public int rob(TreeNode root) {
+      return helper(root)[0];
+    }
+
+    private int[] helper(TreeNode root) {
+      if (root == null) {
+        return new int[2];
+      }
+
+      int[] left = helper(root.left);
+      int[] right = helper(root.right);
+
+      int[] max = new int[2];
+
+      max[0] = Math.max(root.val + left[1] + right[1],
+        left[0] + right[0]);
+
+      max[1] = left[0] + right[0];
+
+      return max;
+    }
+  }
 
   private static class V2 {
 
