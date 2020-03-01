@@ -1,6 +1,5 @@
 package leetcode;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -10,21 +9,13 @@ import java.util.Queue;
  * algorithm: BFS
  * time complexity: O(N^2)
  * space complexity: O(N^2)
- * Runtime: 29 ms, faster than 22.78% of Java online submissions for Shortest Path in Binary Matrix.
- * Memory Usage: 52.4 MB, less than 100.00% of Java online submissions for Shortest Path in Binary Matrix.
+ * Runtime: 29 ms, faster than 22.78% of Java online submissions
+ * Memory Usage: 52.4 MB, less than 100.00% of Java online submissions
  */
 public class ShortestPathInBinaryMatrix1091 {
 
-  private static final int[][] DIRS = {
-    {0, 1},
-    {0, -1},
-    {1, -1},
-    {-1, 1},
-    {-1, -1},
-    {1, 1},
-    {1, 0},
-    {-1, 0}
-  };
+  private static final int[][] DIRS = {{1, 0}, {-1, 0}, {0, -1}, {0, 1},
+    {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
 
   public static void main(String[] args) {
     ShortestPathInBinaryMatrix1091 problem = new ShortestPathInBinaryMatrix1091();
@@ -32,39 +23,36 @@ public class ShortestPathInBinaryMatrix1091 {
   }
 
   private void test() {
-    int[][] tc1a = {{0, 0, 0}, {1, 1, 0}, {1, 1, 0}};
-    System.out.println(shortestPathBinaryMatrix(tc1a));
+    System.out.println(shortestPathBinaryMatrix(new int[][] {{0, 0, 0}, {1, 1, 0}, {1, 1, 0}}));
   }
 
   public int shortestPathBinaryMatrix(int[][] grid) {
     int n = grid.length;
 
-    int[][] dis = new int[n][n];
-    for (int i = 0; i < n; i++) {
-      Arrays.fill(dis[i], Integer.MAX_VALUE);
-    }
-
     Queue<int[]> queue = new LinkedList<>();
-
     if (grid[0][0] == 0) {
-      dis[0][0] = 1;
-      queue.add(new int[]{0, 0});
+      queue.add(new int[] {0, 0});
     }
 
-    while (!queue.isEmpty()) {
-      int[] node = queue.poll();
+    boolean[][] visited = new boolean[n][n];
+    visited[0][0] = true;
 
-      if (node[0] == n - 1 && node[1] == n - 1) {
-        return dis[n - 1][n - 1];
-      }
+    for (int d = 1; !queue.isEmpty(); d++) {
+      for (int sz = queue.size(); sz > 0; sz--) {
+        int[] node = queue.poll();
 
-      for (int[] dir : DIRS) {
-        int[] cords = new int[]{dir[0] + node[0], dir[1] + node[1]};
+        if (node[0] == n - 1 && node[1] == n - 1) {
+          return d;
+        }
 
-        if (cords[0] >= 0 && cords[0] < n && cords[1] >= 0 && cords[1] < n
-          && dis[cords[0]][cords[1]] == Integer.MAX_VALUE && grid[cords[0]][cords[1]] == 0) {
-          dis[cords[0]][cords[1]] = dis[node[0]][node[1]] + 1;
-          queue.add(cords);
+        for (int[] dir : DIRS) {
+          int x = node[0] + dir[0];
+          int y = node[1] + dir[1];
+
+          if (x >= 0 && y >= 0 && x < n && y < n && !visited[x][y] && grid[x][y] == 0) {
+            visited[x][y] = true;
+            queue.add(new int[] {x, y});
+          }
         }
       }
     }
