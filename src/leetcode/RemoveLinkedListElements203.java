@@ -16,17 +16,15 @@ public class RemoveLinkedListElements203 {
     ListNode curr = head;
 
     while (curr != null) {
-      ListNode next = curr.next;
-
       if (head.val == val) {
-        head = next;
+        head = curr.next;
       } else if (curr.val == val) {
-        prev.next = next;
+        prev.next = curr.next;
       } else {
         prev = curr;
       }
 
-      curr = next;
+      curr = curr.next;
     }
 
     return head;
@@ -35,25 +33,23 @@ public class RemoveLinkedListElements203 {
   private class V2 {
 
     public ListNode removeElements(ListNode head, int val) {
-      ListNode sentinel = new ListNode(0);
-      sentinel.next = head;
+      ListNode dummy = new ListNode(0);
+      dummy.next = head;
 
-      ListNode prev = sentinel;
+      ListNode prev = dummy;
       ListNode curr = head;
 
       while (curr != null) {
-        ListNode next = curr.next;
-
         if (curr.val == val) {
-          prev.next = next;
+          prev.next = curr.next;
         } else {
           prev = curr;
         }
 
-        curr = next;
+        curr = curr.next;
       }
 
-      return sentinel.next;
+      return dummy.next;
     }
 
   }
