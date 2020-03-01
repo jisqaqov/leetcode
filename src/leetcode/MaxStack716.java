@@ -1,6 +1,11 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 /**
  * @author Jandos Iskakov
@@ -38,86 +43,146 @@ public class MaxStack716 {
   }
 
   class MaxStack {
-    int idx = 0;
+    TreeMap<Integer, List<ListNode>> map;
     ListNode head = null;
     ListNode tail = null;
-    PriorityQueue<ListNode> pq;
 
     /** initialize your data structure here. */
     public MaxStack() {
-      head = new ListNode();
+      map = new TreeMap<>();
 
-      tail = head;
+      head = new ListNode(0);
+      tail = new ListNode(0);
 
-      pq = new PriorityQueue<>(
-        (a, b) -> b.val == a.val? b.index - a.index: b.val - a.val);
+      head.next = tail;
+      tail.prev = head;
     }
 
     public void push(int x) {
-      ListNode node = new ListNode(x, idx++);
+      if (!map.containsKey(x)) {
+        map.put(x, new ArrayList<>());
+      }
 
-      tail.next = node;
-      node.prev = tail;
+      ListNode node = new ListNode(x);
 
-      tail = node;
+      map.get(x).add(node);
 
-      pq.add(node);
+      tail.prev.next = node;
+
+      node.next = tail;
+      node.prev = tail.prev;
+      tail.prev = node;
     }
 
     public int pop() {
-      int val = tail.val;
+      int peek = top();
 
-      pq.remove(tail);
+      List<ListNode> list = map.get(peek);
+      list.remove(list.size() - 1);
 
-      if (tail.prev != null) {
-        tail.prev.next = null;
+      if (list.isEmpty()) {
+        map.remove(peek);
       }
 
-      tail = tail.prev;
+      unlink(tail.prev);
 
-      return val;
+      return peek;
+    }
+
+    private void unlink(ListNode node) {
+      node.prev.next = node.next;
+      node.next.prev = node.prev;
     }
 
     public int top() {
-      return tail.val;
+      return tail.prev.val;
     }
 
     public int peekMax() {
-      return pq.peek().val;
+      return map.lastKey();
     }
 
     public int popMax() {
-      ListNode node = pq.poll();
+      int max = peekMax();
 
-      if (node.val == tail.val) {
-        pop();
+      List<ListNode> list = map.get(max);
+      ListNode node = list.get(list.size() - 1);
 
-        return node.val;
+      list.remove(list.size() - 1);
+
+      if (list.isEmpty()) {
+        map.remove(max);
       }
 
-      node.prev.next = node.next;
-      if (node.next != null) {
-        node.next.prev = node.prev;
-      }
+      unlink(node);
 
       return node.val;
     }
 
     class ListNode {
-      int index = 0;
       int val;
       ListNode prev;
       ListNode next;
 
-      ListNode() {
-      }
-
-      ListNode(int val, int index) {
+      public ListNode(int val) {
         this.val = val;
-        this.index = index;
       }
     }
+  }
 
+  class MaxStackV2 {
+    private Deque<Integer> valStack;
+    private Deque<Integer> maxStack;
+
+    /** initialize your data structure here. */
+    public MaxStackV2() {
+      valStack = new ArrayDeque<>();
+      maxStack = new ArrayDeque<>();
+    }
+
+    public void push(int x) {
+      valStack.push(x);
+
+      int max = x;
+      if (!maxStack.isEmpty() && maxStack.peek() > x) {
+        max = maxStack.peek();
+      }
+
+      maxStack.push(max);
+    }
+
+    public int pop() {
+      maxStack.pop();
+      return valStack.pop();
+    }
+
+    public int top() {
+      return valStack.peek();
+    }
+
+    public int peekMax() {
+      return maxStack.peek();
+    }
+
+    public int popMax() {
+      int max = maxStack.peek();
+
+      Deque<Integer> temp = new ArrayDeque<>();
+
+      while (valStack.peek() != max) {
+        maxStack.pop();
+        temp.push(valStack.pop());
+      }
+
+      valStack.pop();
+      maxStack.pop();
+
+      while (!temp.isEmpty()) {
+        push(temp.pop());
+      }
+
+      return max;
+    }
   }
 
 }
