@@ -32,6 +32,31 @@ public class RemoveLinkedListElements203 {
     return head;
   }
 
+  private class V2 {
+
+    public ListNode removeElements(ListNode head, int val) {
+      ListNode sentinel = new ListNode(0);
+      sentinel.next = head;
+
+      ListNode prev = sentinel;
+
+      while (head != null) {
+        ListNode next = head.next;
+
+        if (head.val == val) {
+          prev.next = next;
+        } else {
+          prev = head;
+        }
+
+        head = next;
+      }
+
+      return sentinel.next;
+    }
+
+  }
+
   /**
    * Definition for singly-linked list.
    */
