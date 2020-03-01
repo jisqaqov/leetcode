@@ -1,11 +1,25 @@
-package prep;
+package leetcode;
 
 import java.util.PriorityQueue;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 716. Max Stack
+ * algorithm: Heap, Linked List
+ * time complexity:
+ *    push - log(N)
+ *    pop - O(N)
+ *    popMax - log(N)
+ *    top - O(1)
+ *    peekMax - O(1)
+ * space complexity: O(N)
+ * Runtime: 14 ms, faster than 97.21% of Java online submissions
+ * Memory Usage: 42.4 MB, less than 100.00% of Java online submissions
+ */
+public class MaxStack716 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    MaxStack716 problem = new MaxStack716();
     problem.test();
   }
 
