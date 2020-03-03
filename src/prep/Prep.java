@@ -1,5 +1,7 @@
 package prep;
 
+import java.util.List;
+
 public class Prep {
 
   public static void main(String[] args) {
@@ -9,6 +11,7 @@ public class Prep {
 
   private void test() {
     //TODO:
+    List<Long> prefix = null;
 
   }
 
