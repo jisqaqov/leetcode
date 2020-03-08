@@ -37,16 +37,7 @@ public class Minesweeper529 {
       return board;
     }
 
-    int mines = 0;
-
-    for (int[] dir : DIRS) {
-      int x2 = click[0] + dir[0];
-      int y2 = click[1] + dir[1];
-
-      if (isValid(x2, y2, board) && board[x2][y2] == 'M') {
-        mines++;
-      }
-    }
+    int mines = countMines(board, click);
 
     if (mines == 0) {
       board[click[0]][click[1]] = 'B';
@@ -65,6 +56,21 @@ public class Minesweeper529 {
     }
 
     return board;
+  }
+
+  private int countMines(char[][] board, int[] xy) {
+    int mines = 0;
+
+    for (int[] dir : DIRS) {
+      int x2 = xy[0] + dir[0];
+      int y2 = xy[1] + dir[1];
+
+      if (isValid(x2, y2, board) && board[x2][y2] == 'M') {
+        mines++;
+      }
+    }
+
+    return mines;
   }
 
   private boolean isValid(int x, int y, char[][] board) {
@@ -89,16 +95,7 @@ public class Minesweeper529 {
       while (!queue.isEmpty()) {
         int[] node = queue.poll();
 
-        int mines = 0;
-
-        for (int[] dir : DIRS) {
-          int x2 = node[0] + dir[0];
-          int y2 = node[1] + dir[1];
-
-          if (isValid(x2, y2, board) && board[x2][y2] == 'M') {
-            mines++;
-          }
-        }
+        int mines = countMines(board, node);
 
         if (mines == 0) {
           board[node[0]][node[1]] = 'B';
@@ -119,6 +116,21 @@ public class Minesweeper529 {
       }
 
       return board;
+    }
+
+    private int countMines(char[][] board, int[] xy) {
+      int mines = 0;
+
+      for (int[] dir : DIRS) {
+        int x2 = xy[0] + dir[0];
+        int y2 = xy[1] + dir[1];
+
+        if (isValid(x2, y2, board) && board[x2][y2] == 'M') {
+          mines++;
+        }
+      }
+
+      return mines;
     }
 
     private boolean isValid(int x, int y, char[][] board) {
