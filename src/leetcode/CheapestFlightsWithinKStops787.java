@@ -1,4 +1,4 @@
-package prep;
+package leetcode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,10 +8,19 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public class Prep {
+/**
+ * @author Jandos Iskakov
+ * problem: 787. Cheapest Flights Within K Stops
+ * algorithm: BFS, DFS, Dijkstra
+ * time complexity:
+ * space complexity:
+ * Runtime: 12 ms, faster than 50.61% of Java online submissions
+ * Memory Usage: 42.8 MB, less than 5.55% of Java online submissions
+ */
+public class CheapestFlightsWithinKStops787 {
 
   public static void main(String[] args) {
-    Prep problem = new Prep();
+    CheapestFlightsWithinKStops787 problem = new CheapestFlightsWithinKStops787();
     problem.test();
   }
 
