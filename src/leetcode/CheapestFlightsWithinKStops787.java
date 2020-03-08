@@ -12,8 +12,8 @@ import java.util.Queue;
  * @author Jandos Iskakov
  * problem: 787. Cheapest Flights Within K Stops
  * algorithm: BFS, DFS, Dijkstra
- * time complexity:
- * space complexity:
+ * time complexity: O(e + elog(e))
+ * space complexity: O(v + e)
  * Runtime: 12 ms, faster than 50.61% of Java online submissions
  * Memory Usage: 42.8 MB, less than 5.55% of Java online submissions
  */
