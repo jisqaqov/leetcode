@@ -29,10 +29,12 @@ public class ShortestPathInBinaryMatrix1091 {
   public int shortestPathBinaryMatrix(int[][] grid) {
     int n = grid.length;
 
-    Queue<int[]> queue = new LinkedList<>();
-    if (grid[0][0] == 0) {
-      queue.add(new int[] {0, 0});
+    if (grid[0][0] == 1 || grid[n - 1][n - 1] == 1) {
+      return -1;
     }
+
+    Queue<int[]> queue = new LinkedList<>();
+    queue.add(new int[] {0, 0});
 
     boolean[][] visited = new boolean[n][n];
     visited[0][0] = true;
