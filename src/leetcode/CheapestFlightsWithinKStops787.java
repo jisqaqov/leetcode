@@ -59,11 +59,6 @@ public class CheapestFlightsWithinKStops787 {
     PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[2]));
     pq.add(new int[]{src, 0, 0});
 
-    int[] dis = new int[n];
-    Arrays.fill(dis, Integer.MAX_VALUE);
-
-    dis[src] = 0;
-
     while (!pq.isEmpty()) {
       int[] node = pq.poll();
 
@@ -71,18 +66,10 @@ public class CheapestFlightsWithinKStops787 {
         return node[2];
       }
 
-      dis[node[0]] = node[2];
-
-      for (int[] adj : adjList.get(node[0])) {
-        int len = node[1];
-        if (adj[0] != dst) {
-          len = node[1] + 1;
-        }
-
-        int newDis = dis[node[0]] + adj[1];
-        if (len <= k && dis[adj[0]] > newDis) {
-          pq.add(new int[]{adj[0], len, newDis});
-          dis[adj[0]] = newDis;
+      if (node[1] <= k) {
+        for (int[] adj : adjList.get(node[0])) {
+          int newDis = node[2] + adj[1];
+          pq.add(new int[]{adj[0], node[1] + 1, newDis});
         }
       }
     }
