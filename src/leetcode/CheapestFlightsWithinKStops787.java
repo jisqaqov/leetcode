@@ -13,9 +13,9 @@ import java.util.Queue;
 /**
  * @author Jandos Iskakov
  * problem: 787. Cheapest Flights Within K Stops
- * algorithm: BFS, DFS, Dijkstra
- * time complexity: O(e + elog(e))
- * space complexity: O(v + e)
+ * algorithm: BFS, Dijkstra
+ * time complexity: O(elog(v)), O(ek)
+ * space complexity: O(v)
  * Runtime: 12 ms, faster than 50.61% of Java online submissions
  * Memory Usage: 42.8 MB, less than 5.55% of Java online submissions
  */
@@ -56,25 +56,72 @@ public class CheapestFlightsWithinKStops787 {
       adjList.get(flight[0]).add(new int[]{flight[1], flight[2]});
     }
 
-    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[2]));
-    pq.add(new int[]{src, 0, 0});
+    Queue<int[]> queue = new LinkedList<>();
+    queue.add(new int[] {src, 0});
 
-    while (!pq.isEmpty()) {
-      int[] node = pq.poll();
+    int price = Integer.MAX_VALUE;
+    int stops = 0;
 
-      if (node[0] == dst) {
-        return node[2];
-      }
+    while (!queue.isEmpty()) {
+      for (int sz = queue.size(); sz > 0; sz--) {
+        int[] node = queue.poll();
 
-      if (node[1] <= k && adjList.containsKey(node[0])) {
-        for (int[] adj : adjList.get(node[0])) {
-          int newDis = node[2] + adj[1];
-          pq.add(new int[]{adj[0], node[1] + 1, newDis});
+        if (node[0] == dst) {
+          price = Math.min(price, node[1]);
+        }
+
+        if (adjList.containsKey(node[0])) {
+          for (int[] flight : adjList.get(node[0])) {
+            int newPrice = node[1] + flight[1];
+            if (newPrice < price) {
+              queue.add(new int[] {flight[0], newPrice});
+            }
+          }
         }
       }
+
+      if (stops > k) {
+        break;
+      }
+
+      stops++;
     }
 
-    return -1;
+    return price == Integer.MAX_VALUE? -1: price;
   }
+
+  private static class Dijkstra {
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+      Map<Integer, List<int[]>> adjList = new HashMap<>();
+
+      for (int[] flight : flights) {
+        adjList.putIfAbsent(flight[0], new ArrayList<>());
+        adjList.get(flight[0]).add(new int[]{flight[1], flight[2]});
+      }
+
+      PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[2]));
+      pq.add(new int[]{src, 0, 0});
+
+      while (!pq.isEmpty()) {
+        int[] node = pq.poll();
+
+        if (node[0] == dst) {
+          return node[2];
+        }
+
+        if (node[1] <= k && adjList.containsKey(node[0])) {
+          for (int[] adj : adjList.get(node[0])) {
+            int newDis = node[2] + adj[1];
+            pq.add(new int[]{adj[0], node[1] + 1, newDis});
+          }
+        }
+      }
+
+      return -1;
+    }
+
+  }
+
 
 }
