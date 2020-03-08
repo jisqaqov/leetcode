@@ -3,8 +3,10 @@ package leetcode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -47,12 +49,10 @@ public class CheapestFlightsWithinKStops787 {
   }
 
   public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-    List<List<int[]>> adjList = new ArrayList<>();
-    for (int i = 0; i < n; i++) {
-      adjList.add(new ArrayList<>());
-    }
+    Map<Integer, List<int[]>> adjList = new HashMap<>();
 
     for (int[] flight : flights) {
+      adjList.putIfAbsent(flight[0], new ArrayList<>());
       adjList.get(flight[0]).add(new int[]{flight[1], flight[2]});
     }
 
@@ -66,7 +66,7 @@ public class CheapestFlightsWithinKStops787 {
         return node[2];
       }
 
-      if (node[1] <= k) {
+      if (node[1] <= k && adjList.containsKey(node[0])) {
         for (int[] adj : adjList.get(node[0])) {
           int newDis = node[2] + adj[1];
           pq.add(new int[]{adj[0], node[1] + 1, newDis});
