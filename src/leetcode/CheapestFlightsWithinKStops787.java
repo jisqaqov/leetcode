@@ -16,8 +16,8 @@ import java.util.Queue;
  * algorithm: BFS, Dijkstra
  * time complexity: O(elog(v)), O(ek)
  * space complexity: O(v)
- * Runtime: 12 ms, faster than 50.61% of Java online submissions
- * Memory Usage: 42.8 MB, less than 5.55% of Java online submissions
+ * Runtime: 5 ms, faster than 86.39% of Java online submissions
+ * Memory Usage: 41.1 MB, less than 5.55% of Java online submissions
  */
 public class CheapestFlightsWithinKStops787 {
 
@@ -56,38 +56,38 @@ public class CheapestFlightsWithinKStops787 {
       adjList.get(flight[0]).add(new int[]{flight[1], flight[2]});
     }
 
-    Queue<int[]> queue = new LinkedList<>();
-    queue.add(new int[] {src, 0});
+    Queue<Integer> queue = new LinkedList<>();
+    queue.add(src);
 
-    int price = Integer.MAX_VALUE;
-    int stops = 0;
+    int[] cost = new int[n];
+    Arrays.fill(cost, Integer.MAX_VALUE);
 
-    while (!queue.isEmpty()) {
+    cost[src] = 0;
+
+    for (int stops = 0; !queue.isEmpty(); stops++) {
       for (int sz = queue.size(); sz > 0; sz--) {
-        int[] node = queue.poll();
+        int u = queue.poll();
 
-        if (node[0] == dst) {
-          price = Math.min(price, node[1]);
-        }
+        if (adjList.containsKey(u)) {
+          for (int[] flight : adjList.get(u)) {
+            int v = flight[0];
+            int price = flight[1];
 
-        if (adjList.containsKey(node[0])) {
-          for (int[] flight : adjList.get(node[0])) {
-            int newPrice = node[1] + flight[1];
-            if (newPrice < price) {
-              queue.add(new int[] {flight[0], newPrice});
+            if (stops == k && v != dst) {
+              continue;
+            }
+
+            int newPrice = cost[u] + price;
+            if (cost[v] > newPrice) {
+              queue.add(flight[0]);
+              cost[v] = newPrice;
             }
           }
         }
       }
-
-      if (stops > k) {
-        break;
-      }
-
-      stops++;
     }
 
-    return price == Integer.MAX_VALUE? -1: price;
+    return cost[dst] == Integer.MAX_VALUE? -1: cost[dst];
   }
 
   private static class Dijkstra {
