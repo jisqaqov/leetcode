@@ -12,9 +12,10 @@ import java.util.Set;
  * algorithm: String, Stack
  * time complexity: O(N)
  * space complexity: O(N)
+ * Runtime: 8 ms, faster than 81.05% of Java online submissions
+ * Memory Usage: 41.8 MB, less than 5.97% of Java online submissions
  */
 public class BasicCalculatorII227 {
-  private static final Set<Character> opers = new HashSet<>(Arrays.asList('+', '-', '*', '/'));
 
   public static void main(String[] args) {
     BasicCalculatorII227 problem = new BasicCalculatorII227();
@@ -28,36 +29,32 @@ public class BasicCalculatorII227 {
   }
 
   public int calculate(String s) {
-    if (s == null || s.length() == 0) {
-      return 0;
-    }
-
-    Deque<Integer> deque = new ArrayDeque<>();
+    Deque<Integer> stack = new ArrayDeque<>();
 
     int number = 0;
     char oper = '+';
     int n = s.length();
 
-    for (int i = 0; i< s.length(); i++) {
+    for (int i = 0; i < n; i++) {
       char ch = s.charAt(i);
 
       if (Character.isDigit(ch)) {
         number = number * 10 + Character.getNumericValue(ch);
       }
 
-      if (opers.contains(ch) || i == n - 1) {
+      if ((ch == '+' || ch == '-' || ch == '*' || ch == '/') || i == n - 1) {
         if (oper == '+') {
-          deque.push(number);
+          stack.push(number);
         } else if (oper == '-') {
-          deque.push(-number);
+          stack.push(-number);
         } else if (oper == '*') {
-          int a = deque.pop();
+          int a = stack.pop();
           int c = a * number;
-          deque.push(c);
+          stack.push(c);
         } else if (oper == '/') {
-          int a = deque.pop();
+          int a = stack.pop();
           int c = a / number;
-          deque.push(c);
+          stack.push(c);
         }
 
         number = 0;
@@ -66,8 +63,8 @@ public class BasicCalculatorII227 {
     }
 
     int res = 0;
-    while (!deque.isEmpty()) {
-      res += deque.pollLast();
+    while (!stack.isEmpty()) {
+      res += stack.pop();
     }
 
     return res;
