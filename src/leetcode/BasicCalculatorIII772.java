@@ -5,17 +5,17 @@ import java.util.Deque;
 
 /**
  * @author Jandos Iskakov
- * problem: 224. Basic Calculator
+ * problem: 772. Basic Calculator III
  * algorithm: Math, Stack
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 7 ms, faster than 65.65% of Java online submissions
- * Memory Usage: 42.1 MB, less than 43.08% of Java online submissions
+ * Runtime: 4 ms, faster than 79.26% of Java online submissions
+ * Memory Usage: 39 MB, less than 38.89% of Java online submissions
  */
-public class BasicCalculator224 {
+public class BasicCalculatorIII772 {
 
   public static void main(String[] args) {
-    BasicCalculator224 problem = new BasicCalculator224();
+    BasicCalculatorIII772 problem = new BasicCalculatorIII772();
     problem.test();
   }
 
@@ -23,6 +23,7 @@ public class BasicCalculator224 {
     System.out.println(calculate("1 + 1"));//2
     System.out.println(calculate(" 2-1 + 2 "));//3
     System.out.println(calculate("(1+(4+5+2)-3)+(6+8)"));//23
+    System.out.println(calculate("2*(5+5*2)/3+(6/2+8)"));//21
   }
 
   public int calculate(String s) {
@@ -60,6 +61,10 @@ public class BasicCalculator224 {
           stack.push(num);
         } else if (oper == '-') {
           stack.push(-num);
+        } else if (oper == '*') {
+          stack.push(stack.pop() * num);
+        } else if (oper == '/') {
+          stack.push(stack.pop() / num);
         }
 
         if (ch != ')') {
