@@ -6,8 +6,8 @@ package leetcode;
  * algorithm: Backtraking
  * time complexity: O(N^2*M^2)
  * space complexity: O(N*M)
- * Runtime: 21 ms, faster than 53.44% of Java online submissions
- * Memory Usage: 36.9 MB, less than 100.00% of Java online submissions.
+ * Runtime: 20 ms, faster than 59.64% of Java online submissions
+ * Memory Usage: 37 MB, less than 100.00% of Java online submissions
  */
 public class PathWithMaximumGold1219 {
 
@@ -29,9 +29,9 @@ public class PathWithMaximumGold1219 {
       return 0;
     }
 
-    int max = 0;
-
     boolean[][] visited = new boolean[grid.length][grid[0].length];
+
+    int max = 0;
 
     for (int i = 0; i < grid.length; i++) {
       for (int j = 0; j < grid[i].length; j++) {
@@ -54,13 +54,10 @@ public class PathWithMaximumGold1219 {
       int r2 = r + dir[0];
       int c2 = c + dir[1];
 
-      if (r2 < 0 || c2 < 0 || r2 >= grid.length || c2 >= grid[r2].length || grid[r2][c2] == 0
-        || visited[r2][c2]) {
-        continue;
+      if (r2 >= 0 && c2 >= 0 && r2 < grid.length && c2 < grid[r2].length && grid[r2][c2] > 0
+        && !visited[r2][c2]) {
+        max = Math.max(max, helper(grid, visited, r2, c2));
       }
-
-      int temp = helper(grid, visited, r2, c2);
-      max = Math.max(max, temp);
     }
 
     visited[r][c] = false;
