@@ -1,7 +1,9 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Jandos Iskakov
@@ -33,7 +35,7 @@ public class TwoSumIVInputIsaBST653 {
     node3.right = node4;
     node6.right = node7;
 
-    System.out.println(findTarget(root, 9));
+    System.out.println(new V2().findTarget(root, 10));
   }
 
   public boolean findTarget(TreeNode root, int k) {
@@ -63,6 +65,28 @@ public class TwoSumIVInputIsaBST653 {
 
       list.add(root.val);
     }
+  }
+
+  private static class V2 {
+
+    public boolean findTarget(TreeNode root, int k) {
+      return findTarget(root, k, new HashSet<>());
+    }
+
+    private boolean findTarget(TreeNode root, int k, Set<Integer> set) {
+      if (root == null) {
+        return false;
+      }
+
+      if (set.contains(k - root.val)) {
+        return true;
+      }
+
+      set.add(root.val);
+
+      return findTarget(root.left, k, set) || findTarget(root.right, k, set);
+    }
+
   }
 
   /**
