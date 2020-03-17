@@ -69,7 +69,7 @@ public class TwoSumBSTs1214 {
     }
   }
 
-  private static class V2 {
+  private static class SetVersion {
 
     public boolean twoSumBSTs(TreeNode root1, TreeNode root2, int target) {
       Set<Integer> set = new HashSet<>();
