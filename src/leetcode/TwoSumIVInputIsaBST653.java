@@ -9,8 +9,8 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 653. Two Sum IV - Input is a BST
  * algorithm: Tree
- * time complexity: O(V + E + |words|)
- * space complexity: O(V + E + |words|)
+ * time complexity: O(N)
+ * space complexity: O(N)
  * Runtime: 2 ms, faster than 94.47% of Java online submissions
  * Memory Usage: 42.1 MB, less than 69.64% of Java online submissions
  */
@@ -35,7 +35,7 @@ public class TwoSumIVInputIsaBST653 {
     node3.right = node4;
     node6.right = node7;
 
-    System.out.println(new V2().findTarget(root, 10));
+    System.out.println(new SetVersion().findTarget(root, 10));
   }
 
   public boolean findTarget(TreeNode root, int k) {
@@ -67,7 +67,7 @@ public class TwoSumIVInputIsaBST653 {
     }
   }
 
-  private static class V2 {
+  private static class SetVersion {
 
     public boolean findTarget(TreeNode root, int k) {
       return findTarget(root, k, new HashSet<>());
