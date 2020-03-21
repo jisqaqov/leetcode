@@ -21,47 +21,41 @@ public class MaximizeDistanceToClosestPerson849 {
   }
 
   public int maxDistToClosest(int[] seats) {
-    int p = -1;
+    int last = -1;
     int dis = 0;
 
     for (int i = 0; i < seats.length; i++) {
       if (seats[i] == 1) {
-        if (p == -1) {
-          dis = Math.max(dis, i);
-        } else {
-          dis = Math.max(dis, Math.max((i - p) / 2, 1));
-        }
-
-        p = i;
-      } else if (i == seats.length - 1) {
-        if (seats[i] == 0) {
-          dis = Math.max(dis, i - p);
-        }
+          dis = last < 0? i: Math.max(dis, (i - last)/2);
+          last = i;
       }
     }
 
-    return dis;
+    return Math.max(dis, seats.length - last - 1);
   }
 
   private static class V2 {
 
     public int maxDistToClosest(int[] seats) {
-      int p = -1;
+      int n = seats.length;
+
+      int[] r = new int[n];
+      r[n - 1] = n;
+
+      for (int i = n - 1; i >= 0; i--) {
+        if (seats[i] == 1) {
+          r[i] = 0;
+        } else if (i < n - 1) {
+          r[i] = r[i + 1] + 1;
+        }
+      }
+
+      int l = n;
       int dis = 0;
 
-      for (int i = 0; i < seats.length; i++) {
-        if (seats[i] == 0) {
-          continue;
-        }
-
-        if (p == -1) {
-          dis = Math.max(dis, i);
-        }
-
-        int k = i - p;
-        dis = Math.max(dis, Math.max(k / 2, 1));
-
-        p = i;
+      for (int i = 0; i < n; i++) {
+        l = seats[i] == 1? 0: l + 1;
+        dis = Math.max(dis, Math.min(l, r[i]));
       }
 
       return dis;
