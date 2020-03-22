@@ -14,8 +14,8 @@ import utils.TestUtils;
  * @author Jandos Iskakov
  * problem: 399. Evaluate Division
  * algorithm: Graph
- * time complexity: O((V+E)*Q), v-vertex, e-edges, q-queries
- * space complexity: O(V+E)
+ * time complexity: O((v + e)*q), n-variables, e-equations, q-queries
+ * space complexity: O(v + e)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
  * Memory Usage: 38.5 MB, less than 7.84% of Java online submissions
  */
