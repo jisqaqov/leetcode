@@ -75,11 +75,10 @@ public class EvaluateDivision399 {
     }
 
     double[] output = new double[queries.size()];
-    Set<String> used = new HashSet<>();
 
     for (int i = 0; i < queries.size(); i++) {
       List<String> query = queries.get(i);
-      output[i] = eval(query.get(0), query.get(1), graph, used);
+      output[i] = eval(query.get(0), query.get(1), graph, new HashSet<>());
     }
 
     return output;
@@ -87,7 +86,7 @@ public class EvaluateDivision399 {
 
   private double eval(String a, String b, Map<String, Map<String, Double>> graph,
     Set<String> used) {
-    if (!graph.containsKey(a) || !graph.containsKey(b)) {
+    if (!graph.containsKey(a) || !graph.containsKey(b) || used.contains(a)) {
       return -1;
     }
 
@@ -97,21 +96,14 @@ public class EvaluateDivision399 {
 
     used.add(a);
 
-    double eval = -1;
-
     for (Map.Entry<String, Double> adj : graph.get(a).entrySet()) {
-      if (!used.contains(adj.getKey())) {
-        double val = eval(adj.getKey(), b, graph, used);
-        if (val != -1) {
-          eval = adj.getValue() * val;
-          break;
-        }
+      double val = eval(adj.getKey(), b, graph, used);
+      if (val != -1) {
+        return adj.getValue() * val;
       }
     }
 
-    used.remove(a);
-
-    return eval;
+    return -1;
   }
 
   private static class BfsVersion {
