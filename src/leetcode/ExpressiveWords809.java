@@ -20,7 +20,7 @@ public class ExpressiveWords809 {
   }
 
   private void test() {
-    System.out.println(new V2().expressiveWords("heeellooo", new String[]{"hello", "hi", "helo"}));//1
+    System.out.println(expressiveWords("heeellooo", new String[]{"hello", "hi", "helo"}));//1
   }
 
   public int expressiveWords(String s, String[] words) {
