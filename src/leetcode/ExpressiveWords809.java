@@ -1,7 +1,6 @@
 package leetcode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,8 +9,8 @@ import java.util.List;
  * algorithm: Graph, Topological Sort
  * time complexity: O(|C|)
  * space complexity: O(1)
- * Runtime: 9 ms, faster than 15.44% of Java online submissions
- * Memory Usage: 41.4 MB, less than 5.88% of Java online submissions
+ * Runtime: 1 ms, faster than 97.64% of Java online submissions
+ * Memory Usage: 38.2 MB, less than 82.35% of Java online submissions
  */
 public class ExpressiveWords809 {
 
@@ -21,7 +20,7 @@ public class ExpressiveWords809 {
   }
 
   private void test() {
-    System.out.println(expressiveWords("heeellooo", new String[]{"hello", "hi", "helo"}));//1
+    System.out.println(new V2().expressiveWords("heeellooo", new String[]{"hello", "hi", "helo"}));//1
   }
 
   public int expressiveWords(String s, String[] words) {
@@ -47,53 +46,40 @@ public class ExpressiveWords809 {
         return false;
       }
 
-      i++;
-      j++;
+      int len1 = getRepeatedLength(s, i);
+      int len2 = getRepeatedLength(t, j);
 
-      int count1 = 1;
-      while (i < n && s.charAt(i) == s.charAt(i - 1)) {
-        i++;
-        count1++;
-      }
-
-      int count2 = 1;
-      while (j < m && t.charAt(j) == t.charAt(j - 1)) {
-        j++;
-        count2++;
-      }
-
-      if (count1 < count2 || (count1 > count2 && count1 < 3)) {
+      if (len1 < len2 || (len1 > len2 && len1 < 3)) {
         return false;
       }
+
+      i += len1;
+      j += len2;
     }
 
     return i == n && j == m;
   }
 
+  private int getRepeatedLength(String s, int i) {
+    int j = i;
+
+    while (j < s.length() && s.charAt(j) == s.charAt(i)) {
+      j++;
+    }
+
+    return j - i;
+  }
+
   private static class V2 {
 
     public int expressiveWords(String s, String[] words) {
-      List<Stat> stat = stat(s);
+      RLE template = new RLE(s);
 
       int count = 0;
 
       for (String word : words) {
-        List<Stat> stat2 = stat(word);
-
-        if (stat.size() != stat2.size()) {
-          continue;
-        }
-
-        boolean stretch = true;
-        for (int i = 0; i < stat.size(); i++) {
-          if (stat.get(i).ch != stat2.get(i).ch ||
-            stat.get(i).count < stat2.get(i).count ||
-            (stat.get(i).count > stat2.get(i).count && stat.get(i).count < 3)) {
-            stretch = false;
-          }
-        }
-
-        if (stretch) {
+        RLE candidate = new RLE(word);
+        if (stretchy(template, candidate)) {
           count++;
         }
       }
@@ -101,34 +87,46 @@ public class ExpressiveWords809 {
       return count;
     }
 
-    private List<Stat> stat(String s) {
-      if (s.isEmpty()) {
-        return Collections.emptyList();
+    private boolean stretchy(RLE template, RLE candidate) {
+      if (!template.key.equals(candidate.key)) {
+        return false;
       }
 
-      List<Stat> list = new ArrayList<>();
-      list.add(new Stat(s.charAt(0), 1));
+      for (int i = 0; i < template.len.size(); i++) {
+        int len1 = template.len.get(i);
+        int len2 = candidate.len.get(i);
 
-      for (int i = 1; i < s.length(); i++) {
-        if (s.charAt(i) == s.charAt(i - 1)) {
-          list.get(list.size() - 1).count++;
-        } else {
-          list.add(new Stat(s.charAt(i), 1));
+        if (len1 < len2 || (len1 > len2 && len1 < 3)) {
+          return false;
         }
       }
 
-      return list;
+      return true;
     }
 
-    private class Stat {
+    private static class RLE {
 
-      private char ch;
-      private int count;
+      private String key;
+      private List<Integer> len;
 
-      Stat(char ch, int count) {
-        this.ch = ch;
-        this.count = count;
+      public RLE(String s) {
+        StringBuilder key = new StringBuilder();
+        len = new ArrayList<>();
+
+        int prev = -1;
+
+        for (int i = 0; i < s.length(); i++) {
+          if (i == s.length() - 1 || s.charAt(i) != s.charAt(i + 1)) {
+            key.append(s.charAt(i));
+            len.add(i - prev);
+
+            prev = i;
+          }
+        }
+
+        this.key = key.toString();
       }
+
     }
 
   }
