@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.PriorityQueue;
 import utils.TestUtils;
 
@@ -67,5 +69,60 @@ public class SlidingWindowMedian480 {
 
     return low.peek();
   }
+
+  private static class V2 {
+
+    public double[] medianSlidingWindow(int[] nums, int k) {
+      List<Integer> window = new ArrayList<>();
+
+      for (int i = 0; i < k; i++) {
+        window.add(nums[i]);
+      }
+
+      window.sort(Integer::compare);
+
+      double[] output = new double[nums.length - k + 1];
+      output[0] = getMedian(window);
+
+      for (int i = k; i < nums.length; i++) {
+        removeNumber(window, nums[i - k]);
+        addNumber(window, nums[i]);
+
+        output[i - k + 1] = getMedian(window);
+      }
+
+      return output;
+    }
+
+    private void removeNumber(List<Integer> window, int num) {
+      for (int i = 0; i < window.size(); i++) {
+        if (window.get(i) == num) {
+          window.remove(i);
+          break;
+        }
+      }
+    }
+
+    private void addNumber(List<Integer> window, int num) {
+      int i = 0;
+      while (i < window.size() && window.get(i) < num) {
+        i++;
+      }
+
+      window.add(i, num);
+    }
+
+    private double getMedian(List<Integer> window) {
+      int n = window.size();
+      if (n % 2 == 0) {
+        return (window.get(n / 2 - 1) * 1.0 + window.get(n / 2) * 1.0) / 2.0;
+      }
+
+      return window.get(n / 2);
+    }
+
+  }
+
+
 
 }
