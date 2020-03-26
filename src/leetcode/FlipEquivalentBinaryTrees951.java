@@ -1,5 +1,9 @@
 package leetcode;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author Jandos Iskakov
  * problem: 951. Flip Equivalent Binary Trees
@@ -51,7 +55,7 @@ public class FlipEquivalentBinaryTrees951 {
     t2node5.left = t2node8;
     t2node3.right = t2node6;
 
-    System.out.println(flipEquiv(t1root, t2root));
+    System.out.println(new BfsVersion().flipEquiv(t1root, t2root));
   }
 
   public boolean flipEquiv(TreeNode root1, TreeNode root2) {
@@ -67,10 +71,55 @@ public class FlipEquivalentBinaryTrees951 {
       flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
   }
 
+  private static class BfsVersion {
+
+    public boolean flipEquiv(TreeNode root1, TreeNode root2) {
+      Queue<TreeNode> queue1 = new LinkedList<>();
+      Queue<TreeNode> queue2 = new LinkedList<>();
+
+      queue1.add(root1);
+      queue2.add(root2);
+
+      while (!queue1.isEmpty() && !queue2.isEmpty()) {
+        TreeNode node1 = queue1.poll();
+        TreeNode node2 = queue2.poll();
+
+        if (node1 == null || node2 == null) {
+          if (!equalNodes(node1, node2)) {
+            return false;
+          }
+
+          continue;
+        }
+
+        if (node1.val != node2.val) {
+          return false;
+        }
+
+        if (equalNodes(node1.left, node2.left)) {
+          queue1.addAll(Arrays.asList(node1.left, node1.right));
+        } else {
+          queue1.addAll(Arrays.asList(node1.right, node1.left));
+        }
+
+        queue2.addAll(Arrays.asList(node2.left, node2.right));
+      }
+
+      return queue1.isEmpty() && queue2.isEmpty();
+    }
+
+    private boolean equalNodes(TreeNode node1, TreeNode node2) {
+      return node1 != null && node2 != null && node1.val == node2.val || node1 == null && node2 == null;
+    }
+
+  }
+
+
+
   /**
    * Definition for a binary tree node.
    */
-  public class TreeNode {
+  public static class TreeNode {
 
     int val;
     TreeNode left;
