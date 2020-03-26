@@ -55,42 +55,16 @@ public class FlipEquivalentBinaryTrees951 {
   }
 
   public boolean flipEquiv(TreeNode root1, TreeNode root2) {
-    if (root1 == null && root2 == null) {
-      return true;
+    if (root1 == null || root2 == null) {
+      return root1 == root2;
     }
 
-    return helper(root1, root2) == 1;
-  }
-
-  private int helper(TreeNode root1, TreeNode root2) {
-    if (root1 == null && root2 == null) {
-      return 0;
+    if (root1.val != root2.val) {
+      return false;
     }
 
-    if (!equals(root1, root2)) {
-      return -1;
-    }
-
-    if (equals(root1.left, root2.right) &&
-      equals(root1.right, root2.left)) {
-      int left = helper(root1.left, root2.right);
-      int right = helper(root1.right, root2.left);
-
-      return left != -1 && right != -1 ? 1 : -1;
-    } else if (equals(root1.left, root2.left) &&
-      equals(root1.right, root2.right)) {
-      int left = helper(root1.left, root2.left);
-      int right = helper(root1.right, root2.right);
-
-      return left != -1 && right != -1 ? 1 : -1;
-    }
-
-    return -1;
-  }
-
-  private boolean equals(TreeNode root1, TreeNode root2) {
-    return (root1 == null && root2 == null) ||
-      (root1 != null && root2 != null && root1.val == root2.val);
+    return flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right) ||
+      flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left);
   }
 
   /**
