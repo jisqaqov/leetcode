@@ -55,7 +55,7 @@ public class FlipEquivalentBinaryTrees951 {
     t2node5.left = t2node8;
     t2node3.right = t2node6;
 
-    System.out.println(new BfsVersion().flipEquiv(t1root, t2root));
+    System.out.println(flipEquiv(t1root, t2root));
   }
 
   public boolean flipEquiv(TreeNode root1, TreeNode root2) {
