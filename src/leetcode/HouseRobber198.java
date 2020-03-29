@@ -1,7 +1,6 @@
 package leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
 
 /**
  * @author Jandos Iskakov
@@ -70,25 +69,26 @@ public class HouseRobber198 {
         return 0;
       }
 
-      Map<Integer, Integer> memo = new HashMap<>();
-      return rob(nums, nums.length - 1, memo);
+      int[] dp = new int[nums.length];
+      Arrays.fill(dp, -1);
+
+      dp[0] = nums[0];
+
+      return helper(nums, nums.length - 1, dp);
     }
 
-    public int rob(int[] nums, int n, Map<Integer, Integer> memo) {
-      if (n < 0) {
+    private int helper(int[] nums, int index, int[] dp) {
+      if (index < 0) {
         return 0;
-      } else if (n == 0) {
-        return nums[n];
       }
 
-      if (memo.containsKey(n)) {
-        return memo.get(n);
+      if (dp[index] != -1) {
+        return dp[index];
       }
 
-      int max = Math.max(rob(nums, n - 1, memo), rob(nums, n - 2, memo) + nums[n]);
-      memo.put(n, max);
+      dp[index] = Math.max(helper(nums, index - 1, dp), helper(nums, index - 2, dp) + nums[index]);
 
-      return max;
+      return dp[index];
     }
 
   }
