@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.Arrays;
+
 /**
  * @author Jandos Iskakov
  * problem: 268. Missing Number
@@ -59,6 +61,23 @@ public class MissingNumber268 {
       nums[i] = nums[j];
       nums[j] = temp;
     }
+
+  }
+
+  private static class V3 {
+
+    public int missingNumber(int[] nums) {
+      Arrays.sort(nums);
+
+      for (int i = 0; i < nums.length; i++) {
+        if (nums[i] != i) {
+          return i;
+        }
+      }
+
+      return nums.length;
+    }
+
 
   }
 
