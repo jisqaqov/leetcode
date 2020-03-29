@@ -29,22 +29,29 @@ public class NumberOfDiceRollsWithTargetSum1155 {
   public int numRollsToTarget(int d, int f, int target) {
     int[][] dp = new int[d + 1][target + 1];
 
-    for (int t = 1; t <= target; t++) {
-      dp[1][t] = f >= t? 1: 0;
+    for (int i = 0; i <= d; i++) {
+      Arrays.fill(dp[i], -1);
     }
 
-    for (int dice = 2; dice <= d; dice++) {
-      for (int t = 1; t <= target; t++) {
-        int count = 0;
+    return helper(dp, d, f, target);
+  }
 
-        for (int face = 1; face <= Math.min(f, t); face++) {
-          count += dp[dice - 1][t - face];
-          count %= LIMIT;
-        }
-
-        dp[dice][t] = count;
-      }
+  private int helper(int[][] dp, int d, int f, int target) {
+    if (dp[d][target] != -1) {
+      return dp[d][target];
     }
+
+    if (d == 1) {
+      return f >= target? 1: 0;
+    }
+
+    int count = 0;
+    for (int face = 1; face <= Math.min(f, target - 1); face++) {
+      count += helper(dp, d - 1, f, target - face);
+      count %= LIMIT;
+    }
+
+    dp[d][target] = count;
 
     return dp[d][target];
   }
@@ -54,33 +61,25 @@ public class NumberOfDiceRollsWithTargetSum1155 {
     public int numRollsToTarget(int d, int f, int target) {
       int[][] dp = new int[d + 1][target + 1];
 
-      for (int i = 0; i <= d; i++) {
-        Arrays.fill(dp[i], -1);
+      for (int t = 1; t <= target; t++) {
+        dp[1][t] = f >= t? 1: 0;
       }
 
-      return helper(dp, d, f, target);
-    }
+      for (int dice = 2; dice <= d; dice++) {
+        for (int t = 1; t <= target; t++) {
+          int count = 0;
 
-    private int helper(int[][] dp, int d, int f, int target) {
-      if (dp[d][target] != -1) {
-        return dp[d][target];
+          for (int face = 1; face <= Math.min(f, t); face++) {
+            count += dp[dice - 1][t - face];
+            count %= LIMIT;
+          }
+
+          dp[dice][t] = count;
+        }
       }
-
-      if (d == 1) {
-        return f >= target? 1: 0;
-      }
-
-      int count = 0;
-      for (int face = 1; face <= Math.min(f, target - 1); face++) {
-        count += helper(dp, d - 1, f, target - face);
-        count %= LIMIT;
-      }
-
-      dp[d][target] = count;
 
       return dp[d][target];
     }
-
 
   }
 
