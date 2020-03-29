@@ -7,10 +7,10 @@ package leetcode;
  * time complexity: O(n)
  * space complexity: O(n)
  */
-public class HouseRobber213 {
+public class HouseRobberII213 {
 
     public static void main(String[] args) {
-        HouseRobber213 solution = new HouseRobber213();
+        HouseRobberII213 solution = new HouseRobberII213();
         solution.test();
     }
 
