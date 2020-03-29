@@ -62,10 +62,6 @@ public class NumberOfDiceRollsWithTargetSum1155 {
     }
 
     private int helper(int[][] dp, int d, int f, int target) {
-      if (d < 0) {
-        return 0;
-      }
-
       if (dp[d][target] != -1) {
         return dp[d][target];
       }
@@ -75,12 +71,8 @@ public class NumberOfDiceRollsWithTargetSum1155 {
       }
 
       int count = 0;
-      for (int i = 1; i <= f && i < target; i++) {
-        int temp = helper(dp, d - 1, f, target - i);
-        if (temp > 0) {
-          count += temp;
-        }
-
+      for (int face = 1; face <= Math.min(f, target - 1); face++) {
+        count += helper(dp, d - 1, f, target - face);
         count %= LIMIT;
       }
 
