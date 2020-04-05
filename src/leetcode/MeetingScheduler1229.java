@@ -58,13 +58,15 @@ public class MeetingScheduler1229 {
         }
       }
 
-      while (pq.size() > 1) {
-        int[] prev = pq.poll();
-        int[] current = pq.peek();
+      int[] prev = pq.poll();
+      while (!pq.isEmpty()) {
+        int[] current = pq.poll();
 
         if (current[0] + duration <= prev[1]) {
           return Arrays.asList(current[0], current[0] + duration);
         }
+
+        prev = current;
       }
 
       return new ArrayList<>();
