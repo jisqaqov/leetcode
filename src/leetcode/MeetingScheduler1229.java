@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * @author Jandos Iskakov
@@ -38,6 +39,37 @@ public class MeetingScheduler1229 {
     }
 
     return new ArrayList<>();
+  }
+
+  private static class V2 {
+
+    public List<Integer> minAvailableDuration(int[][] slots1, int[][] slots2, int duration) {
+      PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+      for (int[] slot : slots1) {
+        if (slot[1] - slot[0] >= duration) {
+          pq.add(slot);
+        }
+      }
+
+      for (int[] slot : slots2) {
+        if (slot[1] - slot[0] >= duration) {
+          pq.add(slot);
+        }
+      }
+
+      while (pq.size() > 1) {
+        int[] prev = pq.poll();
+        int[] current = pq.peek();
+
+        if (current[0] + duration <= prev[1]) {
+          return Arrays.asList(current[0], current[0] + duration);
+        }
+      }
+
+      return new ArrayList<>();
+    }
+
   }
 
 }
