@@ -8,7 +8,7 @@ import utils.TestUtils;
  * problem: 1057. Campus Bikes
  * algorithm: Greedy, Sort
  * time complexity: O(nmlog(nm))
- * space complexity: O(1)
+ * space complexity: O(n + m)
  * Runtime: 803 ms, faster than 26.06% of Java online submissions
  * Memory Usage: 140.9 MB, less than 100.00% of Java online submissions
  */
