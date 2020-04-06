@@ -6,7 +6,7 @@ import utils.TestUtils;
 /**
  * @author Jandos Iskakov
  * problem: 1057. Campus Bikes
- * algorithm: Graph, Topological Sort
+ * algorithm: Greedy, Sort
  * time complexity: O(nmlog(nm))
  * space complexity: O(1)
  * Runtime: 803 ms, faster than 26.06% of Java online submissions
