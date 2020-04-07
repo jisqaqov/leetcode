@@ -4,10 +4,10 @@ package leetcode;
  * @author Jandos Iskakov
  * problem: 1011. Capacity To Ship Packages Within D Days
  * algorithm: Binary Search
- * time complexity: O(nlog(sum))
- * space complexity: O(nlog(sum))
- * Runtime: 14 ms, faster than 13.72% of Java online submissions
- * Memory Usage: 52.3 MB, less than 7.69% of Java online submissions
+ * time complexity: O(nlog(size)), size = max(weights) - sum(weights)
+ * space complexity: O(1)
+ * Runtime: 8 ms, faster than 93.28% of Java online submissions
+ * Memory Usage: 42.9 MB, less than 69.23% of Java online submissions
  */
 public class CapacityToShipPackagesWithinDDays1011 {
 
@@ -21,45 +21,45 @@ public class CapacityToShipPackagesWithinDDays1011 {
   }
 
   public int shipWithinDays(int[] weights, int d) {
+    int max = -1;
     int sum = 0;
+
     for (int weight : weights) {
       sum += weight;
+      max = Math.max(weight, max);
     }
 
-    int l = 1, r = sum;
+    int left = max;
+    int right = sum;
 
-    int min = 0;
+    while (left < right) {
+      int capacity = left + (right - left) / 2;
 
-    while (l <= r) {
-      int capacity = l + (r - l) / 2;
-
-      boolean canShip = canShip(weights, sum, capacity, d);
-      if (canShip) {
-        min = capacity;
-        r = capacity - 1;
+      int days = getDaysToShip(weights, capacity);
+      if (days > d) {
+        left = capacity + 1;
       } else {
-        l = capacity + 1;
+        right = capacity;
       }
     }
 
-    return min;
+    return left;
   }
 
-  private boolean canShip(int[] weights, int sum, int capacity, int d) {
-    int i = 0;
+  private int getDaysToShip(int[] weights, int capacity) {
+    int days = 1;
 
-    while (d > 0) {
-
-      int k = 0;
-      while (i < weights.length && k + weights[i] <= capacity) {
-        sum -= weights[i];
-        k += weights[i++];
+    int curr = 0;
+    for (int w : weights) {
+      if (curr + w > capacity) {
+        days++;
+        curr = 0;
       }
 
-      d--;
+      curr += w;
     }
 
-    return i == weights.length && d >= 0 && sum == 0;
+    return days;
   }
 
 
