@@ -3,17 +3,18 @@ package amazon;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * https://leetcode.com/discuss/interview-experience/568587/Amazon-or-SDE2-or-Bay-Area-or-March-2020-Reject
  *
- * Given an Input with a unique number & list of elements corresponding to each number.
- * Find & output groups of numbers such that each number in a given group has one element in common. -
- * Input: [ {n: 8, e:['z, 'x', 'y']}, {n: 5, e:['y', 'u']}, {n: 3, e:['m']},
- * {n: 6, e:['u', 'd']}, {n: 9, e:['m', 'n']}, {n: 7, e:['a']} ]
- * Output: [ [8, 5, 6], [3, 9], [7] ]
+ * Given an Input with a unique number & list of elements corresponding to each number. Find &
+ * output groups of numbers such that each number in a given group has one element in common. -
+ * Input: [ {n: 8, e:['z, 'x', 'y']}, {n: 5, e:['y', 'u']}, {n: 3, e:['m']}, {n: 6, e:['u', 'd']},
+ * {n: 9, e:['m', 'n']}, {n: 7, e:['a']} ] Output: [ [8, 5, 6], [3, 9], [7] ]
  */
 public class GroupElements {
 
@@ -34,36 +35,95 @@ public class GroupElements {
   }
 
   private List<List<Integer>> groupElements(List<Item> items) {
-    Map<Integer, Integer> numberToId = new HashMap<>();
-    Map<Character, List<Integer>> elementToId = new HashMap<>();
+    Map<Character, List<Item>> graph = new HashMap<>();
 
-    for (int idx = 0; idx < items.size(); idx++) {
-      numberToId.put(items.get(idx).number, idx);
-
-      for (char element : items.get(idx).elements) {
-        elementToId.putIfAbsent(element, new ArrayList<>());
-        elementToId.get(element).add(idx);
-      }
-    }
-
-    DisjointSet ds = new DisjointSet(items.size());
-
-    for (char element : elementToId.keySet()) {
-      List<Integer> ids = elementToId.get(element);
-      for (int i = 0; i < ids.size() - 1; i++) {
-        ds.union(ids.get(i), ids.get(i + 1));
-      }
-    }
-
-    Map<Integer, List<Integer>> idToNumber = new HashMap<>();
     for (Item item : items) {
-      int id = ds.root(numberToId.get(item.number));
-
-      idToNumber.putIfAbsent(id, new ArrayList<>());
-      idToNumber.get(id).add(item.number);
+      for (char element : item.elements) {
+        graph.putIfAbsent(element, new ArrayList<>());
+        graph.get(element).add(item);
+      }
     }
 
-    return new ArrayList<>(idToNumber.values());
+    Set<Integer> usedNumbers = new HashSet<>();
+    Set<Character> usedElements = new HashSet<>();
+
+    List<List<Integer>> output = new ArrayList<>();
+
+    for (Character element : graph.keySet()) {
+      if (usedElements.contains(element)) {
+        continue;
+      }
+
+      List<Integer> list = new ArrayList<>();
+
+      for (Item item : graph.get(element)) {
+        dfs(item, list, usedElements, usedNumbers, graph);
+      }
+
+      output.add(list);
+    }
+
+    return output;
+  }
+
+  private void dfs(Item item, List<Integer> list, Set<Character> usedElements,
+    Set<Integer> usedNumbers, Map<Character, List<Item>> graph) {
+
+    for (Character ch : item.elements) {
+      if (usedElements.contains(ch)) {
+        continue;
+      }
+
+      usedElements.add(ch);
+
+      for (Item adj : graph.get(ch)) {
+        if (usedNumbers.contains(adj.number)) {
+          continue;
+        }
+
+        usedNumbers.add(adj.number);
+
+        list.add(adj.number);
+        dfs(adj, list, usedElements, usedNumbers, graph);
+      }
+    }
+  }
+
+  private class UnionFindVersion {
+
+    private List<List<Integer>> groupElements(List<Item> items) {
+      Map<Integer, Integer> numberToId = new HashMap<>();
+      Map<Character, List<Integer>> elementToId = new HashMap<>();
+
+      for (int idx = 0; idx < items.size(); idx++) {
+        numberToId.put(items.get(idx).number, idx);
+
+        for (char element : items.get(idx).elements) {
+          elementToId.putIfAbsent(element, new ArrayList<>());
+          elementToId.get(element).add(idx);
+        }
+      }
+
+      DisjointSet ds = new DisjointSet(items.size());
+
+      for (char element : elementToId.keySet()) {
+        List<Integer> ids = elementToId.get(element);
+        for (int i = 0; i < ids.size() - 1; i++) {
+          ds.union(ids.get(i), ids.get(i + 1));
+        }
+      }
+
+      Map<Integer, List<Integer>> idToNumber = new HashMap<>();
+      for (Item item : items) {
+        int id = ds.root(numberToId.get(item.number));
+
+        idToNumber.putIfAbsent(id, new ArrayList<>());
+        idToNumber.get(id).add(item.number);
+      }
+
+      return new ArrayList<>(idToNumber.values());
+    }
+
   }
 
   private class DisjointSet {
