@@ -12,8 +12,8 @@ import java.util.PriorityQueue;
  * algorithm: Heap
  * time complexity: O(nlog(n))
  * space complexity: O(nlog(n))
- * Runtime: 9 ms, faster than 79.83% of Java online submissions
- * Memory Usage: 42 MB, less than 100.00% of Java online submissions
+ * Runtime: 7 ms, faster than 97.77% of Java online submissions
+ * Memory Usage: 41.2 MB, less than 100.00% of Java online submissions
  */
 public class EmployeeFreeTime759 {
 
@@ -76,6 +76,10 @@ public class EmployeeFreeTime759 {
   private class V2 {
 
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
+      if (schedule.isEmpty()) {
+        return Collections.emptyList();
+      }
+
       List<Interval> list = new ArrayList<>();
       for (List<Interval> sch : schedule) {
         list.addAll(sch);
@@ -83,23 +87,19 @@ public class EmployeeFreeTime759 {
 
       list.sort((i1, i2) -> i1.start - i2.start);
 
-      PriorityQueue<Interval> pq = new PriorityQueue<>((i1, i2) -> i1.end - i2.end);
+      int end = list.get(0).end;
 
       List<Interval> output = new ArrayList<>();
 
-      for (int i = 0; i < list.size(); i++) {
-        Interval interval = list.get(i);
+      for (int i = 1; i < list.size(); i++) {
+        Interval curr = list.get(i);
 
-        int last = -1;
-        while (!pq.isEmpty() && pq.peek().end < interval.start) {
-          last = pq.poll().end;
+        if (end < curr.start) {
+          output.add(new Interval(end, curr.start));
+          end = curr.end;
+        } else {
+          end = Math.max(end, curr.end);
         }
-
-        if (pq.isEmpty() && last != -1) {
-          output.add(new Interval(last, interval.start));
-        }
-
-        pq.add(interval);
       }
 
       return output;
