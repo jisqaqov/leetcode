@@ -1,7 +1,7 @@
 package leetcode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -40,63 +40,55 @@ public class AnalyzeUserWebsiteVisitPattern1152 {
       map.get(username[i]).add(new Visit(website[i], timestamp[i]));
     }
 
-    Map<List<String>, Integer> freq = new HashMap<>();
+    Map<String, Integer> freq = new HashMap<>();
 
-    for (Map.Entry<String, List<Visit>> entry : map.entrySet()) {
-      entry.getValue().sort(Comparator.comparingInt(v -> v.timestamp));
+    for (String user : map.keySet()) {
+      map.get(user).sort(Comparator.comparingInt(v -> v.timestamp));
 
-      List<List<String>> seqList = get3Seq(entry.getValue());
-
-      for (List<String> seq : seqList) {
-        freq.put(seq, freq.getOrDefault(seq, 0) + 1);
+      Set<String> sequences = getSubSequence(map.get(user));
+      for (String sequence : sequences) {
+        freq.put(sequence, freq.getOrDefault(sequence, 0) + 1);
       }
     }
 
-    int max = -1;
+    int maxCount = -1;
     for (Integer num : freq.values()) {
-      max = Math.max(num, max);
+      maxCount = Math.max(num, maxCount);
     }
 
-    List<String> output = null;
+    String maxSequence = null;
 
-    for (Map.Entry<List<String>, Integer> entry : freq.entrySet()) {
-      if (entry.getValue() < max) {
+    for (String sequence : freq.keySet()) {
+      if (freq.get(sequence) < maxCount) {
         continue;
       }
 
-      if (output == null) {
-        output = entry.getKey();
-      } else if (compare(output, entry.getKey()) > 0) {
-        output = entry.getKey();
+      if (maxSequence == null) {
+        maxSequence = sequence;
+      } else if (sequence.compareTo(maxSequence) < 0) {
+        maxSequence = sequence;
       }
     }
+
+    List<String> output = new ArrayList<>();
+    Collections.addAll(output, maxSequence.split(":"));
 
     return output;
   }
 
-  private int compare(List<String> seq1, List<String> seq2) {
-    for (int i = 0; i < seq1.size(); i++) {
-      if (seq1.get(i).compareTo(seq2.get(i)) != 0) {
-        return seq1.get(i).compareTo(seq2.get(i));
-      }
-    }
-
-    return 0;
-  }
-
-  private List<List<String>> get3Seq(List<Visit> visits) {
-    Set<List<String>> seq = new HashSet<>();
+  private Set<String> getSubSequence(List<Visit> visits) {
+    Set<String> sequences = new HashSet<>();
 
     for (int i = 0; i < visits.size(); i++) {
       for (int j = i + 1; j < visits.size(); j++) {
         for (int k = j + 1; k < visits.size(); k++) {
-          seq.add(Arrays.asList(visits.get(i).webstite,
-            visits.get(j).webstite, visits.get(k).webstite));
+          sequences.add(visits.get(i).webstite + ":" + visits.get(j).webstite +
+            ":" + visits.get(k).webstite);
         }
       }
     }
 
-    return new ArrayList<>(seq);
+    return sequences;
   }
 
   private static class Visit {

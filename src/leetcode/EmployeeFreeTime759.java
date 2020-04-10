@@ -22,22 +22,22 @@ public class EmployeeFreeTime759 {
       list.addAll(sch);
     }
 
-    list.sort(Comparator.comparingInt(i2 -> i2.start));
+    list.sort((i1, i2) -> i1.start - i2.start);
 
-    Interval last = null;
-    PriorityQueue<Interval> pq = new PriorityQueue<>(Comparator.comparingInt(i1 -> i1.end));
+    PriorityQueue<Interval> pq = new PriorityQueue<>((i1, i2) -> i1.end - i2.end);
 
     List<Interval> output = new ArrayList<>();
 
     for (int i = 0; i < list.size(); i++) {
       Interval interval = list.get(i);
 
+      int last = -1;
       while (!pq.isEmpty() && pq.peek().end < interval.start) {
-        last = pq.poll();
+        last = pq.poll().end;
       }
 
-      if (pq.isEmpty() && last != null) {
-        output.add(new Interval(last.end, interval.start));
+      if (pq.isEmpty() && last != -1) {
+        output.add(new Interval(last, interval.start));
       }
 
       pq.add(interval);
