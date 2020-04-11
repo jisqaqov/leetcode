@@ -1,5 +1,8 @@
 package leetcode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author Jandos Iskakov
  * problem: 437. Path Sum III
@@ -12,11 +15,13 @@ package leetcode;
 public class PathSumIII437 {
 
   public int pathSum(TreeNode root, int sum) {
-    int[] output = new int[1];
+    if (root == null) {
+      return 0;
+    }
 
-    preorder(root, sum, output);
-
-    return output[0];
+    return helper(root, sum) +
+      pathSum(root.left, sum) +
+      pathSum(root.right, sum);
   }
 
   private int helper(TreeNode root, int sum) {
@@ -31,15 +36,34 @@ public class PathSumIII437 {
     return k;
   }
 
-  private void preorder(TreeNode root, int sum, int[] output) {
-    if (root == null) {
-      return;
+  private static class V2 {
+
+    public int pathSum(TreeNode root, int sum) {
+      Map<Integer, Integer> map = new HashMap<>();
+      map.put(0, 1);
+
+      return helper(root, 0, sum, map);
     }
 
-    output[0] += helper(root, sum);
+    private int helper(TreeNode root, int prefix, int k, Map<Integer, Integer> map) {
+      if (root == null) {
+        return 0;
+      }
 
-    preorder(root.left, sum, output);
-    preorder(root.right, sum, output);
+      prefix += root.val;
+
+      int count = map.getOrDefault(prefix - k, 0);
+
+      map.put(prefix, map.getOrDefault(prefix, 0) + 1);
+
+      count += helper(root.left, prefix, k, map) +
+        helper(root.right, prefix, k, map);
+
+      map.put(prefix, map.get(prefix) - 1);
+
+      return count;
+    }
+
   }
 
   /**
