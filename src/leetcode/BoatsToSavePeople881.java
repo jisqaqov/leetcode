@@ -24,30 +24,21 @@ public class BoatsToSavePeople881 {
 
   public int numRescueBoats(int[] people, int limit) {
     Arrays.sort(people);
-    int k = find(people, limit);
 
-    return k + (people.length - k * 2);
-  }
-
-  private int find(int[] people, int limit) {
     int count = 0;
 
-    int i = 0;
-    int j = people.length - 1;
-
-    while (i < j) {
+    for (int i = 0, j = people.length - 1; i < j; ) {
       int k = people[i] + people[j];
-      if (k > limit) {
-        j--;
-      } else {
-        count++;
 
+      if (k <= limit) {
+        count++;
         i++;
-        j--;
       }
+
+      j--;
     }
 
-    return count;
+    return count + (people.length - count * 2);
   }
 
 }
