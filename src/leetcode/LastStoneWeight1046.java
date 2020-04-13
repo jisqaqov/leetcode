@@ -28,8 +28,8 @@ public class LastStoneWeight1046 {
       int x = pq.poll();
       int y = pq.poll();
 
-      if (x != y) {
-        pq.add(Math.max(x, y) - Math.min(x, y));
+      if (x > y) {
+        pq.add(x - y);
       }
     }
 
