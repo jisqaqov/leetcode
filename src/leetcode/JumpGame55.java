@@ -17,28 +17,26 @@ public class JumpGame55 {
   }
 
   private void test() {
-    System.out.println(canJump(new int[]{5, 9, 3, 2, 1, 0, 2, 3, 3, 1, 0, 0}));
-    System.out.println(canJump(new int[]{3, 2, 1, 0, 4}));
-    System.out.println(canJump(new int[]{2, 0}));
+    System.out.println(canJump(new int[]{5, 9, 3, 2, 1, 0, 2, 3, 3, 1, 0, 0}));//true
+    System.out.println(canJump(new int[]{3, 2, 1, 0, 4}));//false
+    System.out.println(canJump(new int[]{2, 0}));//true
   }
 
   public boolean canJump(int[] nums) {
-    int reachIndex = 0;
-    int maxIndex = 0;
+    int start = 0, end = 0;
 
-    while (reachIndex < nums.length - 1) {
-      if (nums[maxIndex] == 0) {
+    while (end < nums.length - 1) {
+      int maxIndex = 0;
+      for (int i = start; i <= end; i++) {
+        maxIndex = Math.max(maxIndex, i + nums[i]);
+      }
+
+      if (maxIndex == end) {
         return false;
       }
 
-      int jumpIndex = maxIndex + nums[maxIndex];
-      for (int i = reachIndex + 1; i <= jumpIndex && i < nums.length; i++) {
-        if (i + nums[i] >= maxIndex + nums[maxIndex]) {
-          maxIndex = i;
-        }
-      }
-
-      reachIndex = jumpIndex;
+      start = end + 1;
+      end = maxIndex;
     }
 
     return true;
