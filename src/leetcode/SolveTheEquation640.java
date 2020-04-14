@@ -27,12 +27,10 @@ public class SolveTheEquation640 {
 
   public String solveEquation(String equation) {
     int index = equation.indexOf('=');
+    char[] chs = equation.toCharArray();
 
-    String p = equation.substring(0, index);
-    String q = equation.substring(index + 1);
-
-    int[] vals1 = calculate(p);
-    int[] vals2 = calculate(q);
+    int[] vals1 = calculate(chs, 0, index - 1);
+    int[] vals2 = calculate(chs, index + 1, chs.length - 1);
 
     int a = vals1[0] - vals2[0];
     int b = vals2[1] - vals1[1];
@@ -41,53 +39,38 @@ public class SolveTheEquation640 {
       return "Infinite solutions";
     }
 
-    if (a == 0) {
+    if (a == 0 && b != 0) {
       return "No solution";
     }
 
     return "x=" + (b / a);
   }
 
-  private int[] calculate(String expression) {
+  private int[] calculate(char[] str, int start, int end) {
     int a = 0, b = 0;
 
     char oper = '+';
     int num = 0;
 
-    int n = expression.length();
-
-    char[] chs = expression.toCharArray();
-
-    for (int i = 0; i < n; i++) {
-
-      if (chs[i] >= '0' && chs[i] <= '9') {
-        int val = chs[i] - '0';
-        num = num * 10 + val;
+    for (int i = start; i <= end; i++) {
+      if (str[i] >= '0' && str[i] <= '9') {
+        num = num * 10 + str[i] - '0';
       }
 
-      if (chs[i] == 'x') {
-        if (i == 0 || chs[i - 1] == '+' || chs[i - 1] == '-') {
+      if (str[i] == 'x') {
+        if (i == start || str[i - 1] == '+' || str[i - 1] == '-') {
           num = 1;
         }
-      }
 
-      if (chs[i] == '+' || chs[i] == '-' || i == n - 1) {
-        if (chs[i] == 'x' || (i > 0 && chs[i - 1] == 'x')) {
-          if (oper == '+') {
-            a += num;
-          } else {
-            a -= num;
-          }
-        } else {
-          if (oper == '+') {
-            b += num;
-          } else {
-            b -= num;
-          }
+        a = oper == '+'? a + num: a - num;
+        num = 0;
+      } else if (str[i] == '+' || str[i] == '-' || i == end) {
+        if (i == start || str[i - 1] != 'x') {
+          b = oper == '+'? b + num: b - num;
         }
 
         num = 0;
-        oper = chs[i];
+        oper = str[i];
       }
     }
 
