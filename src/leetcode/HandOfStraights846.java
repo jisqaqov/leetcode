@@ -3,11 +3,12 @@ package leetcode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
 
 /**
  * @author Jandos Iskakov
  * problem: 846. Hand of Straights
- * algorithm: Graph, Topological Sort
+ * algorithm: Ordered Map, Heap
  * time complexity: O(nlog(n))
  * space complexity: O(n)
  * Runtime: 29 ms, faster than 80.31% of Java online submissions
@@ -26,7 +27,7 @@ public class HandOfStraights846 {
   }
 
   public boolean isNStraightHand(int[] hand, int w) {
-    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    TreeMap<Integer, Integer> tree = new TreeMap<>();
 
     Map<Integer, Integer> counter = new HashMap<>();
     for (int card : hand) {
@@ -34,36 +35,72 @@ public class HandOfStraights846 {
     }
 
     for (int card : counter.keySet()) {
-      pq.add(card);
-      counter.put(card, counter.get(card) - 1);
+      tree.put(card, counter.get(card));
     }
 
     int k = hand.length;
-    for (; k > 0; k -= w) {
-      int[] pulled = new int[w];
+    for (; !tree.isEmpty() && k > 0; k -= w) {
+      int min = tree.firstKey();
+      int size = min + w - 1;
 
-      int size = 0;
-      for (; !pq.isEmpty() && size < w; size++) {
-        pulled[size] = pq.poll();
-        if (size > 0 && pulled[size - 1] + 1 != pulled[size]) {
+      for (int card = min; card <= size; card++) {
+        if (!tree.containsKey(card)) {
           return false;
         }
-      }
 
-      if (size < w) {
-        return false;
-      }
-
-      for (int card : pulled) {
-        if (counter.get(card) > 0) {
-          pq.add(card);
-
-          counter.put(card, counter.get(card) - 1);
+        tree.put(card, tree.get(card) - 1);
+        if (tree.get(card) == 0) {
+          tree.remove(card);
         }
       }
     }
 
     return k == 0;
+  }
+
+  private static class V2 {
+
+    public boolean isNStraightHand(int[] hand, int w) {
+      PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+      Map<Integer, Integer> counter = new HashMap<>();
+      for (int card : hand) {
+        counter.put(card, counter.getOrDefault(card, 0) + 1);
+      }
+
+      for (int card : counter.keySet()) {
+        pq.add(card);
+        counter.put(card, counter.get(card) - 1);
+      }
+
+      int k = hand.length;
+      for (; k > 0; k -= w) {
+        int[] pulled = new int[w];
+
+        int size = 0;
+        for (; !pq.isEmpty() && size < w; size++) {
+          pulled[size] = pq.poll();
+          if (size > 0 && pulled[size - 1] + 1 != pulled[size]) {
+            return false;
+          }
+        }
+
+        if (size < w) {
+          return false;
+        }
+
+        for (int card : pulled) {
+          if (counter.get(card) > 0) {
+            pq.add(card);
+
+            counter.put(card, counter.get(card) - 1);
+          }
+        }
+      }
+
+      return k == 0;
+    }
+
   }
 
 }
