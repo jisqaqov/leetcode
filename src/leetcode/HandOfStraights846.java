@@ -29,17 +29,11 @@ public class HandOfStraights846 {
   public boolean isNStraightHand(int[] hand, int w) {
     TreeMap<Integer, Integer> tree = new TreeMap<>();
 
-    Map<Integer, Integer> counter = new HashMap<>();
     for (int card : hand) {
-      counter.put(card, counter.getOrDefault(card, 0) + 1);
+      tree.put(card, tree.getOrDefault(card, 0) + 1);
     }
 
-    for (int card : counter.keySet()) {
-      tree.put(card, counter.get(card));
-    }
-
-    int k = hand.length;
-    for (; !tree.isEmpty() && k > 0; k -= w) {
+    while(!tree.isEmpty()) {
       int min = tree.firstKey();
       int size = min + w - 1;
 
@@ -55,7 +49,7 @@ public class HandOfStraights846 {
       }
     }
 
-    return k == 0;
+    return true;
   }
 
   private static class V2 {
