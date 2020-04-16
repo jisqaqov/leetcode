@@ -1,11 +1,14 @@
 package leetcode;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author Jandos Iskakov
  * problem: 547. Friend Circles
- * algorithm: DFS, Union Find
+ * algorithm: DFS, BFS, Union Find
  * time complexity: O(N^2)
- * space complexity: O(N^2)
+ * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00% of Java online submissions
  * Memory Usage: 42.1 MB, less than 56.00% of Java online submissions
  */
@@ -48,7 +51,52 @@ public class FriendCircles547 {
     }
   }
 
-  private static class V2 {
+  /**
+   * @author Jandos Iskakov
+   * algorithm: BFS
+   * time complexity: O(N^2)
+   * space complexity: O(n)
+   * Runtime: 1 ms, faster than 72.77% of Java online submissions
+   * Memory Usage: 40.7 MB, less than 60.00% of Java online submissions
+   */
+  private static class BfsVersion {
+
+    public int findCircleNum(int[][] m) {
+      int n = m.length;
+
+      boolean[] visited = new boolean[n];
+
+      int circles = 0;
+      for (int i = 0; i < n; i++) {
+        if (visited[i]) {
+          continue;
+        }
+
+        circles++;
+
+        visited[i] = true;
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(i);
+
+        while (!queue.isEmpty()) {
+          int node = queue.poll();
+
+          for (int j = 0; j < n; j++) {
+            if (!visited[j] && m[node][j] == 1 && j != i) {
+              visited[j] = true;
+              queue.add(j);
+            }
+          }
+        }
+      }
+
+      return circles;
+    }
+
+  }
+
+  private static class UnionFindVersion {
 
     public int findCircleNum(int[][] m) {
       DisjointSet ds = new DisjointSet(m.length);
