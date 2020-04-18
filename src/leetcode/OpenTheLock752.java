@@ -14,8 +14,8 @@ import java.util.Set;
  * algorithm: BFS
  * time complexity:
  * space complexity:
- * Runtime: 7 ms, faster than 99.82% of Java online submissions
- * Memory Usage: 39.4 MB, less than 94.74% of Java online submissions
+ * Runtime: 6 ms, faster than 99.82% of Java online submissions
+ * Memory Usage: 40.2 MB, less than 84.21% of Java online submissions
  */
 public class OpenTheLock752 {
 
@@ -33,23 +33,20 @@ public class OpenTheLock752 {
   }
 
   public int openLock(String[] deadends, String target) {
-    Set<String> used = new HashSet<>();
-
     Set<String> setOfDeadends = new HashSet<>(Arrays.asList(deadends));
 
     final String startLock = "0000";
-
     if (setOfDeadends.contains(startLock)) {
       return -1;
     }
 
+    Set<String> used = new HashSet<>();
     used.add(startLock);
 
     Queue<String> queue = new LinkedList<>();
     queue.add(startLock);
 
     for (int t = 0; !queue.isEmpty(); t++) {
-
       for (int sz = queue.size(); sz > 0; sz--) {
         String node = queue.poll();
 
@@ -59,48 +56,52 @@ public class OpenTheLock752 {
 
         List<String> candidates = findCandidates(node, target, setOfDeadends, used);
         if (candidates.isEmpty()) {
-          char[] chars = node.toCharArray();
-
-          for (int i = 0; i < node.length(); i++) {
-            if (node.charAt(i) == target.charAt(i)) {
-              int srcSlot = chars[i] - '0';
-
-              int slot1 = srcSlot == 9 ? 0 : srcSlot + 1;
-              chars[i] = (char) (slot1 + '0');
-
-              String candidate = String.valueOf(chars);
-              if (!setOfDeadends.contains(candidate) && !used.contains(candidate)) {
-                queue.add(candidate);
-                used.add(candidate);
-              }
-
-              int slot2 = srcSlot == 0 ? 9 : srcSlot - 1;
-              chars[i] = (char) (slot2 + '0');
-
-              candidate = String.valueOf(chars);
-              if (!setOfDeadends.contains(candidate) && !used.contains(candidate)) {
-                queue.add(candidate);
-                used.add(candidate);
-              }
-
-              chars[i] = node.charAt(i);
-            }
-          }
-        } else {
-          used.addAll(candidates);
-          queue.addAll(candidates);
+          candidates = findExtraCandidates(node, target, setOfDeadends, used);
         }
 
-
+        used.addAll(candidates);
+        queue.addAll(candidates);
       }
-
     }
 
     return -1;
   }
 
-  private List<String> findCandidates(String node, String target, Set<String> deadends,
-    Set<String> used) {
+  private List<String> findExtraCandidates(String node, String target,
+    Set<String> deadends, Set<String> used) {
+    List<String> list = new ArrayList<>();
+
+    char[] chars = node.toCharArray();
+
+    for (int i = 0; i < node.length(); i++) {
+      if (node.charAt(i) == target.charAt(i)) {
+        int slot = chars[i] - '0';
+
+        int slot1 = slot == 9 ? 0 : slot + 1;
+        chars[i] = (char) (slot1 + '0');
+
+        String candidate = String.valueOf(chars);
+        if (!deadends.contains(candidate) && !used.contains(candidate)) {
+          list.add(candidate);
+        }
+
+        int slot2 = slot == 0 ? 9 : slot - 1;
+        chars[i] = (char) (slot2 + '0');
+
+        candidate = String.valueOf(chars);
+        if (!deadends.contains(candidate) && !used.contains(candidate)) {
+          list.add(candidate);
+        }
+
+        chars[i] = node.charAt(i);
+      }
+    }
+
+    return list;
+  }
+
+  private List<String> findCandidates(String node, String target,
+    Set<String> deadends, Set<String> used) {
     List<String> list = new ArrayList<>();
 
     char[] chars = node.toCharArray();
@@ -110,13 +111,16 @@ public class OpenTheLock752 {
         int srcSlot = node.charAt(i) - '0';
         int trgSlot = target.charAt(i) - '0';
 
-        int clockwise = 0, anticlockwise = 0;
-        if (srcSlot > trgSlot) {
-          clockwise = 10 - srcSlot + trgSlot;
-          anticlockwise = srcSlot - trgSlot;
-        } else {
-          clockwise = trgSlot - srcSlot;
-          anticlockwise = 10 - trgSlot + srcSlot;
+        int maxSlot = Math.max(srcSlot, trgSlot);
+        int minSlot = Math.min(srcSlot, trgSlot);
+
+        int clockwise = 10 - maxSlot + minSlot;
+        int anticlockwise = maxSlot - minSlot;
+
+        if (srcSlot < trgSlot) {
+          int temp = clockwise;
+          clockwise = anticlockwise;
+          anticlockwise = temp;
         }
 
         int slot = 0;
