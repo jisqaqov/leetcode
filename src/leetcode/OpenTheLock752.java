@@ -1,10 +1,8 @@
 package leetcode;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
@@ -14,8 +12,8 @@ import java.util.Set;
  * algorithm: BFS
  * time complexity:
  * space complexity:
- * Runtime: 63 ms, faster than 82.33% of Java online submissions
- * Memory Usage: 42.6 MB, less than 84.21% of Java online submissions
+ * Runtime: 165 ms, faster than 28.15% of Java online submissions
+ * Memory Usage: 86.8 MB, less than 5.26% of Java online submissions
  */
 public class OpenTheLock752 {
 
@@ -59,22 +57,16 @@ public class OpenTheLock752 {
         for (int i = 0; i < chars.length; i++) {
           int slot = chars[i] - '0';
 
-          int slot1 = slot == 9? 0: slot + 1;
-          chars[i] = (char) (slot1 + '0');
+          for (int inc = -1; inc <= 1; inc += 2) {
+            int newSlot = (slot + inc + 10) % 10;
 
-          String candidate1 = String.valueOf(chars);
-          if (!used.contains(candidate1) && !setOfDeadends.contains(candidate1)) {
-            used.add(candidate1);
-            queue.add(candidate1);
-          }
+            chars[i] = (char) (newSlot + '0');
 
-          int slot2 = slot == 0? 9: slot - 1;
-          chars[i] = (char) (slot2 + '0');
-
-          String candidate2 = String.valueOf(chars);
-          if (!used.contains(candidate2) && !setOfDeadends.contains(candidate2)) {
-            used.add(candidate2);
-            queue.add(candidate2);
+            String candidate = String.valueOf(chars);
+            if (!used.contains(candidate) && !setOfDeadends.contains(candidate)) {
+              used.add(candidate);
+              queue.add(candidate);
+            }
           }
 
           chars[i] = node.charAt(i);
