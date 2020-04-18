@@ -14,8 +14,8 @@ import java.util.Set;
  * algorithm: BFS
  * time complexity:
  * space complexity:
- * Runtime: 6 ms, faster than 99.82% of Java online submissions
- * Memory Usage: 40.2 MB, less than 84.21% of Java online submissions
+ * Runtime: 63 ms, faster than 82.33% of Java online submissions
+ * Memory Usage: 42.6 MB, less than 84.21% of Java online submissions
  */
 public class OpenTheLock752 {
 
@@ -54,94 +54,35 @@ public class OpenTheLock752 {
           return t;
         }
 
-        List<String> candidates = findCandidates(node, target, setOfDeadends, used);
-        if (candidates.isEmpty()) {
-          candidates = findExtraCandidates(node, target, setOfDeadends, used);
-        }
+        char[] chars = node.toCharArray();
 
-        used.addAll(candidates);
-        queue.addAll(candidates);
+        for (int i = 0; i < chars.length; i++) {
+          int slot = chars[i] - '0';
+
+          int slot1 = slot == 9? 0: slot + 1;
+          chars[i] = (char) (slot1 + '0');
+
+          String candidate1 = String.valueOf(chars);
+          if (!used.contains(candidate1) && !setOfDeadends.contains(candidate1)) {
+            used.add(candidate1);
+            queue.add(candidate1);
+          }
+
+          int slot2 = slot == 0? 9: slot - 1;
+          chars[i] = (char) (slot2 + '0');
+
+          String candiate2 = String.valueOf(chars);
+          if (!used.contains(candiate2) && !setOfDeadends.contains(candiate2)) {
+            used.add(candiate2);
+            queue.add(candiate2);
+          }
+
+          chars[i] = node.charAt(i);
+        }
       }
     }
 
     return -1;
-  }
-
-  private List<String> findExtraCandidates(String node, String target,
-    Set<String> deadends, Set<String> used) {
-    List<String> list = new ArrayList<>();
-
-    char[] chars = node.toCharArray();
-
-    for (int i = 0; i < node.length(); i++) {
-      if (node.charAt(i) == target.charAt(i)) {
-        int slot = chars[i] - '0';
-
-        int slot1 = slot == 9 ? 0 : slot + 1;
-        chars[i] = (char) (slot1 + '0');
-
-        String candidate = String.valueOf(chars);
-        if (!deadends.contains(candidate) && !used.contains(candidate)) {
-          list.add(candidate);
-        }
-
-        int slot2 = slot == 0 ? 9 : slot - 1;
-        chars[i] = (char) (slot2 + '0');
-
-        candidate = String.valueOf(chars);
-        if (!deadends.contains(candidate) && !used.contains(candidate)) {
-          list.add(candidate);
-        }
-
-        chars[i] = node.charAt(i);
-      }
-    }
-
-    return list;
-  }
-
-  private List<String> findCandidates(String node, String target,
-    Set<String> deadends, Set<String> used) {
-    List<String> list = new ArrayList<>();
-
-    char[] chars = node.toCharArray();
-
-    for (int i = 0; i < node.length(); i++) {
-      if (node.charAt(i) != target.charAt(i)) {
-        int srcSlot = node.charAt(i) - '0';
-        int trgSlot = target.charAt(i) - '0';
-
-        int maxSlot = Math.max(srcSlot, trgSlot);
-        int minSlot = Math.min(srcSlot, trgSlot);
-
-        int clockwise = 10 - maxSlot + minSlot;
-        int anticlockwise = maxSlot - minSlot;
-
-        if (srcSlot < trgSlot) {
-          int temp = clockwise;
-          clockwise = anticlockwise;
-          anticlockwise = temp;
-        }
-
-        int slot = 0;
-        if (clockwise < anticlockwise) {
-          slot = srcSlot == 9 ? 0 : srcSlot + 1;
-        } else {
-          slot = srcSlot == 0 ? 9 : srcSlot - 1;
-        }
-
-        chars[i] = (char) (slot + '0');
-
-        String candidate = String.valueOf(chars);
-        if (!deadends.contains(candidate) && !used.contains(candidate)) {
-          list.add(candidate);
-        }
-
-        chars[i] = node.charAt(i);
-      }
-    }
-
-    return list;
   }
 
 }
