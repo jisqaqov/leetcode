@@ -71,10 +71,10 @@ public class OpenTheLock752 {
           int slot2 = slot == 0? 9: slot - 1;
           chars[i] = (char) (slot2 + '0');
 
-          String candiate2 = String.valueOf(chars);
-          if (!used.contains(candiate2) && !setOfDeadends.contains(candiate2)) {
-            used.add(candiate2);
-            queue.add(candiate2);
+          String candidate2 = String.valueOf(chars);
+          if (!used.contains(candidate2) && !setOfDeadends.contains(candidate2)) {
+            used.add(candidate2);
+            queue.add(candidate2);
           }
 
           chars[i] = node.charAt(i);
