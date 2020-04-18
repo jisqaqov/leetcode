@@ -9,8 +9,8 @@ import java.util.List;
  * algorithm: Tree, DFS
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 14 ms, faster than 37.72% of Java online submissions
- * Memory Usage: 54 MB, less than 100.00% of Java online submissions
+ * Runtime: 13 ms, faster than 42.25% of Java online submissions
+ * Memory Usage: 54.5 MB, less than 100.00% of Java online submissions
  */
 public class TreeDiameter1245 {
 
@@ -48,20 +48,21 @@ public class TreeDiameter1245 {
   private int treeDiameter(int src, List<Integer>[] adjList, boolean[] visited) {
     visited[src] = true;
 
-    List<Integer> list = new ArrayList<>();
+    int m = adjList[src].size();
+    int[] list = new int[m];
 
-    for (int i = 0; i < adjList[src].size(); i++) {
+    for (int i = 0, k = 0; i < m; i++) {
       int node = adjList[src].get(i);
       if (!visited[node]) {
-        list.add(treeDiameter(node, adjList, visited) + 1);
+        list[k++] = treeDiameter(node, adjList, visited) + 1;
       }
     }
 
     int max = 0;
-    for (int i = 0; i < list.size(); i++) {
-      max = Math.max(max, list.get(i));
-      for (int j = i + 1; j < list.size(); j++) {
-        diameter = Math.max(diameter, list.get(i) + list.get(j));
+    for (int i = 0; i < list.length; i++) {
+      max = Math.max(max, list[i]);
+      for (int j = i + 1; j < list.length; j++) {
+        diameter = Math.max(diameter, list[i] + list[j]);
       }
     }
 
