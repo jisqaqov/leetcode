@@ -11,35 +11,22 @@ package leetcode;
  */
 public class MaximumDifferenceBetweenNodeAndAncestor1026 {
 
-  private int diff = Integer.MIN_VALUE;
-
   public int maxAncestorDiff(TreeNode root) {
-    minMaxValue(root);
-    return diff;
+    return helper(root, root.val, root.val);
   }
 
-  private int[] minMaxValue(TreeNode root) {
+  private int helper(TreeNode root, int min, int max) {
     if (root == null) {
-      return new int[]{Integer.MAX_VALUE, Integer.MIN_VALUE};
+      return 0;
     }
 
-    if (root.left == null && root.right == null) {
-      return new int[]{root.val, root.val};
-    }
+    max = Math.max(root.val, max);
+    min = Math.min(root.val, min);
 
-    int[] left = minMaxValue(root.left);
-    int[] right = minMaxValue(root.right);
+    int l = helper(root.left, min, max);
+    int r = helper(root.right, min, max);
 
-    int min = Math.abs(root.val - Math.min(left[0], right[0]));
-    int max = Math.abs(root.val - Math.max(left[1], right[1]));
-
-    diff = Math.max(diff, Math.max(min, max));
-
-    int[] output = new int[2];
-    output[0] = Math.min(Math.min(left[0], right[0]), root.val);
-    output[1] = Math.max(Math.max(left[1], right[1]), root.val);
-
-    return output;
+    return Math.max(max - min, Math.max(l, r));
   }
 
   /**
