@@ -54,4 +54,38 @@ public class ReverseVowelsOfString345 {
     chars[j] = temp;
   }
 
+  private static class V2 {
+
+    public String reverseVowels(String s) {
+      int i = 0;
+      int j = s.length() - 1;
+
+      char[] chars = s.toCharArray();
+
+      while (i < j) {
+        while (i < j && !VOWELS.contains(chars[i])) {
+          i++;
+        }
+
+        while (i < j && !VOWELS.contains(chars[j])) {
+          j--;
+        }
+
+        swap(chars, i, j);
+
+        i++;
+        j--;
+      }
+
+      return String.valueOf(chars);
+    }
+
+    private void swap(char[] chars, int i, int j) {
+      char temp = chars[i];
+      chars[i] = chars[j];
+      chars[j] = temp;
+    }
+
+  }
+
 }
