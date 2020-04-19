@@ -44,26 +44,21 @@ public class TreeDiameter1245 {
   }
 
   private int maxDepth(int root, int parent, List<Integer>[] graph) {
-    int maxDepth1 = 0;
-    int maxDepth2 = 0;
+    int maxDepth = 0;
 
     for (int adj : graph[root]) {
       if (adj == parent) {
         continue;
       }
 
-      int depth = maxDepth(adj, root, graph);
-      if (depth > maxDepth1) {
-        maxDepth2 = maxDepth1;
-        maxDepth1 = depth;
-      } else if (depth > maxDepth2) {
-        maxDepth2 = depth;
-      }
+      int depth = maxDepth(adj, root, graph) + 1;
+
+      diameter = Math.max(diameter, depth + maxDepth);
+
+      maxDepth = Math.max(maxDepth, depth);
     }
 
-    diameter = Math.max(diameter, maxDepth1 + maxDepth2);
-
-    return maxDepth1 + 1;
+    return maxDepth;
   }
 
 }
