@@ -9,8 +9,8 @@ import java.util.List;
  * algorithm: Tree, DFS
  * time complexity: O(N)
  * space complexity: O(N)
- * Runtime: 13 ms, faster than 42.25% of Java online submissions
- * Memory Usage: 54.5 MB, less than 100.00% of Java online submissions
+ * Runtime: 15 ms, faster than 34.04% of Java online submissions
+ * Memory Usage: 54.6 MB, less than 100.00% of Java online submissions
  */
 public class TreeDiameter1245 {
 
@@ -28,45 +28,42 @@ public class TreeDiameter1245 {
   public int treeDiameter(int[][] edges) {
     int n = edges.length + 1;
 
-    List<Integer>[] adjList = new ArrayList[n];
+    List<Integer>[] graph = new ArrayList[n];
     for (int i = 0; i < n; i++) {
-      adjList[i] = new ArrayList<>();
+      graph[i] = new ArrayList<>();
     }
 
     for (int[] edge : edges) {
-      adjList[edge[0]].add(edge[1]);
-      adjList[edge[1]].add(edge[0]);
+      graph[edge[0]].add(edge[1]);
+      graph[edge[1]].add(edge[0]);
     }
 
-    boolean[] visited = new boolean[n];
-
-    treeDiameter(0, adjList, visited);
+    maxDepth(0, -1, graph);
 
     return diameter;
   }
 
-  private int treeDiameter(int src, List<Integer>[] adjList, boolean[] visited) {
-    visited[src] = true;
+  private int maxDepth(int root, int parent, List<Integer>[] graph) {
+    int maxDepth1 = 0;
+    int maxDepth2 = 0;
 
-    int m = adjList[src].size();
-    int[] list = new int[m];
+    for (int adj : graph[root]) {
+      if (adj == parent) {
+        continue;
+      }
 
-    for (int i = 0, k = 0; i < m; i++) {
-      int node = adjList[src].get(i);
-      if (!visited[node]) {
-        list[k++] = treeDiameter(node, adjList, visited) + 1;
+      int depth = maxDepth(adj, root, graph);
+      if (depth > maxDepth1) {
+        maxDepth2 = maxDepth1;
+        maxDepth1 = depth;
+      } else if (depth > maxDepth2) {
+        maxDepth2 = depth;
       }
     }
 
-    int max = 0;
-    for (int i = 0; i < list.length; i++) {
-      max = Math.max(max, list[i]);
-      for (int j = i + 1; j < list.length; j++) {
-        diameter = Math.max(diameter, list[i] + list[j]);
-      }
-    }
+    diameter = Math.max(diameter, maxDepth1 + maxDepth2);
 
-    return max;
+    return maxDepth1 + 1;
   }
 
 }
