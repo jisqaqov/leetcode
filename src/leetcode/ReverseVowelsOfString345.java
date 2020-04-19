@@ -30,24 +30,19 @@ public class ReverseVowelsOfString345 {
   }
 
   public String reverseVowels(String s) {
-    int i = 0;
-    int j = s.length() - 1;
-
     char[] chars = s.toCharArray();
 
-    while (i < j) {
-      while (i < j && !VOWELS.contains(chars[i])) {
+    for (int i = 0, j = s.length() - 1; i < j; ) {
+      if (!VOWELS.contains(chars[i])) {
         i++;
-      }
+      } else if (!VOWELS.contains(chars[j])) {
+        j--;
+      } else {
+        swap(chars, i, j);
 
-      while (i < j && !VOWELS.contains(chars[j])) {
+        i++;
         j--;
       }
-
-      swap(chars, i, j);
-
-      i++;
-      j--;
     }
 
     return String.valueOf(chars);
