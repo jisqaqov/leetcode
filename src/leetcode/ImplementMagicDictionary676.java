@@ -1,14 +1,17 @@
 package leetcode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * @author Jandos Iskakov
  * problem: 676. Implement Magic Dictionary
  * algorithm: Trie
- * time complexity: O(M)
- * space complexity: O(N)
+ * time complexity:
+ *  search - O(N*K), k - search word length
+ * space complexity: O(N) - n - all words
  * Runtime: 11 ms, faster than 37.12% of Java online submissions
  * Memory Usage: 39.3 MB, less than 6.67% of Java online submissions
  */
@@ -20,16 +23,57 @@ public class ImplementMagicDictionary676 {
   }
 
   private void test() {
-    MagicDictionary dictionary = new MagicDictionary();
+    MagicDictionaryWithTrie dictionary = new MagicDictionaryWithTrie();
     dictionary.buildDict(new String[] {"hello", "hallo", "leetcode"});
     System.out.println(dictionary.search("hhllo"));
   }
 
   class MagicDictionary {
-    private final Trie trie;
+    private final Map<Integer, List<String>> map;
 
     /** Initialize your data structure here. */
     public MagicDictionary() {
+      map = new HashMap<>();
+    }
+
+    /** Build a dictionary through a list of words */
+    public void buildDict(String[] dict) {
+      for (String word : dict) {
+        map.putIfAbsent(word.length(), new ArrayList<>());
+        map.get(word.length()).add(word);
+      }
+    }
+
+    /** Returns if there is any word in the trie that equals to the given word after modifying exactly one character */
+    public boolean search(String word) {
+      if (!map.containsKey(word.length())) {
+        return false;
+      }
+
+      List<String> dictWords = map.get(word.length());
+
+      for (String dictWord : dictWords) {
+        int diff = 0;
+        for (int i = 0; i < word.length() && diff <= 1; i++) {
+          if (dictWord.charAt(i) != word.charAt(i)) {
+            diff++;
+          }
+        }
+
+        if (diff == 1) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  }
+
+  class MagicDictionaryWithTrie {
+    private final Trie trie;
+
+    /** Initialize your data structure here. */
+    public MagicDictionaryWithTrie() {
       trie = new Trie();
     }
 
