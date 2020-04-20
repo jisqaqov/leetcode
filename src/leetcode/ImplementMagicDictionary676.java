@@ -12,8 +12,8 @@ import java.util.Map;
  * time complexity:
  *  search - O(N*K), k - search word length
  * space complexity: O(N) - n - all words
- * Runtime: 11 ms, faster than 37.12% of Java online submissions
- * Memory Usage: 39.3 MB, less than 6.67% of Java online submissions
+ * Runtime: 9 ms, faster than 97.85% of Java online submissions
+ * Memory Usage: 37.7 MB, less than 6.67% of Java online submissions
  */
 public class ImplementMagicDictionary676 {
 
