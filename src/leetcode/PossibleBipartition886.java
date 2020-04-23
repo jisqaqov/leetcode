@@ -32,28 +32,28 @@ public class PossibleBipartition886 {
       graph[v].add(u);
     }
 
-    int[] groups = new int[n];
+    int[] colors = new int[n];
 
     for (int i = 0; i < n; i++) {
-      if (groups[i] != 0) {
+      if (colors[i] != 0) {
         continue;
       }
 
-      groups[i] = 1;
+      colors[i] = 1;
 
       Queue<Integer> queue = new LinkedList<>();
       queue.add(i);
 
       while (!queue.isEmpty()) {
-        int person = queue.poll();
+        int node = queue.poll();
 
-        for (int adj : graph[person]) {
-          if (groups[adj] == groups[person]) {
+        for (int adj : graph[node]) {
+          if (colors[adj] == colors[node]) {
             return false;
           }
 
-          if (groups[adj] == 0) {
-            groups[adj] = -groups[person];
+          if (colors[adj] == 0) {
+            colors[adj] = -colors[node];
             queue.add(adj);
           }
         }
@@ -66,9 +66,9 @@ public class PossibleBipartition886 {
   private static class DfsVersion {
 
     public boolean possibleBipartition(int n, int[][] dislikes) {
-      Set<Integer>[] graph = new HashSet[n + 1];
+      List<Integer>[] graph = new ArrayList[n + 1];
       for (int i = 1; i <= n; i++) {
-        graph[i] = new HashSet<>();
+        graph[i] = new ArrayList<>();
       }
 
       for (int[] dislike : dislikes) {
@@ -76,13 +76,13 @@ public class PossibleBipartition886 {
         graph[dislike[1]].add(dislike[0]);
       }
 
-      int[] groups = new int[n + 1];
+      int[] colors = new int[n + 1];
 
-      for (int p = 1; p <= n; p++) {
-        if (groups[p] == 0) {
-          groups[p] = 1;
+      for (int node = 1; node <= n; node++) {
+        if (colors[node] == 0) {
+          colors[node] = 1;
 
-          if (!dfs(groups, p, graph)) {
+          if (!dfs(colors, node, graph)) {
             return false;
           }
         }
@@ -91,16 +91,16 @@ public class PossibleBipartition886 {
       return true;
     }
 
-    private boolean dfs(int[] groups, int person, Set<Integer>[] dislikes) {
-      for (int p : dislikes[person]) {
-        if (groups[person] == groups[p]) {
+    private boolean dfs(int[] colors, int person, List<Integer>[] graph) {
+      for (int p : graph[person]) {
+        if (colors[person] == colors[p]) {
           return false;
         }
 
-        if (groups[p] == 0) {
-          groups[p] = -groups[person];
+        if (colors[p] == 0) {
+          colors[p] = -colors[person];
 
-          if (!dfs(groups, p, dislikes)) {
+          if (!dfs(colors, p, graph)) {
             return false;
           }
         }
@@ -114,9 +114,9 @@ public class PossibleBipartition886 {
   private static class V2 {
 
     public boolean possibleBipartition(int n, int[][] dislikes) {
-      Set<Integer>[] graph = new HashSet[n + 1];
+      List<Integer>[] graph = new ArrayList[n + 1];
       for (int i = 1; i <= n; i++) {
-        graph[i] = new HashSet<>();
+        graph[i] = new ArrayList<>();
       }
 
       for (int[] dislike : dislikes) {
@@ -135,7 +135,7 @@ public class PossibleBipartition886 {
       return true;
     }
 
-    private boolean paint(int[] colors, int node, Set<Integer>[] graph, int color) {
+    private boolean paint(int[] colors, int node, List<Integer>[] graph, int color) {
       if (colors[node] != 0) {
         return colors[node] == color;
       }
