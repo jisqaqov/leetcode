@@ -124,28 +124,26 @@ public class PossibleBipartition886 {
         graph[dislike[1]].add(dislike[0]);
       }
 
-      int[] groups = new int[n + 1];
+      int[] colors = new int[n + 1];
 
       for (int node = 1; node <= n; node++) {
-        if (groups[node] == 0) {
-          if (!dfs(groups, node, graph, 1)) {
-            return false;
-          }
+        if (colors[node] == 0 && !paint(colors, node, graph, 1)) {
+          return false;
         }
       }
 
       return true;
     }
 
-    private boolean dfs(int[] groups, int node, Set<Integer>[] graph, int groupId) {
-      if (groups[node] != 0) {
-        return groups[node] == groupId;
+    private boolean paint(int[] colors, int node, Set<Integer>[] graph, int color) {
+      if (colors[node] != 0) {
+        return colors[node] == color;
       }
 
-      groups[node] = groupId;
+      colors[node] = color;
 
       for (int adj : graph[node]) {
-        if (!dfs(groups, adj, graph, -groupId)) {
+        if (!paint(colors, adj, graph, -color)) {
           return false;
         }
       }
