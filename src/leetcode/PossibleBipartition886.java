@@ -82,7 +82,7 @@ public class PossibleBipartition886 {
         if (groups[p] == 0) {
           groups[p] = 1;
 
-          if (!checkPossibility(groups, p, graph)) {
+          if (!dfs(groups, p, graph)) {
             return false;
           }
         }
@@ -91,7 +91,7 @@ public class PossibleBipartition886 {
       return true;
     }
 
-    private boolean checkPossibility(int[] groups, int person, Set<Integer>[] dislikes) {
+    private boolean dfs(int[] groups, int person, Set<Integer>[] dislikes) {
       for (int p : dislikes[person]) {
         if (groups[person] == groups[p]) {
           return false;
@@ -100,7 +100,7 @@ public class PossibleBipartition886 {
         if (groups[p] == 0) {
           groups[p] = -groups[person];
 
-          if (!checkPossibility(groups, p, dislikes)) {
+          if (!dfs(groups, p, dislikes)) {
             return false;
           }
         }
@@ -108,6 +108,51 @@ public class PossibleBipartition886 {
 
       return true;
     }
+
+  }
+
+  private static class V2 {
+
+    public boolean possibleBipartition(int n, int[][] dislikes) {
+      Set<Integer>[] graph = new HashSet[n + 1];
+      for (int i = 1; i <= n; i++) {
+        graph[i] = new HashSet<>();
+      }
+
+      for (int[] dislike : dislikes) {
+        graph[dislike[0]].add(dislike[1]);
+        graph[dislike[1]].add(dislike[0]);
+      }
+
+      int[] groups = new int[n + 1];
+
+      for (int node = 1; node <= n; node++) {
+        if (groups[node] == 0) {
+          if (!dfs(groups, node, graph, 1)) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }
+
+    private boolean dfs(int[] groups, int node, Set<Integer>[] graph, int groupId) {
+      if (groups[node] != 0) {
+        return groups[node] == groupId;
+      }
+
+      groups[node] = groupId;
+
+      for (int adj : graph[node]) {
+        if (!dfs(groups, adj, graph, -groupId)) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
 
   }
 
