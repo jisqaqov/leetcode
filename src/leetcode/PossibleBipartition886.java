@@ -7,7 +7,7 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 886. Possible Bipartition
  * algorithm: Graph, DFS
- * time complexity: O(N)
+ * time complexity: O(N^2)
  * space complexity: O(N)
  * Runtime: 24 ms, faster than 54.55% of Java online submissions
  * Memory Usage: 49.1 MB, less than 100.00% of Java online submissions
