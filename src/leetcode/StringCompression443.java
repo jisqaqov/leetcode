@@ -12,59 +12,30 @@ package leetcode;
 public class StringCompression443 {
 
   public int compress(char[] chars) {
-    if (chars.length == 0) {
-      return 0;
-    }
-
-    int count = 1;
-    int index = 0;
-
     int n = chars.length;
-    char chr = chars[0];
 
-    for (int i = 0; i < n; i++) {
-      if (i < n - 1 && chr == chars[i + 1]) {
-        count++;
+    int i = 0, j = 0;
+
+    while (j < n) {
+      char chr = chars[j];
+
+      int start = j;
+      while (j < n && chars[j] == chr) {
+        j++;
       }
 
-      if (i == n - 1 || chr != chars[i + 1]) {
-        int k = helper(chars, chr, index, count);
+      int count = j - start;
+      chars[i++] = chr;
 
-        index += k + 1;
-        count = 1;
-
-        if (i < n - 1) {
-          chr = chars[i + 1];
+      if (count > 1) {
+        char[] nums = String.valueOf(count).toCharArray();
+        for (char num : nums) {
+          chars[i++] = num;
         }
       }
     }
 
-    return index;
-  }
-
-  private int helper(char[] chars, char chr, int index, int count) {
-    int n = 0;
-
-    int k = count;
-    while (k > 0) {
-      n++;
-      k /= 10;
-    }
-
-    chars[index] = chr;
-
-    if (count == 1) {
-      return 0;
-    }
-
-    for (int i = index + n; i > index; i--) {
-      int num = count % 10;
-      chars[i] = (char) (num + '0');
-
-      count /= 10;
-    }
-
-    return n;
+    return i;
   }
 
 }
