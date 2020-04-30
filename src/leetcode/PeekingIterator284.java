@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
  * @author Jandos Iskakov
  * problem: 284. Peeking Iterator
  * algorithm: Array
- * time complexity: O(N)
+ * time complexity: O(1)
  * space complexity: O(1)
  * Runtime: 4 ms, faster than 99.42% of Java online submissions
  * Memory Usage: 39.5 MB, less than 5.00% of Java online submissions
