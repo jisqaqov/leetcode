@@ -15,12 +15,8 @@ import java.util.Map;
 public class FibonacciNumber509 {
 
   public int fib(int n) {
-    if (n == 0) {
-      return 0;
-    }
-
-    if (n == 1) {
-      return 1;
+    if (n <= 1) {
+      return n;
     }
 
     int f0 = 0;
@@ -40,12 +36,8 @@ public class FibonacciNumber509 {
     private Map<Integer, Integer> dp = new HashMap<>();
 
     public int fib(int n) {
-      if (n == 0) {
-        return 0;
-      }
-
-      if (n == 1) {
-        return 1;
+      if (n <= 1) {
+        return n;
       }
 
       if (dp.containsKey(n)) {
