@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * @author Jandos Iskakov
@@ -14,14 +15,14 @@ import java.util.Iterator;
 public class PeekingIterator284 {
 
   class PeekingIterator implements Iterator<Integer> {
-    private Iterator<Integer> it;
+    private Iterator<Integer> iter;
     private Integer nextVal;
 
     public PeekingIterator(Iterator<Integer> iterator) {
-      this.it = iterator;
+      this.iter = iterator;
 
-      if (it.hasNext()) {
-        this.nextVal = it.next();
+      if (this.iter.hasNext()) {
+        this.nextVal = iter.next();
       }
     }
 
@@ -35,23 +36,19 @@ public class PeekingIterator284 {
     @Override
     public Integer next() {
       if (!hasNext()) {
-        return null;
+        throw new NoSuchElementException();
       }
 
       int output = nextVal;
 
-      if (it.hasNext()) {
-        nextVal = it.next();
-      } else {
-        nextVal = null;
-      }
+      nextVal = iter.hasNext()? iter.next(): null;
 
       return output;
     }
 
     @Override
     public boolean hasNext() {
-      return nextVal != null || it.hasNext();
+      return nextVal != null;
     }
 
   }
