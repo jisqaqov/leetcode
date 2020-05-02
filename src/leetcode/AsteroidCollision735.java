@@ -20,49 +20,29 @@ public class AsteroidCollision735 {
   public int[] asteroidCollision(int[] asteroids) {
     Deque<Integer> stack = new ArrayDeque<>();
 
-    for (int i = 0; i < asteroids.length; i++) {
-      stack.push(asteroids[i]);
-
-      while (stack.size() >= 2) {
-        int ast1 = stack.poll();
-        int ast2 = stack.peek();
-
-        boolean collide = collide(ast1, ast2);
-        if (!collide) {
-          stack.push(ast1);
-          break;
-        }
-
-        int size1 = Math.abs(ast1);
-        int size2 = Math.abs(ast2);
-
-        if (size1 < size2) {
-          break;
-        }
-
-        if (size1 > size2) {
+    for (int ast : asteroids) {
+      if (ast > 0) {
+        stack.push(ast);
+      } else {
+        while (!stack.isEmpty() && stack.peek() > 0 && stack.peek() < Math.abs(ast)) {
           stack.poll();
-          stack.push(ast1);
-        } else if (size1 == size2) {
+        }
+
+        if (stack.isEmpty() || stack.peek() < 0) {
+          stack.push(ast);
+        } else if (stack.peek() == Math.abs(ast)) {
           stack.poll();
         }
       }
     }
 
-    List<Integer> list = new ArrayList<>(stack);
-    Collections.reverse(list);
+    int[] output = new int[stack.size()];
 
-    int[] output = new int[list.size()];
-
-    for (int i = 0; i < list.size(); i++) {
-      output[i] = list.get(i);
+    for (int i = stack.size(); i > 0; i--) {
+      output[i - 1] = stack.poll();
     }
 
     return output;
-  }
-
-  private boolean collide(int ast1, int ast2) {
-    return ast1 < 0 && ast2 > 0;
   }
 
 }
