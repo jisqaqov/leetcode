@@ -12,8 +12,8 @@ import java.util.Set;
  * @author Jandos Iskakov
  * problem: 472. Concatenated Words
  * algorithm: Backtracking, Trie
- * time complexity:
- * space complexity:
+ * time complexity: O(M*N^2)
+ * space complexity: O(M)
  */
 public class ConcatenatedWords472 {
 
@@ -28,6 +28,47 @@ public class ConcatenatedWords472 {
     TrieApproach problem = new TrieApproach();
 
     System.out.println(problem.findAllConcatenatedWordsInADict(tc1a).size());
+  }
+
+  public List<String> findAllConcatenatedWordsInADict(String[] words) {
+    Set<String> dict = new HashSet<>();
+
+    Arrays.sort(words, (w1, w2) -> Integer.compare(w1.length(), w2.length()));
+
+    List<String> output = new ArrayList<>();
+    for (int i = 0; i < words.length; i++) {
+      if (isConcatenated(words[i], dict)) {
+        output.add(words[i]);
+      }
+
+      dict.add(words[i]);
+    }
+
+    return output;
+  }
+
+  private boolean isConcatenated(String word, Set<String> dict) {
+    if (dict.isEmpty()) {
+      return false;
+    }
+
+    boolean[] dp = new boolean[word.length() + 1];
+    dp[0] = true;
+
+    for (int i = 1; i <= word.length(); i++) {
+      for (int j = i - 1; j >= 0; j--) {
+        if (!dp[j]) {
+          continue;
+        }
+
+        String substr = word.substring(j, i);
+        if (dict.contains(substr)) {
+          dp[i] = true;
+        }
+      }
+    }
+
+    return dp[word.length()];
   }
 
   private static class BacktrackingApproach {
