@@ -1,13 +1,16 @@
 package leetcode;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * @author Jandos Iskakov
  * problem: 430. Flatten a Multilevel Doubly Linked List
  * algorithm: Linked List, DFS
  * time complexity: O(N)
  * space complexity: O(1)
- * Runtime: 0 ms, faster than 100.00% of Java online submissions
- * Memory Usage: 37.7 MB, less than 75.00% of Java online submissions
+ * Runtime: 0 ms, faster than 100.00%
+ * Memory Usage: 37.1 MB, less than 100.00%
  */
 public class FlattenAMultilevelDoublyLinkedList430 {
 
@@ -61,48 +64,91 @@ public class FlattenAMultilevelDoublyLinkedList430 {
   }
 
   public Node flatten(Node head) {
-    helper(head);
+    Node node = head;
+
+    Deque<Node> stack = new ArrayDeque<>();
+
+    Node prev = head;
+
+    while (node != null || !stack.isEmpty()) {
+      if (node == null) {
+        node = stack.poll();
+
+        node.prev = prev;
+        prev.next = node;
+      }
+
+      Node next = node.next;
+
+      if (node.child != null) {
+        if (next != null) {
+          stack.push(next);
+        }
+
+        Node child = node.child;
+
+        node.child = null;
+
+        node.next = child;
+        child.prev = node;
+
+        node = child;
+      } else {
+        prev = node;
+        node = next;
+      }
+    }
 
     return head;
   }
 
-  private Node helper(Node head) {
-    Node last = head;
-    Node node = head;
+  private class DfsByRecursionVersion {
 
-    while (node != null) {
-      Node next = node.next;
+    public Node flatten(Node head) {
+      helper(head);
 
-      Node tail = null;
-      Node child = node.child;
-
-      if (child != null) {
-        node.next = child;
-        child.prev = node;
-
-        tail = helper(child);
-
-        if (next != null) {
-          next.prev = tail;
-        }
-
-        tail.next = next;
-
-        node.child = null;
-      }
-
-      if (next == null) {
-        if (child != null) {
-          last = tail;
-        } else {
-          last = node;
-        }
-      }
-
-      node = next;
+      return head;
     }
 
-    return last;
+    private Node helper(Node head) {
+      Node last = head;
+      Node node = head;
+
+      while (node != null) {
+        Node next = node.next;
+
+        Node tail = null;
+        Node child = node.child;
+
+        if (child != null) {
+          node.next = child;
+          child.prev = node;
+
+          tail = helper(child);
+
+          if (next != null) {
+            next.prev = tail;
+          }
+
+          tail.next = next;
+
+          node.child = null;
+        }
+
+        if (next == null) {
+          if (child != null) {
+            last = tail;
+          } else {
+            last = node;
+          }
+        }
+
+        node = next;
+      }
+
+      return last;
+    }
+
   }
 
   // Definition for a Node.
