@@ -103,7 +103,7 @@ public class FlattenAMultilevelDoublyLinkedList430 {
   }
 
   private class V2 {
-    
+
     public Node flatten(Node head) {
       for (Node node = head; node != null; node = node.next) {
         if (node.child != null) {
