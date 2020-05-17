@@ -102,6 +102,37 @@ public class FlattenAMultilevelDoublyLinkedList430 {
     return head;
   }
 
+  private class V2 {
+    
+    public Node flatten(Node head) {
+      for (Node node = head; node != null; node = node.next) {
+        if (node.child != null) {
+          Node child = node.child;
+
+          Node tail = child;
+          while (tail.next != null) {
+            tail = tail.next;
+          }
+
+          Node oldNext = node.next;
+
+          node.next = child;
+          child.prev = node;
+
+          tail.next = oldNext;
+          if (oldNext != null) {
+            oldNext.prev = tail;
+          }
+
+          node.child = null;
+        }
+      }
+
+      return head;
+    }
+
+  }
+
   private class DfsByRecursionVersion {
 
     public Node flatten(Node head) {
