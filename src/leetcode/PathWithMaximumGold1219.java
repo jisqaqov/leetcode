@@ -36,8 +36,7 @@ public class PathWithMaximumGold1219 {
     for (int i = 0; i < grid.length; i++) {
       for (int j = 0; j < grid[i].length; j++) {
         if (grid[i][j] > 0) {
-          int temp = helper(grid, visited, i, j);
-          max = Math.max(max, temp);
+          max = Math.max(max, helper(grid, visited, i, j));
         }
       }
     }
@@ -48,21 +47,23 @@ public class PathWithMaximumGold1219 {
   private int helper(int[][] grid, boolean[][] visited, int r, int c) {
     visited[r][c] = true;
 
-    int max = 0;
+    int n = grid.length;
+    int m = grid[0].length;
+
+    int max = grid[r][c];
 
     for (int[] dir : DIRS) {
       int r2 = r + dir[0];
       int c2 = c + dir[1];
 
-      if (r2 >= 0 && c2 >= 0 && r2 < grid.length && c2 < grid[r2].length && grid[r2][c2] > 0
-        && !visited[r2][c2]) {
-        max = Math.max(max, helper(grid, visited, r2, c2));
+      if (r2 >= 0 && c2 >= 0 && r2 < n && c2 < m && grid[r2][c2] > 0 && !visited[r2][c2]) {
+        max = Math.max(max, grid[r][c] + helper(grid, visited, r2, c2));
       }
     }
 
     visited[r][c] = false;
 
-    return max + grid[r][c];
+    return max;
   }
 
 }
