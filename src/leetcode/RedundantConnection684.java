@@ -5,7 +5,7 @@ import utils.TestUtils;
 /**
  * @author Jandos Iskakov
  * problem: 684. Redundant Connection
- * algorithm: Graph
+ * algorithm: Disjoint Set/Uninon Find
  * time complexity: O(Nlog(N))
  * space complexity: O(N)
  * Runtime: 0 ms, faster than 100.00%
