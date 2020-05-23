@@ -32,15 +32,15 @@ public class DesignSnakeGame353 {
     private int width = 0;
     private int height = 0;
 
-    private Set<List<Integer>> used = new HashSet<>();
-    private Deque<List<Integer>> queue = new ArrayDeque<>();
+    private Set<Integer> used = new HashSet<>();
+    private Deque<Integer> queue = new ArrayDeque<>();
 
     private int[][] food;
     private int index = 0;
 
     public SnakeGame(int width, int height, int[][] food) {
-      queue.addLast(Arrays.asList(0, 0));
-      used.add(Arrays.asList(0, 0));
+      used.add(0);
+      queue.addLast(0);
 
       this.width = width;
       this.height = height;
@@ -53,37 +53,41 @@ public class DesignSnakeGame353 {
      @return The game's score after the move. Return -1 if game over.
      Game over when snake crosses the screen boundary or bites its body. */
     public int move(String direction) {
-      List<Integer> head = queue.getLast();
-      List<Integer> newHead = new ArrayList<>(head);
+      int head = queue.getLast();
+
+      int hr = head / width;
+      int hc = head % width;
 
       switch(direction) {
         case "U":
-          newHead.set(0, newHead.get(0) - 1);
+          hr--;
           break;
         case "D":
-          newHead.set(0, newHead.get(0) + 1);
+          hr++;
           break;
         case "L":
-          newHead.set(1, newHead.get(1) - 1);
+          hc--;
           break;
         case "R":
-          newHead.set(1, newHead.get(1) + 1);
+          hc++;
           break;
       }
 
-      if (newHead.get(0) < 0 || newHead.get(0) >= height ||
-        newHead.get(1) < 0 || newHead.get(1) >= width ||
-        (used.contains(newHead) && !newHead.equals(queue.getFirst()))) {
+      int newHead = hr * width + hc;
+      int tail = queue.getFirst();
+
+      if (hr < 0 || hr >= height ||
+        hc < 0 || hc >= width ||
+        (used.contains(newHead) && newHead != tail)) {
         return -1;
       }
 
-      if (index < food.length &&
-        newHead.get(0) == food[index][0] &&
-        newHead.get(1) == food[index][1]) {
+      if (index < food.length && hr == food[index][0] && hc == food[index][1]) {
         index++;
         score++;
       } else {
-        used.remove(queue.pollFirst());
+        queue.pollFirst();
+        used.remove(tail);
       }
 
       queue.addLast(newHead);
@@ -93,5 +97,11 @@ public class DesignSnakeGame353 {
     }
 
   }
+
+/**
+ * Your SnakeGame object will be instantiated and called as such:
+ * SnakeGame obj = new SnakeGame(width, height, food);
+ * int param_1 = obj.move(direction);
+ */
 
 }
