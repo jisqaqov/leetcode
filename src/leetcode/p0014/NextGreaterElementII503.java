@@ -1,6 +1,7 @@
 package leetcode.p0014;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 /**
@@ -18,11 +19,11 @@ public class NextGreaterElementII503 {
     Deque<Integer> stack = new ArrayDeque<>();
 
     int[] output = new int[nums.length];
+    Arrays.fill(output, -1);
 
     for (int i = 0; i < nums.length; i++) {
       while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
-        output[stack.peek()] = nums[i];
-        stack.poll();
+        output[stack.poll()] = nums[i];
       }
 
       stack.push(i);
@@ -30,13 +31,8 @@ public class NextGreaterElementII503 {
 
     for (int i = 0; i < nums.length; i++) {
       while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
-        output[stack.peek()] = nums[i];
-        stack.poll();
+        output[stack.poll()] = nums[i];
       }
-    }
-
-    while (!stack.isEmpty()) {
-      output[stack.poll()] = -1;
     }
 
     return output;

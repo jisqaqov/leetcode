@@ -16,7 +16,7 @@ import java.util.Set;
 public class GoatLatin824 {
 
   private static final Set<Character> VOWELS = new HashSet<>(
-    Arrays.asList('a', 'e', 'p0009', 'o', 'u'));
+    Arrays.asList('a', 'e', 'i', 'o', 'u'));
 
   public static void main(String[] args) {
     GoatLatin824 problem = new GoatLatin824();
