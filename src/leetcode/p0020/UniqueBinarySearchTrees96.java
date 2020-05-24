@@ -6,76 +6,80 @@ import java.util.Map;
 /**
  * @author Jandos Iskakov
  * problem: 96. Unique Binary Search Trees
- * algorithm: based on Dynamic Programming bottom up approach, top down approach
- * every subtree is constructed from smaller numbers of "n"
+ * algorithm: DP
  */
 public class UniqueBinarySearchTrees96 {
 
-    public static void main(String[] args) {
-        UniqueBinarySearchTrees96 solution = new UniqueBinarySearchTrees96();
-        solution.test();
-    }
+  private final Map<Integer, Integer> memo = new HashMap<>();
 
-    public void test() {
-        System.out.println(numTrees(2));
-        System.out.println(numTrees(3));
-        System.out.println(numTrees( 4));
-        System.out.println(numTrees( 5));
+  public static void main(String[] args) {
+    UniqueBinarySearchTrees96 solution = new UniqueBinarySearchTrees96();
+    solution.test();
+  }
 
-        System.out.println(numTreesTopDown(2));
-        System.out.println(numTreesTopDown(3));
-        System.out.println(numTreesTopDown( 4));
-        System.out.println(numTreesTopDown( 5));
-    }
+  public void test() {
+    System.out.println(numTrees(2));
+    System.out.println(numTrees(3));
+    System.out.println(numTrees(4));
+    System.out.println(numTrees(5));
 
-    public int numTrees(int n) {
-        int[] memo = new int[n + 1];
-        memo[1] = 1;
+    System.out.println(numTreesTopDown(2));
+    System.out.println(numTreesTopDown(3));
+    System.out.println(numTreesTopDown(4));
+    System.out.println(numTreesTopDown(5));
+  }
 
-        for (int k = 2; k <= n; k++) {
-            int trees = 0;
-            for (int root = 1; root <= k; root++) {
-                int left = root - 1;
-                int right = k - root;
+  public int numTrees(int n) {
+    int[] memo = new int[n + 1];
+    memo[1] = 1;
 
-                if (left > 0 && right > 0)
-                    trees += memo[left] * memo[right];
-                else
-                    trees += memo[left] + memo[right];
-            }
+    for (int k = 2; k <= n; k++) {
+      int trees = 0;
+      for (int root = 1; root <= k; root++) {
+        int left = root - 1;
+        int right = k - root;
 
-            memo[k] = trees;
+        if (left > 0 && right > 0) {
+          trees += memo[left] * memo[right];
+        } else {
+          trees += memo[left] + memo[right];
         }
+      }
 
-        return memo[n];
+      memo[k] = trees;
     }
 
-    Map<Integer, Integer> memo = new HashMap<>();
+    return memo[n];
+  }
 
-    public int numTreesTopDown(int n) {
-        if (n == 0)
-            return 0;
-
-        if (n == 1)
-            return 1;
-
-        if (memo.containsKey(n))
-            return memo.get(n);
-
-        int trees = 0;
-        for (int root = 1; root <= n; root++) {
-            int left = numTreesTopDown(root - 1);
-            int right = numTreesTopDown(n - root);
-
-            if (left > 0 && right > 0)
-                trees += left * right;
-            else
-                trees += left + right;
-        }
-
-        memo.put(n, trees);
-
-        return memo.get(n);
+  public int numTreesTopDown(int n) {
+    if (n == 0) {
+      return 0;
     }
+
+    if (n == 1) {
+      return 1;
+    }
+
+    if (memo.containsKey(n)) {
+      return memo.get(n);
+    }
+
+    int trees = 0;
+    for (int root = 1; root <= n; root++) {
+      int left = numTreesTopDown(root - 1);
+      int right = numTreesTopDown(n - root);
+
+      if (left > 0 && right > 0) {
+        trees += left * right;
+      } else {
+        trees += left + right;
+      }
+    }
+
+    memo.put(n, trees);
+
+    return memo.get(n);
+  }
 
 }
