@@ -37,7 +37,7 @@ public class LeftmostColumnWithAtLeastaOne1428 {
 
     return leftColumn;
   }
-  
+
   // This is the BinaryMatrix's API interface.
   // You should not implement it, or speculate about its implementation
   interface BinaryMatrix {
