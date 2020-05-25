@@ -51,6 +51,39 @@ public class AllPossibleFullBinaryTrees894 {
     return list;
   }
 
+  private class IterativeVersion {
+
+    public List<TreeNode> allPossibleFBT(int n) {
+      if (n % 2 == 0) {
+        return Collections.emptyList();
+      }
+
+      Map<Integer, List<TreeNode>> dp = new HashMap<>();
+      dp.put(1, Collections.singletonList(new TreeNode(0)));
+
+      for (int k = 3; k <= n; k += 2) {
+        dp.put(k, helper(k, dp));
+      }
+
+      return dp.get(n);
+    }
+
+    private List<TreeNode> helper(int n, Map<Integer, List<TreeNode>> dp) {
+      List<TreeNode> list = new ArrayList<>();
+
+      for (int g = 1; g < n; g += 2) {
+        for (TreeNode left : dp.get(g)) {
+          for (TreeNode right : dp.get(n - g - 1)) {
+            list.add(new TreeNode(0, left, right));
+          }
+        }
+      }
+
+      return list;
+    }
+
+  }
+
   /**
    * Definition for a binary tree node.
    **/
