@@ -40,7 +40,7 @@ public class KeysAndRooms841 {
       }
     }
   }
-  
+
   private class IterativeDfsVersion {
 
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
