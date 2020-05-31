@@ -61,7 +61,7 @@ public class NumberOfEnclaves1020 {
   }
 
   private class DfsVersion {
-    
+
     public int numEnclaves(int[][] grid) {
       if (grid.length == 0) {
         return 0;
