@@ -12,10 +12,6 @@ package leetcode.p0017;
 public class RotateArray189 {
 
   public void rotate(int[] nums, int k) {
-    if (k == 0) {
-      return;
-    }
-
     int n = nums.length;
 
     k = k % n;
