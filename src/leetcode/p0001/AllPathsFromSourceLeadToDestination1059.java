@@ -24,28 +24,29 @@ public class AllPathsFromSourceLeadToDestination1059 {
       adjList[edge[0]].add(edge[1]);
     }
 
-    boolean[] visited = new boolean[n];
-    boolean[] explored = new boolean[n];
+    int[] states = new int[n];
 
-    return dfs(adjList, source, visited, explored, destination);
+    return dfs(adjList, source, states, destination);
   }
 
-  private boolean dfs(List<Integer>[] adjList, int source, boolean[] visited, boolean[] explored, int destination) {
+  private boolean dfs(List<Integer>[] adjList, int source, int[] states, int destination) {
+    if (states[source] != 0) {
+      return states[source] == 1;
+    }
+
     if (adjList[source].isEmpty()) {
       return source == destination;
     }
 
-    visited[source] = true;
-
-    explored[source] = true;
+    states[source] = -1;
 
     for (int adj : adjList[source]) {
-      if (explored[adj] || (!visited[adj] && !dfs(adjList, adj, visited, explored, destination))) {
+      if (!dfs(adjList, adj, states, destination)) {
         return false;
       }
     }
 
-    explored[source] = false;
+    states[source] = 1;
 
     return true;
   }
