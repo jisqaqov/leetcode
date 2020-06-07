@@ -78,20 +78,18 @@ public class SentenceSimilarityII737 {
       return true;
     }
 
-    private boolean dfs(String src, String dest, Map<String, List<String>> graph, Set<String> visited) {
-      if (src.equals(dest)) {
+    private boolean dfs(String source, String target, Map<String, List<String>> graph, Set<String> visited) {
+      if (source.equals(target)) {
         return true;
       }
 
-      visited.add(src);
+      visited.add(source);
 
-      if (!graph.containsKey(src)) {
-        return false;
-      }
-
-      for (String adj : graph.get(src)) {
-        if (!visited.contains(adj) && dfs(adj, dest, graph, visited)) {
-          return true;
+      if (graph.containsKey(source)) {
+        for (String adj : graph.get(source)) {
+          if (!visited.contains(adj) && dfs(adj, target, graph, visited)) {
+            return true;
+          }
         }
       }
 
