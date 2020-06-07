@@ -70,7 +70,7 @@ public class SentenceSimilarityII737 {
 
       for (int i = 0; i < words1.length; i++) {
         Set<String> visited = new HashSet<>();
-        if (!isSimilar(words1[i], words2[i], graph, visited)) {
+        if (!dfs(words1[i], words2[i], graph, visited)) {
           return false;
         }
       }
@@ -78,7 +78,7 @@ public class SentenceSimilarityII737 {
       return true;
     }
 
-    private boolean isSimilar(String src, String dest, Map<String, List<String>> graph, Set<String> visited) {
+    private boolean dfs(String src, String dest, Map<String, List<String>> graph, Set<String> visited) {
       if (src.equals(dest)) {
         return true;
       }
@@ -90,7 +90,7 @@ public class SentenceSimilarityII737 {
       }
 
       for (String adj : graph.get(src)) {
-        if (!visited.contains(adj) && isSimilar(adj, dest, graph, visited)) {
+        if (!visited.contains(adj) && dfs(adj, dest, graph, visited)) {
           return true;
         }
       }
