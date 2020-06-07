@@ -68,8 +68,7 @@ public class SentenceSimilarityII737 {
 
       Map<String, List<String>> graph = buildGraph(pairs);
 
-      int n = words1.length;
-      for (int i = 0; i < n; i++) {
+      for (int i = 0; i < words1.length; i++) {
         Set<String> visited = new HashSet<>();
         if (!isSimilar(words1[i], words2[i], graph, visited)) {
           return false;
